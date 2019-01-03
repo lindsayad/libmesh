@@ -1523,6 +1523,10 @@ template class PetscVector<Number>;
 
 } // namespace libMesh
 
-
+void LibmeshVecView(libMesh::NumericVector<libMesh::Real> & vec)
+{
+  libMesh::PetscVector<libMesh::Real> & petsc_vec = static_cast<libMesh::PetscVector<libMesh::Real> &>(vec);
+  VecView(petsc_vec.vec(), 0);
+}
 
 #endif // #ifdef LIBMESH_HAVE_PETSC

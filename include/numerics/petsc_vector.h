@@ -1221,6 +1221,7 @@ PetscInt * numeric_petsc_cast(const numeric_index_type * p)
 
 } // namespace libMesh
 
+void LibmeshVecView(libMesh::NumericVector<libMesh::Real> & vec);
 
 #endif // #ifdef LIBMESH_HAVE_PETSC
 #endif // LIBMESH_PETSC_VECTOR_H
