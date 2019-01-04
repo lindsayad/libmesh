@@ -1523,9 +1523,10 @@ template class PetscVector<Number>;
 
 } // namespace libMesh
 
-void LibmeshVecView(libMesh::NumericVector<libMesh::Real> & vec)
+void LibmeshVecView(const libMesh::NumericVector<libMesh::Real> & vec)
 {
-  libMesh::PetscVector<libMesh::Real> & petsc_vec = static_cast<libMesh::PetscVector<libMesh::Real> &>(vec);
+  libMesh::PetscVector<libMesh::Real> & petsc_vec = static_cast<libMesh::PetscVector<libMesh::Real> &>(
+    const_cast<libMesh::NumericVector<libMesh::Real> &>(vec));
   VecView(petsc_vec.vec(), 0);
 }
 
