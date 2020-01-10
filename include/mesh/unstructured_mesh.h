@@ -45,9 +45,20 @@ namespace libMesh
  * \date 2007
  * \brief Base class for Replicated and Distributed meshes.
  */
-class UnstructuredMesh : public MeshBase
+template <typename RealType = Real>
+class UnstructuredMeshTempl : public MeshBaseTempl<RealType>
 {
 public:
+  typedef UnstructuredMeshTempl<RealType> UnstructuredMesh;
+  typedef MeshBaseTempl<RealType> MeshBase;
+  typedef NodeTempl<RealType> Node;
+  typedef ElemTempl<RealType> Elem;
+  typedef PointTempl<RealType> Point;
+
+  using typename MeshBase::element_iterator;
+  using typename MeshBase::const_element_iterator;
+  using typename MeshBase::node_iterator;
+  using typename MeshBase::const_node_iterator;
 
   /**
    * Constructor.  Takes \p dim, the dimension of the mesh.
@@ -55,18 +66,18 @@ public:
    * changed by mesh generation/loading) later.
    */
   explicit
-  UnstructuredMesh (const Parallel::Communicator & comm_in,
+  UnstructuredMeshTempl (const Parallel::Communicator & comm_in,
                     unsigned char dim=1);
 
   /**
    * UnstructuredMesh uses a defaulted copy constructor.
    */
-  UnstructuredMesh(const UnstructuredMesh &) = default;
+  UnstructuredMeshTempl(const UnstructuredMesh &) = default;
 
   /**
    * Move-constructor.
    */
-  UnstructuredMesh(UnstructuredMesh &&) = default;
+  UnstructuredMeshTempl(UnstructuredMesh &&) = default;
 
   /**
    * Copy and move assignment are not allowed.
@@ -77,7 +88,7 @@ public:
   /**
    * Destructor.
    */
-  virtual ~UnstructuredMesh();
+  virtual ~UnstructuredMeshTempl();
 
   /**
    * Reads the file specified by \p name.  Attempts to figure out the
@@ -185,6 +196,8 @@ public:
 #endif // #ifdef LIBMESH_ENABLE_AMR
 
 };
+
+typedef UnstructuredMeshTempl<Real> UnstructuredMesh;
 
 
 } // namespace libMesh

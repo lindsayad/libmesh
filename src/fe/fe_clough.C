@@ -15,13 +15,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-
-
-// Local includes
-#include "libmesh/elem.h"
-#include "libmesh/fe.h"
-#include "libmesh/fe_interface.h"
-#include "libmesh/enum_to_string.h"
+#include "libmesh/fe_shim.h"
+#include "libmesh/fe_clough_impl.h"
+#include "libmesh/fe_clough_shape_0D_impl.h"
+#include "libmesh/fe_clough_shape_3D_impl.h"
 
 namespace libMesh
 {
@@ -58,7 +55,7 @@ void clough_nodal_soln(const Elem * elem,
       {
 
         const unsigned int n_sf =
-          // FE<Dim,T>::n_shape_functions(elem_type, totalorder);
+          // FEShim<Dim,T,RealType>::n_shape_functions(elem_type, totalorder);
           FEInterface::n_shape_functions(Dim, fe_type, elem_type);
 
         std::vector<Point> refspace_nodes;
@@ -75,7 +72,7 @@ void clough_nodal_soln(const Elem * elem,
             // u_i = Sum (alpha_i phi_i)
             for (unsigned int i=0; i<n_sf; i++)
               nodal_soln[n] += elem_soln[i] *
-                // FE<Dim,T>::shape(elem, order, i, mapped_point);
+                // FEShim<Dim,T,RealType>::shape(elem, order, i, mapped_point);
                 FEInterface::shape(Dim, fe_type, elem, i, refspace_nodes[n]);
           }
 
@@ -230,94 +227,8 @@ unsigned int clough_n_dofs_per_elem(const ElemType t, const Order o)
 
 } // anonymous
 
-
-
-
-  // Do full-specialization of nodal_soln() function for every
-  // dimension, instead of explicit instantiation at the end of this
-  // file.
-  // This could be macro-ified so that it fits on one line...
-template <>
-void FE<0,CLOUGH>::nodal_soln(const Elem * elem,
-                              const Order order,
-                              const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
-{ clough_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/0); }
-
-template <>
-void FE<1,CLOUGH>::nodal_soln(const Elem * elem,
-                              const Order order,
-                              const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
-{ clough_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/1); }
-
-template <>
-void FE<2,CLOUGH>::nodal_soln(const Elem * elem,
-                              const Order order,
-                              const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
-{ clough_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/2); }
-
-template <>
-void FE<3,CLOUGH>::nodal_soln(const Elem * elem,
-                              const Order order,
-                              const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
-{ clough_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/3); }
-
-
-// Full specialization of n_dofs() function for every dimension
-template <> unsigned int FE<0,CLOUGH>::n_dofs(const ElemType t, const Order o) { return clough_n_dofs(t, o); }
-template <> unsigned int FE<1,CLOUGH>::n_dofs(const ElemType t, const Order o) { return clough_n_dofs(t, o); }
-template <> unsigned int FE<2,CLOUGH>::n_dofs(const ElemType t, const Order o) { return clough_n_dofs(t, o); }
-template <> unsigned int FE<3,CLOUGH>::n_dofs(const ElemType t, const Order o) { return clough_n_dofs(t, o); }
-
-
-// Full specialization of n_dofs_at_node() function for every dimension.
-template <> unsigned int FE<0,CLOUGH>::n_dofs_at_node(const ElemType t, const Order o, const unsigned int n) { return clough_n_dofs_at_node(t, o, n); }
-template <> unsigned int FE<1,CLOUGH>::n_dofs_at_node(const ElemType t, const Order o, const unsigned int n) { return clough_n_dofs_at_node(t, o, n); }
-template <> unsigned int FE<2,CLOUGH>::n_dofs_at_node(const ElemType t, const Order o, const unsigned int n) { return clough_n_dofs_at_node(t, o, n); }
-template <> unsigned int FE<3,CLOUGH>::n_dofs_at_node(const ElemType t, const Order o, const unsigned int n) { return clough_n_dofs_at_node(t, o, n); }
-
-// Full specialization of n_dofs_per_elem() function for every dimension.
-template <> unsigned int FE<0,CLOUGH>::n_dofs_per_elem(const ElemType t, const Order o) { return clough_n_dofs_per_elem(t, o); }
-template <> unsigned int FE<1,CLOUGH>::n_dofs_per_elem(const ElemType t, const Order o) { return clough_n_dofs_per_elem(t, o); }
-template <> unsigned int FE<2,CLOUGH>::n_dofs_per_elem(const ElemType t, const Order o) { return clough_n_dofs_per_elem(t, o); }
-template <> unsigned int FE<3,CLOUGH>::n_dofs_per_elem(const ElemType t, const Order o) { return clough_n_dofs_per_elem(t, o); }
-
-// Clough FEMs are C^1 continuous
-template <> FEContinuity FE<0,CLOUGH>::get_continuity() const { return C_ONE; }
-template <> FEContinuity FE<1,CLOUGH>::get_continuity() const { return C_ONE; }
-template <> FEContinuity FE<2,CLOUGH>::get_continuity() const { return C_ONE; }
-template <> FEContinuity FE<3,CLOUGH>::get_continuity() const { return C_ONE; }
-
-// Clough FEMs are not (currently) hierarchic
-template <> bool FE<0,CLOUGH>::is_hierarchic() const { return false; } // FIXME - this will be changed
-template <> bool FE<1,CLOUGH>::is_hierarchic() const { return false; } // FIXME - this will be changed
-template <> bool FE<2,CLOUGH>::is_hierarchic() const { return false; } // FIXME - this will be changed
-template <> bool FE<3,CLOUGH>::is_hierarchic() const { return false; } // FIXME - this will be changed
-
-#ifdef LIBMESH_ENABLE_AMR
-// compute_constraints() specializations are only needed for 2 and 3D
-template <>
-void FE<2,CLOUGH>::compute_constraints (DofConstraints & constraints,
-                                        DofMap & dof_map,
-                                        const unsigned int variable_number,
-                                        const Elem * elem)
-{ compute_proj_constraints(constraints, dof_map, variable_number, elem); }
-
-template <>
-void FE<3,CLOUGH>::compute_constraints (DofConstraints & constraints,
-                                        DofMap & dof_map,
-                                        const unsigned int variable_number,
-                                        const Elem * elem)
-{ compute_proj_constraints(constraints, dof_map, variable_number, elem); }
-#endif // #ifdef LIBMESH_ENABLE_AMR
-
-// Clough FEM shapes need reinit
-template <> bool FE<0,CLOUGH>::shapes_need_reinit() const { return true; }
-template <> bool FE<1,CLOUGH>::shapes_need_reinit() const { return true; }
-template <> bool FE<2,CLOUGH>::shapes_need_reinit() const { return true; }
-template <> bool FE<3,CLOUGH>::shapes_need_reinit() const { return true; }
+// Explicit instantiations for Real
+template struct FEShim<0,CLOUGH,Real>;
+template struct FEShim<3,CLOUGH,Real>;
 
 } // namespace libMesh

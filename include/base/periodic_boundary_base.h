@@ -35,8 +35,10 @@ namespace libMesh
 {
 
 // Forward Declarations
-class Elem;
-class MeshBase;
+template <typename> class ElemTempl;
+typedef ElemTempl<Real> Elem;
+template <typename> class MeshBaseTempl;
+typedef MeshBaseTempl<Real> MeshBase;
 
 /**
  * The base class for defining periodic boundaries.

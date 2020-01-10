@@ -56,14 +56,15 @@ namespace libMesh
 
 // Forward Declarations
 class CouplingMatrix;
-class DefaultCoupling;
+template <typename> class DefaultCouplingTempl;
 class DirichletBoundary;
 class DirichletBoundaries;
 class DofMap;
 class DofObject;
-class Elem;
+template <typename> class ElemTempl;
 class FEType;
-class MeshBase;
+template <typename> class MeshBaseTempl;
+class MeshAbstract;
 class PeriodicBoundaryBase;
 class PeriodicBoundaries;
 class System;
@@ -177,15 +178,15 @@ class DofMap : public ReferenceCountedObject<DofMap>,
                public ParallelObject
 {
 public:
-
   /**
    * Constructor.  Requires the number of the system for which we
    * will be numbering degrees of freedom & the parent object
    * we are contained in, which defines our communication space.
    */
+  template <typename RealType>
   explicit
   DofMap(const unsigned int sys_number,
-         MeshBase & mesh);
+         MeshBaseTempl<RealType> & mesh);
 
   /**
    * Destructor.
@@ -242,14 +243,16 @@ public:
    * processor \p proc_id, which defaults to 0 for ease of use in serial
    * applications.
    */
-  void distribute_dofs (MeshBase &);
+  template <typename RealType>
+  void distribute_dofs (MeshBaseTempl<RealType> &);
 
   /**
    * Computes the sparsity pattern for the matrices corresponding to
    * \p proc_id and sends that data to Linear Algebra packages for
    * preallocation of sparse matrices.
    */
-  void compute_sparsity (const MeshBase &);
+  template <typename RealType>
+  void compute_sparsity (const MeshBaseTempl<RealType> &);
 
   /**
    * Clears the sparsity pattern
@@ -301,7 +304,7 @@ public:
    * the Mesh must already have ghosting functor(s) specifying a
    * superset of \p coupling_functor or this is a horrible bug.
    */
-  void add_coupling_functor(GhostingFunctor & coupling_functor,
+  void add_coupling_functor(GhostingFunctorBase & coupling_functor,
                             bool to_mesh = true);
 
   /**
@@ -311,7 +314,7 @@ public:
    * GhostingFunctor memory when using this method is managed by the
    * shared_ptr mechanism.
    */
-  void add_coupling_functor(std::shared_ptr<GhostingFunctor> coupling_functor,
+  void add_coupling_functor(std::shared_ptr<GhostingFunctorBase> coupling_functor,
                             bool to_mesh = true)
   { _shared_functors[coupling_functor.get()] = coupling_functor;
     this->add_coupling_functor(*coupling_functor, to_mesh); }
@@ -321,24 +324,31 @@ public:
    * coupling functors, from both this DofMap and from the underlying
    * mesh.
    */
-  void remove_coupling_functor(GhostingFunctor & coupling_functor);
+  void remove_coupling_functor(GhostingFunctorBase & coupling_functor);
 
   /**
    * Beginning of range of coupling functors
    */
-  std::set<GhostingFunctor *>::const_iterator coupling_functors_begin() const
+  std::set<GhostingFunctorBase *>::const_iterator coupling_functors_begin() const
   { return _coupling_functors.begin(); }
 
   /**
    * End of range of coupling functors
    */
-  std::set<GhostingFunctor *>::const_iterator coupling_functors_end() const
+  std::set<GhostingFunctorBase *>::const_iterator coupling_functors_end() const
   { return _coupling_functors.end(); }
 
   /**
    * Default coupling functor
    */
-  DefaultCoupling & default_coupling() { return *_default_coupling; }
+  template <typename RealType>
+  DefaultCouplingTempl<RealType> & default_coupling()
+    { return static_cast<DefaultCouplingTempl<RealType> &>(*_default_coupling); }
+
+  /**
+   * Default coupling functor
+   */
+  GhostingFunctorBase & default_coupling() { return *_default_coupling; }
 
   /**
    * Adds a functor which can specify algebraic ghosting requirements
@@ -363,7 +373,7 @@ public:
    * the Mesh must already have ghosting functor(s) specifying a
    * superset of \p evaluable_functor or this is a horrible bug.
    */
-  void add_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor,
+  void add_algebraic_ghosting_functor(GhostingFunctorBase & evaluable_functor,
                                       bool to_mesh = true);
 
   /**
@@ -373,7 +383,7 @@ public:
    * GhostingFunctor memory when using this method is managed by the
    * shared_ptr mechanism.
    */
-  void add_algebraic_ghosting_functor(std::shared_ptr<GhostingFunctor> evaluable_functor,
+  void add_algebraic_ghosting_functor(std::shared_ptr<GhostingFunctorBase> evaluable_functor,
                                       bool to_mesh = true)
   { _shared_functors[evaluable_functor.get()] = evaluable_functor;
     this->add_algebraic_ghosting_functor(*evaluable_functor, to_mesh); }
@@ -383,24 +393,31 @@ public:
    * algebraic ghosting functors, from both this DofMap and from the
    * underlying mesh.
    */
-  void remove_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor);
+  void remove_algebraic_ghosting_functor(GhostingFunctorBase & evaluable_functor);
 
   /**
    * Beginning of range of algebraic ghosting functors
    */
-  std::set<GhostingFunctor *>::const_iterator algebraic_ghosting_functors_begin() const
+  std::set<GhostingFunctorBase *>::const_iterator algebraic_ghosting_functors_begin() const
   { return _algebraic_ghosting_functors.begin(); }
 
   /**
    * End of range of algebraic ghosting functors
    */
-  std::set<GhostingFunctor *>::const_iterator algebraic_ghosting_functors_end() const
+  std::set<GhostingFunctorBase *>::const_iterator algebraic_ghosting_functors_end() const
   { return _algebraic_ghosting_functors.end(); }
 
   /**
    * Default algebraic ghosting functor
    */
-  DefaultCoupling & default_algebraic_ghosting() { return *_default_evaluating; }
+  template <typename RealType>
+  DefaultCouplingTempl<RealType> & default_algebraic_ghosting()
+    { return static_cast<DefaultCouplingTempl<RealType> &>(*_default_evaluating); }
+
+  /**
+   * Default algebraic ghosting functor
+   */
+  GhostingFunctorBase & default_algebraic_ghosting() { return *_default_evaluating; }
 
   /**
    * Attach an object to use to populate the
@@ -481,7 +498,8 @@ public:
    * send_list, this does assume no new constraints have been added since the previous
    * reinit_constraints call.
    */
-  void reinit_send_list (MeshBase & mesh);
+  template <typename RealType>
+  void reinit_send_list (MeshBaseTempl<RealType> & mesh);
 
 
   /**
@@ -839,7 +857,7 @@ public:
    * currently be specified on the command line or inferred from
    * the use of all discontinuous variables.
    */
-  bool use_coupled_neighbor_dofs(const MeshBase & mesh) const;
+  bool use_coupled_neighbor_dofs(const MeshAbstract & mesh) const;
 
   /**
    * Builds the local element vector \p Ue from the global vector \p Ug,
@@ -859,8 +877,9 @@ public:
    * Fills an array of those dof indices which belong to the given
    * variable number and live on the current processor.
    */
+  template <typename RealType>
   void local_variable_indices(std::vector<dof_id_type> & idx,
-                              const MeshBase & mesh,
+                              const MeshBaseTempl<RealType> & mesh,
                               unsigned int var_num) const;
 
 #ifdef LIBMESH_ENABLE_CONSTRAINTS
@@ -893,17 +912,20 @@ public:
    * A time is specified for use in building time-dependent Dirichlet
    * constraints.
    */
-  void create_dof_constraints (const MeshBase &, Real time=0);
+  template <typename RealType>
+  void create_dof_constraints (const MeshBaseTempl<RealType> &, Real time=0);
 
   /**
    * Gathers constraint equation dependencies from other processors
    */
-  void allgather_recursive_constraints (MeshBase &);
+  template <typename RealType>
+  void allgather_recursive_constraints (MeshBaseTempl<RealType> &);
 
   /**
    * Sends constraint equations to constraining processors
    */
-  void scatter_constraints (MeshBase &);
+  template <typename RealType>
+  void scatter_constraints (MeshBaseTempl<RealType> &);
 
   /**
    * Helper function for querying about constraint equations on other
@@ -918,7 +940,7 @@ public:
    * constrain it are queried to see if they are in turn constrained,
    * and so on.
    */
-  void gather_constraints (MeshBase & mesh,
+  void gather_constraints (MeshAbstract & mesh,
                            std::set<dof_id_type> & unexpanded_dofs,
                            bool look_for_constrainees);
 
@@ -929,7 +951,8 @@ public:
    * This should be run after both system (create_dof_constraints) and
    * user constraints have all been added.
    */
-  void process_constraints (MeshBase &);
+  template <typename RealType>
+  void process_constraints (MeshBaseTempl<RealType> &);
 
   /**
    * Throw an error if we detect any constraint loops, i.e.
@@ -1400,7 +1423,8 @@ public:
   /**
    * Reinitialize the underlying data structures conformal to the current mesh.
    */
-  void reinit (MeshBase & mesh);
+  template <typename RealType>
+  void reinit (MeshBaseTempl<RealType> & mesh);
 
   /**
    * Free all new memory associated with the object, but restore its
@@ -1477,37 +1501,42 @@ private:
   /**
    * Builds a sparsity pattern
    */
-  std::unique_ptr<SparsityPattern::Build> build_sparsity(const MeshBase & mesh) const;
+  template <typename RealType>
+  std::unique_ptr<SparsityPattern::Build> build_sparsity(const MeshBaseTempl<RealType> & mesh) const;
 
   /**
    * Invalidates all active DofObject dofs for this system
    */
-  void invalidate_dofs(MeshBase & mesh) const;
+  template <typename RealType>
+  void invalidate_dofs(MeshBaseTempl<RealType> & mesh) const;
 
   /**
    * \returns The Node pointer with index \p i from the \p mesh.
    */
-  DofObject * node_ptr(MeshBase & mesh, dof_id_type i) const;
+  template <typename RealType>
+  DofObject * node_ptr(MeshBaseTempl<RealType> & mesh, dof_id_type i) const;
 
   /**
    * \returns The Elem pointer with index \p i from the \p mesh.
    */
-  DofObject * elem_ptr(MeshBase & mesh, dof_id_type i) const;
+  template <typename RealType>
+  DofObject * elem_ptr(MeshBaseTempl<RealType> & mesh, dof_id_type i) const;
 
   /**
    * A member function type like \p node_ptr() or \p elem_ptr().
    */
-  typedef DofObject * (DofMap::*dofobject_accessor)
+  template <typename RealType>
+  using dofobject_accessor = DofObject * (DofMap::*)
     (MeshBase & mesh, dof_id_type i) const;
 
   /**
    * Helper function for distributing dofs in parallel
    */
-  template<typename iterator_type>
+  template<typename RealType, typename iterator_type>
   void set_nonlocal_dof_objects(iterator_type objects_begin,
                                 iterator_type objects_end,
-                                MeshBase & mesh,
-                                dofobject_accessor objects);
+                                MeshBaseTempl<RealType> & mesh,
+                                dofobject_accessor<RealType> objects);
 
   /**
    * Distributes the global degrees of freedom, for dofs on
@@ -1517,8 +1546,9 @@ private:
    * Starts at index next_free_dof, and increments it to
    * the post-final index.
    */
+  template <typename RealType>
   void distribute_local_dofs_var_major (dof_id_type & next_free_dof,
-                                        MeshBase & mesh);
+                                        MeshBaseTempl<RealType> & mesh);
 
   /**
    * Distributes the global degrees of freedom for dofs on this
@@ -1531,27 +1561,30 @@ private:
    * \note The degrees of freedom for a given variable are not in
    * contiguous blocks, as in the case of \p distribute_local_dofs_var_major.
    */
+  template <typename RealType>
   void distribute_local_dofs_node_major (dof_id_type & next_free_dof,
-                                         MeshBase & mesh);
+                                         MeshBaseTempl<RealType> & mesh);
 
   /*
    * A utility method for obtaining a set of elements to ghost along
    * with merged coupling matrices.
    */
+  template <typename RealType, template <typename> class ElemIterator>
   static void
-  merge_ghost_functor_outputs (GhostingFunctor::map_type & elements_to_ghost,
+  merge_ghost_functor_outputs (gf_map_type<RealType> & elements_to_ghost,
                                std::set<CouplingMatrix *> & temporary_coupling_matrices,
-                               const std::set<GhostingFunctor *>::iterator & gf_begin,
-                               const std::set<GhostingFunctor *>::iterator & gf_end,
-                               const MeshBase::const_element_iterator & elems_begin,
-                               const MeshBase::const_element_iterator & elems_end,
+                               const typename std::set<GhostingFunctorBase *>::iterator & gf_begin,
+                               const typename std::set<GhostingFunctorBase *>::iterator & gf_end,
+                               const ElemIterator<RealType> & elems_begin,
+                               const ElemIterator<RealType> & elems_end,
                                processor_id_type p);
 
   /**
    * Adds entries to the \p _send_list vector corresponding to DoFs
    * on elements neighboring the current processor.
    */
-  void add_neighbors_to_send_list(MeshBase & mesh);
+  template <typename RealType>
+  void add_neighbors_to_send_list(MeshBaseTempl<RealType> & mesh);
 
 #ifdef LIBMESH_ENABLE_CONSTRAINTS
 
@@ -1641,7 +1674,7 @@ private:
   /**
    * The mesh that system uses.
    */
-  MeshBase & _mesh;
+  MeshAbstract & _mesh;
 
   /**
    * Additional matrices handled by this object.  These pointers do \e
@@ -1710,7 +1743,7 @@ private:
    *
    * We use a std::unique_ptr here to reduce header dependencies.
    */
-  std::unique_ptr<DefaultCoupling> _default_coupling;
+  std::unique_ptr<GhostingFunctorBase> _default_coupling;
 
   /**
    * The default algebraic GhostingFunctor, used to implement standard
@@ -1718,7 +1751,7 @@ private:
    *
    * We use a std::unique_ptr here to reduce header dependencies.
    */
-  std::unique_ptr<DefaultCoupling> _default_evaluating;
+  std::unique_ptr<GhostingFunctorBase> _default_evaluating;
 
   /**
    * The list of all GhostingFunctor objects to be used when
@@ -1728,7 +1761,7 @@ private:
    * MeshBase, too, so any algebraically ghosted dofs will live on
    * geometrically ghosted elements.
    */
-  std::set<GhostingFunctor *> _algebraic_ghosting_functors;
+  std::set<GhostingFunctorBase *> _algebraic_ghosting_functors;
 
   /**
    * The list of all GhostingFunctor objects to be used when
@@ -1741,13 +1774,13 @@ private:
    * MeshBase, too, so any dofs coupled to local dofs will live on
    * geometrically ghosted elements.
    */
-  std::set<GhostingFunctor *> _coupling_functors;
+  std::set<GhostingFunctorBase *> _coupling_functors;
 
   /**
    * Hang on to references to any GhostingFunctor objects we were
    * passed in shared_ptr form
    */
-  std::map<GhostingFunctor *, std::shared_ptr<GhostingFunctor> > _shared_functors;
+  std::map<GhostingFunctorBase *, std::shared_ptr<GhostingFunctorBase> > _shared_functors;
 
   /**
    * Default false; set to true if any attached matrix requires a full

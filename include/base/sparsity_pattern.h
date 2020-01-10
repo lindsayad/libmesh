@@ -32,7 +32,7 @@ namespace libMesh
 {
 
 // Forward declarations
-class MeshBase;
+class MeshAbstract;
 class DofMap;
 class CouplingMatrix;
 
@@ -81,10 +81,10 @@ static void sort_row (const BidirectionalIterator begin,
 class Build : public ParallelObject
 {
 private:
-  const MeshBase & mesh;
+  const MeshAbstract & mesh;
   const DofMap & dof_map;
   const CouplingMatrix * dof_coupling;
-  const std::set<GhostingFunctor *> & coupling_functors;
+  const std::set<GhostingFunctorBase *> & coupling_functors;
   const bool implicit_neighbor_dofs;
   const bool need_full_sparsity_pattern;
 
@@ -114,16 +114,17 @@ public:
   std::vector<dof_id_type> n_nz;
   std::vector<dof_id_type> n_oz;
 
-  Build (const MeshBase & mesh_in,
+  Build (const MeshAbstract & mesh_in,
          const DofMap & dof_map_in,
          const CouplingMatrix * dof_coupling_in,
-         const std::set<GhostingFunctor *> & coupling_functors_in,
+         const std::set<GhostingFunctorBase *> & coupling_functors_in,
          const bool implicit_neighbor_dofs_in,
          const bool need_full_sparsity_pattern_in);
 
   Build (Build & other, Threads::split);
 
-  void operator()(const ConstElemRange & range);
+  template <typename RealType>
+  void operator()(const ConstElemRangeTempl<RealType> & range);
 
   void join (const Build & other);
 
