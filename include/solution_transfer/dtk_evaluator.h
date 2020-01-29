@@ -42,7 +42,8 @@ namespace libMesh
 {
 
 // Forward declarations
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 class System;
 class DofMap;
 template <typename> class MeshBaseTempl;

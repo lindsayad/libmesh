@@ -503,6 +503,7 @@ BUILT_SOURCES = \
         eigen_system.h \
         elem_assembly.h \
         equation_systems.h \
+        equation_systems_impl.h \
         explicit_system.h \
         fem_context.h \
         fem_system.h \
@@ -2153,6 +2154,9 @@ elem_assembly.h: $(top_srcdir)/include/systems/elem_assembly.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 equation_systems.h: $(top_srcdir)/include/systems/equation_systems.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+equation_systems_impl.h: $(top_srcdir)/include/systems/equation_systems_impl.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 explicit_system.h: $(top_srcdir)/include/systems/explicit_system.h

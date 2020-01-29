@@ -30,7 +30,8 @@ namespace libMesh
 {
 
 // Forward declarations
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 template <typename> class PointTempl;
 typedef PointTempl<Real> Point;
 

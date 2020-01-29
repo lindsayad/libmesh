@@ -55,9 +55,7 @@ namespace libMesh
 
 // Forward Declarations
 template <typename> class ElemTempl;
-typedef ElemTempl<Real> Elem;
 template <typename> class MeshBaseTempl;
-typedef MeshBaseTempl<Real> MeshBase;
 
 /**
  * This is the \p EquationSystems class.  It is in charge
@@ -73,11 +71,15 @@ typedef MeshBaseTempl<Real> MeshBase;
  * \date 2002-2007
  * \brief Manages multiples systems of equations.
  */
-class EquationSystems : public ReferenceCountedObject<EquationSystems>,
-                        public ParallelObject
+template <typename RealType = Real>
+class EquationSystemsTempl : public ReferenceCountedObject<EquationSystemsTempl<RealType>>,
+                             public ParallelObject
 
 {
 public:
+  typedef EquationSystemsTempl<RealType> EquationSystems;
+  typedef ElemTempl<RealType> Elem;
+  typedef MeshBaseTempl<RealType> MeshBase;
 
   /**
    * Define enumeration to set properties in EquationSystems::read()
@@ -100,13 +102,13 @@ public:
   /**
    * Constructor.
    */
-  EquationSystems (MeshBase & mesh);
+  EquationSystemsTempl (MeshBase & mesh);
 
   /**
    * Destructor.  Should be virtual, since the user may want to derive
    * subclasses of EquationSystems.
    */
-  virtual ~EquationSystems ();
+  virtual ~EquationSystemsTempl ();
 
   /**
    * Restores the data structure to a pristine state.
@@ -631,27 +633,32 @@ private:
   void _remove_default_ghosting(unsigned int sys_num);
 };
 
+typedef EquationSystemsTempl<Real> EquationSystems;
+
 
 
 // ------------------------------------------------------------
 // EquationSystems inline methods
+template <typename RealType>
 inline
-const MeshBase & EquationSystems::get_mesh () const
+const MeshBaseTempl<RealType> & EquationSystemsTempl<RealType>::get_mesh () const
 {
   return _mesh;
 }
 
 
 
+template <typename RealType>
 inline
-MeshBase & EquationSystems::get_mesh ()
+MeshBaseTempl<RealType> & EquationSystemsTempl<RealType>::get_mesh ()
 {
   return _mesh;
 }
 
 
+template <typename RealType>
 inline
-unsigned int EquationSystems::n_systems () const
+unsigned int EquationSystemsTempl<RealType>::n_systems () const
 {
   return cast_int<unsigned int>(_systems.size());
 }
@@ -659,9 +666,10 @@ unsigned int EquationSystems::n_systems () const
 
 
 
+template <typename RealType>
 template <typename T_sys>
 inline
-T_sys & EquationSystems::add_system (const std::string & name)
+T_sys & EquationSystemsTempl<RealType>::add_system (const std::string & name)
 {
   T_sys * ptr = nullptr;
 
@@ -692,8 +700,9 @@ T_sys & EquationSystems::add_system (const std::string & name)
 
 
 
+template <typename RealType>
 inline
-bool EquationSystems::has_system (const std::string & name) const
+bool EquationSystemsTempl<RealType>::has_system (const std::string & name) const
 {
   if (_systems.find(name) == _systems.end())
     return false;
@@ -703,9 +712,10 @@ bool EquationSystems::has_system (const std::string & name) const
 
 
 
+template <typename RealType>
 template <typename T_sys>
 inline
-const T_sys & EquationSystems::get_system (const unsigned int num) const
+const T_sys & EquationSystemsTempl<RealType>::get_system (const unsigned int num) const
 {
   libmesh_assert_less (num, this->n_systems());
 
@@ -728,9 +738,10 @@ const T_sys & EquationSystems::get_system (const unsigned int num) const
 
 
 
+template <typename RealType>
 template <typename T_sys>
 inline
-T_sys & EquationSystems::get_system (const unsigned int num)
+T_sys & EquationSystemsTempl<RealType>::get_system (const unsigned int num)
 {
   libmesh_assert_less (num, this->n_systems());
 
@@ -754,9 +765,10 @@ T_sys & EquationSystems::get_system (const unsigned int num)
 
 
 
+template <typename RealType>
 template <typename T_sys>
 inline
-const T_sys & EquationSystems::get_system (const std::string & name) const
+const T_sys & EquationSystemsTempl<RealType>::get_system (const std::string & name) const
 {
   const_system_iterator pos = _systems.find(name);
 
@@ -773,9 +785,10 @@ const T_sys & EquationSystems::get_system (const std::string & name) const
 
 
 
+template <typename RealType>
 template <typename T_sys>
 inline
-T_sys & EquationSystems::get_system (const std::string & name)
+T_sys & EquationSystemsTempl<RealType>::get_system (const std::string & name)
 {
   system_iterator pos = _systems.find(name);
 
@@ -793,32 +806,36 @@ T_sys & EquationSystems::get_system (const std::string & name)
 
 
 
+template <typename RealType>
 inline
-const System & EquationSystems::get_system (const std::string & name) const
+const System & EquationSystemsTempl<RealType>::get_system (const std::string & name) const
 {
   return this->get_system<System>(name);
 }
 
 
 
+template <typename RealType>
 inline
-System & EquationSystems::get_system (const std::string & name)
+System & EquationSystemsTempl<RealType>::get_system (const std::string & name)
 {
   return this->get_system<System>(name);
 }
 
 
 
+template <typename RealType>
 inline
-const System & EquationSystems::get_system (const unsigned int num) const
+const System & EquationSystemsTempl<RealType>::get_system (const unsigned int num) const
 {
   return this->get_system<System>(num);
 }
 
 
 
+template <typename RealType>
 inline
-System & EquationSystems::get_system (const unsigned int num)
+System & EquationSystemsTempl<RealType>::get_system (const unsigned int num)
 {
   return this->get_system<System>(num);
 }

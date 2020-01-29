@@ -61,7 +61,8 @@ namespace libMesh
 
 // Forward Declarations
 class System;
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 template <typename> class MeshBaseTempl;
 typedef MeshBaseTempl<Real> MeshBase;
 class Xdr;

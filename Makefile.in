@@ -479,7 +479,6 @@ am__libmesh_dbg_la_SOURCES_DIST = src/base/default_coupling.C \
 	src/systems/continuation_system.C src/systems/dg_fem_context.C \
 	src/systems/diff_context.C src/systems/diff_system.C \
 	src/systems/eigen_system.C src/systems/equation_systems.C \
-	src/systems/equation_systems_io.C \
 	src/systems/explicit_system.C src/systems/fem_context.C \
 	src/systems/fem_system.C src/systems/frequency_system.C \
 	src/systems/implicit_system.C \
@@ -848,7 +847,6 @@ am__objects_1 = src/base/libmesh_dbg_la-default_coupling.lo \
 	src/systems/libmesh_dbg_la-diff_system.lo \
 	src/systems/libmesh_dbg_la-eigen_system.lo \
 	src/systems/libmesh_dbg_la-equation_systems.lo \
-	src/systems/libmesh_dbg_la-equation_systems_io.lo \
 	src/systems/libmesh_dbg_la-explicit_system.lo \
 	src/systems/libmesh_dbg_la-fem_context.lo \
 	src/systems/libmesh_dbg_la-fem_system.lo \
@@ -1143,7 +1141,6 @@ am__libmesh_devel_la_SOURCES_DIST = src/base/default_coupling.C \
 	src/systems/continuation_system.C src/systems/dg_fem_context.C \
 	src/systems/diff_context.C src/systems/diff_system.C \
 	src/systems/eigen_system.C src/systems/equation_systems.C \
-	src/systems/equation_systems_io.C \
 	src/systems/explicit_system.C src/systems/fem_context.C \
 	src/systems/fem_system.C src/systems/frequency_system.C \
 	src/systems/implicit_system.C \
@@ -1512,7 +1509,6 @@ am__objects_2 = src/base/libmesh_devel_la-default_coupling.lo \
 	src/systems/libmesh_devel_la-diff_system.lo \
 	src/systems/libmesh_devel_la-eigen_system.lo \
 	src/systems/libmesh_devel_la-equation_systems.lo \
-	src/systems/libmesh_devel_la-equation_systems_io.lo \
 	src/systems/libmesh_devel_la-explicit_system.lo \
 	src/systems/libmesh_devel_la-fem_context.lo \
 	src/systems/libmesh_devel_la-fem_system.lo \
@@ -1804,7 +1800,6 @@ am__libmesh_oprof_la_SOURCES_DIST = src/base/default_coupling.C \
 	src/systems/continuation_system.C src/systems/dg_fem_context.C \
 	src/systems/diff_context.C src/systems/diff_system.C \
 	src/systems/eigen_system.C src/systems/equation_systems.C \
-	src/systems/equation_systems_io.C \
 	src/systems/explicit_system.C src/systems/fem_context.C \
 	src/systems/fem_system.C src/systems/frequency_system.C \
 	src/systems/implicit_system.C \
@@ -2173,7 +2168,6 @@ am__objects_3 = src/base/libmesh_oprof_la-default_coupling.lo \
 	src/systems/libmesh_oprof_la-diff_system.lo \
 	src/systems/libmesh_oprof_la-eigen_system.lo \
 	src/systems/libmesh_oprof_la-equation_systems.lo \
-	src/systems/libmesh_oprof_la-equation_systems_io.lo \
 	src/systems/libmesh_oprof_la-explicit_system.lo \
 	src/systems/libmesh_oprof_la-fem_context.lo \
 	src/systems/libmesh_oprof_la-fem_system.lo \
@@ -2465,7 +2459,6 @@ am__libmesh_opt_la_SOURCES_DIST = src/base/default_coupling.C \
 	src/systems/continuation_system.C src/systems/dg_fem_context.C \
 	src/systems/diff_context.C src/systems/diff_system.C \
 	src/systems/eigen_system.C src/systems/equation_systems.C \
-	src/systems/equation_systems_io.C \
 	src/systems/explicit_system.C src/systems/fem_context.C \
 	src/systems/fem_system.C src/systems/frequency_system.C \
 	src/systems/implicit_system.C \
@@ -2833,7 +2826,6 @@ am__objects_4 = src/base/libmesh_opt_la-default_coupling.lo \
 	src/systems/libmesh_opt_la-diff_system.lo \
 	src/systems/libmesh_opt_la-eigen_system.lo \
 	src/systems/libmesh_opt_la-equation_systems.lo \
-	src/systems/libmesh_opt_la-equation_systems_io.lo \
 	src/systems/libmesh_opt_la-explicit_system.lo \
 	src/systems/libmesh_opt_la-fem_context.lo \
 	src/systems/libmesh_opt_la-fem_system.lo \
@@ -3124,7 +3116,6 @@ am__libmesh_prof_la_SOURCES_DIST = src/base/default_coupling.C \
 	src/systems/continuation_system.C src/systems/dg_fem_context.C \
 	src/systems/diff_context.C src/systems/diff_system.C \
 	src/systems/eigen_system.C src/systems/equation_systems.C \
-	src/systems/equation_systems_io.C \
 	src/systems/explicit_system.C src/systems/fem_context.C \
 	src/systems/fem_system.C src/systems/frequency_system.C \
 	src/systems/implicit_system.C \
@@ -3492,7 +3483,6 @@ am__objects_5 = src/base/libmesh_prof_la-default_coupling.lo \
 	src/systems/libmesh_prof_la-diff_system.lo \
 	src/systems/libmesh_prof_la-eigen_system.lo \
 	src/systems/libmesh_prof_la-equation_systems.lo \
-	src/systems/libmesh_prof_la-equation_systems_io.lo \
 	src/systems/libmesh_prof_la-explicit_system.lo \
 	src/systems/libmesh_prof_la-fem_context.lo \
 	src/systems/libmesh_prof_la-fem_system.lo \
@@ -5653,7 +5643,6 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/systems/$(DEPDIR)/libmesh_dbg_la-diff_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_dbg_la-eigen_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems.Plo \
-	src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Plo \
 	src/systems/$(DEPDIR)/libmesh_dbg_la-explicit_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_dbg_la-fem_context.Plo \
 	src/systems/$(DEPDIR)/libmesh_dbg_la-fem_system.Plo \
@@ -5680,7 +5669,6 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/systems/$(DEPDIR)/libmesh_devel_la-diff_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_devel_la-eigen_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems.Plo \
-	src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Plo \
 	src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_devel_la-fem_context.Plo \
 	src/systems/$(DEPDIR)/libmesh_devel_la-fem_system.Plo \
@@ -5707,7 +5695,6 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/systems/$(DEPDIR)/libmesh_oprof_la-diff_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_oprof_la-eigen_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems.Plo \
-	src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Plo \
 	src/systems/$(DEPDIR)/libmesh_oprof_la-explicit_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_oprof_la-fem_context.Plo \
 	src/systems/$(DEPDIR)/libmesh_oprof_la-fem_system.Plo \
@@ -5734,7 +5721,6 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/systems/$(DEPDIR)/libmesh_opt_la-diff_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_opt_la-eigen_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems.Plo \
-	src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Plo \
 	src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_opt_la-fem_context.Plo \
 	src/systems/$(DEPDIR)/libmesh_opt_la-fem_system.Plo \
@@ -5761,7 +5747,6 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/systems/$(DEPDIR)/libmesh_prof_la-diff_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_prof_la-eigen_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems.Plo \
-	src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Plo \
 	src/systems/$(DEPDIR)/libmesh_prof_la-explicit_system.Plo \
 	src/systems/$(DEPDIR)/libmesh_prof_la-fem_context.Plo \
 	src/systems/$(DEPDIR)/libmesh_prof_la-fem_system.Plo \
@@ -6859,7 +6844,6 @@ libmesh_SOURCES = \
         src/systems/diff_system.C \
         src/systems/eigen_system.C \
         src/systems/equation_systems.C \
-        src/systems/equation_systems_io.C \
         src/systems/explicit_system.C \
         src/systems/fem_context.C \
         src/systems/fem_system.C \
@@ -8281,9 +8265,6 @@ src/systems/libmesh_dbg_la-eigen_system.lo:  \
 src/systems/libmesh_dbg_la-equation_systems.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
-src/systems/libmesh_dbg_la-equation_systems_io.lo:  \
-	src/systems/$(am__dirstamp) \
-	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_dbg_la-explicit_system.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
@@ -9254,9 +9235,6 @@ src/systems/libmesh_devel_la-eigen_system.lo:  \
 src/systems/libmesh_devel_la-equation_systems.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
-src/systems/libmesh_devel_la-equation_systems_io.lo:  \
-	src/systems/$(am__dirstamp) \
-	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_devel_la-explicit_system.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
@@ -10221,9 +10199,6 @@ src/systems/libmesh_oprof_la-eigen_system.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_oprof_la-equation_systems.lo:  \
-	src/systems/$(am__dirstamp) \
-	src/systems/$(DEPDIR)/$(am__dirstamp)
-src/systems/libmesh_oprof_la-equation_systems_io.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_oprof_la-explicit_system.lo:  \
@@ -11191,9 +11166,6 @@ src/systems/libmesh_opt_la-eigen_system.lo:  \
 src/systems/libmesh_opt_la-equation_systems.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
-src/systems/libmesh_opt_la-equation_systems_io.lo:  \
-	src/systems/$(am__dirstamp) \
-	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_opt_la-explicit_system.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
@@ -12155,9 +12127,6 @@ src/systems/libmesh_prof_la-eigen_system.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_prof_la-equation_systems.lo:  \
-	src/systems/$(am__dirstamp) \
-	src/systems/$(DEPDIR)/$(am__dirstamp)
-src/systems/libmesh_prof_la-equation_systems_io.lo:  \
 	src/systems/$(am__dirstamp) \
 	src/systems/$(DEPDIR)/$(am__dirstamp)
 src/systems/libmesh_prof_la-explicit_system.lo:  \
@@ -14454,7 +14423,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-diff_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-eigen_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-explicit_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-fem_context.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_dbg_la-fem_system.Plo@am__quote@ # am--include-marker
@@ -14481,7 +14449,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-diff_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-eigen_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-fem_context.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_devel_la-fem_system.Plo@am__quote@ # am--include-marker
@@ -14508,7 +14475,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-diff_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-eigen_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-explicit_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-fem_context.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_oprof_la-fem_system.Plo@am__quote@ # am--include-marker
@@ -14535,7 +14501,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-diff_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-eigen_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-fem_context.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_opt_la-fem_system.Plo@am__quote@ # am--include-marker
@@ -14562,7 +14527,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-diff_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-eigen_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-explicit_system.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-fem_context.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/systems/$(DEPDIR)/libmesh_prof_la-fem_system.Plo@am__quote@ # am--include-marker
@@ -17124,13 +17088,6 @@ src/systems/libmesh_dbg_la-equation_systems.lo: src/systems/equation_systems.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems.C' object='src/systems/libmesh_dbg_la-equation_systems.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_dbg_la-equation_systems.lo `test -f 'src/systems/equation_systems.C' || echo '$(srcdir)/'`src/systems/equation_systems.C
-
-src/systems/libmesh_dbg_la-equation_systems_io.lo: src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_dbg_la-equation_systems_io.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Tpo -c -o src/systems/libmesh_dbg_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Tpo src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems_io.C' object='src/systems/libmesh_dbg_la-equation_systems_io.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_dbg_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
 
 src/systems/libmesh_dbg_la-explicit_system.lo: src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_dbg_la-explicit_system.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_dbg_la-explicit_system.Tpo -c -o src/systems/libmesh_dbg_la-explicit_system.lo `test -f 'src/systems/explicit_system.C' || echo '$(srcdir)/'`src/systems/explicit_system.C
@@ -19813,13 +19770,6 @@ src/systems/libmesh_devel_la-equation_systems.lo: src/systems/equation_systems.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_devel_la-equation_systems.lo `test -f 'src/systems/equation_systems.C' || echo '$(srcdir)/'`src/systems/equation_systems.C
 
-src/systems/libmesh_devel_la-equation_systems_io.lo: src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_devel_la-equation_systems_io.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Tpo -c -o src/systems/libmesh_devel_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Tpo src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems_io.C' object='src/systems/libmesh_devel_la-equation_systems_io.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_devel_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-
 src/systems/libmesh_devel_la-explicit_system.lo: src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_devel_la-explicit_system.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Tpo -c -o src/systems/libmesh_devel_la-explicit_system.lo `test -f 'src/systems/explicit_system.C' || echo '$(srcdir)/'`src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Tpo src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Plo
@@ -22500,13 +22450,6 @@ src/systems/libmesh_oprof_la-equation_systems.lo: src/systems/equation_systems.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems.C' object='src/systems/libmesh_oprof_la-equation_systems.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_oprof_la-equation_systems.lo `test -f 'src/systems/equation_systems.C' || echo '$(srcdir)/'`src/systems/equation_systems.C
-
-src/systems/libmesh_oprof_la-equation_systems_io.lo: src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_oprof_la-equation_systems_io.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Tpo -c -o src/systems/libmesh_oprof_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Tpo src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems_io.C' object='src/systems/libmesh_oprof_la-equation_systems_io.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_oprof_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
 
 src/systems/libmesh_oprof_la-explicit_system.lo: src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_oprof_la-explicit_system.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_oprof_la-explicit_system.Tpo -c -o src/systems/libmesh_oprof_la-explicit_system.lo `test -f 'src/systems/explicit_system.C' || echo '$(srcdir)/'`src/systems/explicit_system.C
@@ -25189,13 +25132,6 @@ src/systems/libmesh_opt_la-equation_systems.lo: src/systems/equation_systems.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_opt_la-equation_systems.lo `test -f 'src/systems/equation_systems.C' || echo '$(srcdir)/'`src/systems/equation_systems.C
 
-src/systems/libmesh_opt_la-equation_systems_io.lo: src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_opt_la-equation_systems_io.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Tpo -c -o src/systems/libmesh_opt_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Tpo src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems_io.C' object='src/systems/libmesh_opt_la-equation_systems_io.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_opt_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-
 src/systems/libmesh_opt_la-explicit_system.lo: src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_opt_la-explicit_system.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Tpo -c -o src/systems/libmesh_opt_la-explicit_system.lo `test -f 'src/systems/explicit_system.C' || echo '$(srcdir)/'`src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Tpo src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Plo
@@ -27876,13 +27812,6 @@ src/systems/libmesh_prof_la-equation_systems.lo: src/systems/equation_systems.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems.C' object='src/systems/libmesh_prof_la-equation_systems.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_prof_la-equation_systems.lo `test -f 'src/systems/equation_systems.C' || echo '$(srcdir)/'`src/systems/equation_systems.C
-
-src/systems/libmesh_prof_la-equation_systems_io.lo: src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_prof_la-equation_systems_io.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Tpo -c -o src/systems/libmesh_prof_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Tpo src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/systems/equation_systems_io.C' object='src/systems/libmesh_prof_la-equation_systems_io.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/systems/libmesh_prof_la-equation_systems_io.lo `test -f 'src/systems/equation_systems_io.C' || echo '$(srcdir)/'`src/systems/equation_systems_io.C
 
 src/systems/libmesh_prof_la-explicit_system.lo: src/systems/explicit_system.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -MT src/systems/libmesh_prof_la-explicit_system.lo -MD -MP -MF src/systems/$(DEPDIR)/libmesh_prof_la-explicit_system.Tpo -c -o src/systems/libmesh_prof_la-explicit_system.lo `test -f 'src/systems/explicit_system.C' || echo '$(srcdir)/'`src/systems/explicit_system.C
@@ -31143,7 +31072,6 @@ distclean: distclean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-fem_system.Plo
@@ -31170,7 +31098,6 @@ distclean: distclean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-fem_system.Plo
@@ -31197,7 +31124,6 @@ distclean: distclean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-fem_system.Plo
@@ -31224,7 +31150,6 @@ distclean: distclean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-fem_system.Plo
@@ -31251,7 +31176,6 @@ distclean: distclean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-fem_system.Plo
@@ -33170,7 +33094,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_dbg_la-fem_system.Plo
@@ -33197,7 +33120,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_devel_la-fem_system.Plo
@@ -33224,7 +33146,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_oprof_la-fem_system.Plo
@@ -33251,7 +33172,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_opt_la-fem_system.Plo
@@ -33278,7 +33198,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-diff_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-eigen_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems.Plo
-	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-equation_systems_io.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-explicit_system.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-fem_context.Plo
 	-rm -f src/systems/$(DEPDIR)/libmesh_prof_la-fem_system.Plo

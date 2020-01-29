@@ -44,7 +44,8 @@ namespace libMesh
 // Forward Declarations
 template <typename> class PointTempl;
 typedef PointTempl<Real> Point;
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 class Parameters;
 class Mesh;
 template <typename Output> class FunctionBase;

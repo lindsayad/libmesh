@@ -44,7 +44,8 @@ namespace libMesh
 
 // Forward Declarations
 class ErrorVector;
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 class System;
 template <typename T> class NumericVector;
 

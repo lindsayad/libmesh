@@ -37,7 +37,8 @@ namespace libMesh
 {
 
 // Forward declares
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 template <typename T> class NumericVector;
 
 

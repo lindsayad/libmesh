@@ -1085,6 +1085,7 @@ include_HEADERS = \
         systems/eigen_system.h \
         systems/elem_assembly.h \
         systems/equation_systems.h \
+        systems/equation_systems_impl.h \
         systems/explicit_system.h \
         systems/fem_context.h \
         systems/fem_system.h \

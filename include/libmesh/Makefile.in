@@ -671,18 +671,18 @@ BUILT_SOURCES = auto_ptr.h default_coupling.h default_coupling_impl.h \
 	twostep_time_solver.h unsteady_solver.h \
 	condensed_eigen_system.h continuation_system.h \
 	dg_fem_context.h diff_context.h diff_system.h eigen_system.h \
-	elem_assembly.h equation_systems.h explicit_system.h \
-	fem_context.h fem_system.h frequency_system.h \
-	generic_projector.h implicit_system.h linear_implicit_system.h \
-	newmark_system.h nonlinear_implicit_system.h \
-	optimization_system.h parameter_accessor.h \
-	parameter_multiaccessor.h parameter_multipointer.h \
-	parameter_pointer.h parameter_vector.h qoi_set.h \
-	sensitivity_data.h steady_system.h system.h system_norm.h \
-	system_subset.h system_subset_by_subdomain.h \
-	transient_system.h attributes.h communicator.h data_type.h \
-	message_tag.h op_function.h packing.h \
-	parallel_implementation.h parallel_sync.h \
+	elem_assembly.h equation_systems.h equation_systems_impl.h \
+	explicit_system.h fem_context.h fem_system.h \
+	frequency_system.h generic_projector.h implicit_system.h \
+	linear_implicit_system.h newmark_system.h \
+	nonlinear_implicit_system.h optimization_system.h \
+	parameter_accessor.h parameter_multiaccessor.h \
+	parameter_multipointer.h parameter_pointer.h \
+	parameter_vector.h qoi_set.h sensitivity_data.h \
+	steady_system.h system.h system_norm.h system_subset.h \
+	system_subset_by_subdomain.h transient_system.h attributes.h \
+	communicator.h data_type.h message_tag.h op_function.h \
+	packing.h parallel_implementation.h parallel_sync.h \
 	post_wait_copy_buffer.h post_wait_delete_buffer.h \
 	post_wait_dereference_shared_ptr.h post_wait_dereference_tag.h \
 	post_wait_free_buffer.h post_wait_unpack_buffer.h \
@@ -2427,6 +2427,9 @@ elem_assembly.h: $(top_srcdir)/include/systems/elem_assembly.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 equation_systems.h: $(top_srcdir)/include/systems/equation_systems.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+equation_systems_impl.h: $(top_srcdir)/include/systems/equation_systems_impl.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 explicit_system.h: $(top_srcdir)/include/systems/explicit_system.h

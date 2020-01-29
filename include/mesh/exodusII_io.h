@@ -32,7 +32,8 @@ namespace libMesh
 {
 
 // Forward declarations
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 class ExodusII_IO_Helper;
 template <typename> class MeshBaseTempl;
 typedef MeshBaseTempl<Real> MeshBase;

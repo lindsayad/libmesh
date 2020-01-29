@@ -42,7 +42,8 @@ namespace libMesh
 {
 
 // Forward declarations
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 
 /**
  * This class implements writing meshes and solutions in Ensight's Gold format.

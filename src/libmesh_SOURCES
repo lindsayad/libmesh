@@ -348,7 +348,6 @@ libmesh_SOURCES =  \
         src/systems/diff_system.C \
         src/systems/eigen_system.C \
         src/systems/equation_systems.C \
-        src/systems/equation_systems_io.C \
         src/systems/explicit_system.C \
         src/systems/fem_context.C \
         src/systems/fem_system.C \

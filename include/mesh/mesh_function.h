@@ -38,7 +38,8 @@ namespace libMesh
 
 // Forward Declarations
 template <typename T> class DenseVector;
-class EquationSystems;
+template <typename> class EquationSystemsTempl;
+typedef EquationSystemsTempl<Real> EquationSystems;
 template <typename T> class NumericVector;
 class DofMap;
 class PointLocatorBase;
