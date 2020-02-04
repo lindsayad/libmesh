@@ -44,11 +44,15 @@ namespace libMesh
 
 // Forward Declarations
 class PointLocatorBase;
-class MeshBase;
-class Point;
+template <typename> class MeshBaseTempl;
+typedef MeshBaseTempl<Real> MeshBase;
+template <typename> class PointTempl;
+typedef PointTempl<Real> Point;
 class TreeBase;
-class Elem;
-class Node;
+template <typename> class ElemTempl;
+typedef ElemTempl<Real> Elem;
+template <typename> class NodeTempl;
+typedef NodeTempl<Real> Node;
 
 
 /**

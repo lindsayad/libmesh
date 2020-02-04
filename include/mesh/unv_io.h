@@ -35,7 +35,8 @@ namespace libMesh
 {
 
 // Forward declarations
-class MeshBase;
+template <typename> class MeshBaseTempl;
+typedef MeshBaseTempl<Real> MeshBase;
 
 /**
  * The \p UNVIO class implements the Ideas \p UNV universal

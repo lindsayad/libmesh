@@ -35,9 +35,12 @@ namespace libMesh
 {
 
 // Forward Declarations
-class MeshBase;
-class Node;
-class Elem;
+template <typename> class MeshBaseTempl;
+typedef MeshBaseTempl<Real> MeshBase;
+template <typename> class NodeTempl;
+typedef NodeTempl<Real> Node;
+template <typename> class ElemTempl;
+typedef ElemTempl<Real> Elem;
 
 /**
  * This class defines a node on a tree.  A tree node

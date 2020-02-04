@@ -33,7 +33,8 @@ namespace libMesh
 {
 
 // Forward Declarations
-class Elem;
+template <typename> class ElemTempl;
+typedef ElemTempl<Real> Elem;
 class PeriodicBoundaryBase;
 class PointLocatorBase;
 

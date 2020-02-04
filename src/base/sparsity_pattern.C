@@ -18,7 +18,7 @@
 
 
 // Local includes
-#include "libmesh/sparsity_pattern.h"
+#include "libmesh/sparsity_pattern_impl.h"
 
 // libMesh includes
 #include "libmesh/coupling_matrix.h"
@@ -41,10 +41,10 @@ namespace SparsityPattern
 //-------------------------------------------------------
 // we need to implement these constructors here so that
 // a full DofMap definition is available.
-Build::Build (const MeshBase & mesh_in,
+Build::Build (const MeshAbstract & mesh_in,
               const DofMap & dof_map_in,
               const CouplingMatrix * dof_coupling_in,
-              const std::set<GhostingFunctor *> & coupling_functors_in,
+              const std::set<GhostingFunctorBase *> & coupling_functors_in,
               const bool implicit_neighbor_dofs_in,
               const bool need_full_sparsity_pattern_in) :
   ParallelObject(dof_map_in),
@@ -226,141 +226,6 @@ void Build::handle_vi_vj(const std::vector<dof_id_type> & element_dofs_i,
         } // End dofs-of-var-i loop
     } // End if-dofs-of-var-j
 }
-
-
-
-void Build::operator()(const ConstElemRange & range)
-{
-  // Compute the sparsity structure of the global matrix.  This can be
-  // fed into a PetscMatrix to allocate exactly the number of nonzeros
-  // necessary to store the matrix.  This algorithm should be linear
-  // in the (# of elements)*(# nodes per element)
-  const processor_id_type proc_id           = mesh.processor_id();
-  const dof_id_type n_dofs_on_proc    = dof_map.n_dofs_on_processor(proc_id);
-  const dof_id_type first_dof_on_proc = dof_map.first_dof(proc_id);
-  const dof_id_type end_dof_on_proc   = dof_map.end_dof(proc_id);
-
-  sparsity_pattern.resize(n_dofs_on_proc);
-
-  // Handle dof coupling specified by library and user coupling functors
-  {
-    const unsigned int n_var = dof_map.n_variables();
-
-    std::vector<std::vector<dof_id_type> > element_dofs_i(n_var);
-
-    std::vector<const Elem *> coupled_neighbors;
-    for (const auto & elem : range)
-      {
-        // Make some fake element iterators defining a range
-        // pointing to only this element.
-        Elem * const * elempp = const_cast<Elem * const *>(&elem);
-        Elem * const * elemend = elempp+1;
-
-        const MeshBase::const_element_iterator fake_elem_it =
-          MeshBase::const_element_iterator(elempp,
-                                           elemend,
-                                           Predicates::NotNull<Elem * const *>());
-
-        const MeshBase::const_element_iterator fake_elem_end =
-          MeshBase::const_element_iterator(elemend,
-                                           elemend,
-                                           Predicates::NotNull<Elem * const *>());
-
-        GhostingFunctor::map_type elements_to_couple;
-
-        // Man, I wish we had guaranteed unique_ptr availability...
-        std::set<CouplingMatrix *> temporary_coupling_matrices;
-
-        dof_map.merge_ghost_functor_outputs(elements_to_couple,
-                                            temporary_coupling_matrices,
-                                            dof_map.coupling_functors_begin(),
-                                            dof_map.coupling_functors_end(),
-                                            fake_elem_it,
-                                            fake_elem_end,
-                                            DofObject::invalid_processor_id);
-        for (unsigned int vi=0; vi<n_var; vi++)
-          this->sorted_connected_dofs(elem, element_dofs_i[vi], vi);
-
-        for (unsigned int vi=0; vi<n_var; vi++)
-          for (const auto & pr : elements_to_couple)
-            {
-              const Elem * const partner = pr.first;
-              const CouplingMatrix * ghost_coupling = pr.second;
-
-              // Loop over coupling matrix row variables if we have a
-              // coupling matrix, or all variables if not.
-              if (ghost_coupling)
-                {
-                  libmesh_assert_equal_to (ghost_coupling->size(), n_var);
-                  ConstCouplingRow ccr(vi, *ghost_coupling);
-
-                  for (const auto & idx : ccr)
-                    {
-                      if (partner == elem)
-                        this->handle_vi_vj(element_dofs_i[vi], element_dofs_i[idx]);
-                      else
-                        {
-                          std::vector<dof_id_type> partner_dofs;
-                          this->sorted_connected_dofs(partner, partner_dofs, idx);
-                          this->handle_vi_vj(element_dofs_i[vi], partner_dofs);
-                        }
-                    }
-                }
-              else
-                {
-                  for (unsigned int vj = 0; vj != n_var; ++vj)
-                    {
-                      if (partner == elem)
-                        this->handle_vi_vj(element_dofs_i[vi], element_dofs_i[vj]);
-                      else
-                        {
-                          std::vector<dof_id_type> partner_dofs;
-                          this->sorted_connected_dofs(partner, partner_dofs, vj);
-                          this->handle_vi_vj(element_dofs_i[vi], partner_dofs);
-                        }
-                    }
-                }
-            } // End ghosted element loop
-
-        for (auto & mat : temporary_coupling_matrices)
-          delete mat;
-
-      } // End range element loop
-  } // End ghosting functor section
-
-  // Now a new chunk of sparsity structure is built for all of the
-  // DOFs connected to our rows of the matrix.
-
-  // If we're building a full sparsity pattern, then we've got
-  // complete rows to work with, so we can just count them from
-  // scratch.
-  if (need_full_sparsity_pattern)
-    {
-      n_nz.clear();
-      n_oz.clear();
-    }
-
-  n_nz.resize (n_dofs_on_proc, 0);
-  n_oz.resize (n_dofs_on_proc, 0);
-
-  for (dof_id_type i=0; i<n_dofs_on_proc; i++)
-    {
-      // Get the row of the sparsity pattern
-      SparsityPattern::Row & row = sparsity_pattern[i];
-
-      for (const auto & df : row)
-        if ((df < first_dof_on_proc) || (df >= end_dof_on_proc))
-          n_oz[i]++;
-        else
-          n_nz[i]++;
-
-      // If we're not building a full sparsity pattern, then we want
-      // to avoid overcounting these entries as much as possible.
-      if (!need_full_sparsity_pattern)
-        row.clear();
-    }
-}
-
 
 
 void Build::join (const SparsityPattern::Build & other)
@@ -640,6 +505,6 @@ void Build::parallel_sync ()
   Parallel::wait(row_sends);
 }
 
-
+template void Build::operator()(const ConstElemRangeTempl<Real> &);
 } // namespace SparsityPattern
 } // namespace libMesh

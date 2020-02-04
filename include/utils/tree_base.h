@@ -32,9 +32,12 @@ namespace libMesh
 
 // Forward Declarations
 class TreeBase;
-class MeshBase;
-class Point;
-class Elem;
+template <typename> class MeshBaseTempl;
+typedef MeshBaseTempl<Real> MeshBase;
+template <typename> class PointTempl;
+typedef PointTempl<Real> Point;
+template <typename> class ElemTempl;
+typedef ElemTempl<Real> Elem;
 
 
 namespace Trees

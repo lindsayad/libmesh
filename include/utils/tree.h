@@ -30,7 +30,8 @@ namespace libMesh
 {
 
 // Forward Declarations
-class MeshBase;
+template <typename> class MeshBaseTempl;
+typedef MeshBaseTempl<Real> MeshBase;
 
 /**
  * This class defines a tree that may be used for fast point
