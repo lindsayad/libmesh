@@ -27,15 +27,15 @@
 #ifdef LIBMESH_HAVE_METAPHYSICL
 namespace MetaPhysicL
 {
-template <typename, typename>
+template <typename, typename, bool>
 class DualNumber;
 }
 namespace std
 {
-template <typename T, typename D>
-MetaPhysicL::DualNumber<T, D> norm(const MetaPhysicL::DualNumber<T, D> & in);
-template <typename T, typename D>
-MetaPhysicL::DualNumber<T, D> norm(MetaPhysicL::DualNumber<T, D> && in);
+template <typename T, typename D, bool asd>
+MetaPhysicL::DualNumber<T, D, asd> norm(const MetaPhysicL::DualNumber<T, D, asd> & in);
+template <typename T, typename D, bool asd>
+MetaPhysicL::DualNumber<T, D, asd> norm(MetaPhysicL::DualNumber<T, D, asd> && in);
 }
 #endif
 
