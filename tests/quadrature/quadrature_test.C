@@ -2,6 +2,7 @@
 #include <libmesh/string_to_enum.h>
 #include <libmesh/utility.h>
 #include <libmesh/enum_quadrature_type.h>
+#include <libmesh/raw_value.h>
 
 #include <iomanip>
 #include <numeric> // std::iota
@@ -159,7 +160,7 @@ public:
                       {
                         Real term = qrule->w(qp);
                         for (unsigned int d=0; d != LIBMESH_DIM; ++d)
-                          term *= std::pow(qrule->qp(qp)(d), xyz_power[d]);
+                          term *= std::pow(raw_value(qrule->qp(qp)(d)), xyz_power[d]);
                         sumq += term;
                       }
 
@@ -227,9 +228,9 @@ public:
                   Real sumq = 0.;
                   for (unsigned int qp=0; qp<qrule->n_points(); qp++)
                     sumq += qrule->w(qp)
-                      * std::pow(qrule->qp(qp)(0), x_power)
-                      * std::pow(qrule->qp(qp)(1), y_power)
-                      * std::pow(qrule->qp(qp)(2), z_power);
+                      * std::pow(raw_value(qrule->qp(qp)(0)), x_power)
+                      * std::pow(raw_value(qrule->qp(qp)(1)), y_power)
+                      * std::pow(raw_value(qrule->qp(qp)(2)), z_power);
 
                   // std::cout << "sumq = " << sumq << std::endl;
 
@@ -307,8 +308,8 @@ public:
                 Real sumq = 0.;
                 for (unsigned int qp=0; qp<qrule->n_points(); qp++)
                   sumq += qrule->w(qp)
-                    * std::pow(qrule->qp(qp)(0), x_power)
-                    * std::pow(qrule->qp(qp)(1), y_power);
+                    * std::pow(raw_value(qrule->qp(qp)(0)), x_power)
+                    * std::pow(raw_value(qrule->qp(qp)(1)), y_power);
 
                 // std::cout << "sumq = " << sumq << std::endl;
 
@@ -408,7 +409,7 @@ public:
                 // usual monomials.
                 Real sumq = 0.;
                 for (unsigned int qp=0; qp<qrule->n_points(); qp++)
-                  sumq += qrule->w(qp) * std::pow(qrule->qp(qp)(0), testpower);
+                  sumq += qrule->w(qp) * std::pow(raw_value(qrule->qp(qp)(0)), testpower);
 
                 // Make sure that the computed integral agrees with the "true" value
                 LIBMESH_ASSERT_REALS_EQUAL(true_integrals[qt][testpower], sumq, quadrature_tolerance);
@@ -450,7 +451,7 @@ public:
         Real sum = 0;
 
         for (unsigned int qp=0; qp<qrule->n_points(); qp++)
-          sum += qrule->w(qp) * std::pow(qrule->qp(qp)(0), static_cast<Real>(mode));
+          sum += qrule->w(qp) * std::pow(raw_value(qrule->qp(qp)(0)), static_cast<Real>(mode));
 
         const Real exact = (mode % 2) ?
           0 : (Real(2.0) / (mode+1));
@@ -486,8 +487,8 @@ public:
 
           for (unsigned int qp=0; qp<qrule->n_points(); qp++)
             sum += qrule->w(qp)
-              * std::pow(qrule->qp(qp)(0), static_cast<Real>(modex))
-              * std::pow(qrule->qp(qp)(1), static_cast<Real>(modey));
+              * std::pow(raw_value(qrule->qp(qp)(0)), static_cast<Real>(modex))
+              * std::pow(raw_value(qrule->qp(qp)(1)), static_cast<Real>(modey));
 
           const Real exactx = (modex % 2) ?
             0 : (Real(2.0) / (modex+1));
@@ -532,9 +533,9 @@ public:
 
             for (unsigned int qp=0; qp<qrule->n_points(); qp++)
               sum += qrule->w(qp)
-                * std::pow(qrule->qp(qp)(0), static_cast<Real>(modex))
-                * std::pow(qrule->qp(qp)(1), static_cast<Real>(modey))
-                * std::pow(qrule->qp(qp)(2), static_cast<Real>(modez));
+                * std::pow(raw_value(qrule->qp(qp)(0)), static_cast<Real>(modex))
+                * std::pow(raw_value(qrule->qp(qp)(1)), static_cast<Real>(modey))
+                * std::pow(raw_value(qrule->qp(qp)(2)), static_cast<Real>(modez));
 
             const Real exactx = (modex % 2) ?
               0 : (Real(2.0) / (modex+1));

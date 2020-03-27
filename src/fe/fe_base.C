@@ -966,10 +966,10 @@ FEGenericBase<OutputType>::coarsened_dof_values(const NumericVector<Number> & ol
   // We use local FE objects for now
   // FIXME: we should use more, external objects instead for efficiency
   const FEType & base_fe_type = dof_map.variable_type(var);
-  std::unique_ptr<FEGenericBase<OutputShape>> fe
-    (FEGenericBase<OutputShape>::build(dim, base_fe_type));
-  std::unique_ptr<FEGenericBase<OutputShape>> fe_coarse
-    (FEGenericBase<OutputShape>::build(dim, base_fe_type));
+  std::unique_ptr<FEGenericBase<OutputType>> fe
+    (FEGenericBase<OutputType>::build(dim, base_fe_type));
+  std::unique_ptr<FEGenericBase<OutputType>> fe_coarse
+    (FEGenericBase<OutputType>::build(dim, base_fe_type));
 
   std::unique_ptr<QBase> qrule     (base_fe_type.default_quadrature_rule(dim));
   std::unique_ptr<QBase> qedgerule (base_fe_type.default_quadrature_rule(1));
@@ -1003,7 +1003,7 @@ FEGenericBase<OutputType>::coarsened_dof_values(const NumericVector<Number> & ol
     }
 
   // The Jacobian * quadrature weight at the quadrature points
-  const std::vector<Real> & JxW =
+  const std::vector<GeomReal> & JxW =
     fe->get_JxW();
 
   // The XYZ locations of the quadrature points on the
@@ -1542,8 +1542,8 @@ FEGenericBase<OutputType>::compute_proj_constraints (DofConstraints & constraint
   const FEType & base_fe_type = var.type();
 
   // Construct FE objects for this element and its neighbors.
-  std::unique_ptr<FEGenericBase<OutputShape>> my_fe
-    (FEGenericBase<OutputShape>::build(Dim, base_fe_type));
+  std::unique_ptr<FEGenericBase<OutputType>> my_fe
+    (FEGenericBase<OutputType>::build(Dim, base_fe_type));
   const FEContinuity cont = my_fe->get_continuity();
 
   // We don't need to constrain discontinuous elements
@@ -1551,14 +1551,14 @@ FEGenericBase<OutputType>::compute_proj_constraints (DofConstraints & constraint
     return;
   libmesh_assert (cont == C_ZERO || cont == C_ONE);
 
-  std::unique_ptr<FEGenericBase<OutputShape>> neigh_fe
-    (FEGenericBase<OutputShape>::build(Dim, base_fe_type));
+  std::unique_ptr<FEGenericBase<OutputType>> neigh_fe
+    (FEGenericBase<OutputType>::build(Dim, base_fe_type));
 
   QGauss my_qface(Dim-1, base_fe_type.default_quadrature_order());
   my_fe->attach_quadrature_rule (&my_qface);
   std::vector<Point> neigh_qface;
 
-  const std::vector<Real> & JxW = my_fe->get_JxW();
+  const std::vector<GeomReal> & JxW = my_fe->get_JxW();
   const std::vector<Point> & q_point = my_fe->get_xyz();
   const std::vector<std::vector<OutputShape>> & phi = my_fe->get_phi();
   const std::vector<std::vector<OutputShape>> & neigh_phi =
@@ -1843,8 +1843,8 @@ compute_periodic_constraints (DofConstraints & constraints,
   const FEType & base_fe_type = dof_map.variable_type(variable_number);
 
   // Construct FE objects for this element and its pseudo-neighbors.
-  std::unique_ptr<FEGenericBase<OutputShape>> my_fe
-    (FEGenericBase<OutputShape>::build(Dim, base_fe_type));
+  std::unique_ptr<FEGenericBase<OutputType>> my_fe
+    (FEGenericBase<OutputType>::build(Dim, base_fe_type));
   const FEContinuity cont = my_fe->get_continuity();
 
   // We don't need to constrain discontinuous elements
@@ -1853,16 +1853,16 @@ compute_periodic_constraints (DofConstraints & constraints,
   libmesh_assert (cont == C_ZERO || cont == C_ONE);
 
   // We'll use element size to generate relative tolerances later
-  const Real primary_hmin = elem->hmin();
+  const GeomReal primary_hmin = elem->hmin();
 
-  std::unique_ptr<FEGenericBase<OutputShape>> neigh_fe
-    (FEGenericBase<OutputShape>::build(Dim, base_fe_type));
+  std::unique_ptr<FEGenericBase<OutputType>> neigh_fe
+    (FEGenericBase<OutputType>::build(Dim, base_fe_type));
 
   QGauss my_qface(Dim-1, base_fe_type.default_quadrature_order());
   my_fe->attach_quadrature_rule (&my_qface);
   std::vector<Point> neigh_qface;
 
-  const std::vector<Real> & JxW = my_fe->get_JxW();
+  const std::vector<GeomReal> & JxW = my_fe->get_JxW();
   const std::vector<Point> & q_point = my_fe->get_xyz();
   const std::vector<std::vector<OutputShape>> & phi = my_fe->get_phi();
   const std::vector<std::vector<OutputShape>> & neigh_phi =

@@ -699,13 +699,13 @@ public:
   /**
    * 1D hermite functions on unit interval
    */
-  static Real hermite_raw_shape_second_deriv(const unsigned int basis_num,
-                                             const Real xi);
+  static GeomReal hermite_raw_shape_second_deriv(const unsigned int basis_num,
+                                             const GeomReal xi);
 #endif
-  static Real hermite_raw_shape_deriv(const unsigned int basis_num,
-                                      const Real xi);
-  static Real hermite_raw_shape(const unsigned int basis_num,
-                                const Real xi);
+  static GeomReal hermite_raw_shape_deriv(const unsigned int basis_num,
+                                      const GeomReal xi);
+  static GeomReal hermite_raw_shape(const unsigned int basis_num,
+                                const GeomReal xi);
 };
 
 
@@ -717,14 +717,14 @@ public:
  * inside FESubdivision::init_shape_functions
  */
 template <>
-Real FE<2,SUBDIVISION>::shape(const Elem * elem,
+GeomReal FE<2,SUBDIVISION>::shape(const Elem * elem,
                               const Order order,
                               const unsigned int i,
                               const Point & p,
                               const bool add_p_level);
 
 template <>
-Real FE<2,SUBDIVISION>::shape_deriv(const Elem * elem,
+GeomReal FE<2,SUBDIVISION>::shape_deriv(const Elem * elem,
                                     const Order order,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -733,7 +733,7 @@ Real FE<2,SUBDIVISION>::shape_deriv(const Elem * elem,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 template <>
-Real FE<2,SUBDIVISION>::shape_second_deriv(const Elem * elem,
+GeomReal FE<2,SUBDIVISION>::shape_second_deriv(const Elem * elem,
                                            const Order order,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -801,9 +801,9 @@ public:
    * element, evaluated at the barycentric coordinates \p v,
    * \p w.
    */
-  static Real regular_shape(const unsigned int i,
-                            const Real v,
-                            const Real w);
+  static GeomReal regular_shape(const unsigned int i,
+                            const GeomReal v,
+                            const GeomReal w);
 
   /**
    * \returns The \f$ j^{th} \f$ derivative of the \f$ i^{th}
@@ -811,10 +811,10 @@ public:
    * Loop subdivision element, evaluated at the barycentric
    * coordinates \p v, \p w.
    */
-  static Real regular_shape_deriv(const unsigned int i,
+  static GeomReal regular_shape_deriv(const unsigned int i,
                                   const unsigned int j,
-                                  const Real v,
-                                  const Real w);
+                                  const GeomReal v,
+                                  const GeomReal w);
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
   /**
@@ -823,10 +823,10 @@ public:
    * a regular Loop subdivision element, evaluated at the
    * barycentric coordinates \p v, \p w.
    */
-  static Real regular_shape_second_deriv(const unsigned int i,
+  static GeomReal regular_shape_second_deriv(const unsigned int i,
                                          const unsigned int j,
-                                         const Real v,
-                                         const Real w);
+                                         const GeomReal v,
+                                         const GeomReal w);
 
 
 #endif // LIBMESH_ENABLE_SECOND_DERIVATIVE

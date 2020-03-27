@@ -615,16 +615,16 @@ bool FEAbstract::on_reference_element(const Point & p, const ElemType t, const R
 {
   libmesh_assert_greater_equal (eps, 0.);
 
-  const Real xi   = p(0);
+  const GeomReal xi   = p(0);
 #if LIBMESH_DIM > 1
-  const Real eta  = p(1);
+  const GeomReal eta  = p(1);
 #else
-  const Real eta  = 0.;
+  const GeomReal eta  = 0.;
 #endif
 #if LIBMESH_DIM > 2
-  const Real zeta = p(2);
+  const GeomReal zeta = p(2);
 #else
-  const Real zeta  = 0.;
+  const GeomReal zeta  = 0.;
 #endif
 
   switch (t)
@@ -930,13 +930,13 @@ void FEAbstract::compute_node_constraints (NodeConstraints & constraints,
                   const Node * their_node = parent_nodes[their_side_n];
                   libmesh_assert(their_node);
 
-                  const Real their_value = FEInterface::shape(Dim-1,
+                  const GeomReal their_value = FEInterface::shape(Dim-1,
                                                               fe_type,
                                                               parent_side->type(),
                                                               their_side_n,
                                                               mapped_point);
 
-                  const Real their_mag = std::abs(their_value);
+                  const GeomReal their_mag = std::abs(their_value);
 #ifdef DEBUG
                   // Protect for the case u_i ~= u_j,
                   // in which case i better equal j.
@@ -1165,7 +1165,7 @@ void FEAbstract::compute_periodic_node_constraints (NodeConstraints & constraint
                           const Node * their_node = neigh_nodes[their_side_n];
                           libmesh_assert(their_node);
 
-                          const Real their_value = FEInterface::shape(Dim-1,
+                          const GeomReal their_value = FEInterface::shape(Dim-1,
                                                                       fe_type,
                                                                       neigh_side->type(),
                                                                       their_side_n,

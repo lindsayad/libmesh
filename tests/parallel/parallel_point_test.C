@@ -48,9 +48,9 @@ public:
     for (processor_id_type i=0; i<vals.size(); i++)
       {
         Real theirrank = i;
-        CPPUNIT_ASSERT_EQUAL( theirrank,            vals[i](0) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.25), vals[i](1) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.5),  vals[i](2) );
+        CPPUNIT_ASSERT_EQUAL( theirrank,            raw_value(vals[i](0)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.25), raw_value(vals[i](1)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.5),  raw_value(vals[i](2)) );
       }
   }
 
@@ -70,12 +70,12 @@ public:
     for (processor_id_type i=0; i<vals.size(); i++)
       {
         Real theirrank = i;
-        CPPUNIT_ASSERT_EQUAL( theirrank,             vals[i].first(0) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.125), vals[i].first(1) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.25),  vals[i].first(2) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.5),   vals[i].second(0) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.625), vals[i].second(1) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.75),  vals[i].second(2) );
+        CPPUNIT_ASSERT_EQUAL( theirrank,             raw_value(vals[i].first(0)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.125), raw_value(vals[i].first(1)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.25),  raw_value(vals[i].first(2)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.5),   raw_value(vals[i].second(0)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.625), raw_value(vals[i].second(1)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.75),  raw_value(vals[i].second(2)) );
       }
   }
 
@@ -94,9 +94,9 @@ public:
     for (processor_id_type i=0; i<vals.size(); i++)
       {
         Real theirrank = i;
-        CPPUNIT_ASSERT_EQUAL( theirrank,            vals[i].second(0) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.25), vals[i].second(1) );
-        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.5),  vals[i].second(2) );
+        CPPUNIT_ASSERT_EQUAL( theirrank,            raw_value(vals[i].second(0)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.25), raw_value(vals[i].second(1)) );
+        CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.5),  raw_value(vals[i].second(2)) );
         CPPUNIT_ASSERT_EQUAL( theirrank+Real(0.75), vals[i].first );
       }
   }

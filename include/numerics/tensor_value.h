@@ -152,8 +152,10 @@ public:
  * between Real and Complex data types.
  */
 typedef TensorValue<Real>   RealTensorValue;
+typedef TensorValue<GeomReal> GeomRealTensorValue;
 typedef TensorValue<Number> NumberTensorValue;
 typedef RealTensorValue     RealTensor;
+typedef GeomRealTensorValue GeomRealTensor;
 typedef NumberTensorValue   Tensor;
 
 

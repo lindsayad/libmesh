@@ -22,6 +22,7 @@
 
 // Local includes
 #include "libmesh/type_vector.h"
+#include "libmesh/geom_real.h"
 
 namespace libMesh
 {
@@ -35,7 +36,7 @@ namespace libMesh
  * \date 2003
  * \brief A geometric point in (x,y,z) space.
  */
-class Point : public TypeVector<Real>
+class Point : public TypeVector<GeomReal>
 {
 public:
 
@@ -43,24 +44,24 @@ public:
    * Constructor.  By default sets all entries to 0.  Gives the point
    * 0 in \p LIBMESH_DIM dimensions.
    */
-  Point (const Real x=0.,
-         const Real y=0.,
-         const Real z=0.) :
-    TypeVector<Real> (x,y,z)
+  Point (const GeomReal x=0.,
+         const GeomReal y=0.,
+         const GeomReal z=0.) :
+    TypeVector<GeomReal> (x,y,z)
   {}
 
   /**
    * Copy-constructor.
    */
   Point (const Point & p) :
-    TypeVector<Real> (p)
+    TypeVector<GeomReal> (p)
   {}
 
   /**
    * Copy-constructor.
    */
-  Point (const TypeVector<Real> & p) :
-    TypeVector<Real> (p)
+  Point (const TypeVector<GeomReal> & p) :
+    TypeVector<GeomReal> (p)
   {}
 
   /**
@@ -75,7 +76,7 @@ public:
             typename = typename
               boostcopy::enable_if_c<ScalarTraits<T>::value,void>::type>
   Point (const T x) :
-    TypeVector<Real> (x,0,0)
+    TypeVector<GeomReal> (x,0,0)
   {}
 
   /**

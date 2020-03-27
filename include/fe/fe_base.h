@@ -112,11 +112,23 @@ public:
   static std::unique_ptr<FEGenericBase> build (const unsigned int dim,
                                                const FEType & type);
 
+  template <typename> struct MakeOutput;
+  template <>
+  struct MakeOutput<Real>
+  {
+    typedef GeomReal type;
+  };
+  template <>
+  struct MakeOutput<RealVectorValue>
+  {
+    typedef VectorValue<GeomReal> type;
+  };
+
   /**
    * Convenient typedefs for gradients of output, hessians of output,
    * and potentially-complex-valued versions of same.
    */
-  typedef OutputType                                                      OutputShape;
+  typedef typename MakeOutput<OutputType>::type                           OutputShape;
   typedef typename TensorTools::IncrementRank<OutputShape>::type          OutputGradient;
   typedef typename TensorTools::IncrementRank<OutputGradient>::type       OutputTensor;
   typedef typename TensorTools::DecrementRank<OutputShape>::type          OutputDivergence;
