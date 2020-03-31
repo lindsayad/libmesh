@@ -55,7 +55,7 @@ AC_DEFUN([CONFIGURE_METAPHYSICL],
   dnl someday with an option to include an external version instead.
   AS_IF([test "x$enablemetaphysicl" = "xyes"],
         [
-          METAPHYSICL_INCLUDE="-I\$(top_srcdir)/contrib/metaphysicl/src/numerics/include -I\$(top_srcdir)/contrib/metaphysicl/src/core/include -I\$(top_srcdir)/contrib/metaphysicl/src/utilities/include"
+          METAPHYSICL_INCLUDE="-I\$(top_srcdir)/contrib/metaphysicl/src/numerics/include -I\$(top_srcdir)/contrib/metaphysicl/src/core/include -I\$(top_srcdir)/contrib/metaphysicl/src/utilities/include -I\$(top_builddir)/contrib/metaphysicl/src/utilities/include"
           AC_DEFINE(HAVE_METAPHYSICL, 1, [Flag indicating whether the library will be compiled with MetaPhysicL support])
           AC_MSG_RESULT(<<< Configuring library with MetaPhysicL support >>>)
           AC_CONFIG_SUBDIRS([contrib/metaphysicl])
