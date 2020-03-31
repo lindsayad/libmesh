@@ -525,14 +525,14 @@ public:
    * A gradient \p gptr is only required/used for projecting onto
    * finite element spaces with continuous derivatives.
    */
-  typedef Number (*ValueFunctionPointer)(const Point & p,
-                                         const Parameters & Parameters,
-                                         const std::string & sys_name,
-                                         const std::string & unknown_name);
-  typedef Gradient (*GradientFunctionPointer)(const Point & p,
-                                              const Parameters & parameters,
-                                              const std::string & sys_name,
-                                              const std::string & unknown_name);
+  typedef GeomNumber (*ValueFunctionPointer)(const Point & p,
+                                             const Parameters & Parameters,
+                                             const std::string & sys_name,
+                                             const std::string & unknown_name);
+  typedef GeomNumberGradient (*GradientFunctionPointer)(const Point & p,
+                                                        const Parameters & parameters,
+                                                        const std::string & sys_name,
+                                                        const std::string & unknown_name);
   void project_solution (ValueFunctionPointer fptr,
                          GradientFunctionPointer gptr,
                          const Parameters & parameters) const;

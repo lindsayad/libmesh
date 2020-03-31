@@ -22,7 +22,6 @@
 
 // Local includes
 #include "libmesh/type_vector.h"
-#include "libmesh/geom_real.h"
 
 namespace libMesh
 {

@@ -68,6 +68,20 @@ template <unsigned int Dim, FEFamily T_radial, InfMapType T_map>
 class InfFE;
 #endif
 
+template <typename>
+struct MakeOutput;
+
+template <>
+struct MakeOutput<Real>
+{
+  typedef GeomReal type;
+};
+template <>
+struct MakeOutput<RealVectorValue>
+{
+  typedef VectorValue<GeomReal> type;
+};
+
 /**
  * This class forms the foundation from which generic finite
  * elements may be derived.  In the current implementation the
@@ -111,18 +125,6 @@ public:
    */
   static std::unique_ptr<FEGenericBase> build (const unsigned int dim,
                                                const FEType & type);
-
-  template <typename> struct MakeOutput;
-  template <>
-  struct MakeOutput<Real>
-  {
-    typedef GeomReal type;
-  };
-  template <>
-  struct MakeOutput<RealVectorValue>
-  {
-    typedef VectorValue<GeomReal> type;
-  };
 
   /**
    * Convenient typedefs for gradients of output, hessians of output,
@@ -776,8 +778,6 @@ void FEGenericBase<Real>::compute_dual_shape_coeffs();
 // Typedefs for convenience and backwards compatibility
 typedef FEGenericBase<Real> FEBase;
 typedef FEGenericBase<RealGradient> FEVectorBase;
-
-
 
 
 // ------------------------------------------------------------

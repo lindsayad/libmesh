@@ -71,6 +71,11 @@
 // compatibility, although we no longer use it in the library.
 #include "libmesh/libmesh_nullptr.h"
 
+#ifdef LIBMESH_HAVE_METAPHYSICL
+// Temporary
+#include "metaphysicl/dualdynamicsparsenumberarray.h"
+#endif
+
 namespace libMesh
 {
 
@@ -116,6 +121,13 @@ DIE A HORRIBLE DEATH HERE...
 
 typedef LIBMESH_DEFAULT_SCALAR_TYPE Real;
 
+#ifdef LIBMESH_HAVE_METAPHYSICL
+// Temporary
+typedef MetaPhysicL::DualNumber<Real, MetaPhysicL::DynamicSparseNumberArray<Real, unsigned int>> GeomReal;
+#else
+typedef Real GeomReal;
+#endif
+
 // Define a corresponding tolerance.  This is what should be
 // considered "good enough" when doing floating point comparisons.
 // For example, v == 0 is changed to std::abs(v) < TOLERANCE.
@@ -153,6 +165,11 @@ static const Real TOLERANCE = 1.e-6;
 typedef std::complex<Real> Complex;
 typedef std::complex<Real> COMPLEX;
 
+#ifdef LIBMESH_HAVE_METAPHYSICL
+typedef MetaPhysicL::DualNumber<std::complex<Real>, MetaPhysicL::DynamicSparseNumberArray<std::complex<Real>, unsigned int>> GeomComplex;
+#else
+typedef Complex GeomComplex;
+#endif
 
 // Helper functions for complex/real numbers
 // to clean up #ifdef LIBMESH_USE_COMPLEX_NUMBERS elsewhere
@@ -186,8 +203,10 @@ inline bool libmesh_isinf(std::complex<T> a)
 // the library was configures
 #if   defined (LIBMESH_USE_REAL_NUMBERS)
 typedef Real Number;
+typedef GeomReal GeomNumber;
 #elif defined (LIBMESH_USE_COMPLEX_NUMBERS)
 typedef Complex Number;
+typedef GeomComplex GeomNumber;
 #else
 DIE A HORRIBLE DEATH HERE...
 #endif

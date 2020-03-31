@@ -133,12 +133,14 @@ public:
  * Useful typedefs to allow transparent switching
  * between Real and Complex data types.
  */
-typedef VectorValue<Real>   RealVectorValue;
-typedef VectorValue<GeomReal> GeomRealVectorValue;
-typedef VectorValue<Number> NumberVectorValue;
-typedef RealVectorValue     RealGradient;
-typedef GeomRealVectorValue GeomRealGradient;
-typedef NumberVectorValue   Gradient;
+typedef VectorValue<Real>       RealVectorValue;
+typedef VectorValue<GeomReal>   GeomRealVectorValue;
+typedef VectorValue<Number>     NumberVectorValue;
+typedef RealVectorValue         RealGradient;
+typedef GeomRealVectorValue     GeomRealGradient;
+typedef NumberVectorValue       Gradient;
+typedef Gradient                NumberGradient;
+typedef VectorValue<GeomNumber> GeomNumberGradient;
 
 
 
