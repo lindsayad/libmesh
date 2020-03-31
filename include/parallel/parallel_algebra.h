@@ -34,11 +34,18 @@
 // TIMPI includes
 #include "timpi/op_function.h"
 #include "timpi/standard_type.h"
+#include "timpi/packing.h"
 
 // C++ includes
 #include <cstddef>
 #include <memory>
 #include <type_traits>
+
+#ifdef LIBMESH_HAVE_METAPHYSICL
+// For parallel GeomReal
+#include "metaphysicl/parallel_dualnumber.h"
+#include "metaphysicl/parallel_dynamicsparsenumberarray.h"
+#endif
 
 namespace TIMPI {
 
@@ -191,6 +198,8 @@ template <>
 class StandardType<Point> : public DataType
 {
 public:
+  template <typename T = libMesh::GeomReal, typename std::enable_if<StandardType<T>::is_fixed_type,
+                                                           int>::type = 0>
   explicit
   StandardType(const Point * example=nullptr)
   {
@@ -211,7 +220,7 @@ public:
         ex = temp.get();
       }
 
-    StandardType<libMesh::Real> T_type(&((*ex)(0)));
+    StandardType<T> T_type(&((*ex)(0)));
 
     int blocklength = LIBMESH_DIM;
     MPI_Aint displs, start;
@@ -245,15 +254,31 @@ public:
 #endif // #ifdef LIBMESH_HAVE_MPI
   }
 
+  template <typename T = libMesh::GeomReal, typename std::enable_if<StandardType<T>::is_fixed_type,
+                                                           int>::type = 0>
   StandardType(const StandardType<Point> & timpi_mpi_var(t))
     : DataType()
   {
     timpi_call_mpi (MPI_Type_dup (t._datatype, &_datatype));
   }
 
+  // GeomReal is_fixed_type free
+  template <
+      typename T = libMesh::GeomReal,
+      typename std::enable_if<StandardType<T>::is_fixed_type, int>::type = 0>
+  void free() {
+    DataType::free();
+  }
+
+  // GeomReal !is_fixed_type free
+  template <
+      typename T = libMesh::GeomReal,
+      typename std::enable_if<!StandardType<T>::is_fixed_type, int>::type = 0>
+  void free() {}
+
   ~StandardType() { this->free(); }
 
-  static const bool is_fixed_type = true;
+  static const bool is_fixed_type = StandardType<libMesh::GeomReal>::is_fixed_type;
 };
 
 // OpFunction<> specializations to return an MPI_Op version of the
@@ -395,5 +420,97 @@ public:
   static const bool is_fixed_type = true;
 };
 } // namespace TIMPI
+
+namespace libMesh
+{
+namespace Parallel
+{
+template <>
+class Packing<Point>
+{
+public:
+  typedef std::size_t buffer_type;
+
+  template <typename OutputIter,
+            typename Context>
+  static void pack(const Point & point, OutputIter data_out, const Context * context);
+
+  template <typename Context>
+  static unsigned int packable_size(const Point & point, const Context * context);
+
+  template <typename BufferIter>
+  static unsigned int packed_size(BufferIter iter);
+
+  template <typename BufferIter, typename Context>
+  static Point unpack(BufferIter in, Context * ctx);
+};
+
+template <>
+template <typename Context>
+unsigned int
+Packing<Point>::
+packable_size(const Point & point,
+              const Context * ctx)
+{
+  unsigned int size = 0;
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    size += Packing<GeomReal>::packable_size(point(i), ctx);
+
+  // Record the size in the first buffer entry
+  return size + 1;
+}
+
+template <>
+template <typename BufferIter>
+unsigned int
+Packing<Point>::
+packed_size(BufferIter iter)
+{
+  // We recorded the size in the first buffer entry
+  return *iter;
+}
+
+template <>
+template <typename OutputIter, typename Context>
+void
+Packing<Point>::
+pack(const Point & point,
+     OutputIter data_out,
+     const Context * ctx)
+{
+  unsigned int size = packable_size(point, ctx);
+
+  // First write out the buffer size
+  *data_out++ = cast_int<std::size_t>(size);
+
+  // Now pack the data. Note that TIMPI uses a back_inserter for `pack_range` so we don't (and
+  // can't) actually increment the iterator with operator+=. operator++ is a no-op
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    Packing<GeomReal>::pack(point(i), data_out, ctx);
+}
+
+template <typename T, typename I>
+template <typename BufferIter, typename Context>
+Point
+Packing<Point>::
+unpack(BufferIter in, Context * ctx)
+{
+  Point point;
+
+  // We don't care about the size
+  in++;
+
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+  {
+    Packing<GeomReal>::unpack(in, ctx);
+    // Make sure we increment the iterator
+    in += Packing<GeomReal>::packable_size(point(i), ctx);
+  }
+
+  return point;
+}
+}
+}
+
 
 #endif // LIBMESH_PARALLEL_ALGEBRA_H
