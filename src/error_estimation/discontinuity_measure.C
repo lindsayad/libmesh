@@ -34,6 +34,7 @@
 #include "libmesh/tensor_tools.h"
 #include "libmesh/enum_error_estimator_type.h"
 #include "libmesh/enum_norm_type.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -97,9 +98,9 @@ DiscontinuityMeasure::internal_side_integration ()
   Real error = 1.e-30;
   unsigned int n_qp = fe_fine->n_quadrature_points();
 
-  std::vector<std::vector<Real>> phi_coarse = fe_coarse->get_phi();
-  std::vector<std::vector<Real>> phi_fine = fe_fine->get_phi();
-  std::vector<Real> JxW_face = fe_fine->get_JxW();
+  std::vector<std::vector<Real>> phi_coarse = MetaPhysicL::raw_value(fe_coarse->get_phi());
+  std::vector<std::vector<Real>> phi_fine = MetaPhysicL::raw_value(fe_fine->get_phi());
+  std::vector<Real> JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
 
   for (unsigned int qp=0; qp != n_qp; ++qp)
     {
@@ -136,8 +137,8 @@ DiscontinuityMeasure::boundary_side_integration ()
   const std::string & var_name =
     fine_context->get_system().variable_name(var);
 
-  std::vector<std::vector<Real>> phi_fine = fe_fine->get_phi();
-  std::vector<Real> JxW_face = fe_fine->get_JxW();
+  std::vector<std::vector<Real>> phi_fine = MetaPhysicL::raw_value(fe_fine->get_phi());
+  std::vector<Real> JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
   std::vector<Point> qface_point = fe_fine->get_xyz();
 
   // The reinitialization also recomputes the locations of

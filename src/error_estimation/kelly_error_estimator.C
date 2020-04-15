@@ -101,10 +101,10 @@ KellyErrorEstimator::internal_side_integration ()
   Real error = 1.e-30;
   unsigned int n_qp = fe_fine->n_quadrature_points();
 
-  std::vector<std::vector<RealGradient>> dphi_coarse = fe_coarse->get_dphi();
-  std::vector<std::vector<RealGradient>> dphi_fine = fe_fine->get_dphi();
+  std::vector<std::vector<RealGradient>> dphi_coarse = MetaPhysicL::raw_value(fe_coarse->get_dphi());
+  std::vector<std::vector<RealGradient>> dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
   std::vector<Point> face_normals = fe_fine->get_normals();
-  std::vector<Real> JxW_face = fe_fine->get_JxW();
+  std::vector<Real> JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
 
   for (unsigned int qp=0; qp != n_qp; ++qp)
     {
@@ -142,9 +142,9 @@ KellyErrorEstimator::boundary_side_integration ()
   const std::string & var_name =
     fine_context->get_system().variable_name(var);
 
-  std::vector<std::vector<RealGradient>> dphi_fine = fe_fine->get_dphi();
+  std::vector<std::vector<RealGradient>> dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
   std::vector<Point> face_normals = fe_fine->get_normals();
-  std::vector<Real> JxW_face = fe_fine->get_JxW();
+  std::vector<Real> JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
   std::vector<Point> qface_point = fe_fine->get_xyz();
 
   // The reinitialization also recomputes the locations of
@@ -156,7 +156,7 @@ KellyErrorEstimator::boundary_side_integration ()
   if (this->_bc_function(fine_context->get_system(),
                          qface_point[0], var_name).first)
     {
-      const Real h = fine_elem.hmax();
+      const Real h = MetaPhysicL::raw_value(fine_elem.hmax());
 
       // The number of quadrature points
       const unsigned int n_qp = fe_fine->n_quadrature_points();

@@ -421,12 +421,12 @@ Real ExactErrorEstimator::find_squared_element_error(const System & system,
   fe->reinit (elem);
 
   // Get the data we need to compute with
-  const std::vector<Real> &                      JxW          = fe->get_JxW();
-  const std::vector<std::vector<Real>> &         phi_values   = fe->get_phi();
-  const std::vector<std::vector<RealGradient>> & dphi_values  = fe->get_dphi();
-  const std::vector<Point> &                     q_point      = fe->get_xyz();
+  std::vector<Real>                       JxW          = MetaPhysicL::raw_value(fe->get_JxW());
+  std::vector<std::vector<Real>>          phi_values   = MetaPhysicL::raw_value(fe->get_phi());
+  std::vector<std::vector<RealGradient>>  dphi_values  = MetaPhysicL::raw_value(fe->get_dphi());
+  std::vector<Point>                      q_point      = fe->get_xyz();
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-  const std::vector<std::vector<RealTensor>> &   d2phi_values = fe->get_d2phi();
+  std::vector<std::vector<RealTensor>>    d2phi_values = MetaPhysicL::raw_value(fe->get_d2phi());
 #endif
 
   // The number of shape functions
