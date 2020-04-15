@@ -224,7 +224,7 @@ void Quad4::connectivity(const unsigned int libmesh_dbg_var(sf),
 
 
 
-Real Quad4::volume () const
+GeomReal Quad4::volume () const
 {
   // Make copies of our points.  It makes the subsequent calculations a bit
   // shorter and avoids dereferencing the same pointer multiple times.
@@ -252,7 +252,7 @@ Real Quad4::volume () const
   // all equal to 1.
   const Real q[2] = {-std::sqrt(3.)/3, std::sqrt(3.)/3.};
 
-  Real vol=0.;
+  GeomReal vol=0.;
   for (unsigned int i=0; i<2; ++i)
     for (unsigned int j=0; j<2; ++j)
       vol += cross_norm(q[j]*a1 + b1,

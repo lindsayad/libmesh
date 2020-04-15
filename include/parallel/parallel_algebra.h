@@ -445,7 +445,6 @@ public:
   static Point unpack(BufferIter in, Context * ctx);
 };
 
-template <>
 template <typename Context>
 unsigned int
 Packing<Point>::
@@ -460,7 +459,6 @@ packable_size(const Point & point,
   return size + 1;
 }
 
-template <>
 template <typename BufferIter>
 unsigned int
 Packing<Point>::
@@ -470,7 +468,6 @@ packed_size(BufferIter iter)
   return *iter;
 }
 
-template <>
 template <typename OutputIter, typename Context>
 void
 Packing<Point>::
@@ -489,7 +486,6 @@ pack(const Point & point,
     Packing<GeomReal>::pack(point(i), data_out, ctx);
 }
 
-template <typename T, typename I>
 template <typename BufferIter, typename Context>
 Point
 Packing<Point>::

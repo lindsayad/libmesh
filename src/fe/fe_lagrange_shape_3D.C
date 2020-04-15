@@ -29,12 +29,12 @@ namespace
 {
 using namespace libMesh;
 
-Real fe_lagrange_3D_shape(const ElemType,
+GeomReal fe_lagrange_3D_shape(const ElemType,
                           const Order order,
                           const unsigned int i,
                           const Point & p);
 
-Real fe_lagrange_3D_shape_deriv(const ElemType type,
+GeomReal fe_lagrange_3D_shape_deriv(const ElemType type,
                                 const Order order,
                                 const unsigned int i,
                                 const unsigned int j,
@@ -42,7 +42,7 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
-Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
+GeomReal fe_lagrange_3D_shape_second_deriv(const ElemType type,
                                        const Order order,
                                        const unsigned int i,
                                        const unsigned int j,
@@ -61,7 +61,7 @@ LIBMESH_DEFAULT_VECTORIZED_FE(3,L2_LAGRANGE)
 
 
 template <>
-Real FE<3,LAGRANGE>::shape(const ElemType type,
+GeomReal FE<3,LAGRANGE>::shape(const ElemType type,
                            const Order order,
                            const unsigned int i,
                            const Point & p)
@@ -72,7 +72,7 @@ Real FE<3,LAGRANGE>::shape(const ElemType type,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape(const ElemType type,
+GeomReal FE<3,L2_LAGRANGE>::shape(const ElemType type,
                               const Order order,
                               const unsigned int i,
                               const Point & p)
@@ -83,7 +83,7 @@ Real FE<3,L2_LAGRANGE>::shape(const ElemType type,
 
 
 template <>
-Real FE<3,LAGRANGE>::shape(const Elem * elem,
+GeomReal FE<3,LAGRANGE>::shape(const Elem * elem,
                            const Order order,
                            const unsigned int i,
                            const Point & p,
@@ -98,7 +98,7 @@ Real FE<3,LAGRANGE>::shape(const Elem * elem,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape(const Elem * elem,
+GeomReal FE<3,L2_LAGRANGE>::shape(const Elem * elem,
                               const Order order,
                               const unsigned int i,
                               const Point & p,
@@ -113,7 +113,7 @@ Real FE<3,L2_LAGRANGE>::shape(const Elem * elem,
 
 
 template <>
-Real FE<3,LAGRANGE>::shape(const FEType fet,
+GeomReal FE<3,LAGRANGE>::shape(const FEType fet,
                            const Elem * elem,
                            const unsigned int i,
                            const Point & p,
@@ -126,7 +126,7 @@ Real FE<3,LAGRANGE>::shape(const FEType fet,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape(const FEType fet,
+GeomReal FE<3,L2_LAGRANGE>::shape(const FEType fet,
                               const Elem * elem,
                               const unsigned int i,
                               const Point & p,
@@ -137,7 +137,7 @@ Real FE<3,L2_LAGRANGE>::shape(const FEType fet,
 }
 
 template <>
-Real FE<3,LAGRANGE>::shape_deriv(const ElemType type,
+GeomReal FE<3,LAGRANGE>::shape_deriv(const ElemType type,
                                  const Order order,
                                  const unsigned int i,
                                  const unsigned int j,
@@ -149,7 +149,7 @@ Real FE<3,LAGRANGE>::shape_deriv(const ElemType type,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape_deriv(const ElemType type,
+GeomReal FE<3,L2_LAGRANGE>::shape_deriv(const ElemType type,
                                     const Order order,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -161,7 +161,7 @@ Real FE<3,L2_LAGRANGE>::shape_deriv(const ElemType type,
 
 
 template <>
-Real FE<3,LAGRANGE>::shape_deriv(const Elem * elem,
+GeomReal FE<3,LAGRANGE>::shape_deriv(const Elem * elem,
                                  const Order order,
                                  const unsigned int i,
                                  const unsigned int j,
@@ -176,7 +176,7 @@ Real FE<3,LAGRANGE>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape_deriv(const Elem * elem,
+GeomReal FE<3,L2_LAGRANGE>::shape_deriv(const Elem * elem,
                                     const Order order,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -191,7 +191,7 @@ Real FE<3,L2_LAGRANGE>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,LAGRANGE>::shape_deriv(const FEType fet,
+GeomReal FE<3,LAGRANGE>::shape_deriv(const FEType fet,
                                  const Elem * elem,
                                  const unsigned int i,
                                  const unsigned int j,
@@ -204,7 +204,7 @@ Real FE<3,LAGRANGE>::shape_deriv(const FEType fet,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape_deriv(const FEType fet,
+GeomReal FE<3,L2_LAGRANGE>::shape_deriv(const FEType fet,
                                     const Elem * elem,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -218,7 +218,7 @@ Real FE<3,L2_LAGRANGE>::shape_deriv(const FEType fet,
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
 template <>
-Real FE<3,LAGRANGE>::shape_second_deriv(const ElemType type,
+GeomReal FE<3,LAGRANGE>::shape_second_deriv(const ElemType type,
                                         const Order order,
                                         const unsigned int i,
                                         const unsigned int j,
@@ -230,7 +230,7 @@ Real FE<3,LAGRANGE>::shape_second_deriv(const ElemType type,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape_second_deriv(const ElemType type,
+GeomReal FE<3,L2_LAGRANGE>::shape_second_deriv(const ElemType type,
                                            const Order order,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -242,7 +242,7 @@ Real FE<3,L2_LAGRANGE>::shape_second_deriv(const ElemType type,
 
 
 template <>
-Real FE<3,LAGRANGE>::shape_second_deriv(const Elem * elem,
+GeomReal FE<3,LAGRANGE>::shape_second_deriv(const Elem * elem,
                                         const Order order,
                                         const unsigned int i,
                                         const unsigned int j,
@@ -259,7 +259,7 @@ Real FE<3,LAGRANGE>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape_second_deriv(const Elem * elem,
+GeomReal FE<3,L2_LAGRANGE>::shape_second_deriv(const Elem * elem,
                                            const Order order,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -275,7 +275,7 @@ Real FE<3,L2_LAGRANGE>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,LAGRANGE>::shape_second_deriv(const FEType fet,
+GeomReal FE<3,LAGRANGE>::shape_second_deriv(const FEType fet,
                                         const Elem * elem,
                                         const unsigned int i,
                                         const unsigned int j,
@@ -290,7 +290,7 @@ Real FE<3,LAGRANGE>::shape_second_deriv(const FEType fet,
 
 
 template <>
-Real FE<3,L2_LAGRANGE>::shape_second_deriv(const FEType fet,
+GeomReal FE<3,L2_LAGRANGE>::shape_second_deriv(const FEType fet,
                                            const Elem * elem,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -313,7 +313,7 @@ namespace
 {
 using namespace libMesh;
 
-Real fe_lagrange_3D_shape(const ElemType type,
+GeomReal fe_lagrange_3D_shape(const ElemType type,
                           const Order order,
                           const unsigned int i,
                           const Point & p)
@@ -335,9 +335,9 @@ Real fe_lagrange_3D_shape(const ElemType type,
               libmesh_assert_less (i, 8);
 
               // Compute hex shape functions as a tensor-product
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               //                                0  1  2  3  4  5  6  7
               static const unsigned int i0[] = {0, 1, 1, 0, 0, 1, 1, 0};
@@ -356,10 +356,10 @@ Real fe_lagrange_3D_shape(const ElemType type,
               libmesh_assert_less (i, 4);
 
               // Area coordinates, pg. 205, Vol. I, Carey, Oden, Becker FEM
-              const Real zeta1 = p(0);
-              const Real zeta2 = p(1);
-              const Real zeta3 = p(2);
-              const Real zeta0 = 1. - zeta1 - zeta2 - zeta3;
+              const GeomReal zeta1 = p(0);
+              const GeomReal zeta2 = p(1);
+              const GeomReal zeta3 = p(2);
+              const GeomReal zeta0 = 1. - zeta1 - zeta2 - zeta3;
 
               switch(i)
                 {
@@ -391,7 +391,7 @@ Real fe_lagrange_3D_shape(const ElemType type,
               // of a triangle and an edge
 
               Point p2d(p(0),p(1));
-              Real p1d = p(2);
+              GeomReal p1d = p(2);
 
               //                                0  1  2  3  4  5
               static const unsigned int i0[] = {0, 0, 0, 1, 1, 1};
@@ -408,9 +408,9 @@ Real fe_lagrange_3D_shape(const ElemType type,
             {
               libmesh_assert_less (i, 5);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               switch(i)
@@ -453,15 +453,15 @@ Real fe_lagrange_3D_shape(const ElemType type,
             {
               libmesh_assert_less (i, 20);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               // these functions are defined for (x,y,z) in [0,1]^3
               // so transform the locations
-              const Real x = .5*(xi   + 1.);
-              const Real y = .5*(eta  + 1.);
-              const Real z = .5*(zeta + 1.);
+              const GeomReal x = .5*(xi   + 1.);
+              const GeomReal y = .5*(eta  + 1.);
+              const GeomReal z = .5*(zeta + 1.);
 
               switch (i)
                 {
@@ -536,9 +536,9 @@ Real fe_lagrange_3D_shape(const ElemType type,
               libmesh_assert_less (i, 27);
 
               // Compute hex shape functions as a tensor-product
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               // The only way to make any sense of this
               // is to look at the mgflo/mg2/mgf documentation
@@ -559,10 +559,10 @@ Real fe_lagrange_3D_shape(const ElemType type,
               libmesh_assert_less (i, 10);
 
               // Area coordinates, pg. 205, Vol. I, Carey, Oden, Becker FEM
-              const Real zeta1 = p(0);
-              const Real zeta2 = p(1);
-              const Real zeta3 = p(2);
-              const Real zeta0 = 1. - zeta1 - zeta2 - zeta3;
+              const GeomReal zeta1 = p(0);
+              const GeomReal zeta2 = p(1);
+              const GeomReal zeta3 = p(2);
+              const GeomReal zeta0 = 1. - zeta1 - zeta2 - zeta3;
 
               switch(i)
                 {
@@ -606,9 +606,9 @@ Real fe_lagrange_3D_shape(const ElemType type,
             {
               libmesh_assert_less (i, 15);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               switch(i)
                 {
@@ -671,7 +671,7 @@ Real fe_lagrange_3D_shape(const ElemType type,
               // of a triangle and an edge
 
               Point p2d(p(0),p(1));
-              Real p1d = p(2);
+              GeomReal p1d = p(2);
 
               //                                0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
               static const unsigned int i0[] = {0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 2, 2};
@@ -688,14 +688,14 @@ Real fe_lagrange_3D_shape(const ElemType type,
             {
               libmesh_assert_less (i, 13);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               // Denominators are perturbed by epsilon to avoid
               // divide-by-zero issues.
-              Real den = (1. - zeta + eps);
+              GeomReal den = (1. - zeta + eps);
 
               switch(i)
                 {
@@ -750,14 +750,14 @@ Real fe_lagrange_3D_shape(const ElemType type,
             {
               libmesh_assert_less (i, 14);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               // The "normalized coordinates" defined by Graglia.  These are
               // the planes which define the faces of the pyramid.
-              Real
+              GeomReal
                 p1 = 0.5*(1. - eta - zeta), // back
                 p2 = 0.5*(1. + xi  - zeta), // left
                 p3 = 0.5*(1. + eta - zeta), // front
@@ -765,7 +765,7 @@ Real fe_lagrange_3D_shape(const ElemType type,
 
               // Denominators are perturbed by epsilon to avoid
               // divide-by-zero issues.
-              Real
+              GeomReal
                 den = (-1. + zeta + eps),
                 den2 = den*den;
 
@@ -838,7 +838,7 @@ Real fe_lagrange_3D_shape(const ElemType type,
 
 
 
-Real fe_lagrange_3D_shape_deriv(const ElemType type,
+GeomReal fe_lagrange_3D_shape_deriv(const ElemType type,
                                 const Order order,
                                 const unsigned int i,
                                 const unsigned int j,
@@ -863,9 +863,9 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
               libmesh_assert_less (i, 8);
 
               // Compute hex shape functions as a tensor-product
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               static const unsigned int i0[] = {0, 1, 1, 0, 0, 1, 1, 0};
               static const unsigned int i1[] = {0, 0, 1, 1, 0, 0, 1, 1};
@@ -900,20 +900,20 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
               libmesh_assert_less (i, 4);
 
               // Area coordinates, pg. 205, Vol. I, Carey, Oden, Becker FEM
-              const Real dzeta0dxi = -1.;
-              const Real dzeta1dxi =  1.;
-              const Real dzeta2dxi =  0.;
-              const Real dzeta3dxi =  0.;
+              const GeomReal dzeta0dxi = -1.;
+              const GeomReal dzeta1dxi =  1.;
+              const GeomReal dzeta2dxi =  0.;
+              const GeomReal dzeta3dxi =  0.;
 
-              const Real dzeta0deta = -1.;
-              const Real dzeta1deta =  0.;
-              const Real dzeta2deta =  1.;
-              const Real dzeta3deta =  0.;
+              const GeomReal dzeta0deta = -1.;
+              const GeomReal dzeta1deta =  0.;
+              const GeomReal dzeta2deta =  1.;
+              const GeomReal dzeta3deta =  0.;
 
-              const Real dzeta0dzeta = -1.;
-              const Real dzeta1dzeta =  0.;
-              const Real dzeta2dzeta =  0.;
-              const Real dzeta3dzeta =  1.;
+              const GeomReal dzeta0dzeta = -1.;
+              const GeomReal dzeta1dzeta =  0.;
+              const GeomReal dzeta2dzeta =  0.;
+              const GeomReal dzeta3dzeta =  1.;
 
               switch (j)
                 {
@@ -999,7 +999,7 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
               // of a triangle and an edge
 
               Point p2d(p(0),p(1));
-              Real p1d = p(2);
+              GeomReal p1d = p(2);
 
               //                                0  1  2  3  4  5
               static const unsigned int i0[] = {0, 0, 0, 1, 1, 1};
@@ -1034,9 +1034,9 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 5);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               switch (j)
@@ -1094,7 +1094,7 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
                   {
                     // We computed the derivatives with general eps and
                     // then let eps tend to zero in the numerators...
-                    Real
+                    GeomReal
                       num = zeta*(2. - zeta) - 1.,
                       den = (1. - zeta + eps)*(1. - zeta + eps);
 
@@ -1139,15 +1139,15 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 20);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               // these functions are defined for (x,y,z) in [0,1]^3
               // so transform the locations
-              const Real x = .5*(xi   + 1.);
-              const Real y = .5*(eta  + 1.);
-              const Real z = .5*(zeta + 1.);
+              const GeomReal x = .5*(xi   + 1.);
+              const GeomReal y = .5*(eta  + 1.);
+              const GeomReal z = .5*(zeta + 1.);
 
               // and don't forget the chain rule!
 
@@ -1395,9 +1395,9 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
               libmesh_assert_less (i, 27);
 
               // Compute hex shape functions as a tensor-product
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               // The only way to make any sense of this
               // is to look at the mgflo/mg2/mgf documentation
@@ -1435,25 +1435,25 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
               libmesh_assert_less (i, 10);
 
               // Area coordinates, pg. 205, Vol. I, Carey, Oden, Becker FEM
-              const Real zeta1 = p(0);
-              const Real zeta2 = p(1);
-              const Real zeta3 = p(2);
-              const Real zeta0 = 1. - zeta1 - zeta2 - zeta3;
+              const GeomReal zeta1 = p(0);
+              const GeomReal zeta2 = p(1);
+              const GeomReal zeta3 = p(2);
+              const GeomReal zeta0 = 1. - zeta1 - zeta2 - zeta3;
 
-              const Real dzeta0dxi = -1.;
-              const Real dzeta1dxi =  1.;
-              const Real dzeta2dxi =  0.;
-              const Real dzeta3dxi =  0.;
+              const GeomReal dzeta0dxi = -1.;
+              const GeomReal dzeta1dxi =  1.;
+              const GeomReal dzeta2dxi =  0.;
+              const GeomReal dzeta3dxi =  0.;
 
-              const Real dzeta0deta = -1.;
-              const Real dzeta1deta =  0.;
-              const Real dzeta2deta =  1.;
-              const Real dzeta3deta =  0.;
+              const GeomReal dzeta0deta = -1.;
+              const GeomReal dzeta1deta =  0.;
+              const GeomReal dzeta2deta =  1.;
+              const GeomReal dzeta3deta =  0.;
 
-              const Real dzeta0dzeta = -1.;
-              const Real dzeta1dzeta =  0.;
-              const Real dzeta2dzeta =  0.;
-              const Real dzeta3dzeta =  1.;
+              const GeomReal dzeta0dzeta = -1.;
+              const GeomReal dzeta1dzeta =  0.;
+              const GeomReal dzeta2dzeta =  0.;
+              const GeomReal dzeta3dzeta =  1.;
 
               switch (j)
                 {
@@ -1588,9 +1588,9 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 15);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               switch (j)
                 {
@@ -1732,7 +1732,7 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
               // of a triangle and an edge
 
               Point p2d(p(0),p(1));
-              Real p1d = p(2);
+              GeomReal p1d = p(2);
 
               //                                0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
               static const unsigned int i0[] = {0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 2, 2};
@@ -1767,14 +1767,14 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 13);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               // Denominators are perturbed by epsilon to avoid
               // divide-by-zero issues.
-              Real
+              GeomReal
                 den = (-1. + zeta + eps),
                 den2 = den*den,
                 xi2 = xi*xi,
@@ -1939,14 +1939,14 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 14);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               // The "normalized coordinates" defined by Graglia.  These are
               // the planes which define the faces of the pyramid.
-              Real
+              GeomReal
                 p1 = 0.5*(1. - eta - zeta), // back
                 p2 = 0.5*(1. + xi  - zeta), // left
                 p3 = 0.5*(1. + eta - zeta), // front
@@ -1954,7 +1954,7 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
 
               // Denominators are perturbed by epsilon to avoid
               // divide-by-zero issues.
-              Real
+              GeomReal
                 den = (-1. + zeta + eps),
                 den2 = den*den,
                 den3 = den2*den;
@@ -2181,7 +2181,7 @@ Real fe_lagrange_3D_shape_deriv(const ElemType type,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
-Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
+GeomReal fe_lagrange_3D_shape_second_deriv(const ElemType type,
                                        const Order order,
                                        const unsigned int i,
                                        const unsigned int j,
@@ -2219,7 +2219,7 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
               // of a triangle and an edge
 
               Point p2d(p(0),p(1));
-              Real p1d = p(2);
+              GeomReal p1d = p(2);
 
               //                                0  1  2  3  4  5
               static const unsigned int i0[] = {0, 0, 0, 1, 1, 1};
@@ -2255,9 +2255,9 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 5);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               switch (j)
@@ -2286,7 +2286,7 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
 
                 case 3: // d^2()/dxidzeta
                   {
-                    Real den = (1. - zeta + eps)*(1. - zeta + eps);
+                    GeomReal den = (1. - zeta + eps)*(1. - zeta + eps);
 
                     switch (i)
                       {
@@ -2305,7 +2305,7 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
 
                 case 4: // d^2()/detadzeta
                   {
-                    Real den = (1. - zeta + eps)*(1. - zeta + eps);
+                    GeomReal den = (1. - zeta + eps)*(1. - zeta + eps);
 
                     switch (i)
                       {
@@ -2324,7 +2324,7 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
 
                 case 5: // d^2()/dzeta^2
                   {
-                    Real den = (1. - zeta + eps)*(1. - zeta + eps)*(1. - zeta + eps);
+                    GeomReal den = (1. - zeta + eps)*(1. - zeta + eps)*(1. - zeta + eps);
 
                     switch (i)
                       {
@@ -2354,9 +2354,9 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
               libmesh_assert_less (i, 8);
 
               // Compute hex shape functions as a tensor-product
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               static const unsigned int i0[] = {0, 1, 1, 0, 0, 1, 1, 0};
               static const unsigned int i1[] = {0, 0, 1, 1, 0, 0, 1, 1};
@@ -2409,15 +2409,15 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 20);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               // these functions are defined for (x,y,z) in [0,1]^3
               // so transform the locations
-              const Real x = .5*(xi   + 1.);
-              const Real y = .5*(eta  + 1.);
-              const Real z = .5*(zeta + 1.);
+              const GeomReal x = .5*(xi   + 1.);
+              const GeomReal y = .5*(eta  + 1.);
+              const GeomReal z = .5*(zeta + 1.);
 
               switch(j)
                 {
@@ -2679,9 +2679,9 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
               libmesh_assert_less (i, 27);
 
               // Compute hex shape functions as a tensor-product
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               // The only way to make any sense of this
               // is to look at the mgflo/mg2/mgf documentation
@@ -2739,11 +2739,11 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
             {
               // The area coordinates are the same as used for the
               // shape() and shape_deriv() functions.
-              // const Real zeta0 = 1. - zeta1 - zeta2 - zeta3;
-              // const Real zeta1 = p(0);
-              // const Real zeta2 = p(1);
-              // const Real zeta3 = p(2);
-              static const Real dzetadxi[4][3] =
+              // const GeomReal zeta0 = 1. - zeta1 - zeta2 - zeta3;
+              // const GeomReal zeta1 = p(0);
+              // const GeomReal zeta2 = p(1);
+              // const GeomReal zeta3 = p(2);
+              static const GeomReal dzetadxi[4][3] =
                 {
                   {-1., -1., -1.},
                   {1.,   0.,  0.},
@@ -2809,9 +2809,9 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 15);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
 
               switch (j)
                 {
@@ -3029,7 +3029,7 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
               // of a triangle and an edge
 
               Point p2d(p(0),p(1));
-              Real p1d = p(2);
+              GeomReal p1d = p(2);
 
               //                                0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17
               static const unsigned int i0[] = {0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 2, 2, 1, 1, 1, 2, 2, 2};
@@ -3080,14 +3080,14 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 14);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               // The "normalized coordinates" defined by Graglia.  These are
               // the planes which define the faces of the pyramid.
-              Real
+              GeomReal
                 p1 = 0.5*(1. - eta - zeta), // back
                 p2 = 0.5*(1. + xi  - zeta), // left
                 p3 = 0.5*(1. + eta - zeta), // front
@@ -3095,14 +3095,14 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
 
               // Denominators are perturbed by epsilon to avoid
               // divide-by-zero issues.
-              Real
+              GeomReal
                 den = (-1. + zeta + eps),
                 den2 = den*den,
                 den3 = den2*den,
                 den4 = den2*den2;
 
               // These terms are used in several of the derivatives
-              Real
+              GeomReal
                 numer_mp = xi*eta - zeta + zeta*zeta,
                 numer_pm = xi*eta + zeta - zeta*zeta;
 
@@ -3597,14 +3597,14 @@ Real fe_lagrange_3D_shape_second_deriv(const ElemType type,
             {
               libmesh_assert_less (i, 13);
 
-              const Real xi   = p(0);
-              const Real eta  = p(1);
-              const Real zeta = p(2);
+              const GeomReal xi   = p(0);
+              const GeomReal eta  = p(1);
+              const GeomReal zeta = p(2);
               const Real eps  = 1.e-35;
 
               // Denominators are perturbed by epsilon to avoid
               // divide-by-zero issues.
-              Real
+              GeomReal
                 den = (-1. + zeta + eps),
                 den2 = den*den,
                 den3 = den2*den,

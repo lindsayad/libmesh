@@ -34,7 +34,7 @@ namespace {
 void lagrange_nodal_soln(const Elem * elem,
                          const Order order,
                          const std::vector<Number> & elem_soln,
-                         std::vector<Number> &       nodal_soln)
+                         std::vector<GeomNumber> &       nodal_soln)
 {
   const unsigned int n_nodes = elem->n_nodes();
   const ElemType type        = elem->type();
@@ -274,7 +274,9 @@ void lagrange_nodal_soln(const Elem * elem,
             {
               // By default the element solution _is_ nodal,
               // so just copy it.
-              nodal_soln = elem_soln;
+              nodal_soln.resize(elem_soln.size());
+              for (std::size_t i = 0; i < elem_soln.size(); ++i)
+                nodal_soln[i] = elem_soln[i];
 
               return;
             }
@@ -304,7 +306,9 @@ void lagrange_nodal_soln(const Elem * elem,
             {
               // By default the element solution _is_ nodal,
               // so just copy it.
-              nodal_soln = elem_soln;
+              nodal_soln.resize(elem_soln.size());
+              for (std::size_t i = 0; i < elem_soln.size(); ++i)
+                nodal_soln[i] = elem_soln[i];
 
               return;
             }
@@ -318,7 +322,9 @@ void lagrange_nodal_soln(const Elem * elem,
       {
         // By default the element solution _is_ nodal,
         // so just copy it.
-        nodal_soln = elem_soln;
+        nodal_soln.resize(elem_soln.size());
+        for (std::size_t i = 0; i < elem_soln.size(); ++i)
+          nodal_soln[i] = elem_soln[i];
 
         return;
       }
@@ -819,28 +825,28 @@ template <>
 void FE<0,LAGRANGE>::nodal_soln(const Elem * elem,
                                 const Order order,
                                 const std::vector<Number> & elem_soln,
-                                std::vector<Number> & nodal_soln)
+                                std::vector<GeomNumber> & nodal_soln)
 { lagrange_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 template <>
 void FE<1,LAGRANGE>::nodal_soln(const Elem * elem,
                                 const Order order,
                                 const std::vector<Number> & elem_soln,
-                                std::vector<Number> & nodal_soln)
+                                std::vector<GeomNumber> & nodal_soln)
 { lagrange_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 template <>
 void FE<2,LAGRANGE>::nodal_soln(const Elem * elem,
                                 const Order order,
                                 const std::vector<Number> & elem_soln,
-                                std::vector<Number> & nodal_soln)
+                                std::vector<GeomNumber> & nodal_soln)
 { lagrange_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 template <>
 void FE<3,LAGRANGE>::nodal_soln(const Elem * elem,
                                 const Order order,
                                 const std::vector<Number> & elem_soln,
-                                std::vector<Number> & nodal_soln)
+                                std::vector<GeomNumber> & nodal_soln)
 { lagrange_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 

@@ -68,20 +68,6 @@ template <unsigned int Dim, FEFamily T_radial, InfMapType T_map>
 class InfFE;
 #endif
 
-template <typename>
-struct MakeOutput;
-
-template <>
-struct MakeOutput<Real>
-{
-  typedef GeomReal type;
-};
-template <>
-struct MakeOutput<RealVectorValue>
-{
-  typedef VectorValue<GeomReal> type;
-};
-
 /**
  * This class forms the foundation from which generic finite
  * elements may be derived.  In the current implementation the

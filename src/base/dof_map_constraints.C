@@ -258,8 +258,8 @@ private:
 
   const AddConstraint     & add_fn;
 
-  static Number f_component (FunctionBase<Number> * f,
-                             FEMFunctionBase<Number> * f_fem,
+  static GeomNumber f_component (FunctionBase<GeomNumber> * f,
+                             FEMFunctionBase<GeomNumber> * f_fem,
                              const FEMContext * c,
                              unsigned int i,
                              const Point & p,
@@ -298,17 +298,17 @@ private:
                             const Variable & variable,
                             const FEType & fe_type) const
   {
-    typedef OutputType                                                      OutputShape;
+    typedef typename MakeOutput<OutputType>::type                           OutputShape;
     typedef typename TensorTools::IncrementRank<OutputShape>::type          OutputGradient;
     //typedef typename TensorTools::IncrementRank<OutputGradient>::type       OutputTensor;
     typedef typename TensorTools::MakeNumber<OutputShape>::type             OutputNumber;
     typedef typename TensorTools::IncrementRank<OutputNumber>::type         OutputNumberGradient;
     //typedef typename TensorTools::IncrementRank<OutputNumberGradient>::type OutputNumberTensor;
 
-    FunctionBase<Number> * f = dirichlet.f.get();
+    FunctionBase<GeomNumber> * f = dirichlet.f.get();
     FunctionBase<Gradient> * g = dirichlet.g.get();
 
-    FEMFunctionBase<Number> * f_fem = dirichlet.f_fem.get();
+    FEMFunctionBase<GeomNumber> * f_fem = dirichlet.f_fem.get();
     FEMFunctionBase<Gradient> * g_fem = dirichlet.g_fem.get();
 
     const System * f_system = dirichlet.f_system;
@@ -328,9 +328,9 @@ private:
     // Fe may be complex valued if complex number
     // support is enabled
     DenseMatrix<Real> Ke;
-    DenseVector<Number> Fe;
+    DenseVector<GeomNumber> Fe;
     // The new element coefficients
-    DenseVector<Number> Ue;
+    DenseVector<GeomNumber> Ue;
 
     // The dimensionality of the current mesh
     const unsigned int dim = mesh.mesh_dimension();
@@ -384,7 +384,7 @@ private:
       }
 
     // The Jacobian * quadrature weight at the quadrature points
-    const std::vector<Real> & JxW = fe->get_JxW();
+    const std::vector<GeomReal> & JxW = fe->get_JxW();
 
     // The XYZ locations of the quadrature points
     const std::vector<Point> & xyz_values = fe->get_xyz();
@@ -685,9 +685,9 @@ private:
                         Gradient gxpyp =
                           g_component(g, g_fem, context.get(), var_component,
                                       nxpyp, time);
-                        Number gxzplus = (gxpyp(2) - gxmyp(2))
+                        GeomNumber gxzplus = (gxpyp(2) - gxmyp(2))
                           / 2. / TOLERANCE;
-                        Number gxzminus = (gxpym(2) - gxmym(2))
+                        GeomNumber gxzminus = (gxpym(2) - gxmym(2))
                           / 2. / TOLERANCE;
                         // xyz derivative
                         Ue(current_dof) = (gxzplus - gxzminus)
@@ -749,7 +749,7 @@ private:
               Ke.resize (free_dofs, free_dofs); Ke.zero();
               Fe.resize (free_dofs); Fe.zero();
               // The new edge coefficients
-              DenseVector<Number> Uedge(free_dofs);
+              DenseVector<GeomNumber> Uedge(free_dofs);
 
               // Initialize FE data on the edge
               fe->attach_quadrature_rule (qedgerule.get());
@@ -837,7 +837,7 @@ private:
               // Transfer new edge solutions to element
               for (unsigned int i=0; i != free_dofs; ++i)
                 {
-                  Number & ui = Ue(side_dofs[free_dof[i]]);
+                  GeomNumber & ui = Ue(side_dofs[free_dof[i]]);
                   libmesh_assert(std::abs(ui) < TOLERANCE ||
                                  std::abs(ui - Uedge(i)) < TOLERANCE);
                   ui = Uedge(i);
@@ -872,7 +872,7 @@ private:
               Ke.resize (free_dofs, free_dofs); Ke.zero();
               Fe.resize (free_dofs); Fe.zero();
               // The new side coefficients
-              DenseVector<Number> Uside(free_dofs);
+              DenseVector<GeomNumber> Uside(free_dofs);
 
               // Initialize FE data on the side
               fe->attach_quadrature_rule (qsiderule.get());
@@ -960,7 +960,7 @@ private:
               // Transfer new side solutions to element
               for (unsigned int i=0; i != free_dofs; ++i)
                 {
-                  Number & ui = Ue(side_dofs[free_dof[i]]);
+                  GeomNumber & ui = Ue(side_dofs[free_dof[i]]);
                   libmesh_assert(std::abs(ui) < TOLERANCE ||
                                  std::abs(ui - Uside(i)) < TOLERANCE);
                   ui = Uside(i);
@@ -993,7 +993,7 @@ private:
               Ke.resize (free_dofs, free_dofs); Ke.zero();
               Fe.resize (free_dofs); Fe.zero();
               // The new shellface coefficients
-              DenseVector<Number> Ushellface(free_dofs);
+              DenseVector<GeomNumber> Ushellface(free_dofs);
 
               // Initialize FE data on the element
               fe->attach_quadrature_rule (qrule.get());
@@ -1083,7 +1083,7 @@ private:
               // Transfer new shellface solutions to element
               for (unsigned int i=0; i != free_dofs; ++i)
                 {
-                  Number & ui = Ue(shellface_dofs[free_dof[i]]);
+                  GeomNumber & ui = Ue(shellface_dofs[free_dof[i]]);
                   libmesh_assert(std::abs(ui) < TOLERANCE ||
                                  std::abs(ui - Ushellface(i)) < TOLERANCE);
                   ui = Ushellface(i);
@@ -1363,7 +1363,7 @@ void DofMap::create_dof_constraints(const MeshBase & mesh, Real time)
 
 void DofMap::add_constraint_row (const dof_id_type dof_number,
                                  const DofConstraintRow & constraint_row,
-                                 const Number constraint_rhs,
+                                 const GeomNumber constraint_rhs,
                                  const bool forbid_constraint_overwrite)
 {
   // Optionally allow the user to overwrite constraints.  Defaults to false.
@@ -1400,7 +1400,7 @@ void DofMap::add_constraint_row (const dof_id_type dof_number,
 void DofMap::add_adjoint_constraint_row (const unsigned int qoi_index,
                                          const dof_id_type dof_number,
                                          const DofConstraintRow & /*constraint_row*/,
-                                         const Number constraint_rhs,
+                                         const GeomNumber constraint_rhs,
                                          const bool forbid_constraint_overwrite)
 {
   // Optionally allow the user to overwrite constraints.  Defaults to false.
@@ -1522,7 +1522,7 @@ std::string DofMap::get_local_constraints(bool print_nonlocal) const
       const DofConstraintRow & row = pr.second;
       DofConstraintValueMap::const_iterator rhsit =
         _primal_constraint_values.find(i);
-      const Number rhs = (rhsit == _primal_constraint_values.end()) ?
+      const GeomNumber rhs = (rhsit == _primal_constraint_values.end()) ?
         0 : rhsit->second;
 
       os << "Constraints for DoF " << i
@@ -1554,7 +1554,7 @@ std::string DofMap::get_local_constraints(bool print_nonlocal) const
             if (!print_nonlocal && !this->local_index(i))
               continue;
 
-            const Number rhs = pr.second;
+            const GeomNumber rhs = pr.second;
 
             os << "RHS for DoF " << i
                << ": " << rhs;
@@ -1568,7 +1568,7 @@ std::string DofMap::get_local_constraints(bool print_nonlocal) const
 
 
 
-void DofMap::constrain_element_matrix (DenseMatrix<Number> & matrix,
+void DofMap::constrain_element_matrix (DenseMatrix<GeomNumber> & matrix,
                                        std::vector<dof_id_type> & elem_dofs,
                                        bool asymmetric_constraint_rows) const
 {
@@ -1580,7 +1580,7 @@ void DofMap::constrain_element_matrix (DenseMatrix<Number> & matrix,
     return;
 
   // The constrained matrix is built up as C^T K C.
-  DenseMatrix<Number> C;
+  DenseMatrix<GeomNumber> C;
 
 
   this->build_constraint_matrix (C, elem_dofs);
@@ -1638,8 +1638,8 @@ void DofMap::constrain_element_matrix (DenseMatrix<Number> & matrix,
 
 
 
-void DofMap::constrain_element_matrix_and_vector (DenseMatrix<Number> & matrix,
-                                                  DenseVector<Number> & rhs,
+void DofMap::constrain_element_matrix_and_vector (DenseMatrix<GeomNumber> & matrix,
+                                                  DenseVector<GeomNumber> & rhs,
                                                   std::vector<dof_id_type> & elem_dofs,
                                                   bool asymmetric_constraint_rows) const
 {
@@ -1653,7 +1653,7 @@ void DofMap::constrain_element_matrix_and_vector (DenseMatrix<Number> & matrix,
 
   // The constrained matrix is built up as C^T K C.
   // The constrained RHS is built up as C^T F
-  DenseMatrix<Number> C;
+  DenseMatrix<GeomNumber> C;
 
   this->build_constraint_matrix (C, elem_dofs);
 
@@ -1708,7 +1708,7 @@ void DofMap::constrain_element_matrix_and_vector (DenseMatrix<Number> & matrix,
 
 
       // Compute the matrix-vector product C^T F
-      DenseVector<Number> old_rhs(rhs);
+      DenseVector<GeomNumber> old_rhs(rhs);
 
       // compute matrix/vector product
       C.vector_mult_transpose(rhs, old_rhs);
@@ -1717,8 +1717,8 @@ void DofMap::constrain_element_matrix_and_vector (DenseMatrix<Number> & matrix,
 
 
 
-void DofMap::heterogenously_constrain_element_matrix_and_vector (DenseMatrix<Number> & matrix,
-                                                                 DenseVector<Number> & rhs,
+void DofMap::heterogenously_constrain_element_matrix_and_vector (DenseMatrix<GeomNumber> & matrix,
+                                                                 DenseVector<GeomNumber> & rhs,
                                                                  std::vector<dof_id_type> & elem_dofs,
                                                                  bool asymmetric_constraint_rows,
                                                                  int qoi_index) const
@@ -1733,8 +1733,8 @@ void DofMap::heterogenously_constrain_element_matrix_and_vector (DenseMatrix<Num
 
   // The constrained matrix is built up as C^T K C.
   // The constrained RHS is built up as C^T (F - K H)
-  DenseMatrix<Number> C;
-  DenseVector<Number> H;
+  DenseMatrix<GeomNumber> C;
+  DenseVector<GeomNumber> H;
 
   this->build_constraint_matrix_and_vector (C, H, elem_dofs, qoi_index);
 
@@ -1757,11 +1757,11 @@ void DofMap::heterogenously_constrain_element_matrix_and_vector (DenseMatrix<Num
         }
 
       // Compute matrix/vector product K H
-      DenseVector<Number> KH;
+      DenseVector<GeomNumber> KH;
       matrix.vector_mult(KH, H);
 
       // Compute the matrix-vector product C^T (F - KH)
-      DenseVector<Number> F_minus_KH(rhs);
+      DenseVector<GeomNumber> F_minus_KH(rhs);
       F_minus_KH -= KH;
       C.vector_mult_transpose(rhs, F_minus_KH);
 
@@ -1823,8 +1823,8 @@ void DofMap::heterogenously_constrain_element_matrix_and_vector (DenseMatrix<Num
 
 
 
-void DofMap::heterogenously_constrain_element_vector (const DenseMatrix<Number> & matrix,
-                                                      DenseVector<Number> & rhs,
+void DofMap::heterogenously_constrain_element_vector (const DenseMatrix<GeomNumber> & matrix,
+                                                      DenseVector<GeomNumber> & rhs,
                                                       std::vector<dof_id_type> & elem_dofs,
                                                       bool asymmetric_constraint_rows,
                                                       int qoi_index) const
@@ -1839,8 +1839,8 @@ void DofMap::heterogenously_constrain_element_vector (const DenseMatrix<Number> 
 
   // The constrained matrix is built up as C^T K C.
   // The constrained RHS is built up as C^T (F - K H)
-  DenseMatrix<Number> C;
-  DenseVector<Number> H;
+  DenseMatrix<GeomNumber> C;
+  DenseVector<GeomNumber> H;
 
   this->build_constraint_matrix_and_vector (C, H, elem_dofs, qoi_index);
 
@@ -1863,11 +1863,11 @@ void DofMap::heterogenously_constrain_element_vector (const DenseMatrix<Number> 
         }
 
       // Compute matrix/vector product K H
-      DenseVector<Number> KH;
+      DenseVector<GeomNumber> KH;
       matrix.vector_mult(KH, H);
 
       // Compute the matrix-vector product C^T (F - KH)
-      DenseVector<Number> F_minus_KH(rhs);
+      DenseVector<GeomNumber> F_minus_KH(rhs);
       F_minus_KH -= KH;
       C.vector_mult_transpose(rhs, F_minus_KH);
 
@@ -1901,7 +1901,7 @@ void DofMap::heterogenously_constrain_element_vector (const DenseMatrix<Number> 
 
 
 
-void DofMap::constrain_element_matrix (DenseMatrix<Number> & matrix,
+void DofMap::constrain_element_matrix (DenseMatrix<GeomNumber> & matrix,
                                        std::vector<dof_id_type> & row_dofs,
                                        std::vector<dof_id_type> & col_dofs,
                                        bool asymmetric_constraint_rows) const
@@ -1914,8 +1914,8 @@ void DofMap::constrain_element_matrix (DenseMatrix<Number> & matrix,
     return;
 
   // The constrained matrix is built up as R^T K C.
-  DenseMatrix<Number> R;
-  DenseMatrix<Number> C;
+  DenseMatrix<GeomNumber> R;
+  DenseMatrix<GeomNumber> C;
 
   // Safeguard against the user passing us the same
   // object for row_dofs and col_dofs.  If that is done
@@ -1993,7 +1993,7 @@ void DofMap::constrain_element_matrix (DenseMatrix<Number> & matrix,
 
 
 
-void DofMap::constrain_element_vector (DenseVector<Number> & rhs,
+void DofMap::constrain_element_vector (DenseVector<GeomNumber> & rhs,
                                        std::vector<dof_id_type> & row_dofs,
                                        bool) const
 {
@@ -2004,7 +2004,7 @@ void DofMap::constrain_element_vector (DenseVector<Number> & rhs,
     return;
 
   // The constrained RHS is built up as R^T F.
-  DenseMatrix<Number> R;
+  DenseMatrix<GeomNumber> R;
 
   this->build_constraint_matrix (R, row_dofs);
 
@@ -2015,7 +2015,7 @@ void DofMap::constrain_element_vector (DenseVector<Number> & rhs,
       (R.n() == row_dofs.size())) // if the RHS is constrained
     {
       // Compute the matrix-vector product
-      DenseVector<Number> old_rhs(rhs);
+      DenseVector<GeomNumber> old_rhs(rhs);
       R.vector_mult_transpose(rhs, old_rhs);
 
       libmesh_assert_equal_to (row_dofs.size(), rhs.size());
@@ -2035,8 +2035,8 @@ void DofMap::constrain_element_vector (DenseVector<Number> & rhs,
 
 
 
-void DofMap::constrain_element_dyad_matrix (DenseVector<Number> & v,
-                                            DenseVector<Number> & w,
+void DofMap::constrain_element_dyad_matrix (DenseVector<GeomNumber> & v,
+                                            DenseVector<GeomNumber> & w,
                                             std::vector<dof_id_type> & row_dofs,
                                             bool) const
 {
@@ -2048,7 +2048,7 @@ void DofMap::constrain_element_dyad_matrix (DenseVector<Number> & v,
     return;
 
   // The constrained RHS is built up as R^T F.
-  DenseMatrix<Number> R;
+  DenseMatrix<GeomNumber> R;
 
   this->build_constraint_matrix (R, row_dofs);
 
@@ -2059,8 +2059,8 @@ void DofMap::constrain_element_dyad_matrix (DenseVector<Number> & v,
       (R.n() == row_dofs.size())) // if the RHS is constrained
     {
       // Compute the matrix-vector products
-      DenseVector<Number> old_v(v);
-      DenseVector<Number> old_w(w);
+      DenseVector<GeomNumber> old_v(v);
+      DenseVector<GeomNumber> old_w(w);
 
       // compute matrix/vector product
       R.vector_mult_transpose(v, old_v);
@@ -2094,7 +2094,7 @@ void DofMap::constrain_nothing (std::vector<dof_id_type> & dofs) const
 
   // All the work is done by \p build_constraint_matrix.  We just need
   // a dummy matrix.
-  DenseMatrix<Number> R;
+  DenseMatrix<GeomNumber> R;
   this->build_constraint_matrix (R, dofs);
 }
 
@@ -2405,7 +2405,7 @@ DofMap::max_constraint_error (const System & system,
       std::vector<dof_id_type> raw_dof_indices = local_dof_indices;
 
       // Constraint matrix for each element
-      DenseMatrix<Number> C;
+      DenseMatrix<GeomNumber> C;
 
       this->build_constraint_matrix (C, local_dof_indices);
 

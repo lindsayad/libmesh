@@ -6,6 +6,7 @@
 #include <libmesh/mesh_function.h>
 #include <libmesh/numeric_vector.h>
 #include <libmesh/elem.h>
+#include <libmesh/raw_type.h>
 
 #include "test_comm.h"
 #include "libmesh_cppunit.h"
@@ -13,7 +14,7 @@
 
 using namespace libMesh;
 
-Number projection_function (const Point & p,
+GeomNumber projection_function (const Point & p,
                             const Parameters &,
                             const std::string &,
                             const std::string &)
@@ -98,7 +99,7 @@ public:
 
     mesh_function->init();
     mesh_function->set_point_locator_tolerance(0.0001);
-    DenseVector<Number> vec_values;
+    DenseVector<GeomNumber> vec_values;
     std::string dummy;
 
     // Make sure the MeshFunction's values interpolate the projected solution
@@ -106,15 +107,15 @@ public:
     for (const auto & node : mesh.local_node_ptr_range())
       {
         (*mesh_function)(*node, /*time=*/ 0., vec_values);
-        Number mesh_function_value =
+        GeomNumber mesh_function_value =
           projection_function(*node,
                               es.parameters,
                               dummy,
                               dummy);
 
         LIBMESH_ASSERT_FP_EQUAL
-          (libmesh_real(vec_values(0)),
-           libmesh_real(mesh_function_value),
+          (libmesh_real(MetaPhysicL::raw_value(vec_values(0))),
+           libmesh_real(MetaPhysicL::raw_value(mesh_function_value)),
            TOLERANCE*TOLERANCE);
       }
   }

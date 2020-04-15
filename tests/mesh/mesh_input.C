@@ -8,6 +8,7 @@
 #include <libmesh/dyna_io.h>
 #include <libmesh/exodusII_io.h>
 #include <libmesh/dof_map.h>
+#include <libmesh/raw_type.h>
 
 #include "test_comm.h"
 #include "libmesh_cppunit.h"
@@ -16,13 +17,13 @@
 using namespace libMesh;
 
 
-Number x_plus_y (const Point& p,
-                 const Parameters&,
-                 const std::string&,
-                 const std::string&)
+GeomNumber x_plus_y (const Point& p,
+                     const Parameters&,
+                     const std::string&,
+                     const std::string&)
 {
-  const Real & x = p(0);
-  const Real & y = p(1);
+  const GeomReal & x = p(0);
+  const GeomReal & y = p(1);
 
   return x + y;
 }
@@ -154,8 +155,8 @@ public:
         for (Real y = Real(1.L/6.L); y < 1; y += Real(1.L/3.L))
           {
             Point p(x,y);
-            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(sys.point_value(0,p)),
-                                    libmesh_real(x+y),
+            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(sys.point_value(0,p))),
+                                    libmesh_real(MetaPhysicL::raw_value(x+y)),
                                     exotol);
           }
     }
@@ -237,9 +238,9 @@ public:
       for (const auto & elem : mesh.active_element_ptr_range())
         for (auto i : index_range(file_var_names))
           {
-            Real read_val = sys.point_value(i, elem->centroid());
+            GeomReal read_val = sys.point_value(i, elem->centroid());
             LIBMESH_ASSERT_FP_EQUAL
-              (expected_values[i], read_val, TOLERANCE*TOLERANCE);
+              (expected_values[i], MetaPhysicL::raw_value(read_val), TOLERANCE*TOLERANCE);
           }
     } // end second scope
   } // end testExodusWriteElementDataFromDiscontinuousNodalData
@@ -284,18 +285,18 @@ public:
             (elem->node_ref(n).get_extra_datum<Real>(weight_index),
              Real(0.75));
 
-        CPPUNIT_ASSERT_EQUAL(elem->point(0)(0), Real(0.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(0)(1), Real(0.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(1)(0), Real(1.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(1)(1), Real(0.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(2)(0), Real(1.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(2)(1), Real(1.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(3)(0), Real(0.5));
-        CPPUNIT_ASSERT_EQUAL(elem->point(3)(1), Real(1.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(0)(0)), Real(0.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(0)(1)), Real(0.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(1)(0)), Real(1.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(1)(1)), Real(0.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(2)(0)), Real(1.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(2)(1)), Real(1.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(3)(0)), Real(0.5));
+        CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(3)(1)), Real(1.5));
         CPPUNIT_ASSERT(elem->has_affine_map());
 #if LIBMESH_DIM > 2
         for (unsigned int v=0; v != 4; ++v)
-          CPPUNIT_ASSERT_EQUAL(elem->point(v)(2), Real(0));
+          CPPUNIT_ASSERT_EQUAL(MetaPhysicL::raw_value(elem->point(v)(2)), Real(0));
 #endif
       }
   }
@@ -330,7 +331,7 @@ public:
       {
         if (elem->type() == NODEELEM)
           continue;
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(0.04), elem->volume(), TOLERANCE);
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(0.04), MetaPhysicL::raw_value(elem->volume()), TOLERANCE);
 
         for (unsigned int n=0; n != 9; ++n)
           CPPUNIT_ASSERT_EQUAL

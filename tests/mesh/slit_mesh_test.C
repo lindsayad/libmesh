@@ -14,7 +14,7 @@
 
 using namespace libMesh;
 
-class SlitFunc : public FEMFunctionBase<Number>
+class SlitFunc : public FEMFunctionBase<GeomNumber>
 {
 public:
 
@@ -24,20 +24,20 @@ public:
 
   virtual void init_context (const FEMContext &) override {}
 
-  virtual std::unique_ptr<FEMFunctionBase<Number>>
+  virtual std::unique_ptr<FEMFunctionBase<GeomNumber>>
   clone () const override
   {
     return libmesh_make_unique<SlitFunc>();
   }
 
-  virtual Number operator() (const FEMContext & c,
-                             const Point & p,
-                             const Real /*time*/ = 0.) override
+  virtual GeomNumber operator() (const FEMContext & c,
+                                 const Point & p,
+                                 const Real /*time*/ = 0.) override
   {
-    const Real & x = p(0);
-    const Real & y = p(1);
+    const GeomReal & x = p(0);
+    const GeomReal & y = p(1);
     const Point centroid = c.get_elem().centroid();
-    const Real sign = centroid(1)/std::abs(centroid(1));
+    const GeomReal sign = centroid(1)/std::abs(centroid(1));
 
     return (1 - std::abs(1-x)) * (1-std::abs(y)) * sign;
   }
@@ -45,7 +45,7 @@ public:
   virtual void operator() (const FEMContext & c,
                            const Point & p,
                            const Real time,
-                           DenseVector<Number> & output) override
+                           DenseVector<GeomNumber> & output) override
   {
     for (unsigned int i=0; i != output.size(); ++i)
       output(i) = (*this)(c, p, time);
@@ -321,12 +321,12 @@ public:
 
         for (unsigned int qp=0; qp != n_qp; ++qp)
           {
-            const Number exact_val = slitfunc(context, xyz[qp]);
+            const GeomNumber exact_val = slitfunc(context, xyz[qp]);
 
-            const Number discrete_val = context.interior_value(0, qp);
+            const GeomNumber discrete_val = context.interior_value(0, qp);
 
-            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(exact_val),
-                                    libmesh_real(discrete_val),
+            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(exact_val)),
+                                    libmesh_real(MetaPhysicL::raw_value(discrete_val)),
                                     TOLERANCE*TOLERANCE);
           }
       }
@@ -389,12 +389,12 @@ public:
 
         for (unsigned int qp=0; qp != n_qp; ++qp)
           {
-            const Number exact_val = slitfunc(context, xyz[qp]);
+            const GeomNumber exact_val = slitfunc(context, xyz[qp]);
 
-            const Number discrete_val = context.interior_value(0, qp);
+            const GeomNumber discrete_val = context.interior_value(0, qp);
 
-            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(exact_val),
-                                    libmesh_real(discrete_val),
+            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(exact_val)),
+                                    libmesh_real(MetaPhysicL::raw_value(discrete_val)),
                                     TOLERANCE*TOLERANCE);
           }
       }

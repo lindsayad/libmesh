@@ -36,7 +36,7 @@ static const FEFamily _underlying_fe_family = BERNSTEIN;
 void rational_nodal_soln(const Elem * elem,
                          const Order order,
                          const std::vector<Number> & elem_soln,
-                         std::vector<Number> &       nodal_soln,
+                         std::vector<GeomNumber> &       nodal_soln,
                          unsigned Dim)
 {
   const unsigned int n_nodes = elem->n_nodes();
@@ -119,28 +119,28 @@ template <>
 void FE<0,RATIONAL_BERNSTEIN>::nodal_soln(const Elem * elem,
                                           const Order order,
                                           const std::vector<Number> & elem_soln,
-                                          std::vector<Number> & nodal_soln)
+                                          std::vector<GeomNumber> & nodal_soln)
 { rational_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/0); }
 
 template <>
 void FE<1,RATIONAL_BERNSTEIN>::nodal_soln(const Elem * elem,
                                             const Order order,
                                             const std::vector<Number> & elem_soln,
-                                            std::vector<Number> & nodal_soln)
+                                            std::vector<GeomNumber> & nodal_soln)
 { rational_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/1); }
 
 template <>
 void FE<2,RATIONAL_BERNSTEIN>::nodal_soln(const Elem * elem,
                                             const Order order,
                                             const std::vector<Number> & elem_soln,
-                                            std::vector<Number> & nodal_soln)
+                                            std::vector<GeomNumber> & nodal_soln)
 { rational_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/2); }
 
 template <>
 void FE<3,RATIONAL_BERNSTEIN>::nodal_soln(const Elem * elem,
                                             const Order order,
                                             const std::vector<Number> & elem_soln,
-                                            std::vector<Number> & nodal_soln)
+                                            std::vector<GeomNumber> & nodal_soln)
 { rational_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/3); }
 
 

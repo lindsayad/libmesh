@@ -341,7 +341,7 @@ public:
    */
   static void nodal_soln(const Elem * elem, const Order o,
                          const std::vector<Number> & elem_soln,
-                         std::vector<Number> & nodal_soln);
+                         std::vector<GeomNumber> & nodal_soln);
 
   /**
    * \returns The number of shape functions associated with

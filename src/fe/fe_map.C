@@ -1873,8 +1873,8 @@ Point FEMap::inverse_map (const unsigned int dim,
             libmesh_try
               {
                 GeomRealTensorValue(dxi(0), deta(0), dzeta(0),
-                                dxi(1), deta(1), dzeta(1),
-                                dxi(2), deta(2), dzeta(2)).solve(delta, dp);
+                                    dxi(1), deta(1), dzeta(1),
+                                    dxi(2), deta(2), dzeta(2)).solve(delta, dp);
               }
             libmesh_catch (ConvergenceFailure &)
               {

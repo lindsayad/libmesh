@@ -35,7 +35,7 @@ namespace {
 void hierarchic_nodal_soln(const Elem * elem,
                            const Order order,
                            const std::vector<Number> & elem_soln,
-                           std::vector<Number> &       nodal_soln,
+                           std::vector<GeomNumber> &       nodal_soln,
                            unsigned Dim)
 {
   const unsigned int n_nodes = elem->n_nodes();
@@ -323,28 +323,28 @@ template <>
 void FE<0,HIERARCHIC>::nodal_soln(const Elem * elem,
                                   const Order order,
                                   const std::vector<Number> & elem_soln,
-                                  std::vector<Number> & nodal_soln)
+                                  std::vector<GeomNumber> & nodal_soln)
 { hierarchic_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/0); }
 
 template <>
 void FE<1,HIERARCHIC>::nodal_soln(const Elem * elem,
                                   const Order order,
                                   const std::vector<Number> & elem_soln,
-                                  std::vector<Number> & nodal_soln)
+                                  std::vector<GeomNumber> & nodal_soln)
 { hierarchic_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/1); }
 
 template <>
 void FE<2,HIERARCHIC>::nodal_soln(const Elem * elem,
                                   const Order order,
                                   const std::vector<Number> & elem_soln,
-                                  std::vector<Number> & nodal_soln)
+                                  std::vector<GeomNumber> & nodal_soln)
 { hierarchic_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/2); }
 
 template <>
 void FE<3,HIERARCHIC>::nodal_soln(const Elem * elem,
                                   const Order order,
                                   const std::vector<Number> & elem_soln,
-                                  std::vector<Number> & nodal_soln)
+                                  std::vector<GeomNumber> & nodal_soln)
 { hierarchic_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/3); }
 
 

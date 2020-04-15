@@ -30,7 +30,7 @@ namespace
 using namespace libMesh;
 
 // Compute the static coefficients for an element
-void hermite_compute_coefs(const Elem * elem, Real & d1xd1x, Real & d2xd2x)
+void hermite_compute_coefs(const Elem * elem, GeomReal & d1xd1x, GeomReal & d2xd2x)
 {
   const FEFamily mapping_family = FEMap::map_fe_type(*elem);
   const ElemType mapping_elem_type (elem->type());
@@ -46,8 +46,8 @@ void hermite_compute_coefs(const Elem * elem, Real & d1xd1x, Real & d2xd2x)
   dofpt.push_back(Point(1));
 
   // Mapping functions - first derivatives at each dofpt
-  std::vector<Real> dxdxi(2);
-  std::vector<Real> dxidx(2);
+  std::vector<GeomReal> dxdxi(2);
+  std::vector<GeomReal> dxidx(2);
 
   FEInterface::shape_deriv_ptr shape_deriv_ptr =
     FEInterface::shape_deriv_function(1, map_fe_type, mapping_elem_type);
@@ -57,7 +57,7 @@ void hermite_compute_coefs(const Elem * elem, Real & d1xd1x, Real & d2xd2x)
       dxdxi[p] = 0;
       for (int i = 0; i != n_mapping_shape_functions; ++i)
         {
-          const Real ddxi = shape_deriv_ptr
+          const GeomReal ddxi = shape_deriv_ptr
             (map_fe_type, elem, i, 0, dofpt[p], false);
           dxdxi[p] += elem->point(i)(0) * ddxi;
         }
@@ -83,7 +83,7 @@ LIBMESH_DEFAULT_VECTORIZED_FE(1,HERMITE)
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
 template<>
-Real FEHermite<1>::hermite_raw_shape_second_deriv (const unsigned int i, const Real xi)
+GeomReal FEHermite<1>::hermite_raw_shape_second_deriv (const unsigned int i, const GeomReal xi)
 {
   using Utility::pow;
 
@@ -105,7 +105,8 @@ Real FEHermite<1>::hermite_raw_shape_second_deriv (const unsigned int i, const R
       //        return (8.*pow<4>(xi) + 20.*xi*xi*(xi*xi-1.) +
       //          2.*(xi*xi-1)*(xi*xi-1))/720.;
     default:
-      Real denominator = 720., xipower = 1.;
+      Real denominator = 720.;
+      GeomReal xipower = 1.;
       for (unsigned n=6; n != i; ++n)
         {
           xipower *= xi;
@@ -121,7 +122,7 @@ Real FEHermite<1>::hermite_raw_shape_second_deriv (const unsigned int i, const R
 
 
 template<>
-Real FEHermite<1>::hermite_raw_shape_deriv(const unsigned int i, const Real xi)
+GeomReal FEHermite<1>::hermite_raw_shape_deriv(const unsigned int i, const GeomReal xi)
 {
   switch (i)
     {
@@ -140,7 +141,8 @@ Real FEHermite<1>::hermite_raw_shape_deriv(const unsigned int i, const Real xi)
       //      case 6:
       //        return (4*xi*xi*xi*(xi*xi-1.) + 2*xi*(xi*xi-1.)*(xi*xi-1.))/720.;
     default:
-      Real denominator = 720., xipower = 1.;
+      Real denominator = 720.;
+      GeomReal xipower = 1.;
       for (unsigned n=6; n != i; ++n)
         {
           xipower *= xi;
@@ -152,7 +154,7 @@ Real FEHermite<1>::hermite_raw_shape_deriv(const unsigned int i, const Real xi)
 }
 
 template<>
-Real FEHermite<1>::hermite_raw_shape(const unsigned int i, const Real xi)
+GeomReal FEHermite<1>::hermite_raw_shape(const unsigned int i, const GeomReal xi)
 {
   switch (i)
     {
@@ -172,7 +174,8 @@ Real FEHermite<1>::hermite_raw_shape(const unsigned int i, const Real xi)
       //      case 6:
       //        return xi*xi * (xi*xi-1.) * (xi*xi-1.)/720.;
     default:
-      Real denominator = 720., xipower = 1.;
+      Real denominator = 720.;
+      GeomReal xipower = 1.;
       for (unsigned n=6; n != i; ++n)
         {
           xipower *= xi;
@@ -185,7 +188,7 @@ Real FEHermite<1>::hermite_raw_shape(const unsigned int i, const Real xi)
 
 
 template <>
-Real FE<1,HERMITE>::shape(const Elem * elem,
+GeomReal FE<1,HERMITE>::shape(const Elem * elem,
                           const Order libmesh_dbg_var(order),
                           const unsigned int i,
                           const Point & p,
@@ -196,7 +199,7 @@ Real FE<1,HERMITE>::shape(const Elem * elem,
   // Coefficient naming: d(1)d(2n) is the coefficient of the
   // global shape function corresponding to value 1 in terms of the
   // local shape function corresponding to normal derivative 2
-  Real d1xd1x, d2xd2x;
+  GeomReal d1xd1x, d2xd2x;
 
   hermite_compute_coefs(elem, d1xd1x, d2xd2x);
 
@@ -237,7 +240,7 @@ Real FE<1,HERMITE>::shape(const Elem * elem,
 
 
 template <>
-Real FE<1,HERMITE>::shape(const ElemType,
+GeomReal FE<1,HERMITE>::shape(const ElemType,
                           const Order,
                           const unsigned int,
                           const Point &)
@@ -248,7 +251,7 @@ Real FE<1,HERMITE>::shape(const ElemType,
 
 
 template <>
-Real FE<1,HERMITE>::shape(const FEType fet,
+GeomReal FE<1,HERMITE>::shape(const FEType fet,
                           const Elem * elem,
                           const unsigned int i,
                           const Point & p,
@@ -259,7 +262,7 @@ Real FE<1,HERMITE>::shape(const FEType fet,
 
 
 template <>
-Real FE<1,HERMITE>::shape_deriv(const Elem * elem,
+GeomReal FE<1,HERMITE>::shape_deriv(const Elem * elem,
                                 const Order libmesh_dbg_var(order),
                                 const unsigned int i,
                                 const unsigned int,
@@ -271,7 +274,7 @@ Real FE<1,HERMITE>::shape_deriv(const Elem * elem,
   // Coefficient naming: d(1)d(2n) is the coefficient of the
   // global shape function corresponding to value 1 in terms of the
   // local shape function corresponding to normal derivative 2
-  Real d1xd1x, d2xd2x;
+  GeomReal d1xd1x, d2xd2x;
 
   hermite_compute_coefs(elem, d1xd1x, d2xd2x);
 
@@ -311,7 +314,7 @@ Real FE<1,HERMITE>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<1,HERMITE>::shape_deriv(const ElemType,
+GeomReal FE<1,HERMITE>::shape_deriv(const ElemType,
                                 const Order,
                                 const unsigned int,
                                 const unsigned int,
@@ -322,7 +325,7 @@ Real FE<1,HERMITE>::shape_deriv(const ElemType,
 }
 
 template <>
-Real FE<1,HERMITE>::shape_deriv(const FEType fet,
+GeomReal FE<1,HERMITE>::shape_deriv(const FEType fet,
                                 const Elem * elem,
                                 const unsigned int i,
                                 const unsigned int j,
@@ -336,7 +339,7 @@ Real FE<1,HERMITE>::shape_deriv(const FEType fet,
 
 
 template <>
-Real FE<1,HERMITE>::shape_second_deriv(const Elem * elem,
+GeomReal FE<1,HERMITE>::shape_second_deriv(const Elem * elem,
                                        const Order libmesh_dbg_var(order),
                                        const unsigned int i,
                                        const unsigned int,
@@ -348,7 +351,7 @@ Real FE<1,HERMITE>::shape_second_deriv(const Elem * elem,
   // Coefficient naming: d(1)d(2n) is the coefficient of the
   // global shape function corresponding to value 1 in terms of the
   // local shape function corresponding to normal derivative 2
-  Real d1xd1x, d2xd2x;
+  GeomReal d1xd1x, d2xd2x;
 
   hermite_compute_coefs(elem, d1xd1x, d2xd2x);
 
@@ -388,7 +391,7 @@ Real FE<1,HERMITE>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<1,HERMITE>::shape_second_deriv(const ElemType,
+GeomReal FE<1,HERMITE>::shape_second_deriv(const ElemType,
                                        const Order,
                                        const unsigned int,
                                        const unsigned int,
@@ -399,7 +402,7 @@ Real FE<1,HERMITE>::shape_second_deriv(const ElemType,
 }
 
 template <>
-Real FE<1,HERMITE>::shape_second_deriv(const FEType fet,
+GeomReal FE<1,HERMITE>::shape_second_deriv(const FEType fet,
                                        const Elem * elem,
                                        const unsigned int i,
                                        const unsigned int j,

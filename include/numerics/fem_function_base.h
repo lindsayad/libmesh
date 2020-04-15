@@ -42,7 +42,7 @@ class Point;
  * \author Roy Stogner
  * \date 2012
  */
-template <typename Output=Number>
+template <typename Output=GeomNumber>
 class FEMFunctionBase
 {
 protected:

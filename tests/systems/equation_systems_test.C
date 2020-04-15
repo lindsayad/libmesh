@@ -8,6 +8,7 @@
 #include <libmesh/remote_elem.h>
 #include <libmesh/replicated_mesh.h>
 #include <libmesh/node_elem.h>
+#include <libmesh/raw_type.h>
 
 #include "test_comm.h"
 #include "libmesh_cppunit.h"
@@ -18,13 +19,13 @@ using namespace libMesh;
 // Anonymous namespace to avoid linker conflicts
 namespace {
 
-Number bilinear_test (const Point& p,
-                      const Parameters&,
-                      const std::string&,
-                      const std::string&)
+GeomNumber bilinear_test (const Point& p,
+                          const Parameters&,
+                          const std::string&,
+                          const std::string&)
 {
-  const Real & x = p(0);
-  const Real & y = p(1);
+  const GeomReal & x = p(0);
+  const GeomReal & y = p(1);
 
   return 4*x*y - 3*x + 2*y - 1;
 }
@@ -206,8 +207,8 @@ public:
       for (Real y = 0.1; y < 1; y += 0.2)
         {
           Point p(x,y);
-          LIBMESH_ASSERT_FP_EQUAL(libmesh_real(sys.point_value(0,p)),
-                                  libmesh_real(bilinear_test(p,es.parameters,"","")),
+          LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(sys.point_value(0,p))),
+                                  libmesh_real(MetaPhysicL::raw_value(bilinear_test(p,es.parameters,"",""))),
                                   TOLERANCE*TOLERANCE);
         }
   }

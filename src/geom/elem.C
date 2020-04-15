@@ -368,9 +368,9 @@ Point Elem::centroid() const
 
 
 
-Real Elem::hmin() const
+GeomReal Elem::hmin() const
 {
-  Real h_min=std::numeric_limits<Real>::max();
+  GeomReal h_min=std::numeric_limits<Real>::max();
 
   // Avoid calling a virtual a lot of times
   const auto n_vertices = this->n_vertices();
@@ -388,9 +388,9 @@ Real Elem::hmin() const
 
 
 
-Real Elem::hmax() const
+GeomReal Elem::hmax() const
 {
-  Real h_max=0;
+  GeomReal h_max=0;
 
   // Avoid calling a virtual a lot of times
   const auto n_vertices = this->n_vertices();
@@ -408,7 +408,7 @@ Real Elem::hmax() const
 
 
 
-Real Elem::length(const unsigned int n1,
+GeomReal Elem::length(const unsigned int n1,
                   const unsigned int n2) const
 {
   libmesh_assert_less ( n1, this->n_vertices() );
@@ -2170,7 +2170,7 @@ bool Elem::point_test(const Point & p, Real box_tol, Real map_tol) const
         point_below_max_x = false;
 
       // For relative bounding box checks in physical space
-      const Real my_hmax = this->hmax();
+      const GeomReal my_hmax = this->hmax();
 
       for (auto & n : this->node_ref_range())
         {
@@ -2222,7 +2222,7 @@ bool Elem::point_test(const Point & p, Real box_tol, Real map_tol) const
 
       // Compute the distance between the original point and the re-mapped point.
       // They should be in the same place.
-      Real dist = (xyz - p).norm();
+      GeomReal dist = (xyz - p).norm();
 
 
       // If dist is larger than some fraction of the tolerance, then return false.
@@ -2633,7 +2633,7 @@ Elem::side_iterator Elem::boundary_sides_end()
 
 
 
-Real Elem::volume () const
+GeomReal Elem::volume () const
 {
   // The default implementation builds a finite element of the correct
   // order and sums up the JxW contributions.  This can be expensive,
@@ -2645,7 +2645,7 @@ Real Elem::volume () const
   std::unique_ptr<FEBase> fe (FEBase::build(this->dim(),
                                             fe_type));
 
-  const std::vector<Real> & JxW = fe->get_JxW();
+  const std::vector<GeomReal> & JxW = fe->get_JxW();
 
   // The default quadrature rule should integrate the mass matrix,
   // thus it should be plenty to compute the area
@@ -2655,7 +2655,7 @@ Real Elem::volume () const
 
   fe->reinit(this);
 
-  Real vol=0.;
+  GeomReal vol=0.;
   for (auto jxw : JxW)
     vol += jxw;
 

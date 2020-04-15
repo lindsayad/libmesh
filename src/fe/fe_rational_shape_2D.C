@@ -38,7 +38,7 @@ LIBMESH_DEFAULT_VECTORIZED_FE(2,RATIONAL_BERNSTEIN)
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape(const Elem * elem,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape(const Elem * elem,
                                      const Order order,
                                      const unsigned int i,
                                      const Point & p,
@@ -66,11 +66,11 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape(const Elem * elem,
     node_weights[n] =
       elem->node_ref(n).get_extra_datum<Real>(datum_index);
 
-  Real weighted_shape_i = 0, weighted_sum = 0;
+  GeomReal weighted_shape_i = 0, weighted_sum = 0;
 
   for (unsigned int sf=0; sf<n_sf; sf++)
     {
-      Real weighted_shape = node_weights[sf] *
+      GeomReal weighted_shape = node_weights[sf] *
         FEInterface::shape(2, fe_type, elem, sf, p);
       weighted_sum += weighted_shape;
       if (sf == i)
@@ -83,7 +83,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape(const Elem * elem,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape(const ElemType,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape(const ElemType,
                                      const Order,
                                      const unsigned int,
                                      const Point &)
@@ -95,7 +95,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape(const ElemType,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape(const FEType fet,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape(const FEType fet,
                                      const Elem * elem,
                                      const unsigned int i,
                                      const Point & p,
@@ -107,7 +107,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape(const FEType fet,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const Elem * elem,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const Elem * elem,
                                            const Order order,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -136,14 +136,14 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const Elem * elem,
     node_weights[n] =
       elem->node_ref(n).get_extra_datum<Real>(datum_index);
 
-  Real weighted_shape_i = 0, weighted_sum = 0,
+  GeomReal weighted_shape_i = 0, weighted_sum = 0,
        weighted_grad_i = 0, weighted_grad_sum = 0;
 
   for (unsigned int sf=0; sf<n_sf; sf++)
     {
-      Real weighted_shape = node_weights[sf] *
+      GeomReal weighted_shape = node_weights[sf] *
         FEInterface::shape(2, fe_type, elem, sf, p);
-      Real weighted_grad = node_weights[sf] *
+      GeomReal weighted_grad = node_weights[sf] *
         FEInterface::shape_deriv(2, fe_type, elem, sf, j, p);
       weighted_sum += weighted_shape;
       weighted_grad_sum += weighted_grad;
@@ -160,7 +160,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const ElemType,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const ElemType,
                                            const Order,
                                            const unsigned int,
                                            const unsigned int,
@@ -173,7 +173,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const ElemType,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const FEType fet,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const FEType fet,
                                            const Elem * elem,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -190,7 +190,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_deriv(const FEType fet,
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const Elem * elem,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const Elem * elem,
                                                   const Order order,
                                                   const unsigned int i,
                                                   const unsigned int j,
@@ -239,22 +239,22 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const Elem * elem,
     node_weights[n] =
       elem->node_ref(n).get_extra_datum<Real>(datum_index);
 
-  Real weighted_shape_i = 0, weighted_sum = 0,
+  GeomReal weighted_shape_i = 0, weighted_sum = 0,
        weighted_grada_i = 0, weighted_grada_sum = 0,
        weighted_gradb_i = 0, weighted_gradb_sum = 0,
        weighted_hess_i = 0, weighted_hess_sum = 0;
 
   for (unsigned int sf=0; sf<n_sf; sf++)
     {
-      Real weighted_shape = node_weights[sf] *
+      GeomReal weighted_shape = node_weights[sf] *
         FEInterface::shape(2, fe_type, elem, sf, p);
-      Real weighted_grada = node_weights[sf] *
+      GeomReal weighted_grada = node_weights[sf] *
         FEInterface::shape_deriv(2, fe_type, elem, sf, j1, p);
-      Real weighted_hess = node_weights[sf] *
+      GeomReal weighted_hess = node_weights[sf] *
         FEInterface::shape_second_deriv(2, fe_type, elem, sf, j, p);
       weighted_sum += weighted_shape;
       weighted_grada_sum += weighted_grada;
-      Real weighted_gradb = weighted_grada;
+      GeomReal weighted_gradb = weighted_grada;
       if (j1 != j2)
         {
           weighted_gradb = (j1 == j2) ? weighted_grada :
@@ -284,7 +284,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const ElemType,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const ElemType,
                                                   const Order,
                                                   const unsigned int,
                                                   const unsigned int,
@@ -296,7 +296,7 @@ Real FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const ElemType,
 
 
 template <>
-Real FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const FEType fet,
+GeomReal FE<2,RATIONAL_BERNSTEIN>::shape_second_deriv(const FEType fet,
                                                   const Elem * elem,
                                                   const unsigned int i,
                                                   const unsigned int j,

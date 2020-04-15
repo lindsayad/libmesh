@@ -421,7 +421,7 @@ unsigned short int Pyramid14::second_order_adjacent_vertex (const unsigned int n
 
 
 
-Real Pyramid14::volume () const
+GeomReal Pyramid14::volume () const
 {
   // This specialization is good for Lagrange mappings only
   if (this->mapping_type() != LAGRANGE_MAP)
@@ -691,7 +691,7 @@ Real Pyramid14::volume () const
                             w1, w2, w3, w4, w5, w6, // 18-23
                             w1, w2, w3};            // 24-26
 
-  Real vol = 0.;
+  GeomReal vol = 0.;
   for (int q=0; q<N; ++q)
     {
       // Compute denominators for the current q.

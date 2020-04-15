@@ -371,7 +371,7 @@ const float Prism6::_embedding_matrix[Prism6::num_children][Prism6::num_nodes][P
 
 
 
-Real Prism6::volume () const
+GeomReal Prism6::volume () const
 {
   // Make copies of our points.  It makes the subsequent calculations a bit
   // shorter and avoids dereferencing the same pointer multiple times.
@@ -445,7 +445,7 @@ Real Prism6::volume () const
       std::sqrt(3.)/3.
     };
 
-  Real vol = 0.;
+  GeomReal vol = 0.;
   for (int i=0; i<N2D; ++i)
     {
       // dx_dzeta depends only on the 2D quadrature rule points.

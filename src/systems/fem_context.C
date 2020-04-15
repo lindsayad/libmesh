@@ -368,9 +368,9 @@ void FEMContext::some_hessian(unsigned int var, unsigned int qp, OutputType & d2
 
 
 
-Number FEMContext::interior_value(unsigned int var, unsigned int qp) const
+GeomNumber FEMContext::interior_value(unsigned int var, unsigned int qp) const
 {
-  Number u;
+  GeomNumber u;
 
   this->interior_value( var, qp, u );
 
@@ -617,10 +617,10 @@ void FEMContext::interior_div(unsigned int var, unsigned int qp,
 }
 
 
-Number FEMContext::side_value(unsigned int var,
+GeomNumber FEMContext::side_value(unsigned int var,
                               unsigned int qp) const
 {
-  Number u = 0.;
+  GeomNumber u = 0.;
 
   this->side_value( var, qp, u );
 
@@ -675,9 +675,9 @@ void FEMContext::side_values(unsigned int var,
   return;
 }
 
-Gradient FEMContext::side_gradient(unsigned int var, unsigned int qp) const
+GeomNumberGradient FEMContext::side_gradient(unsigned int var, unsigned int qp) const
 {
-  Gradient du;
+  GeomNumberGradient du;
 
   this->side_gradient( var, qp, du );
 
@@ -758,10 +758,10 @@ void FEMContext::side_gradients(unsigned int var,
 }
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-Tensor FEMContext::side_hessian(unsigned int var,
-                                unsigned int qp) const
+GeomNumberTensor FEMContext::side_hessian(unsigned int var,
+                                          unsigned int qp) const
 {
-  Tensor d2u;
+  GeomNumberTensor d2u;
 
   this->side_hessian( var, qp, d2u );
 
@@ -830,9 +830,9 @@ void FEMContext::side_hessians(unsigned int var,
 
 
 
-Number FEMContext::point_value(unsigned int var, const Point & p) const
+GeomNumber FEMContext::point_value(unsigned int var, const Point & p) const
 {
-  Number u = 0.;
+  GeomNumber u = 0.;
 
   this->point_value( var, p, u );
 
@@ -876,9 +876,9 @@ void FEMContext::point_value(unsigned int var,
 
 
 
-Gradient FEMContext::point_gradient(unsigned int var, const Point & p) const
+GeomNumberGradient FEMContext::point_gradient(unsigned int var, const Point & p) const
 {
-  Gradient grad_u;
+  GeomNumberGradient grad_u;
 
   this->point_gradient( var, p, grad_u );
 
@@ -928,9 +928,9 @@ void FEMContext::point_gradient(unsigned int var,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
-Tensor FEMContext::point_hessian(unsigned int var, const Point & p) const
+GeomNumberTensor FEMContext::point_hessian(unsigned int var, const Point & p) const
 {
-  Tensor hess_u;
+  GeonNumberTensor hess_u;
 
   this->point_hessian( var, p, hess_u );
 
@@ -1015,9 +1015,9 @@ void FEMContext::point_curl(unsigned int var,
 
 
 
-Number FEMContext::fixed_interior_value(unsigned int var, unsigned int qp) const
+GeomNumber FEMContext::fixed_interior_value(unsigned int var, unsigned int qp) const
 {
-  Number u = 0.;
+  GeomNumber u = 0.;
 
   this->fixed_interior_value( var, qp, u );
 
@@ -1038,9 +1038,9 @@ void FEMContext::fixed_interior_value(unsigned int var, unsigned int qp,
 
 
 
-Gradient FEMContext::fixed_interior_gradient(unsigned int var, unsigned int qp) const
+GeomNumberGradient FEMContext::fixed_interior_gradient(unsigned int var, unsigned int qp) const
 {
-  Gradient du;
+  GeomNumberGradient du;
 
   this->fixed_interior_gradient( var, qp, du );
 
@@ -1065,9 +1065,9 @@ void FEMContext::fixed_interior_gradient(unsigned int var, unsigned int qp,
 
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-Tensor FEMContext::fixed_interior_hessian(unsigned int var, unsigned int qp) const
+GeomNumberTensor FEMContext::fixed_interior_hessian(unsigned int var, unsigned int qp) const
 {
-  Tensor d2u;
+  GeomNumberTensor d2u;
 
   this->fixed_interior_hessian( var, qp, d2u );
 
@@ -1091,9 +1091,9 @@ void FEMContext::fixed_interior_hessian(unsigned int var, unsigned int qp,
 
 
 
-Number FEMContext::fixed_side_value(unsigned int var, unsigned int qp) const
+GeomNumber FEMContext::fixed_side_value(unsigned int var, unsigned int qp) const
 {
-  Number u = 0.;
+  GeomNumber u = 0.;
 
   this->fixed_side_value( var, qp, u );
 
@@ -1115,9 +1115,9 @@ void FEMContext::fixed_side_value(unsigned int var, unsigned int qp,
 
 
 
-Gradient FEMContext::fixed_side_gradient(unsigned int var, unsigned int qp) const
+GeomNumberGradient FEMContext::fixed_side_gradient(unsigned int var, unsigned int qp) const
 {
-  Gradient du;
+  GeomNumberGradient du;
 
   this->fixed_side_gradient( var, qp, du );
 
@@ -1140,9 +1140,9 @@ void FEMContext::fixed_side_gradient(unsigned int var, unsigned int qp,
 
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-Tensor FEMContext::fixed_side_hessian(unsigned int var, unsigned int qp) const
+GeomNumberTensor FEMContext::fixed_side_hessian(unsigned int var, unsigned int qp) const
 {
-  Tensor d2u;
+  GeomNumberTensor d2u;
 
   this->fixed_side_hessian( var, qp, d2u );
 
@@ -1165,9 +1165,9 @@ void FEMContext::fixed_side_hessian(unsigned int var, unsigned int qp,
 
 
 
-Number FEMContext::fixed_point_value(unsigned int var, const Point & p) const
+GeomNumber FEMContext::fixed_point_value(unsigned int var, const Point & p) const
 {
-  Number u = 0.;
+  GeomNumber u = 0.;
 
   this->fixed_point_value( var, p, u );
 
@@ -1211,9 +1211,9 @@ void FEMContext::fixed_point_value(unsigned int var,
 
 
 
-Gradient FEMContext::fixed_point_gradient(unsigned int var, const Point & p) const
+GeomNumberGradient FEMContext::fixed_point_gradient(unsigned int var, const Point & p) const
 {
-  Gradient grad_u;
+  GeomNumberGradient grad_u;
 
   this->fixed_point_gradient( var, p, grad_u );
 
@@ -1262,9 +1262,9 @@ void FEMContext::fixed_point_gradient(unsigned int var,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
-Tensor FEMContext::fixed_point_hessian(unsigned int var, const Point & p) const
+GeomNumberTensor FEMContext::fixed_point_hessian(unsigned int var, const Point & p) const
 {
-  Tensor hess_u;
+  GeomNumberTensor hess_u;
 
   this->fixed_point_hessian( var, p, hess_u );
 

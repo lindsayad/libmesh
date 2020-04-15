@@ -189,8 +189,8 @@ BoundingBox Edge4::loose_bounding_box () const
 
   for (unsigned d=0; d<LIBMESH_DIM; ++d)
     {
-      Real center = (this->point(2)(d) + this->point(3)(d))/2;
-      Real hd = std::max(std::abs(center - this->point(0)(d)),
+      GeomReal center = (this->point(2)(d) + this->point(3)(d))/2;
+      GeomReal hd = std::max(std::abs(center - this->point(0)(d)),
                          std::abs(center - this->point(1)(d)));
 
       pmin(d) = center - hd;
@@ -212,7 +212,7 @@ dof_id_type Edge4::key () const
 
 
 
-Real Edge4::volume () const
+GeomReal Edge4::volume () const
 {
   // Make copies of our points.  It makes the subsequent calculations a bit
   // shorter and avoids dereferencing the same pointer multiple times.
@@ -241,7 +241,7 @@ Real Edge4::volume () const
                      (18 + std::sqrt(30.)) / 36,
                      (18 - std::sqrt(30.)) / 36};
 
-  Real vol=0.;
+  GeomReal vol=0.;
   for (unsigned int i=0; i<N; ++i)
     vol += w[i] * (q[i]*q[i]*a1 + q[i]*b1 + c1).norm();
 

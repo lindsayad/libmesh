@@ -95,8 +95,8 @@ public:
    */
   DirichletBoundary(const std::set<boundary_id_type> & b_in,
                     const std::vector<unsigned int> & variables_in,
-                    const FunctionBase<Number> * f_in,
-                    const FunctionBase<Gradient> * g_in = nullptr);
+                    const FunctionBase<GeomNumber> * f_in,
+                    const FunctionBase<GeomNumberGradient> * g_in = nullptr);
 
   /**
    * Constructor for a boundary from reference-to-functor.
@@ -106,7 +106,7 @@ public:
    */
   DirichletBoundary(const std::set<boundary_id_type> & b_in,
                     const std::vector<unsigned int> & variables_in,
-                    const FunctionBase<Number> & f_in,
+                    const FunctionBase<GeomNumber> & f_in,
                     VariableIndexing type = SYSTEM_VARIABLE_ORDER);
 
   /**
@@ -118,8 +118,8 @@ public:
    */
   DirichletBoundary(const std::set<boundary_id_type> & b_in,
                     const std::vector<unsigned int> & variables_in,
-                    const FunctionBase<Number> & f_in,
-                    const FunctionBase<Gradient> & g_in,
+                    const FunctionBase<GeomNumber> & f_in,
+                    const FunctionBase<GeomNumberGradient> & g_in,
                     VariableIndexing type = SYSTEM_VARIABLE_ORDER);
 
   /**
@@ -129,8 +129,8 @@ public:
   DirichletBoundary(const std::set<boundary_id_type> & b_in,
                     const std::vector<unsigned int> & variables_in,
                     const System & f_sys_in,
-                    const FEMFunctionBase<Number> * f_in,
-                    const FEMFunctionBase<Gradient> * g_in = nullptr);
+                    const FEMFunctionBase<GeomNumber> * f_in,
+                    const FEMFunctionBase<GeomNumberGradient> * g_in = nullptr);
 
   /**
    * Constructor for a system-variable-order boundary from
@@ -142,7 +142,7 @@ public:
   DirichletBoundary(const std::set<boundary_id_type> & b_in,
                     const std::vector<unsigned int> & variables_in,
                     const System & f_sys_in,
-                    const FEMFunctionBase<Number> & f_in,
+                    const FEMFunctionBase<GeomNumber> & f_in,
                     VariableIndexing type = SYSTEM_VARIABLE_ORDER);
 
   /**
@@ -155,8 +155,8 @@ public:
   DirichletBoundary(const std::set<boundary_id_type> & b_in,
                     const std::vector<unsigned int> & variables_in,
                     const System & f_sys_in,
-                    const FEMFunctionBase<Number> & f_in,
-                    const FEMFunctionBase<Gradient> & g_in,
+                    const FEMFunctionBase<GeomNumber> & f_in,
+                    const FEMFunctionBase<GeomNumberGradient> & g_in,
                     VariableIndexing type = SYSTEM_VARIABLE_ORDER);
 
   /**
@@ -180,11 +180,11 @@ public:
   std::set<boundary_id_type> b;
   std::vector<unsigned int> variables;
 
-  std::unique_ptr<FunctionBase<Number>> f;
-  std::unique_ptr<FunctionBase<Gradient>> g;
+  std::unique_ptr<FunctionBase<GeomNumber>> f;
+  std::unique_ptr<FunctionBase<GeomNumberGradient>> g;
 
-  std::unique_ptr<FEMFunctionBase<Number>> f_fem;
-  std::unique_ptr<FEMFunctionBase<Gradient>> g_fem;
+  std::unique_ptr<FEMFunctionBase<GeomNumber>> f_fem;
+  std::unique_ptr<FEMFunctionBase<GeomNumberGradient>> g_fem;
 
   const System * f_system;
 

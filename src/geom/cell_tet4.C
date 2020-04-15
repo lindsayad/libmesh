@@ -323,7 +323,7 @@ const float Tet4::_embedding_matrix[Tet4::num_children][Tet4::num_nodes][Tet4::n
 
 
 
-Real Tet4::volume () const
+GeomReal Tet4::volume () const
 {
   // The volume of a tetrahedron is 1/6 the box product formed
   // by its base and apex vectors
@@ -341,7 +341,7 @@ Real Tet4::volume () const
 
 
 
-std::pair<Real, Real> Tet4::min_and_max_angle() const
+std::pair<GeomReal, GeomReal> Tet4::min_and_max_angle() const
 {
   Point n[4];
 
@@ -351,7 +351,7 @@ std::pair<Real, Real> Tet4::min_and_max_angle() const
   n[2] = (this->point(2) - this->point(1)).cross(this->point(3) - this->point(1));
   n[3] = (this->point(0) - this->point(2)).cross(this->point(3) - this->point(2));
 
-  Real dihedral_angles[6]; // 01, 02, 03, 12, 13, 23
+  GeomReal dihedral_angles[6]; // 01, 02, 03, 12, 13, 23
 
   // Compute dihedral angles
   for (unsigned int k=0,i=0; i<4; ++i)

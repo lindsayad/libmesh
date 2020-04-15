@@ -66,7 +66,7 @@ public:
 
         for (unsigned int d=0; d != LIBMESH_DIM; ++d)
           {
-            const Real widening =
+            const GeomReal widening =
               (wide_bbox.max()(d) - wide_bbox.min()(d)) / 3;
             wide_bbox.min()(d) -= widening;
             wide_bbox.max()(d) += widening;

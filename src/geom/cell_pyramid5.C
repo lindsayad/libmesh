@@ -260,7 +260,7 @@ void Pyramid5::connectivity(const unsigned int libmesh_dbg_var(sc),
 }
 
 
-Real Pyramid5::volume () const
+GeomReal Pyramid5::volume () const
 {
   // The pyramid with a bilinear base has volume given by the
   // formula in: "Calculation of the Volume of a General Hexahedron

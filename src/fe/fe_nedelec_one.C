@@ -42,7 +42,7 @@ void nedelec_one_nodal_soln(const Elem * elem,
                             const Order order,
                             const std::vector<Number> & elem_soln,
                             const int dim,
-                            std::vector<Number> & nodal_soln)
+                            std::vector<GeomNumber> & nodal_soln)
 {
   const unsigned int n_nodes = elem->n_nodes();
   const ElemType elem_type   = elem->type();
@@ -117,7 +117,7 @@ void nedelec_one_nodal_soln(const Elem * elem,
         // applied to it.
         std::unique_ptr<FEVectorBase> vis_fe = FEVectorBase::build(dim,fe_type);
 
-        const std::vector<std::vector<RealGradient>> & vis_phi = vis_fe->get_phi();
+        const std::vector<std::vector<GeomRealGradient>> & vis_phi = vis_fe->get_phi();
 
         vis_fe->reinit(elem,&refspace_nodes);
 
@@ -447,7 +447,7 @@ void nedelec_one_compute_constraints (DofConstraints & /*constraints*/,
   const unsigned int their_dof_g =
   parent_dof_indices[their_dof];
 
-  const Real their_dof_value = FEInterface::shape(Dim-1,
+  const GeomReal their_dof_value = FEInterface::shape(Dim-1,
   fe_type,
   parent_side->type(),
   their_dof,
@@ -493,28 +493,28 @@ template <>
 void FE<0,NEDELEC_ONE>::nodal_soln(const Elem *,
                                    const Order,
                                    const std::vector<Number> &,
-                                   std::vector<Number> &)
+                                   std::vector<GeomNumber> &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 
 template <>
 void FE<1,NEDELEC_ONE>::nodal_soln(const Elem *,
                                    const Order,
                                    const std::vector<Number> &,
-                                   std::vector<Number> &)
+                                   std::vector<GeomNumber> &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 
 template <>
 void FE<2,NEDELEC_ONE>::nodal_soln(const Elem * elem,
                                    const Order order,
                                    const std::vector<Number> & elem_soln,
-                                   std::vector<Number> & nodal_soln)
+                                   std::vector<GeomNumber> & nodal_soln)
 { nedelec_one_nodal_soln(elem, order, elem_soln, 2 /*dim*/, nodal_soln); }
 
 template <>
 void FE<3,NEDELEC_ONE>::nodal_soln(const Elem * elem,
                                    const Order order,
                                    const std::vector<Number> & elem_soln,
-                                   std::vector<Number> & nodal_soln)
+                                   std::vector<GeomNumber> & nodal_soln)
 { nedelec_one_nodal_soln(elem, order, elem_soln, 3 /*dim*/, nodal_soln); }
 
 
@@ -592,54 +592,54 @@ void FE<3,NEDELEC_ONE>::compute_constraints (DofConstraints & constraints,
 
 // Specialize useless shape function methods
 template <>
-RealGradient FE<0,NEDELEC_ONE>::shape(const ElemType, const Order,const unsigned int,const Point &)
+GeomRealGradient FE<0,NEDELEC_ONE>::shape(const ElemType, const Order,const unsigned int,const Point &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<0,NEDELEC_ONE>::shape(const Elem *,const Order,const unsigned int,const Point &,const bool)
+GeomRealGradient FE<0,NEDELEC_ONE>::shape(const Elem *,const Order,const unsigned int,const Point &,const bool)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<0,NEDELEC_ONE>::shape_deriv(const ElemType, const Order,const unsigned int,
+GeomRealGradient FE<0,NEDELEC_ONE>::shape_deriv(const ElemType, const Order,const unsigned int,
                                             const unsigned int,const Point &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<0,NEDELEC_ONE>::shape_deriv(const Elem *,const Order,const unsigned int,
+GeomRealGradient FE<0,NEDELEC_ONE>::shape_deriv(const Elem *,const Order,const unsigned int,
                                             const unsigned int,const Point &,const bool)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 template <>
-RealGradient FE<0,NEDELEC_ONE>::shape_second_deriv(const ElemType, const Order,const unsigned int,
+GeomRealGradient FE<0,NEDELEC_ONE>::shape_second_deriv(const ElemType, const Order,const unsigned int,
                                                    const unsigned int,const Point &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<0,NEDELEC_ONE>::shape_second_deriv(const Elem *,const Order,const unsigned int,
+GeomRealGradient FE<0,NEDELEC_ONE>::shape_second_deriv(const Elem *,const Order,const unsigned int,
                                                    const unsigned int,const Point &,const bool)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 
 #endif
 
 template <>
-RealGradient FE<1,NEDELEC_ONE>::shape(const ElemType, const Order,const unsigned int,const Point &)
+GeomRealGradient FE<1,NEDELEC_ONE>::shape(const ElemType, const Order,const unsigned int,const Point &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<1,NEDELEC_ONE>::shape(const Elem *,const Order,const unsigned int,const Point &,const bool)
+GeomRealGradient FE<1,NEDELEC_ONE>::shape(const Elem *,const Order,const unsigned int,const Point &,const bool)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<1,NEDELEC_ONE>::shape_deriv(const ElemType, const Order,const unsigned int,
+GeomRealGradient FE<1,NEDELEC_ONE>::shape_deriv(const ElemType, const Order,const unsigned int,
                                             const unsigned int,const Point &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<1,NEDELEC_ONE>::shape_deriv(const Elem *,const Order,const unsigned int,
+GeomRealGradient FE<1,NEDELEC_ONE>::shape_deriv(const Elem *,const Order,const unsigned int,
                                             const unsigned int,const Point &,const bool)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 template <>
-RealGradient FE<1,NEDELEC_ONE>::shape_second_deriv(const ElemType, const Order,const unsigned int,
+GeomRealGradient FE<1,NEDELEC_ONE>::shape_second_deriv(const ElemType, const Order,const unsigned int,
                                                    const unsigned int,const Point &)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 template <>
-RealGradient FE<1,NEDELEC_ONE>::shape_second_deriv(const Elem *,const Order,const unsigned int,
+GeomRealGradient FE<1,NEDELEC_ONE>::shape_second_deriv(const Elem *,const Order,const unsigned int,
                                                    const unsigned int,const Point &,const bool)
 { NEDELEC_LOW_D_ERROR_MESSAGE }
 

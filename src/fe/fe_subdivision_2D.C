@@ -135,14 +135,14 @@ void FESubdivision::init_subdivision_matrix(DenseMatrix<Real> & A,
 
 
 
-Real FESubdivision::regular_shape(const unsigned int i,
-                                  const Real v,
-                                  const Real w)
+GeomReal FESubdivision::regular_shape(const unsigned int i,
+                                  const GeomReal v,
+                                  const GeomReal w)
 {
   // These are the 12 quartic box splines, see Cirak et al.,
   // Int. J. Numer. Meth. Engng. 2000; 47:2039-2072, Appendix A.1.
 
-  const Real u = 1 - v - w;
+  const GeomReal u = 1 - v - w;
   libmesh_assert_less_equal(0, v);
   libmesh_assert_less_equal(0, w);
   libmesh_assert_less_equal(0, u);
@@ -191,12 +191,12 @@ Real FESubdivision::regular_shape(const unsigned int i,
 
 
 
-Real FESubdivision::regular_shape_deriv(const unsigned int i,
+GeomReal FESubdivision::regular_shape_deriv(const unsigned int i,
                                         const unsigned int j,
-                                        const Real v,
-                                        const Real w)
+                                        const GeomReal v,
+                                        const GeomReal w)
 {
-  const Real u = 1 - v - w;
+  const GeomReal u = 1 - v - w;
   const Real factor = 1. / 12;
 
   switch (j) // j=0: xi-directional derivative, j=1: eta-directional derivative
@@ -281,12 +281,12 @@ Real FESubdivision::regular_shape_deriv(const unsigned int i,
 
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-Real FESubdivision::regular_shape_second_deriv(const unsigned int i,
+GeomReal FESubdivision::regular_shape_second_deriv(const unsigned int i,
                                                const unsigned int j,
-                                               const Real v,
-                                               const Real w)
+                                               const GeomReal v,
+                                               const GeomReal w)
 {
-  const Real u = 1 - v - w;
+  const GeomReal u = 1 - v - w;
   const Real factor = 1. / 12;
 
   switch (j)
@@ -478,21 +478,21 @@ void FESubdivision::init_shape_functions(const std::vector<Point> & qp,
       static const Real eps = 1e-10;
 
       // temporary values
-      std::vector<Real> tphi(12);
-      std::vector<Real> tdphidxi(12);
-      std::vector<Real> tdphideta(12);
+      std::vector<GeomReal> tphi(12);
+      std::vector<GeomReal> tdphidxi(12);
+      std::vector<GeomReal> tdphideta(12);
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-      std::vector<Real> td2phidxi2(12);
-      std::vector<Real> td2phidxideta(12);
-      std::vector<Real> td2phideta2(12);
+      std::vector<GeomReal> td2phidxi2(12);
+      std::vector<GeomReal> td2phidxideta(12);
+      std::vector<GeomReal> td2phideta2(12);
 #endif
 
       for (unsigned int p = 0; p < n_qp; ++p)
         {
           // evaluate the number of the required subdivisions
-          Real v = qp[p](0);
-          Real w = qp[p](1);
-          Real u = 1 - v - w;
+          GeomReal v = qp[p](0);
+          GeomReal w = qp[p](1);
+          GeomReal u = 1 - v - w;
           Real min = 0, max = 0.5;
           int n = 0;
           while (!(u > min-eps && u < max+eps))
@@ -603,7 +603,7 @@ void FESubdivision::init_shape_functions(const std::vector<Point> & qp,
 
           // Finally, we can compute the irregular shape functions as the product of P
           // and the regular shape functions:
-          Real sum1, sum2, sum3, sum4, sum5, sum6;
+          GeomReal sum1, sum2, sum3, sum4, sum5, sum6;
           for (unsigned int j = 0; j < n_approx_shape_functions; ++j)
             {
               sum1 = sum2 = sum3 = sum4 = sum5 = sum6 = 0;
@@ -706,7 +706,7 @@ void FESubdivision::reinit(const Elem * elem,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape(const ElemType type,
+GeomReal FE<2,SUBDIVISION>::shape(const ElemType type,
                               const Order order,
                               const unsigned int i,
                               const Point & p)
@@ -732,7 +732,7 @@ Real FE<2,SUBDIVISION>::shape(const ElemType type,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape(const Elem * elem,
+GeomReal FE<2,SUBDIVISION>::shape(const Elem * elem,
                               const Order order,
                               const unsigned int i,
                               const Point & p,
@@ -746,7 +746,7 @@ Real FE<2,SUBDIVISION>::shape(const Elem * elem,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape(const FEType fet,
+GeomReal FE<2,SUBDIVISION>::shape(const FEType fet,
                               const Elem * elem,
                               const unsigned int i,
                               const Point & p,
@@ -761,7 +761,7 @@ Real FE<2,SUBDIVISION>::shape(const FEType fet,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape_deriv(const ElemType type,
+GeomReal FE<2,SUBDIVISION>::shape_deriv(const ElemType type,
                                     const Order order,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -788,7 +788,7 @@ Real FE<2,SUBDIVISION>::shape_deriv(const ElemType type,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape_deriv(const Elem * elem,
+GeomReal FE<2,SUBDIVISION>::shape_deriv(const Elem * elem,
                                     const Order order,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -803,7 +803,7 @@ Real FE<2,SUBDIVISION>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape_deriv(const FEType fet,
+GeomReal FE<2,SUBDIVISION>::shape_deriv(const FEType fet,
                                     const Elem * elem,
                                     const unsigned int i,
                                     const unsigned int j,
@@ -820,7 +820,7 @@ Real FE<2,SUBDIVISION>::shape_deriv(const FEType fet,
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
 template <>
-Real FE<2,SUBDIVISION>::shape_second_deriv(const ElemType type,
+GeomReal FE<2,SUBDIVISION>::shape_second_deriv(const ElemType type,
                                            const Order order,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -847,7 +847,7 @@ Real FE<2,SUBDIVISION>::shape_second_deriv(const ElemType type,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape_second_deriv(const Elem * elem,
+GeomReal FE<2,SUBDIVISION>::shape_second_deriv(const Elem * elem,
                                            const Order order,
                                            const unsigned int i,
                                            const unsigned int j,
@@ -863,7 +863,7 @@ Real FE<2,SUBDIVISION>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<2,SUBDIVISION>::shape_second_deriv(const FEType fet,
+GeomReal FE<2,SUBDIVISION>::shape_second_deriv(const FEType fet,
                                            const Elem * elem,
                                            const unsigned int i,
                                            const unsigned int j,

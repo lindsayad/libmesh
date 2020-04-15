@@ -157,7 +157,7 @@ typedef TensorValue<Number> NumberTensorValue;
 typedef RealTensorValue     RealTensor;
 typedef GeomRealTensorValue GeomRealTensor;
 typedef NumberTensorValue   Tensor;
-
+typedef TensorValue<GeomNumber> GeomNumberTensor;
 
 
 //------------------------------------------------------

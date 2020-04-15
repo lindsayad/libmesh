@@ -31,6 +31,7 @@
 #include <libmesh/cell_hex27.h>
 #include <libmesh/cell_tet10.h>
 #include <libmesh/boundary_info.h>
+#include <libmesh/raw_type.h>
 
 #include "test_comm.h"
 #include "libmesh_cppunit.h"
@@ -236,9 +237,9 @@ void assembly_with_dg_fem_context(EquationSystems& es,
         FEBase* elem_fe = NULL;
         context.get_element_fe(0, elem_fe);
 
-        const std::vector<Real> &JxW = elem_fe->get_JxW();
-        const std::vector<std::vector<Real> >& phi = elem_fe->get_phi();
-        const std::vector<std::vector<RealGradient> >& dphi = elem_fe->get_dphi();
+        const std::vector<GeomReal> &JxW = elem_fe->get_JxW();
+        const std::vector<std::vector<GeomReal> >& phi = elem_fe->get_phi();
+        const std::vector<std::vector<GeomRealGradient> >& dphi = elem_fe->get_dphi();
 
         unsigned int n_dofs = context.get_dof_indices(0).size();
         unsigned int n_qpoints = context.get_element_qrule().n_points();
@@ -246,11 +247,11 @@ void assembly_with_dg_fem_context(EquationSystems& es,
         for (unsigned int qp=0; qp != n_qpoints; qp++)
           for (unsigned int i=0; i != n_dofs; i++)
             for (unsigned int j=0; j != n_dofs; j++)
-              context.get_elem_jacobian()(i,j) += JxW[qp] * dphi[i][qp]*dphi[j][qp];
+              context.get_elem_jacobian()(i,j) += MetaPhysicL::raw_value(JxW[qp] * dphi[i][qp]*dphi[j][qp]);
 
         for (unsigned int qp=0; qp != n_qpoints; qp++)
           for (unsigned int i=0; i != n_dofs; i++)
-            context.get_elem_residual()(i) += JxW[qp] * phi[i][qp];
+            context.get_elem_residual()(i) += MetaPhysicL::raw_value(JxW[qp] * phi[i][qp]);
       }
 
       system.matrix->add_matrix (context.get_elem_jacobian(), context.get_dof_indices());
@@ -274,15 +275,15 @@ void assembly_with_dg_fem_context(EquationSystems& es,
               FEBase* side_fe = NULL;
               context.get_side_fe(0, side_fe);
 
-              const std::vector<Real> &JxW_face = side_fe->get_JxW();
-              const std::vector<std::vector<Real> >& phi_face = side_fe->get_phi();
+              const std::vector<GeomReal> &JxW_face = side_fe->get_JxW();
+              const std::vector<std::vector<GeomReal> >& phi_face = side_fe->get_phi();
 
               FEBase* neighbor_side_fe = NULL;
               context.get_neighbor_side_fe(0, neighbor_side_fe);
 
               // These shape functions have been evaluated on the quadrature points
               // for elem->side on the neighbor element
-              const std::vector<std::vector<Real> >& phi_neighbor_face =
+              const std::vector<std::vector<GeomReal> >& phi_neighbor_face =
                 neighbor_side_fe->get_phi();
 
               const unsigned int n_dofs = context.get_dof_indices(0).size();
@@ -295,28 +296,28 @@ void assembly_with_dg_fem_context(EquationSystems& es,
                     for (unsigned int j=0; j<n_dofs; j++)
                       {
                         context.get_elem_elem_jacobian()(i,j) +=
-                          JxW_face[qp] * phi_face[i][qp] * phi_face[j][qp];
+                          MetaPhysicL::raw_value(JxW_face[qp] * phi_face[i][qp] * phi_face[j][qp]);
                       }
 
                   for (unsigned int i=0; i<n_dofs; i++)
                     for (unsigned int j=0; j<n_neighbor_dofs; j++)
                       {
                         context.get_elem_neighbor_jacobian()(i,j) +=
-                          JxW_face[qp] * phi_face[i][qp] * phi_neighbor_face[j][qp];
+                          MetaPhysicL::raw_value(JxW_face[qp] * phi_face[i][qp] * phi_neighbor_face[j][qp]);
                       }
 
                   for (unsigned int i=0; i<n_neighbor_dofs; i++)
                     for (unsigned int j=0; j<n_neighbor_dofs; j++)
                       {
                         context.get_neighbor_neighbor_jacobian()(i,j) +=
-                          JxW_face[qp] * phi_neighbor_face[i][qp] * phi_neighbor_face[j][qp];
+                          MetaPhysicL::raw_value(JxW_face[qp] * phi_neighbor_face[i][qp] * phi_neighbor_face[j][qp]);
                       }
 
                   for (unsigned int i=0; i<n_neighbor_dofs; i++)
                     for (unsigned int j=0; j<n_dofs; j++)
                       {
                         context.get_neighbor_elem_jacobian()(i,j) +=
-                          JxW_face[qp] * phi_neighbor_face[i][qp] * phi_face[j][qp];
+                          MetaPhysicL::raw_value(JxW_face[qp] * phi_neighbor_face[i][qp] * phi_face[j][qp]);
                       }
                 }
 
@@ -341,60 +342,60 @@ void assembly_with_dg_fem_context(EquationSystems& es,
 }
 
 
-Number cubic_test (const Point& p,
+GeomNumber cubic_test (const Point& p,
                    const Parameters&,
                    const std::string&,
                    const std::string&)
 {
-  const Real & x = p(0);
-  const Real & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const Real & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const GeomReal & x = p(0);
+  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return x*(1-x)*(1-x) + x*x*(1-y) + x*(1-y)*(1-z) + y*(1-y)*z + z*(1-z)*(1-z);
 }
 
 
-Number new_linear_test (const Point& p,
+GeomNumber new_linear_test (const Point& p,
                     const Parameters&,
                     const std::string&,
                     const std::string&)
 {
-  const Real & x = p(0);
-  const Real & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const Real & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const GeomReal & x = p(0);
+  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return x + 2*y + 3*z - 1;
 }
 
 
-Number disc_thirds_test (const Point& p,
+GeomNumber disc_thirds_test (const Point& p,
                          const Parameters&,
                          const std::string&,
                          const std::string&)
 {
-  const Real & x = p(0);
-  const Real & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const Real & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const GeomReal & x = p(0);
+  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return (3*x < 1) + (3*y < 2) + (3*z > 2);
 }
 
 
-struct TripleFunction : public FunctionBase<Number>
+struct TripleFunction : public FunctionBase<GeomNumber>
 {
   TripleFunction(Number _offset = 0) : offset(_offset) {}
 
-  virtual std::unique_ptr<FunctionBase<Number>> clone () const
+  virtual std::unique_ptr<FunctionBase<GeomNumber>> clone () const
   { return libmesh_make_unique<TripleFunction>(offset); }
 
   // We only really need the vector-valued output for projections
-  virtual Number operator() (const Point &,
+  virtual GeomNumber operator() (const Point &,
                              const Real /*time*/ = 0.) override
   { libmesh_error(); }
 
   virtual void operator() (const Point & p,
                            const Real time,
-                           DenseVector<Number> & output) override
+                           DenseVector<GeomNumber> & output) override
   {
     libmesh_assert_greater(output.size(), 0);
     Parameters params;
@@ -405,7 +406,7 @@ struct TripleFunction : public FunctionBase<Number>
       output(2) = disc_thirds_test(p, params, "", "") + offset;
   }
 
-  Number component (unsigned int i,
+  GeomNumber component (unsigned int i,
                     const Point & p,
                     Real /* time */) override
   {
@@ -494,38 +495,38 @@ private:
 
     if (u_subdomains.count(sbd_id))
       {
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(cubic_test(p,param,"","")),
-                                libmesh_real(sys.point_value(0,p)),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(cubic_test(p,param,"",""))),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(0,p))),
                                 TOLERANCE*TOLERANCE*10);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(cubic_test(p,param,"","") + Number(10)),
-                                libmesh_real(sys.point_value(0,p,sys.old_local_solution.get())),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(cubic_test(p,param,"","")) + Number(10)),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(0,p,sys.old_local_solution.get()))),
                                 TOLERANCE*TOLERANCE*100);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(cubic_test(p,param,"","") + Number(20)),
-                                libmesh_real(sys.point_value(0,p,sys.older_local_solution.get())),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(cubic_test(p,param,"","")) + Number(20)),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(0,p,sys.older_local_solution.get()))),
                                 TOLERANCE*TOLERANCE*100);
       }
     if (v_subdomains.count(sbd_id))
       {
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(new_linear_test(p,param,"","")),
-                                libmesh_real(sys.point_value(1,p)),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(new_linear_test(p,param,"",""))),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(1,p))),
                                 TOLERANCE*TOLERANCE*10);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(new_linear_test(p,param,"","") + Number(10)),
-                                libmesh_real(sys.point_value(1,p,sys.old_local_solution.get())),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(new_linear_test(p,param,"","")) + Number(10)),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(1,p,sys.old_local_solution.get()))),
                                 TOLERANCE*TOLERANCE*100);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(new_linear_test(p,param,"","") + Number(20)),
-                                libmesh_real(sys.point_value(1,p,sys.older_local_solution.get())),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(new_linear_test(p,param,"","")) + Number(20)),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(1,p,sys.older_local_solution.get()))),
                                 TOLERANCE*TOLERANCE*100);
       }
     if (w_subdomains.count(sbd_id))
       {
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(disc_thirds_test(p,param,"","")),
-                                libmesh_real(sys.point_value(2,p)),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(disc_thirds_test(p,param,"",""))),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(2,p))),
                                 TOLERANCE*TOLERANCE*10);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(disc_thirds_test(p,param,"","") + Number(10)),
-                                libmesh_real(sys.point_value(2,p,sys.old_local_solution.get())),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(disc_thirds_test(p,param,"","")) + Number(10)),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(2,p,sys.old_local_solution.get()))),
                                 TOLERANCE*TOLERANCE*100);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(disc_thirds_test(p,param,"","") + Number(20)),
-                                libmesh_real(sys.point_value(2,p,sys.older_local_solution.get())),
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(disc_thirds_test(p,param,"","")) + Number(20)),
+                                libmesh_real(MetaPhysicL::raw_value(sys.point_value(2,p,sys.older_local_solution.get()))),
                                 TOLERANCE*TOLERANCE*100);
       }
   }
@@ -617,7 +618,7 @@ public:
       for (unsigned int i = 0; i < generic_elem->dim(); ++i)
       {
         auto dof_index = node->dof_number(sys.number(), u_var, i);
-        sys.solution->set(dof_index, (*node)(i));
+        sys.solution->set(dof_index, MetaPhysicL::raw_value((*node)(i)));
       }
     }
 
@@ -638,7 +639,7 @@ public:
       {
         auto dof_index = node->dof_number(sys.number(), u_var, i);
         auto value = (*sys.solution)(dof_index);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(value), (*node)(i), TOLERANCE*TOLERANCE);
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(value), MetaPhysicL::raw_value((*node)(i)), TOLERANCE*TOLERANCE);
       }
     }
   }
@@ -669,7 +670,7 @@ public:
       for (unsigned int i = 0; i < generic_elem->dim(); ++i)
       {
         auto dof_index = node->dof_number(sys.number(), u_var, i);
-        sys.solution->set(dof_index, (*node)(i));
+        sys.solution->set(dof_index, MetaPhysicL::raw_value((*node)(i)));
       }
     }
 
@@ -689,7 +690,7 @@ public:
       {
         auto dof_index = node->dof_number(sys.number(), u_var, i);
         auto value = (*sys.solution)(dof_index);
-        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(value), (*node)(i), TOLERANCE*TOLERANCE);
+        LIBMESH_ASSERT_FP_EQUAL(libmesh_real(value), MetaPhysicL::raw_value((*node)(i)), TOLERANCE*TOLERANCE);
       }
     }
   }
@@ -863,8 +864,8 @@ public:
         for (Real z = 0.1; z < 1; z += 0.2)
           {
             Point p(x,y,z);
-            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(cubic_test(p,es.parameters,"","")),
-                                    libmesh_real(proj_sys.point_value(0,p)),
+            LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(cubic_test(p,es.parameters,"",""))),
+                                                 libmesh_real(MetaPhysicL::raw_value(proj_sys.point_value(0,p))),
                                     TOLERANCE*TOLERANCE);
           }
   }

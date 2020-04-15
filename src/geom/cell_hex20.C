@@ -349,7 +349,7 @@ Hex20::second_order_child_vertex (const unsigned int n) const
 
 
 
-Real Hex20::volume () const
+GeomReal Hex20::volume () const
 {
   // This specialization is good for Lagrange mappings only
   if (this->mapping_type() != LAGRANGE_MAP)
@@ -478,7 +478,7 @@ Real Hex20::volume () const
     };
 
 
-  Real vol = 0.;
+  GeomReal vol = 0.;
   for (int i=0; i<N; ++i)
     for (int j=0; j<N; ++j)
       for (int k=0; k<N; ++k)

@@ -364,7 +364,7 @@ const float Hex8::_embedding_matrix[Hex8::num_children][Hex8::num_nodes][Hex8::n
 
 
 
-Real Hex8::volume () const
+GeomReal Hex8::volume () const
 {
   // Make copies of our points.  It makes the subsequent calculations a bit
   // shorter and avoids dereferencing the same pointer multiple times.

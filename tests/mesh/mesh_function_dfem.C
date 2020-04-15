@@ -10,6 +10,7 @@
 #include <libmesh/mesh_refinement.h>
 #include <libmesh/mesh_function.h>
 #include <libmesh/numeric_vector.h>
+#include <libmesh/raw_type.h>
 
 #include "test_comm.h"
 #include "libmesh_cppunit.h"
@@ -17,10 +18,10 @@
 
 using namespace libMesh;
 
-Number position_function (const Point& p,
-                          const Parameters&,
-                          const std::string&,
-                          const std::string&)
+GeomNumber position_function (const Point& p,
+                              const Parameters&,
+                              const std::string&,
+                              const std::string&)
 {
   if (p(1) > 0.0)
     return 0.0;
@@ -28,10 +29,10 @@ Number position_function (const Point& p,
     return 1.0;
 }
 
-Number position_function2 (const Point& p,
-                           const Parameters&,
-                           const std::string&,
-                           const std::string&)
+GeomNumber position_function2 (const Point& p,
+                               const Parameters&,
+                               const std::string&,
+                               const std::string&)
 {
   if (p(1) > 0.0)
     return 2.0 * p(1) + 1.0;
@@ -190,33 +191,33 @@ public:
     mesh_function.init();
 
     // test mesh function in top
-    std::map<const Elem *, Number> top_val = mesh_function.discontinuous_value(top);
+    std::map<const Elem *, GeomNumber> top_val = mesh_function.discontinuous_value(top);
 
     // check that there is only one value
     CPPUNIT_ASSERT (top_val.size() == 1);
 
     // check that this one value is the right one
-    for (std::map<const Elem *, Number>::const_iterator it = top_val.begin(); it != top_val.end(); ++it)
+    for (std::map<const Elem *, GeomNumber>::const_iterator it = top_val.begin(); it != top_val.end(); ++it)
       CPPUNIT_ASSERT (it->first->id() == 0 && std::abs(it->second) < 1.0e-10);
 
     // test mesh function in bottom
-    std::map<const Elem *, Number> bottom_val = mesh_function.discontinuous_value(bottom);
+    std::map<const Elem *, GeomNumber> bottom_val = mesh_function.discontinuous_value(bottom);
 
     // check that there is only one value
     CPPUNIT_ASSERT (bottom_val.size() == 1);
 
     // check that this one value is the right one
-    for (std::map<const Elem *, Number>::const_iterator it = bottom_val.begin(); it != bottom_val.end(); ++it)
+    for (std::map<const Elem *, GeomNumber>::const_iterator it = bottom_val.begin(); it != bottom_val.end(); ++it)
       CPPUNIT_ASSERT (it->first->id() == 1 && std::abs(it->second - 1.0) < 1.0e-10);
 
     // test mesh function in face
-    std::map<const Elem *, Number> face_val = mesh_function.discontinuous_value(face);
+    std::map<const Elem *, GeomNumber> face_val = mesh_function.discontinuous_value(face);
 
     // check that there are two values
     CPPUNIT_ASSERT (face_val.size() == 2);
 
     // check that the two values are attached to the right element
-    for (std::map<const Elem *, Number>::const_iterator it = face_val.begin(); it != face_val.end(); ++it)
+    for (std::map<const Elem *, GeomNumber>::const_iterator it = face_val.begin(); it != face_val.end(); ++it)
       if (it->first->id() == 0)
         CPPUNIT_ASSERT (std::abs(it->second) < 1.0e-10);
       else if (it->first->id() == 1)

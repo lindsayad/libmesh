@@ -2,7 +2,7 @@
 #define __type_vector_test_h__
 
 #include <libmesh/type_vector.h>
-#include <libmesh/raw_value.h>
+#include <libmesh/raw_type.h>
 
 #include "libmesh_cppunit.h"
 
@@ -124,13 +124,13 @@ public:
 
   void testNorm()
   {
-    LIBMESH_ASSERT_FP_EQUAL(raw_value(m_1_1_1->norm()) ,
+    LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(m_1_1_1->norm()) ,
                             std::sqrt(Real(LIBMESH_DIM)) , TOLERANCE*TOLERANCE );
   }
 
   void testNormSq()
   {
-    LIBMESH_ASSERT_FP_EQUAL(raw_value(m_1_1_1->norm_sq()) ,
+    LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(m_1_1_1->norm_sq()) ,
                             Real(LIBMESH_DIM) , TOLERANCE*TOLERANCE );
   }
 
@@ -162,24 +162,24 @@ public:
   {
     DerivedClass avector = 0;
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
 
     DerivedClass bvector = 2.0;
-    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(bvector(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(bvector(0))) , TOLERANCE*TOLERANCE );
     for (int i = 1; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(bvector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(bvector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarMult()
   {
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(raw_value(((*m_1_1_1)*5.0)(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)*5.0)(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarDiv()
   {
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(raw_value(((*m_1_1_1)/5.0)(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)/5.0)(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarMultAssign()
@@ -188,7 +188,7 @@ public:
     avector*=5.0;
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarDivAssign()
@@ -197,16 +197,16 @@ public:
     avector/=5.0;
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorAdd()
   {
-    LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(((*m_1_1_1)+(*m_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)+(*m_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 1)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(((*m_1_1_1)+(*m_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)+(*m_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 2)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(((*m_1_1_1)+(*m_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)+(*m_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorAddScaled()
@@ -215,24 +215,24 @@ public:
     avector.add_scaled((*m_1_1_1),0.5);
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 1.5 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 1.5 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorSub()
   {
-    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(((*m_1_1_1)-(*m_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)-(*m_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 1)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(((*m_1_1_1)-(*m_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)-(*m_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 2)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(((*m_1_1_1)-(*m_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(((*m_1_1_1)-(*m_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorMult()
   {
     if (LIBMESH_DIM == 2)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value((*m_1_1_1)*(*m_n1_1_n1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value((*m_1_1_1)*(*m_n1_1_n1))) , TOLERANCE*TOLERANCE );
     else
-      LIBMESH_ASSERT_FP_EQUAL( -1.0 , libmesh_real(raw_value((*m_1_1_1)*(*m_n1_1_n1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( -1.0 , libmesh_real(MetaPhysicL::raw_value((*m_1_1_1)*(*m_n1_1_n1))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorAddAssign()
@@ -241,7 +241,7 @@ public:
     avector+=(*m_1_1_1);
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorSubAssign()
@@ -249,11 +249,11 @@ public:
     DerivedClass avector = (*m_1_1_1);
     avector-=(*m_n1_1_n1);
 
-    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(avector(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(avector(0))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 1)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(avector(1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(avector(1))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 2)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(avector(2))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(avector(2))) , TOLERANCE*TOLERANCE );
   }
 
   void testValueBase()
@@ -303,12 +303,12 @@ public:
 
   void testNormBase()
   {
-    LIBMESH_ASSERT_FP_EQUAL( std::sqrt(Real(LIBMESH_DIM)) , raw_value(basem_1_1_1->norm()) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( std::sqrt(Real(LIBMESH_DIM)) , MetaPhysicL::raw_value(basem_1_1_1->norm()) , TOLERANCE*TOLERANCE );
   }
 
   void testNormSqBase()
   {
-    LIBMESH_ASSERT_FP_EQUAL( Real(LIBMESH_DIM) , raw_value(basem_1_1_1->norm_sq()) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( Real(LIBMESH_DIM) , MetaPhysicL::raw_value(basem_1_1_1->norm_sq()) , TOLERANCE*TOLERANCE );
   }
 
   void testEqualityBase()
@@ -334,13 +334,13 @@ public:
   void testScalarMultBase()
   {
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(raw_value(((*basem_1_1_1)*5.0)(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)*5.0)(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarDivBase()
   {
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(raw_value(((*basem_1_1_1)/5.0)(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)/5.0)(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarMultAssignBase()
@@ -349,7 +349,7 @@ public:
     avector*=5.0;
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 5.0 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testScalarDivAssignBase()
@@ -358,16 +358,16 @@ public:
     avector/=5.0;
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 1/Real(5) , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorAddBase()
   {
-    LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(((*basem_1_1_1)+(*basem_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)+(*basem_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 1)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(((*basem_1_1_1)+(*basem_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)+(*basem_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 2)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(((*basem_1_1_1)+(*basem_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)+(*basem_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorAddScaledBase()
@@ -376,24 +376,24 @@ public:
     avector.add_scaled((*basem_1_1_1),0.5);
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 1.5 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 1.5 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorSubBase()
   {
-    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(((*basem_1_1_1)-(*basem_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)-(*basem_n1_1_n1))(0))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 1)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(((*basem_1_1_1)-(*basem_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)-(*basem_n1_1_n1))(1))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 2)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(((*basem_1_1_1)-(*basem_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(((*basem_1_1_1)-(*basem_n1_1_n1))(2))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorMultBase()
   {
     if (LIBMESH_DIM == 2)
-      LIBMESH_ASSERT_FP_EQUAL(  0.0 , libmesh_real(raw_value((*basem_1_1_1)*(*basem_n1_1_n1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL(  0.0 , libmesh_real(MetaPhysicL::raw_value((*basem_1_1_1)*(*basem_n1_1_n1))) , TOLERANCE*TOLERANCE );
     else
-      LIBMESH_ASSERT_FP_EQUAL( -1.0 , libmesh_real(raw_value((*basem_1_1_1)*(*basem_n1_1_n1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( -1.0 , libmesh_real(MetaPhysicL::raw_value((*basem_1_1_1)*(*basem_n1_1_n1))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorAddAssignBase()
@@ -402,7 +402,7 @@ public:
     avector+=(*basem_1_1_1);
 
     for (int i = 0; i != LIBMESH_DIM; ++i)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(avector(i))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(avector(i))) , TOLERANCE*TOLERANCE );
   }
 
   void testVectorSubAssignBase()
@@ -410,11 +410,11 @@ public:
     TypeVector<T> avector(*m_1_1_1);
     avector-=(*basem_n1_1_n1);
 
-    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(avector(0))) , TOLERANCE*TOLERANCE );
+    LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(avector(0))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 1)
-      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(raw_value(avector(1))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 0.0 , libmesh_real(MetaPhysicL::raw_value(avector(1))) , TOLERANCE*TOLERANCE );
     if (LIBMESH_DIM > 2)
-      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(raw_value(avector(2))) , TOLERANCE*TOLERANCE );
+      LIBMESH_ASSERT_FP_EQUAL( 2.0 , libmesh_real(MetaPhysicL::raw_value(avector(2))) , TOLERANCE*TOLERANCE );
   }
 };
 

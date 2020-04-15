@@ -29,13 +29,13 @@ namespace
 {
 using namespace libMesh;
 
-Real fe_hierarchic_3D_shape(const Elem * elem,
+GeomReal fe_hierarchic_3D_shape(const Elem * elem,
                             const Order order,
                             const unsigned int i,
                             const Point & p,
                             const bool add_p_level);
 
-Real fe_hierarchic_3D_shape_deriv(const Elem * elem,
+GeomReal fe_hierarchic_3D_shape_deriv(const Elem * elem,
                                   const Order order,
                                   const unsigned int i,
                                   const unsigned int j,
@@ -44,7 +44,7 @@ Real fe_hierarchic_3D_shape_deriv(const Elem * elem,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
-Real fe_hierarchic_3D_shape_second_deriv(const Elem * elem,
+GeomReal fe_hierarchic_3D_shape_second_deriv(const Elem * elem,
                                          const Order order,
                                          const unsigned int i,
                                          const unsigned int j,
@@ -67,7 +67,7 @@ Point get_min_point(const Elem * elem,
 void cube_indices(const Elem * elem,
                   const unsigned int totalorder,
                   const unsigned int i,
-                  Real & xi, Real & eta, Real & zeta,
+                  GeomReal & xi, GeomReal & eta, GeomReal & zeta,
                   unsigned int & i0,
                   unsigned int & i1,
                   unsigned int & i2)
@@ -89,7 +89,7 @@ void cube_indices(const Elem * elem,
 
   libmesh_assert_less (i, (totalorder+1u)*(totalorder+1u)*(totalorder+1u));
 
-  Real xi_saved = xi, eta_saved = eta, zeta_saved = zeta;
+  GeomReal xi_saved = xi, eta_saved = eta, zeta_saved = zeta;
 
   // Vertices:
   if (i == 0)
@@ -675,7 +675,7 @@ LIBMESH_DEFAULT_VECTORIZED_FE(3,L2_HIERARCHIC)
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape(const ElemType,
+GeomReal FE<3,HIERARCHIC>::shape(const ElemType,
                              const Order,
                              const unsigned int,
                              const Point &)
@@ -687,7 +687,7 @@ Real FE<3,HIERARCHIC>::shape(const ElemType,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape(const ElemType,
+GeomReal FE<3,L2_HIERARCHIC>::shape(const ElemType,
                                 const Order,
                                 const unsigned int,
                                 const Point &)
@@ -699,7 +699,7 @@ Real FE<3,L2_HIERARCHIC>::shape(const ElemType,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape(const Elem * elem,
+GeomReal FE<3,HIERARCHIC>::shape(const Elem * elem,
                              const Order order,
                              const unsigned int i,
                              const Point & p,
@@ -710,7 +710,7 @@ Real FE<3,HIERARCHIC>::shape(const Elem * elem,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape(const FEType fet,
+GeomReal FE<3,HIERARCHIC>::shape(const FEType fet,
                              const Elem * elem,
                              const unsigned int i,
                              const Point & p,
@@ -723,7 +723,7 @@ Real FE<3,HIERARCHIC>::shape(const FEType fet,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape(const Elem * elem,
+GeomReal FE<3,L2_HIERARCHIC>::shape(const Elem * elem,
                                 const Order order,
                                 const unsigned int i,
                                 const Point & p,
@@ -734,7 +734,7 @@ Real FE<3,L2_HIERARCHIC>::shape(const Elem * elem,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape(const FEType fet,
+GeomReal FE<3,L2_HIERARCHIC>::shape(const FEType fet,
                                 const Elem * elem,
                                 const unsigned int i,
                                 const Point & p,
@@ -745,7 +745,7 @@ Real FE<3,L2_HIERARCHIC>::shape(const FEType fet,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape_deriv(const ElemType,
+GeomReal FE<3,HIERARCHIC>::shape_deriv(const ElemType,
                                    const Order,
                                    const unsigned int,
                                    const unsigned int,
@@ -758,7 +758,7 @@ Real FE<3,HIERARCHIC>::shape_deriv(const ElemType,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape_deriv(const ElemType,
+GeomReal FE<3,L2_HIERARCHIC>::shape_deriv(const ElemType,
                                       const Order,
                                       const unsigned int,
                                       const unsigned int,
@@ -771,7 +771,7 @@ Real FE<3,L2_HIERARCHIC>::shape_deriv(const ElemType,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape_deriv(const Elem * elem,
+GeomReal FE<3,HIERARCHIC>::shape_deriv(const Elem * elem,
                                    const Order order,
                                    const unsigned int i,
                                    const unsigned int j,
@@ -783,7 +783,7 @@ Real FE<3,HIERARCHIC>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape_deriv(const FEType fet,
+GeomReal FE<3,HIERARCHIC>::shape_deriv(const FEType fet,
                                    const Elem * elem,
                                    const unsigned int i,
                                    const unsigned int j,
@@ -796,7 +796,7 @@ Real FE<3,HIERARCHIC>::shape_deriv(const FEType fet,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape_deriv(const Elem * elem,
+GeomReal FE<3,L2_HIERARCHIC>::shape_deriv(const Elem * elem,
                                       const Order order,
                                       const unsigned int i,
                                       const unsigned int j,
@@ -808,7 +808,7 @@ Real FE<3,L2_HIERARCHIC>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape_deriv(const FEType fet,
+GeomReal FE<3,L2_HIERARCHIC>::shape_deriv(const FEType fet,
                                       const Elem * elem,
                                       const unsigned int i,
                                       const unsigned int j,
@@ -822,7 +822,7 @@ Real FE<3,L2_HIERARCHIC>::shape_deriv(const FEType fet,
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
 template <>
-Real FE<3,HIERARCHIC>::shape_second_deriv(const ElemType,
+GeomReal FE<3,HIERARCHIC>::shape_second_deriv(const ElemType,
                                           const Order,
                                           const unsigned int,
                                           const unsigned int,
@@ -835,7 +835,7 @@ Real FE<3,HIERARCHIC>::shape_second_deriv(const ElemType,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape_second_deriv(const ElemType,
+GeomReal FE<3,L2_HIERARCHIC>::shape_second_deriv(const ElemType,
                                              const Order,
                                              const unsigned int,
                                              const unsigned int,
@@ -848,7 +848,7 @@ Real FE<3,L2_HIERARCHIC>::shape_second_deriv(const ElemType,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape_second_deriv(const Elem * elem,
+GeomReal FE<3,HIERARCHIC>::shape_second_deriv(const Elem * elem,
                                           const Order order,
                                           const unsigned int i,
                                           const unsigned int j,
@@ -861,7 +861,7 @@ Real FE<3,HIERARCHIC>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,HIERARCHIC>::shape_second_deriv(const FEType fet,
+GeomReal FE<3,HIERARCHIC>::shape_second_deriv(const FEType fet,
                                           const Elem * elem,
                                           const unsigned int i,
                                           const unsigned int j,
@@ -874,7 +874,7 @@ Real FE<3,HIERARCHIC>::shape_second_deriv(const FEType fet,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape_second_deriv(const Elem * elem,
+GeomReal FE<3,L2_HIERARCHIC>::shape_second_deriv(const Elem * elem,
                                              const Order order,
                                              const unsigned int i,
                                              const unsigned int j,
@@ -886,7 +886,7 @@ Real FE<3,L2_HIERARCHIC>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,L2_HIERARCHIC>::shape_second_deriv(const FEType fet,
+GeomReal FE<3,L2_HIERARCHIC>::shape_second_deriv(const FEType fet,
                                              const Elem * elem,
                                              const unsigned int i,
                                              const unsigned int j,
@@ -906,7 +906,7 @@ namespace
 {
 using namespace libMesh;
 
-Real fe_hierarchic_3D_shape(const Elem * elem,
+GeomReal fe_hierarchic_3D_shape(const Elem * elem,
                             const Order order,
                             const unsigned int i,
                             const Point & p,
@@ -931,9 +931,9 @@ Real fe_hierarchic_3D_shape(const Elem * elem,
         libmesh_assert_less (i, (totalorder+1u)*(totalorder+1u)*(totalorder+1u));
 
         // Compute hex shape functions as a tensor-product
-        Real xi   = p(0);
-        Real eta  = p(1);
-        Real zeta = p(2);
+        GeomReal xi   = p(0);
+        GeomReal eta  = p(1);
+        GeomReal zeta = p(2);
 
         unsigned int i0, i1, i2;
 
@@ -956,7 +956,7 @@ Real fe_hierarchic_3D_shape(const Elem * elem,
 
 
 
-Real fe_hierarchic_3D_shape_deriv(const Elem * elem,
+GeomReal fe_hierarchic_3D_shape_deriv(const Elem * elem,
                                   const Order order,
                                   const unsigned int i,
                                   const unsigned int j,
@@ -1014,7 +1014,7 @@ Real fe_hierarchic_3D_shape_deriv(const Elem * elem,
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 
-Real fe_hierarchic_3D_shape_second_deriv(const Elem * elem,
+GeomReal fe_hierarchic_3D_shape_second_deriv(const Elem * elem,
                                          const Order order,
                                          const unsigned int i,
                                          const unsigned int j,

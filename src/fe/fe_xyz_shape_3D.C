@@ -31,7 +31,7 @@ LIBMESH_DEFAULT_VECTORIZED_FE(3,XYZ)
 
 
 template <>
-Real FE<3,XYZ>::shape(const Elem * elem,
+GeomReal FE<3,XYZ>::shape(const Elem * elem,
                       const Order libmesh_dbg_var(order),
                       const unsigned int i,
                       const Point & point_in,
@@ -45,22 +45,22 @@ Real FE<3,XYZ>::shape(const Elem * elem,
   for (unsigned int p = 0; p < elem->n_nodes(); p++)
     for (unsigned int d = 0; d < 3; d++)
       {
-        const Real distance = std::abs(centroid(d) - elem->point(p)(d));
+        const GeomReal distance = std::abs(centroid(d) - elem->point(p)(d));
         max_distance(d) = std::max(distance, max_distance(d));
       }
 
-  const Real x  = point_in(0);
-  const Real y  = point_in(1);
-  const Real z  = point_in(2);
-  const Real xc = centroid(0);
-  const Real yc = centroid(1);
-  const Real zc = centroid(2);
-  const Real distx = max_distance(0);
-  const Real disty = max_distance(1);
-  const Real distz = max_distance(2);
-  const Real dx = (x - xc)/distx;
-  const Real dy = (y - yc)/disty;
-  const Real dz = (z - zc)/distz;
+  const GeomReal x  = point_in(0);
+  const GeomReal y  = point_in(1);
+  const GeomReal z  = point_in(2);
+  const GeomReal xc = centroid(0);
+  const GeomReal yc = centroid(1);
+  const GeomReal zc = centroid(2);
+  const GeomReal distx = max_distance(0);
+  const GeomReal disty = max_distance(1);
+  const GeomReal distz = max_distance(2);
+  const GeomReal dx = (x - xc)/distx;
+  const GeomReal dy = (y - yc)/disty;
+  const GeomReal dz = (z - zc)/distz;
 
 #ifndef NDEBUG
   // totalorder is only used in the assertion below, so
@@ -191,7 +191,7 @@ Real FE<3,XYZ>::shape(const Elem * elem,
       for (; block < i2; block += (o-nz+1)) { nz++; }
       const unsigned int nx = block - i2;
       const unsigned int ny = o - nx - nz;
-      Real val = 1.;
+      GeomReal val = 1.;
       for (unsigned int index=0; index != nx; index++)
         val *= dx;
       for (unsigned int index=0; index != ny; index++)
@@ -211,7 +211,7 @@ Real FE<3,XYZ>::shape(const Elem * elem,
 
 
 template <>
-Real FE<3,XYZ>::shape(const ElemType,
+GeomReal FE<3,XYZ>::shape(const ElemType,
                       const Order,
                       const unsigned int,
                       const Point &)
@@ -223,7 +223,7 @@ Real FE<3,XYZ>::shape(const ElemType,
 
 
 template <>
-Real FE<3,XYZ>::shape(const FEType fet,
+GeomReal FE<3,XYZ>::shape(const FEType fet,
                       const Elem * elem,
                       const unsigned int i,
                       const Point & p,
@@ -237,7 +237,7 @@ Real FE<3,XYZ>::shape(const FEType fet,
 
 
 template <>
-Real FE<3,XYZ>::shape_deriv(const Elem * elem,
+GeomReal FE<3,XYZ>::shape_deriv(const Elem * elem,
                             const Order libmesh_dbg_var(order),
                             const unsigned int i,
                             const unsigned int j,
@@ -254,22 +254,22 @@ Real FE<3,XYZ>::shape_deriv(const Elem * elem,
   for (unsigned int p = 0; p < elem->n_nodes(); p++)
     for (unsigned int d = 0; d < 3; d++)
       {
-        const Real distance = std::abs(centroid(d) - elem->point(p)(d));
+        const GeomReal distance = std::abs(centroid(d) - elem->point(p)(d));
         max_distance(d) = std::max(distance, max_distance(d));
       }
 
-  const Real x  = point_in(0);
-  const Real y  = point_in(1);
-  const Real z  = point_in(2);
-  const Real xc = centroid(0);
-  const Real yc = centroid(1);
-  const Real zc = centroid(2);
-  const Real distx = max_distance(0);
-  const Real disty = max_distance(1);
-  const Real distz = max_distance(2);
-  const Real dx = (x - xc)/distx;
-  const Real dy = (y - yc)/disty;
-  const Real dz = (z - zc)/distz;
+  const GeomReal x  = point_in(0);
+  const GeomReal y  = point_in(1);
+  const GeomReal z  = point_in(2);
+  const GeomReal xc = centroid(0);
+  const GeomReal yc = centroid(1);
+  const GeomReal zc = centroid(2);
+  const GeomReal distx = max_distance(0);
+  const GeomReal disty = max_distance(1);
+  const GeomReal distz = max_distance(2);
+  const GeomReal dx = (x - xc)/distx;
+  const GeomReal dy = (y - yc)/disty;
+  const GeomReal dz = (z - zc)/distz;
 
 #ifndef NDEBUG
   // totalorder is only used in the assertion below, so
@@ -404,7 +404,7 @@ Real FE<3,XYZ>::shape_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = nx;
+            GeomReal val = nx;
             for (unsigned int index=1; index < nx; index++)
               val *= dx;
             for (unsigned int index=0; index != ny; index++)
@@ -539,7 +539,7 @@ Real FE<3,XYZ>::shape_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = ny;
+            GeomReal val = ny;
             for (unsigned int index=0; index != nx; index++)
               val *= dx;
             for (unsigned int index=1; index < ny; index++)
@@ -674,7 +674,7 @@ Real FE<3,XYZ>::shape_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = nz;
+            GeomReal val = nz;
             for (unsigned int index=0; index != nx; index++)
               val *= dx;
             for (unsigned int index=0; index != ny; index++)
@@ -699,7 +699,7 @@ Real FE<3,XYZ>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,XYZ>::shape_deriv(const ElemType,
+GeomReal FE<3,XYZ>::shape_deriv(const ElemType,
                             const Order,
                             const unsigned int,
                             const unsigned int,
@@ -712,7 +712,7 @@ Real FE<3,XYZ>::shape_deriv(const ElemType,
 
 
 template <>
-Real FE<3,XYZ>::shape_deriv(const FEType fet,
+GeomReal FE<3,XYZ>::shape_deriv(const FEType fet,
                             const Elem * elem,
                             const unsigned int i,
                             const unsigned int j,
@@ -727,7 +727,7 @@ Real FE<3,XYZ>::shape_deriv(const FEType fet,
 
 
 template <>
-Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
+GeomReal FE<3,XYZ>::shape_second_deriv(const Elem * elem,
                                    const Order libmesh_dbg_var(order),
                                    const unsigned int i,
                                    const unsigned int j,
@@ -744,28 +744,28 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
   for (const Point & p : elem->node_ref_range())
     for (unsigned int d = 0; d < 3; d++)
       {
-        const Real distance = std::abs(centroid(d) - p(d));
+        const GeomReal distance = std::abs(centroid(d) - p(d));
         max_distance(d) = std::max(distance, max_distance(d));
       }
 
-  const Real x  = point_in(0);
-  const Real y  = point_in(1);
-  const Real z  = point_in(2);
-  const Real xc = centroid(0);
-  const Real yc = centroid(1);
-  const Real zc = centroid(2);
-  const Real distx = max_distance(0);
-  const Real disty = max_distance(1);
-  const Real distz = max_distance(2);
-  const Real dx = (x - xc)/distx;
-  const Real dy = (y - yc)/disty;
-  const Real dz = (z - zc)/distz;
-  const Real dist2x = pow(distx,2.);
-  const Real dist2y = pow(disty,2.);
-  const Real dist2z = pow(distz,2.);
-  const Real distxy = distx * disty;
-  const Real distxz = distx * distz;
-  const Real distyz = disty * distz;
+  const GeomReal x  = point_in(0);
+  const GeomReal y  = point_in(1);
+  const GeomReal z  = point_in(2);
+  const GeomReal xc = centroid(0);
+  const GeomReal yc = centroid(1);
+  const GeomReal zc = centroid(2);
+  const GeomReal distx = max_distance(0);
+  const GeomReal disty = max_distance(1);
+  const GeomReal distz = max_distance(2);
+  const GeomReal dx = (x - xc)/distx;
+  const GeomReal dy = (y - yc)/disty;
+  const GeomReal dz = (z - zc)/distz;
+  const GeomReal dist2x = std::pow(distx,2.);
+  const GeomReal dist2y = std::pow(disty,2.);
+  const GeomReal dist2z = std::pow(distz,2.);
+  const GeomReal distxy = distx * disty;
+  const GeomReal distxz = distx * distz;
+  const GeomReal distyz = disty * distz;
 
 #ifndef NDEBUG
   // totalorder is only used in the assertion below, so
@@ -866,7 +866,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = nx * (nx - 1);
+            GeomReal val = nx * (nx - 1);
             for (unsigned int index=2; index < nx; index++)
               val *= dx;
             for (unsigned int index=0; index != ny; index++)
@@ -972,7 +972,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = nx * ny;
+            GeomReal val = nx * ny;
             for (unsigned int index=1; index < nx; index++)
               val *= dx;
             for (unsigned int index=1; index < ny; index++)
@@ -1077,7 +1077,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = ny * (ny - 1);
+            GeomReal val = ny * (ny - 1);
             for (unsigned int index=0; index != nx; index++)
               val *= dx;
             for (unsigned int index=2; index < ny; index++)
@@ -1183,7 +1183,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = nx * nz;
+            GeomReal val = nx * nz;
             for (unsigned int index=1; index < nx; index++)
               val *= dx;
             for (unsigned int index=0; index != ny; index++)
@@ -1288,7 +1288,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = ny * nz;
+            GeomReal val = ny * nz;
             for (unsigned int index=0; index != nx; index++)
               val *= dx;
             for (unsigned int index=1; index < ny; index++)
@@ -1382,7 +1382,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
             for (; block < i2; block += (o-nz+1)) { nz++; }
             const unsigned int nx = block - i2;
             const unsigned int ny = o - nx - nz;
-            Real val = nz * (nz - 1);
+            GeomReal val = nz * (nz - 1);
             for (unsigned int index=0; index != nx; index++)
               val *= dx;
             for (unsigned int index=0; index != ny; index++)
@@ -1407,7 +1407,7 @@ Real FE<3,XYZ>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<3,XYZ>::shape_second_deriv(const ElemType,
+GeomReal FE<3,XYZ>::shape_second_deriv(const ElemType,
                                    const Order,
                                    const unsigned int,
                                    const unsigned int,
@@ -1419,7 +1419,7 @@ Real FE<3,XYZ>::shape_second_deriv(const ElemType,
 
 
 template <>
-Real FE<3,XYZ>::shape_second_deriv(const FEType fet,
+GeomReal FE<3,XYZ>::shape_second_deriv(const FEType fet,
                                    const Elem * elem,
                                    const unsigned int i,
                                    const unsigned int j,

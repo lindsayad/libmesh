@@ -122,7 +122,7 @@ void Edge2::connectivity(const unsigned int libmesh_dbg_var(sc),
 }
 
 
-Real Edge2::volume () const
+GeomReal Edge2::volume () const
 {
   // OK, so this is probably overkill, since it is equivalent to
   // Elem::hmax() for the Edge2, but here it is nonetheless...

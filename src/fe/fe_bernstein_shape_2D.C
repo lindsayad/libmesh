@@ -34,7 +34,7 @@ LIBMESH_DEFAULT_VECTORIZED_FE(2,BERNSTEIN)
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape(const Elem * elem,
+GeomReal FE<2,BERNSTEIN>::shape(const Elem * elem,
                             const Order order,
                             const unsigned int i,
                             const Point & p,
@@ -59,8 +59,8 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
     case QUAD9:
       {
         // Compute quad shape functions as a tensor-product
-        const Real xi  = p(0);
-        const Real eta = p(1);
+        const GeomReal xi  = p(0);
+        const GeomReal eta = p(1);
 
         libmesh_assert_less (i, (totalorder+1u)*(totalorder+1u));
 
@@ -117,8 +117,8 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
       {
         libmesh_assert_less (totalorder, 3);
 
-        const Real xi  = p(0);
-        const Real eta = p(1);
+        const GeomReal xi  = p(0);
+        const GeomReal eta = p(1);
 
         libmesh_assert_less (i, 8);
 
@@ -145,9 +145,9 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
         {
         case FIRST:
           {
-            const Real x=p(0);
-            const Real y=p(1);
-            const Real r=1.-x-y;
+            const GeomReal x=p(0);
+            const GeomReal y=p(1);
+            const GeomReal r=1.-x-y;
 
             libmesh_assert_less (i, 3);
 
@@ -163,9 +163,9 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
           }
         case SECOND:
           {
-            const Real x=p(0);
-            const Real y=p(1);
-            const Real r=1.-x-y;
+            const GeomReal x=p(0);
+            const GeomReal y=p(1);
+            const GeomReal r=1.-x-y;
 
             libmesh_assert_less (i, 6);
 
@@ -185,9 +185,9 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
           }
         case THIRD:
           {
-            const Real x=p(0);
-            const Real y=p(1);
-            const Real r=1.-x-y;
+            const GeomReal x=p(0);
+            const GeomReal y=p(1);
+            const GeomReal r=1.-x-y;
             libmesh_assert_less (i, 10);
 
             unsigned int shape=i;
@@ -220,9 +220,9 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
           }
         case FOURTH:
           {
-            const Real x=p(0);
-            const Real y=p(1);
-            const Real r=1-x-y;
+            const GeomReal x=p(0);
+            const GeomReal y=p(1);
+            const GeomReal r=1-x-y;
             unsigned int shape=i;
 
             libmesh_assert_less (i, 15);
@@ -263,9 +263,9 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
           }
         case FIFTH:
           {
-            const Real x=p(0);
-            const Real y=p(1);
-            const Real r=1-x-y;
+            const GeomReal x=p(0);
+            const GeomReal y=p(1);
+            const GeomReal r=1-x-y;
             unsigned int shape=i;
 
             libmesh_assert_less (i, 21);
@@ -311,9 +311,9 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
           }
         case SIXTH:
           {
-            const Real x=p(0);
-            const Real y=p(1);
-            const Real r=1-x-y;
+            const GeomReal x=p(0);
+            const GeomReal y=p(1);
+            const GeomReal r=1-x-y;
             unsigned int shape=i;
 
             libmesh_assert_less (i, 28);
@@ -375,7 +375,7 @@ Real FE<2,BERNSTEIN>::shape(const Elem * elem,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape(const ElemType,
+GeomReal FE<2,BERNSTEIN>::shape(const ElemType,
                             const Order,
                             const unsigned int,
                             const Point &)
@@ -386,7 +386,7 @@ Real FE<2,BERNSTEIN>::shape(const ElemType,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape(const FEType fet,
+GeomReal FE<2,BERNSTEIN>::shape(const FEType fet,
                             const Elem * elem,
                             const unsigned int i,
                             const Point & p,
@@ -398,7 +398,7 @@ Real FE<2,BERNSTEIN>::shape(const FEType fet,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape_deriv(const Elem * elem,
+GeomReal FE<2,BERNSTEIN>::shape_deriv(const Elem * elem,
                                   const Order order,
                                   const unsigned int i,
                                   const unsigned int j,
@@ -419,8 +419,8 @@ Real FE<2,BERNSTEIN>::shape_deriv(const Elem * elem,
     case QUAD9:
       {
         // Compute quad shape functions as a tensor-product
-        const Real xi  = p(0);
-        const Real eta = p(1);
+        const GeomReal xi  = p(0);
+        const GeomReal eta = p(1);
 
         libmesh_assert_less (i, (totalorder+1u)*(totalorder+1u));
 
@@ -486,8 +486,8 @@ Real FE<2,BERNSTEIN>::shape_deriv(const Elem * elem,
       {
         libmesh_assert_less (totalorder, 3);
 
-        const Real xi  = p(0);
-        const Real eta = p(1);
+        const GeomReal xi  = p(0);
+        const GeomReal eta = p(1);
 
         libmesh_assert_less (i, 8);
 
@@ -565,7 +565,7 @@ Real FE<2,BERNSTEIN>::shape_deriv(const Elem * elem,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape_deriv(const ElemType,
+GeomReal FE<2,BERNSTEIN>::shape_deriv(const ElemType,
                                   const Order,
                                   const unsigned int,
                                   const unsigned int,
@@ -576,7 +576,7 @@ Real FE<2,BERNSTEIN>::shape_deriv(const ElemType,
 }
 
 template <>
-Real FE<2,BERNSTEIN>::shape_deriv(const FEType fet,
+GeomReal FE<2,BERNSTEIN>::shape_deriv(const FEType fet,
                                   const Elem * elem,
                                   const unsigned int i,
                                   const unsigned int j,
@@ -594,7 +594,7 @@ Real FE<2,BERNSTEIN>::shape_deriv(const FEType fet,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape_second_deriv(const Elem * elem,
+GeomReal FE<2,BERNSTEIN>::shape_second_deriv(const Elem * elem,
                                          const Order order,
                                          const unsigned int i,
                                          const unsigned int j,
@@ -615,8 +615,8 @@ Real FE<2,BERNSTEIN>::shape_second_deriv(const Elem * elem,
     case QUAD9:
       {
         // Compute quad shape functions as a tensor-product
-        const Real xi  = p(0);
-        const Real eta = p(1);
+        const GeomReal xi  = p(0);
+        const GeomReal eta = p(1);
 
         libmesh_assert_less (i, (totalorder+1u)*(totalorder+1u));
 
@@ -737,7 +737,7 @@ Real FE<2,BERNSTEIN>::shape_second_deriv(const Elem * elem,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape_second_deriv(const ElemType,
+GeomReal FE<2,BERNSTEIN>::shape_second_deriv(const ElemType,
                                          const Order,
                                          const unsigned int,
                                          const unsigned int,
@@ -749,7 +749,7 @@ Real FE<2,BERNSTEIN>::shape_second_deriv(const ElemType,
 
 
 template <>
-Real FE<2,BERNSTEIN>::shape_second_deriv(const FEType fet,
+GeomReal FE<2,BERNSTEIN>::shape_second_deriv(const FEType fet,
                                          const Elem * elem,
                                          const unsigned int i,
                                          const unsigned int j,
