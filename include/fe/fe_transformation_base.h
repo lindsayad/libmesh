@@ -23,6 +23,12 @@
 namespace libMesh
 {
 template <typename>
+class VectorValue;
+typedef VectorValue<Real> RealVectorValue;
+class Elem;
+class Point;
+
+template <typename>
 struct MakeOutput;
 
 template <>

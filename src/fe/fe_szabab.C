@@ -1226,28 +1226,28 @@ template <>
 void FE<0,SZABAB>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { szabab_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/0); }
 
 template <>
 void FE<1,SZABAB>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { szabab_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/1); }
 
 template <>
 void FE<2,SZABAB>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { szabab_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/2); }
 
 template <>
 void FE<3,SZABAB>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { szabab_nodal_soln(elem, order, elem_soln, nodal_soln, /*Dim=*/3); }
 
 

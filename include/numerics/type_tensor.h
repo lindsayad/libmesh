@@ -1386,7 +1386,7 @@ template <typename T>
 inline
 auto TypeTensor<T>::norm_sq () const -> decltype(std::norm(T()))
 {
-  typename MakeReal<T>::type sum = 0.;
+  typename TensorTools::MakeReal<T>::type sum = 0.;
   for (unsigned int i=0; i<LIBMESH_DIM*LIBMESH_DIM; i++)
     sum += TensorTools::norm_sq(_coords[i]);
   return sum;

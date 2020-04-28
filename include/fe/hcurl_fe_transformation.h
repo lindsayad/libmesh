@@ -19,6 +19,7 @@
 #define LIBMESH_HCURL_FE_TRANSFORMATION_H
 
 #include "libmesh/fe_transformation_base.h"
+#include "libmesh/fe_base.h"
 
 namespace libMesh
 {
@@ -36,6 +37,7 @@ template<typename OutputType>
 class HCurlFETransformation : public FETransformationBase<OutputType>
 {
 public:
+  using typename FETransformationBase<OutputType>::OutputShape;
 
   HCurlFETransformation()
     : FETransformationBase<OutputType>(){}

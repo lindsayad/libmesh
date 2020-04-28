@@ -587,7 +587,7 @@ void FEInterface::nodal_soln(const unsigned int dim,
                              const FEType & fe_t,
                              const Elem * elem,
                              const std::vector<Number> & elem_soln,
-                             std::vector<Number> &       nodal_soln)
+                             std::vector<GeomNumber> &       nodal_soln)
 {
 #ifdef LIBMESH_ENABLE_INFINITE_ELEMENTS
 

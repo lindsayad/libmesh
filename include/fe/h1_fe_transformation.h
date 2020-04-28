@@ -20,6 +20,7 @@
 
 #include "libmesh/fe_transformation_base.h"
 #include "libmesh/compare_types.h"
+#include "libmesh/fe_base.h"
 
 namespace libMesh
 {
@@ -37,10 +38,10 @@ class Elem;
  * \date 2012
  */
 template<typename OutputType>
-class H1FETransformation : public FETransformationBase<OutputShape>
+class H1FETransformation : public FETransformationBase<OutputType>
 {
 public:
-  typedef typename MakeOutput<OutputType>::type OutputShape;
+  using typename FETransformationBase<OutputType>::OutputShape;
 
   H1FETransformation()
     : FETransformationBase<OutputType>(){}

@@ -216,7 +216,7 @@ GeomReal FE<1,XYZ>::shape_second_deriv(const Elem * elem,
   const GeomReal x  = point_in(0);
   const GeomReal xc = centroid(0);
   const GeomReal dx = (x - xc)/max_distance;
-  const GeomReal dist2 = pow(max_distance,2.);
+  const GeomReal dist2 = std::pow(max_distance,2.);
 
   // monomials. since they are hierarchic we only need one case block.
   switch (i)

@@ -107,8 +107,8 @@ DiscontinuityMeasure::internal_side_integration ()
       // Calculate solution values on fine and coarse elements
       // at this quadrature point
       Number
-        u_fine   = fine_context->side_value(var, qp),
-        u_coarse = coarse_context->side_value(var, qp);
+        u_fine   = MetaPhysicL::raw_value(fine_context->side_value(var, qp)),
+        u_coarse = MetaPhysicL::raw_value(coarse_context->side_value(var, qp));
 
       // Find the jump in the value
       // at this quadrature point
@@ -171,7 +171,7 @@ DiscontinuityMeasure::boundary_side_integration ()
           libmesh_assert_equal_to (essential_bc.first, true);
 
           // The solution value on each point
-          Number u_fine = fine_context->side_value(var, qp);
+          Number u_fine = MetaPhysicL::raw_value(fine_context->side_value(var, qp));
 
           // The difference between the desired BC and the approximate solution.
           const Number jump = essential_bc.second - u_fine;

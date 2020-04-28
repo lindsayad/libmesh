@@ -25,6 +25,7 @@
 #include "libmesh/face_quad4.h"
 #include "libmesh/enum_elem_quality.h"
 #include "libmesh/tensor_value.h"
+#include "libmesh/raw_type.h"
 
 #include <array>
 
@@ -224,16 +225,16 @@ Real Hex::quality (const ElemQuality q) const
     case DIAGONAL:
       {
         // Diagonal between node 0 and node 6
-        const Real d06 = this->length(0,6);
+        const Real d06 = MetaPhysicL::raw_value(this->length(0,6));
 
         // Diagonal between node 3 and node 5
-        const Real d35 = this->length(3,5);
+        const Real d35 = MetaPhysicL::raw_value(this->length(3,5));
 
         // Diagonal between node 1 and node 7
-        const Real d17 = this->length(1,7);
+        const Real d17 = MetaPhysicL::raw_value(this->length(1,7));
 
         // Diagonal between node 2 and node 4
-        const Real d24 = this->length(2,4);
+        const Real d24 = MetaPhysicL::raw_value(this->length(2,4));
 
         // Find the biggest and smallest diagonals
         const Real min = std::min(d06, std::min(d35, std::min(d17, d24)));
@@ -256,18 +257,18 @@ Real Hex::quality (const ElemQuality q) const
         /**
          * Compute the side lengths.
          */
-        const Real d01 = this->length(0,1);
-        const Real d12 = this->length(1,2);
-        const Real d23 = this->length(2,3);
-        const Real d03 = this->length(0,3);
-        const Real d45 = this->length(4,5);
-        const Real d56 = this->length(5,6);
-        const Real d67 = this->length(6,7);
-        const Real d47 = this->length(4,7);
-        const Real d04 = this->length(0,4);
-        const Real d15 = this->length(1,5);
-        const Real d37 = this->length(3,7);
-        const Real d26 = this->length(2,6);
+        const Real d01 = MetaPhysicL::raw_value(this->length(0,1));
+        const Real d12 = MetaPhysicL::raw_value(this->length(1,2));
+        const Real d23 = MetaPhysicL::raw_value(this->length(2,3));
+        const Real d03 = MetaPhysicL::raw_value(this->length(0,3));
+        const Real d45 = MetaPhysicL::raw_value(this->length(4,5));
+        const Real d56 = MetaPhysicL::raw_value(this->length(5,6));
+        const Real d67 = MetaPhysicL::raw_value(this->length(6,7));
+        const Real d47 = MetaPhysicL::raw_value(this->length(4,7));
+        const Real d04 = MetaPhysicL::raw_value(this->length(0,4));
+        const Real d15 = MetaPhysicL::raw_value(this->length(1,5));
+        const Real d37 = MetaPhysicL::raw_value(this->length(3,7));
+        const Real d26 = MetaPhysicL::raw_value(this->length(2,6));
 
         std::vector<Real> edge_ratios(12);
         // Front
@@ -311,10 +312,10 @@ Real Hex::quality (const ElemQuality q) const
         /**
          * Compute the maximum diagonal.
          */
-        const Real d06 = this->length(0,6);
-        const Real d17 = this->length(1,7);
-        const Real d35 = this->length(3,5);
-        const Real d24 = this->length(2,4);
+        const Real d06 = MetaPhysicL::raw_value(this->length(0,6));
+        const Real d17 = MetaPhysicL::raw_value(this->length(1,7));
+        const Real d35 = MetaPhysicL::raw_value(this->length(3,5));
+        const Real d24 = MetaPhysicL::raw_value(this->length(2,4));
         const Real max_diag = std::max(d06, std::max(d17, std::max(d35, d24)));
 
         libmesh_assert_not_equal_to ( max_diag, 0.0 );
@@ -323,18 +324,18 @@ Real Hex::quality (const ElemQuality q) const
          * Compute the minimum edge length.
          */
         std::vector<Real> edges(12);
-        edges[0]  = this->length(0,1);
-        edges[1]  = this->length(1,2);
-        edges[2]  = this->length(2,3);
-        edges[3]  = this->length(0,3);
-        edges[4]  = this->length(4,5);
-        edges[5]  = this->length(5,6);
-        edges[6]  = this->length(6,7);
-        edges[7]  = this->length(4,7);
-        edges[8]  = this->length(0,4);
-        edges[9]  = this->length(1,5);
-        edges[10] = this->length(2,6);
-        edges[11] = this->length(3,7);
+        edges[0]  = MetaPhysicL::raw_value(this->length(0,1));
+        edges[1]  = MetaPhysicL::raw_value(this->length(1,2));
+        edges[2]  = MetaPhysicL::raw_value(this->length(2,3));
+        edges[3]  = MetaPhysicL::raw_value(this->length(0,3));
+        edges[4]  = MetaPhysicL::raw_value(this->length(4,5));
+        edges[5]  = MetaPhysicL::raw_value(this->length(5,6));
+        edges[6]  = MetaPhysicL::raw_value(this->length(6,7));
+        edges[7]  = MetaPhysicL::raw_value(this->length(4,7));
+        edges[8]  = MetaPhysicL::raw_value(this->length(0,4));
+        edges[9]  = MetaPhysicL::raw_value(this->length(1,5));
+        edges[10] = MetaPhysicL::raw_value(this->length(2,6));
+        edges[11] = MetaPhysicL::raw_value(this->length(3,7));
 
         const Real min_edge = *(std::min_element(edges.begin(), edges.end()));
         return sqrt3 * min_edge / max_diag ;
