@@ -163,6 +163,10 @@ Real Tri::quality (const ElemQuality q) const
       // and Design 39, 2003, p. 217-241, Section 3.2.
     case SHAPE:
       {
+        const auto p1 = MetaPhysicL::raw_value(this->point(0));
+        const auto p2 = MetaPhysicL::raw_value(this->point(1));
+        const auto p3 = MetaPhysicL::raw_value(this->point(2));
+
         // Unlike Quads, the Tri SHAPE metric is independent of the
         // node at which it is computed, we choose to compute it for
         // node 0.

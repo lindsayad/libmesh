@@ -26,6 +26,7 @@
 #include "libmesh/mesh_tools.h"
 #include "libmesh/elem.h"
 #include "libmesh/int_range.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -95,16 +96,19 @@ void PostscriptIO::write (const std::string & fname)
       // Postscript bounding box should be.
       BoundingBox bbox = MeshTools::create_bounding_box(the_mesh);
 
+      auto bbox_first = MetaPhysicL::raw_value(bbox.first),
+           bbox_second = MetaPhysicL::raw_value(bbox.second);
+
       // Add a little extra padding to the "true" bounding box so
       // that we can still see the boundary
       const Real percent_padding = 0.01;
-      const Real dx=bbox.second(0)-bbox.first(0); libmesh_assert_greater (dx, 0.0);
-      const Real dy=bbox.second(1)-bbox.first(1); libmesh_assert_greater (dy, 0.0);
+      const Real dx=bbox_second(0)-bbox_first(0); libmesh_assert_greater (dx, 0.0);
+      const Real dy=bbox_second(1)-bbox_first(1); libmesh_assert_greater (dy, 0.0);
 
-      const Real x_min = bbox.first(0)  - percent_padding*dx;
-      const Real y_min = bbox.first(1)  - percent_padding*dy;
-      const Real x_max = bbox.second(0) + percent_padding*dx;
-      const Real y_max = bbox.second(1) + percent_padding*dy;
+      const Real x_min = bbox_first(0)  - percent_padding*dx;
+      const Real y_min = bbox_first(1)  - percent_padding*dy;
+      const Real x_max = bbox_second(0) + percent_padding*dx;
+      const Real y_max = bbox_second(1) + percent_padding*dy;
 
       // Width of the output as given in postscript units.
       // This usually is given by the strange unit 1/72 inch.
@@ -279,7 +283,7 @@ void PostscriptIO::_compute_edge_bezier_coeffs(const Elem * elem)
       for (unsigned int j=0; j<3; ++j)
         {
           phys_coords[j] = static_cast<float>
-            ((elem->point(j)(i) - _offset(i)) * _scale);
+            ((MetaPhysicL::raw_value(elem->point(j)(i)) - _offset(i)) * _scale);
           bez_coords[j] = 0.; // zero out result vector
         }
 

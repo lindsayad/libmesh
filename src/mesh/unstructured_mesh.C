@@ -40,6 +40,7 @@
 #include "libmesh/partitioner.h"
 #include "libmesh/enum_order.h"
 #include "libmesh/mesh_communication.h"
+#include "libmesh/raw_type.h"
 
 
 
@@ -560,7 +561,7 @@ void UnstructuredMesh::find_neighbors (const bool reset_remote_elements,
             }
 
           // For node comparisons we'll need a sensible tolerance
-          Real node_tolerance = current_elem->hmin() * TOLERANCE;
+          Real node_tolerance = MetaPhysicL::raw_value(current_elem->hmin()) * TOLERANCE;
 
           // Otherwise our interior_parent should be a child of our
           // parent's interior_parent.

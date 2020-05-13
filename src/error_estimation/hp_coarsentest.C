@@ -35,6 +35,7 @@
 #include "libmesh/quadrature.h"
 #include "libmesh/system.h"
 #include "libmesh/tensor_value.h"
+#include "libmesh/raw_type.h"
 
 #ifdef LIBMESH_ENABLE_AMR
 
@@ -206,26 +207,26 @@ void HPCoarsenTest::select_refinement (System & system)
 
       // We will always do the integration
       // on the fine elements.  Get their Jacobian values, etc..
-      JxW = &(fe->get_JxW());
-      xyz_values = &(fe->get_xyz());
+      JxW = MetaPhysicL::raw_value(fe->get_JxW());
+      xyz_values = MetaPhysicL::raw_value(fe->get_xyz());
 
       // The shape functions
-      phi = &(fe->get_phi());
-      phi_coarse = &(fe_coarse->get_phi());
+      phi = MetaPhysicL::raw_value(fe->get_phi());
+      phi_coarse = MetaPhysicL::raw_value(fe_coarse->get_phi());
 
       // The shape function derivatives
       if (cont == C_ZERO || cont == C_ONE)
         {
-          dphi = &(fe->get_dphi());
-          dphi_coarse = &(fe_coarse->get_dphi());
+          dphi = MetaPhysicL::raw_value(fe->get_dphi());
+          dphi_coarse = MetaPhysicL::raw_value(fe_coarse->get_dphi());
         }
 
       // The shape function second derivatives
       if (cont == C_ONE)
         {
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-          d2phi = &(fe->get_d2phi());
-          d2phi_coarse = &(fe_coarse->get_d2phi());
+          d2phi = MetaPhysicL::raw_value(fe->get_d2phi());
+          d2phi_coarse = MetaPhysicL::raw_value(fe_coarse->get_d2phi());
 #else
           libmesh_error_msg("Minimization of H2 error without second derivatives is not possible.");
 #endif

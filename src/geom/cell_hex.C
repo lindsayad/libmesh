@@ -351,29 +351,29 @@ Real Hex::quality (const ElemQuality q) const
 
         // Make local copies of points, we will access these several
         // times below.
-        const Point
-          x0 = point(0), x1 = point(1), x2 = point(2), x3 = point(3),
-          x4 = point(4), x5 = point(5), x6 = point(6), x7 = point(7);
+        const auto
+          x0 = MetaPhysicL::raw_value(point(0)), x1 = MetaPhysicL::raw_value(point(1)), x2 = MetaPhysicL::raw_value(point(2)), x3 = MetaPhysicL::raw_value(point(3)),
+          x4 = MetaPhysicL::raw_value(point(4)), x5 = MetaPhysicL::raw_value(point(5)), x6 = MetaPhysicL::raw_value(point(6)), x7 = MetaPhysicL::raw_value(point(7));
 
         // The columns of the Jacobian matrices are:
         // \vec{x}_{\xi}   = \vec{a1}*eta*zeta + \vec{b1}*eta + \vec{c1}*zeta + \vec{d1}
         // \vec{x}_{\eta}  = \vec{a2}*xi*zeta  + \vec{b2}*xi  + \vec{c2}*zeta + \vec{d2}
         // \vec{x}_{\zeta} = \vec{a3}*xi*eta   + \vec{b3}*xi  + \vec{c3}*eta  + \vec{d3}
         // where the ai, bi, ci, and di are constants defined below.
-        const Point a1 = -x0 + x1 - x2 + x3 + x4 - x5 + x6 - x7;
-        const Point b1 =  x0 - x1 + x2 - x3 + x4 - x5 + x6 - x7;
-        const Point c1 =  x0 - x1 - x2 + x3 - x4 + x5 + x6 - x7;
-        const Point d1 = -x0 + x1 + x2 - x3 - x4 + x5 + x6 - x7;
+        const auto a1 = -x0 + x1 - x2 + x3 + x4 - x5 + x6 - x7;
+        const auto b1 =  x0 - x1 + x2 - x3 + x4 - x5 + x6 - x7;
+        const auto c1 =  x0 - x1 - x2 + x3 - x4 + x5 + x6 - x7;
+        const auto d1 = -x0 + x1 + x2 - x3 - x4 + x5 + x6 - x7;
 
-        const Point a2 =  a1;
-        const Point b2 =  b1;
-        const Point c2 =  x0 + x1 - x2 - x3 - x4 - x5 + x6 + x7;
-        const Point d2 = -x0 - x1 + x2 + x3 - x4 - x5 + x6 + x7;
+        const auto a2 =  a1;
+        const auto b2 =  b1;
+        const auto c2 =  x0 + x1 - x2 - x3 - x4 - x5 + x6 + x7;
+        const auto d2 = -x0 - x1 + x2 + x3 - x4 - x5 + x6 + x7;
 
-        const Point a3 =  a1;
-        const Point b3 =  c1;
-        const Point c3 =  c2;
-        const Point d3 = -x0 - x1 - x2 - x3 + x4 + x5 + x6 + x7;
+        const auto a3 =  a1;
+        const auto b3 =  c1;
+        const auto c3 =  c2;
+        const auto d3 = -x0 - x1 - x2 - x3 + x4 + x5 + x6 + x7;
 
         // Form the nodal Jacobians. These were computed using a
         // Python script and the formulas above. Note that we are

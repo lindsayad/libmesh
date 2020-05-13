@@ -41,6 +41,7 @@
 #include "libmesh/enum_error_estimator_type.h"
 #include "libmesh/enum_order.h"
 #include "libmesh/enum_norm_type.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -235,7 +236,7 @@ void WeightedPatchRecoveryErrorEstimator::EstimateError::operator()(const ConstE
           // getting them unless the requested norm is actually going
           // to use them.
 
-          const std::vector<std::vector<Real>> * phi = nullptr;
+          std::vector<std::vector<Real>> phi;
           // If we're using phi to assert the correct dof_indices
           // vector size later, then we'll need to get_phi whether we
           // plan to use it or not.
@@ -243,21 +244,21 @@ void WeightedPatchRecoveryErrorEstimator::EstimateError::operator()(const ConstE
           if (error_estimator.error_norm.type(var) == L2 ||
               error_estimator.error_norm.type(var) == L_INF)
 #endif
-            phi = &(fe->get_phi());
+            phi = MetaPhysicL::raw_value(fe->get_phi());
 
-          const std::vector<std::vector<RealGradient>> * dphi = nullptr;
+          std::vector<std::vector<RealGradient>> dphi;
           if (error_estimator.error_norm.type(var) == H1_SEMINORM ||
               error_estimator.error_norm.type(var) == H1_X_SEMINORM ||
               error_estimator.error_norm.type(var) == H1_Y_SEMINORM ||
               error_estimator.error_norm.type(var) == H1_Z_SEMINORM ||
               error_estimator.error_norm.type(var) == W1_INF_SEMINORM)
-            dphi = &(fe->get_dphi());
+            dphi = MetaPhysicL::raw_value(fe->get_dphi());
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-          const std::vector<std::vector<RealTensor>> * d2phi = nullptr;
+          std::vector<std::vector<RealTensor>> d2phi;
           if (error_estimator.error_norm.type(var) == H2_SEMINORM ||
               error_estimator.error_norm.type(var) == W2_INF_SEMINORM)
-            d2phi = &(fe->get_d2phi());
+            d2phi = MetaPhysicL::raw_value(fe->get_d2phi());
 #endif
 
           // global DOF indices

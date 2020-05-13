@@ -37,16 +37,17 @@
 namespace libMesh
 {
 
-// This class adapts a vector of Nodes (represented by a pair of a Point and a dof_id_type)
-// for use in a nanoflann KD-Tree
+// This class adapts a vector of Nodes (represented by a pair of a point
+// (coordinates in a RealVectorValue) and a dof_id_type) for use in a nanoflann
+// KD-Tree
 
 class VectorOfNodesAdaptor
 {
 private:
-  const std::vector<std::pair<Point, dof_id_type>> _nodes;
+  const std::vector<std::pair<RealVectorValue, dof_id_type>> _nodes;
 
 public:
-  VectorOfNodesAdaptor(const std::vector<std::pair<Point, dof_id_type>> & nodes) :
+  VectorOfNodesAdaptor(const std::vector<std::pair<RealVectorValue, dof_id_type>> & nodes) :
     _nodes(nodes)
   {}
 
@@ -65,7 +66,7 @@ public:
       libmesh_assert_less (idx, _nodes.size());
       libmesh_assert_less (dim, 3);
 
-      const Point & p(_nodes[idx].first);
+      const RealVectorValue & p(_nodes[idx].first);
 
       if (dim==0) return p(0);
       if (dim==1) return p(1);
@@ -990,7 +991,7 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
                           {
                             for (const auto & elem : mesh_array[i]->active_element_ptr_range())
                               {
-                                Real current_h_min = elem->hmin();
+                                Real current_h_min = MetaPhysicL::raw_value(elem->hmin());
                                 if (current_h_min > 0.)
                                   {
                                     h_min = current_h_min;
@@ -1030,7 +1031,7 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
                           for (auto & n : side->node_ref_range())
                             set_array[i]->insert(n.id());
 
-                          h_min = std::min(h_min, side->hmin());
+                          h_min = std::min(h_min, MetaPhysicL::raw_value(side->hmin()));
                           h_min_updated = true;
 
                           // This side is on the boundary, add its information to side_to_elem
@@ -1064,7 +1065,7 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
                                   for (auto & n : edge->node_ref_range())
                                     set_array[i]->insert( n.id() );
 
-                                  h_min = std::min(h_min, edge->hmin());
+                                  h_min = std::min(h_min, MetaPhysicL::raw_value(edge->hmin()));
                                   h_min_updated = true;
                                 }
                             }
@@ -1142,7 +1143,9 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
           // Loop over other mesh. For each node, find its nearest neighbor in this mesh, and fill in the maps.
           for (auto node : other_boundary_node_ids)
           {
-            const Real query_pt[] = {other_mesh->point(node)(0), other_mesh->point(node)(1), other_mesh->point(node)(2)};
+            const Real query_pt[] = {MetaPhysicL::raw_value(other_mesh->point(node)(0)),
+                                     MetaPhysicL::raw_value(other_mesh->point(node)(1)),
+                                     MetaPhysicL::raw_value(other_mesh->point(node)(2))};
             this_kd_tree.knnSearch(&query_pt[0], 1, &ret_index[0], &ret_dist_sqr[0]);
             if (ret_dist_sqr[0] < TOLERANCE*TOLERANCE)
             {
@@ -1178,13 +1181,15 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
           // that are being stitched.
           for (const auto & this_node_id : this_boundary_node_ids)
           {
-            Node & this_node = this->node_ref(this_node_id);
+            const auto this_node = MetaPhysicL::raw_value(
+                static_cast<Point &>(this->node_ref(this_node_id)));
 
             bool found_matching_nodes = false;
 
             for (const auto & other_node_id : other_boundary_node_ids)
             {
-              const Node & other_node = other_mesh->node_ref(other_node_id);
+              const auto other_node = MetaPhysicL::raw_value(
+                  static_cast<Point &>(other_mesh->node_ref(other_node_id)));
 
               Real node_distance = (this_node - other_node).norm();
 

@@ -92,10 +92,10 @@ public:
     variables[0] = u_var;
 
     auto mesh_function =
-      libmesh_make_unique<MeshFunction>(sys.get_equation_systems(),
-                                        *mesh_function_vector,
-                                        sys.get_dof_map(),
-                                        variables);
+      libmesh_make_unique<MeshFunction<>>(sys.get_equation_systems(),
+                                          *mesh_function_vector,
+                                          sys.get_dof_map(),
+                                          variables);
 
     mesh_function->init();
     mesh_function->set_point_locator_tolerance(0.0001);

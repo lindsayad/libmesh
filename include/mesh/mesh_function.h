@@ -25,6 +25,7 @@
 #include "libmesh/dense_vector.h"
 #include "libmesh/vector_value.h"
 #include "libmesh/tensor_value.h"
+#include "libmesh/tensor_tools.h"
 #include "libmesh/tree_base.h"
 #include "libmesh/parallel_object.h"
 
@@ -50,10 +51,13 @@ class PointLocatorBase;
  * \author Daniel Dreyer
  * \date 2003
  */
-class MeshFunction : public FunctionBase<GeomNumber>,
+template <typename Output=GeomNumber>
+class MeshFunction : public FunctionBase<Output>,
                      public ParallelObject
 {
 public:
+  typedef typename TensorTools::IncrementRank<Output>::type OutputGradient;
+  typedef typename TensorTools::IncrementRank<OutputGradient>::type OutputTensor;
 
   /**
    * Constructor for mesh based functions with vectors
@@ -67,7 +71,7 @@ public:
                 const NumericVector<Number> & vec,
                 const DofMap & dof_map,
                 const std::vector<unsigned int> & vars,
-                const FunctionBase<GeomNumber> * master=nullptr);
+                const FunctionBase<Output> * master=nullptr);
 
   /**
    * Constructor for mesh based functions with a number
@@ -81,7 +85,7 @@ public:
                 const NumericVector<Number> & vec,
                 const DofMap & dof_map,
                 const unsigned int var,
-                const FunctionBase<GeomNumber> * master=nullptr);
+                const FunctionBase<Output> * master=nullptr);
 
   /**
    * This class is sometimes responsible for cleaning up the
@@ -129,24 +133,24 @@ public:
    * \note This implies the copy should not be used after the
    * original is destroyed.
    */
-  virtual std::unique_ptr<FunctionBase<GeomNumber>> clone () const override;
+  virtual std::unique_ptr<FunctionBase<Output>> clone () const override;
 
   /**
    * \returns The value of variable 0 at point \p p and for \p time,
    * which defaults to zero.
    */
-  GeomNumber operator() (const Point & p,
+  Output operator() (const Point & p,
                          const Real time=0.) override;
 
   /**
    * \returns A map of values of variable 0 at point
    * \p p and for \p time.
    *
-   * The std::map is from element to GeomNumber and accounts for
+   * The std::map is from element to Output and accounts for
    * doubly-defined values on faces if discontinuous variables are
    * used.
    */
-  std::map<const Elem *, GeomNumber> discontinuous_value (const Point & p,
+  std::map<const Elem *, Output> discontinuous_value (const Point & p,
                                                           const Real time=0.);
 
   /**
@@ -182,7 +186,7 @@ public:
    */
   void operator() (const Point & p,
                    const Real time,
-                   DenseVector<GeomNumber> & output) override;
+                   DenseVector<Output> & output) override;
 
   /**
    * Computes values at coordinate \p p and for time \p time,
@@ -191,7 +195,7 @@ public:
    */
   void operator() (const Point & p,
                    const Real time,
-                   DenseVector<GeomNumber> & output,
+                   DenseVector<Output> & output,
                    const std::set<subdomain_id_type> * subdomain_ids);
 
   /**
@@ -201,7 +205,7 @@ public:
    */
   void discontinuous_value (const Point & p,
                             const Real time,
-                            std::map<const Elem *, DenseVector<GeomNumber>> & output);
+                            std::map<const Elem *, DenseVector<Output>> & output);
 
   /**
    * Similar to operator() with the same parameter list, but with the difference
@@ -210,7 +214,7 @@ public:
    */
   void discontinuous_value (const Point & p,
                             const Real time,
-                            std::map<const Elem *, DenseVector<GeomNumber>> & output,
+                            std::map<const Elem *, DenseVector<Output>> & output,
                             const std::set<subdomain_id_type> * subdomain_ids);
 
   /**
@@ -272,7 +276,7 @@ public:
    * master mesh function.  You may, however, specify different
    * values.
    */
-  void enable_out_of_mesh_mode(const DenseVector<GeomNumber> & value);
+  void enable_out_of_mesh_mode(const DenseVector<Output> & value);
 
   /**
    * Enables out-of-mesh mode.  In this mode, if asked for a point
@@ -284,7 +288,7 @@ public:
    * master mesh function.  You may, however, specify different
    * values.
    */
-  void enable_out_of_mesh_mode(const GeomNumber & value);
+  void enable_out_of_mesh_mode(const Output & value);
 
   /**
    * Disables out-of-mesh mode.  This is also the default.
@@ -360,7 +364,7 @@ protected:
    * Value to return outside the mesh if out-of-mesh mode is enabled.
    * See \p enable_out_of_mesh_mode() for more details.
    */
-  DenseVector<GeomNumber> _out_of_mesh_value;
+  DenseVector<Output> _out_of_mesh_value;
 };
 
 

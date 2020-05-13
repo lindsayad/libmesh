@@ -32,6 +32,7 @@
 #include "libmesh/mesh_base.h"
 #include "libmesh/int_range.h"
 #include "libmesh/utility.h" // map_find
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -1179,7 +1180,7 @@ void GmshIO::write_post (const std::string & fname,
                 {
                   for (unsigned int n=0; n < nv; n++)   // loop over vertices
                     {
-                      const Point & vertex = elem->point(n);
+                      const auto vertex = MetaPhysicL::raw_value(elem->point(n));
                       if (this->binary())
                         {
 #if defined(LIBMESH_DEFAULT_TRIPLE_PRECISION) || defined(LIBMESH_DEFAULT_QUADRUPLE_PRECISION)

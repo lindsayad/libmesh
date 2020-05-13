@@ -243,7 +243,7 @@ void ExactErrorEstimator::estimate_error (const System & system,
       fe->attach_quadrature_rule (qrule.get());
 
       // Prepare a global solution and a MeshFunction of the fine system if we need one
-      std::unique_ptr<MeshFunction> fine_values;
+      std::unique_ptr<MeshFunction<>> fine_values;
       std::unique_ptr<NumericVector<Number>> fine_soln = NumericVector<Number>::build(system.comm());
       if (_equation_systems_fine)
         {
@@ -259,7 +259,7 @@ void ExactErrorEstimator::estimate_error (const System & system,
              SERIAL);
           (*fine_soln) = global_soln;
 
-          fine_values = libmesh_make_unique<MeshFunction>
+          fine_values = libmesh_make_unique<MeshFunction<>>
             (*_equation_systems_fine,
              *fine_soln,
              fine_system.get_dof_map(),
@@ -404,7 +404,7 @@ Real ExactErrorEstimator::find_squared_element_error(const System & system,
                                                      const Elem * elem,
                                                      const DenseVector<Number> & Uelem,
                                                      FEBase * fe,
-                                                     MeshFunction * fine_values) const
+                                                     MeshFunction<> * fine_values) const
 {
   // The (string) name of this system
   const std::string & sys_name = system.name();

@@ -148,9 +148,9 @@ LaplacianErrorEstimator::internal_side_integration ()
 
   // Add the h-weighted jump integral to each error term
   fine_error =
-    error * fine_elem.hmax() * error_norm.weight(var);
+    error * MetaPhysicL::raw_value(fine_elem.hmax()) * error_norm.weight(var);
   coarse_error =
-    error * coarse_elem.hmax() * error_norm.weight(var);
+    error * MetaPhysicL::raw_value(coarse_elem.hmax()) * error_norm.weight(var);
 }
 
 } // namespace libMesh

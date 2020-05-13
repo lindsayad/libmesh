@@ -49,6 +49,7 @@
 #include "libmesh/system.h" // needed by enforce_constraints_exactly()
 #include "libmesh/tensor_tools.h"
 #include "libmesh/threads.h"
+#include "libmesh/raw_type.h"
 
 // TIMPI includes
 #include "timpi/parallel_implementation.h"
@@ -204,7 +205,7 @@ public:
 
   virtual void operator()(dof_id_type dof_number,
                           const DofConstraintRow & constraint_row,
-                          const GeomNumber constraint_rhs) const = 0;
+                          const Number constraint_rhs) const = 0;
 };
 
 class AddPrimalConstraint : public AddConstraint
@@ -214,7 +215,7 @@ public:
 
   virtual void operator()(dof_id_type dof_number,
                           const DofConstraintRow & constraint_row,
-                          const GeomNumber constraint_rhs) const
+                          const Number constraint_rhs) const
   {
     if (!dof_map.is_constrained_dof(dof_number))
       dof_map.add_constraint_row (dof_number, constraint_row,
@@ -233,7 +234,7 @@ public:
 
   virtual void operator()(dof_id_type dof_number,
                           const DofConstraintRow & constraint_row,
-                          const GeomNumber constraint_rhs) const
+                          const Number constraint_rhs) const
   {
     dof_map.add_adjoint_constraint_row
       (qoi_index, dof_number, constraint_row, constraint_rhs,
@@ -258,8 +259,8 @@ private:
 
   const AddConstraint     & add_fn;
 
-  static GeomNumber f_component (FunctionBase<GeomNumber> * f,
-                                 FEMFunctionBase<GeomNumber> * f_fem,
+  static Number f_component (FunctionBase<Number> * f,
+                                 FEMFunctionBase<Number> * f_fem,
                                  const FEMContext * c,
                                  unsigned int i,
                                  const Point & p,
@@ -275,8 +276,8 @@ private:
     return f->component(i, p, time);
   }
 
-  static GeomNumberGradient g_component (FunctionBase<GeomNumberGradient> * g,
-                                         FEMFunctionBase<GeomNumberGradient> * g_fem,
+  static Gradient g_component (FunctionBase<Gradient> * g,
+                                         FEMFunctionBase<Gradient> * g_fem,
                                          const FEMContext * c,
                                          unsigned int i,
                                          const Point & p,
@@ -298,18 +299,23 @@ private:
                             const Variable & variable,
                             const FEType & fe_type) const
   {
-    typedef typename MakeOutput<OutputType>::type                           OutputShape;
+    // For these Dirichlet constraints, we're going to use the raw_value of all phi, dphi, d2phi,
+    // etc., so instead of promoting OutputShape to have potentially have dual/derivative
+    // information (which is what MakeOutput does) we're simply going to typedef OutputType to
+    // OutputShape
+    // typedef typename MakeOutput<OutputType>::type                           OutputShape;
+    typedef OutputType                                                      OutputShape;
     typedef typename TensorTools::IncrementRank<OutputShape>::type          OutputGradient;
     //typedef typename TensorTools::IncrementRank<OutputGradient>::type       OutputTensor;
     typedef typename TensorTools::MakeNumber<OutputShape>::type             OutputNumber;
     typedef typename TensorTools::IncrementRank<OutputNumber>::type         OutputNumberGradient;
     //typedef typename TensorTools::IncrementRank<OutputNumberGradient>::type OutputNumberTensor;
 
-    FunctionBase<GeomNumber> * f = dirichlet.f.get();
-    FunctionBase<GeomNumberGradient> * g = dirichlet.g.get();
+    FunctionBase<Number> * f = dirichlet.f.get();
+    FunctionBase<Gradient> * g = dirichlet.g.get();
 
-    FEMFunctionBase<GeomNumber> * f_fem = dirichlet.f_fem.get();
-    FEMFunctionBase<GeomNumberGradient> * g_fem = dirichlet.g_fem.get();
+    FEMFunctionBase<Number> * f_fem = dirichlet.f_fem.get();
+    FEMFunctionBase<Gradient> * g_fem = dirichlet.g_fem.get();
 
     const System * f_system = dirichlet.f_system;
 
@@ -327,10 +333,10 @@ private:
     // Note that Ke is always real-valued, whereas
     // Fe may be complex valued if complex number
     // support is enabled
-    DenseMatrix<GeomReal> Ke;
-    DenseVector<GeomNumber> Fe;
+    DenseMatrix<Real> Ke;
+    DenseVector<Number> Fe;
     // The new element coefficients
-    DenseVector<GeomNumber> Ue;
+    DenseVector<Number> Ue;
 
     // The dimensionality of the current mesh
     const unsigned int dim = mesh.mesh_dimension();
@@ -360,7 +366,7 @@ private:
 
     // The values of the shape functions at the quadrature
     // points
-    const std::vector<std::vector<OutputShape>> & phi = fe->get_phi();
+    const auto phi = MetaPhysicL::raw_value(fe->get_phi());
 
     // The gradients of the shape functions at the quadrature
     // points on the child element.
@@ -379,15 +385,15 @@ private:
         libmesh_assert(!(f && g_fem));
         libmesh_assert(!(f_fem && g));
 
-        const std::vector<std::vector<OutputGradient>> & ref_dphi = fe->get_dphi();
+        const auto ref_dphi = MetaPhysicL::raw_value(fe->get_dphi());
         dphi = &ref_dphi;
       }
 
     // The Jacobian * quadrature weight at the quadrature points
-    const std::vector<GeomReal> & JxW = fe->get_JxW();
+    const auto JxW = MetPhysicL::raw_value(fe->get_JxW());
 
     // The XYZ locations of the quadrature points
-    const std::vector<Point> & xyz_values = fe->get_xyz();
+    const auto xyz_values = MetaPhysicL::raw_value(fe->get_xyz());
 
     // The global DOF indices
     std::vector<dof_id_type> dof_indices;
@@ -685,9 +691,9 @@ private:
                         Gradient gxpyp =
                           g_component(g, g_fem, context.get(), var_component,
                                       nxpyp, time);
-                        GeomNumber gxzplus = (gxpyp(2) - gxmyp(2))
+                        Number gxzplus = (gxpyp(2) - gxmyp(2))
                           / 2. / TOLERANCE;
-                        GeomNumber gxzminus = (gxpym(2) - gxmym(2))
+                        Number gxzminus = (gxpym(2) - gxmym(2))
                           / 2. / TOLERANCE;
                         // xyz derivative
                         Ue(current_dof) = (gxzplus - gxzminus)
@@ -749,7 +755,7 @@ private:
               Ke.resize (free_dofs, free_dofs); Ke.zero();
               Fe.resize (free_dofs); Fe.zero();
               // The new edge coefficients
-              DenseVector<GeomNumber> Uedge(free_dofs);
+              DenseVector<Number> Uedge(free_dofs);
 
               // Initialize FE data on the edge
               fe->attach_quadrature_rule (qedgerule.get());
@@ -837,7 +843,7 @@ private:
               // Transfer new edge solutions to element
               for (unsigned int i=0; i != free_dofs; ++i)
                 {
-                  GeomNumber & ui = Ue(side_dofs[free_dof[i]]);
+                  Number & ui = Ue(side_dofs[free_dof[i]]);
                   libmesh_assert(std::abs(ui) < TOLERANCE ||
                                  std::abs(ui - Uedge(i)) < TOLERANCE);
                   ui = Uedge(i);
@@ -872,7 +878,7 @@ private:
               Ke.resize (free_dofs, free_dofs); Ke.zero();
               Fe.resize (free_dofs); Fe.zero();
               // The new side coefficients
-              DenseVector<GeomNumber> Uside(free_dofs);
+              DenseVector<Number> Uside(free_dofs);
 
               // Initialize FE data on the side
               fe->attach_quadrature_rule (qsiderule.get());
@@ -960,7 +966,7 @@ private:
               // Transfer new side solutions to element
               for (unsigned int i=0; i != free_dofs; ++i)
                 {
-                  GeomNumber & ui = Ue(side_dofs[free_dof[i]]);
+                  Number & ui = Ue(side_dofs[free_dof[i]]);
                   libmesh_assert(std::abs(ui) < TOLERANCE ||
                                  std::abs(ui - Uside(i)) < TOLERANCE);
                   ui = Uside(i);
@@ -993,7 +999,7 @@ private:
               Ke.resize (free_dofs, free_dofs); Ke.zero();
               Fe.resize (free_dofs); Fe.zero();
               // The new shellface coefficients
-              DenseVector<GeomNumber> Ushellface(free_dofs);
+              DenseVector<Number> Ushellface(free_dofs);
 
               // Initialize FE data on the element
               fe->attach_quadrature_rule (qrule.get());
@@ -1083,7 +1089,7 @@ private:
               // Transfer new shellface solutions to element
               for (unsigned int i=0; i != free_dofs; ++i)
                 {
-                  GeomNumber & ui = Ue(shellface_dofs[free_dof[i]]);
+                  Number & ui = Ue(shellface_dofs[free_dof[i]]);
                   libmesh_assert(std::abs(ui) < TOLERANCE ||
                                  std::abs(ui - Ushellface(i)) < TOLERANCE);
                   ui = Ushellface(i);
@@ -1522,7 +1528,7 @@ std::string DofMap::get_local_constraints(bool print_nonlocal) const
       const DofConstraintRow & row = pr.second;
       DofConstraintValueMap::const_iterator rhsit =
         _primal_constraint_values.find(i);
-      const GeomNumber rhs = (rhsit == _primal_constraint_values.end()) ?
+      const Number rhs = (rhsit == _primal_constraint_values.end()) ?
         0 : rhsit->second;
 
       os << "Constraints for DoF " << i
@@ -1554,7 +1560,7 @@ std::string DofMap::get_local_constraints(bool print_nonlocal) const
             if (!print_nonlocal && !this->local_index(i))
               continue;
 
-            const GeomNumber rhs = pr.second;
+            const Number rhs = pr.second;
 
             os << "RHS for DoF " << i
                << ": " << rhs;

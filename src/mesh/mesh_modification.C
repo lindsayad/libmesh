@@ -40,6 +40,7 @@
 #include "libmesh/remote_elem.h"
 #include "libmesh/enum_to_string.h"
 #include "libmesh/unstructured_mesh.h"
+#include "libmesh/raw_type.h"
 
 namespace
 {
@@ -88,7 +89,7 @@ void MeshTools::Modification::distort (MeshBase & mesh,
   for (const auto & elem : mesh.active_element_ptr_range())
     for (auto & n : elem->node_ref_range())
       hmin[n.id()] = std::min(hmin[n.id()],
-                              static_cast<float>(elem->hmin()));
+                              static_cast<float>(MetaPhysicL::raw_value(elem->hmin())));
 
   // Now actually move the nodes
   {
@@ -227,9 +228,9 @@ void MeshTools::Modification::rotate (MeshBase & mesh,
   for (auto & node : mesh.node_ptr_range())
     {
       const Point pt = *node;
-      const Real  x  = pt(0);
-      const Real  y  = pt(1);
-      const Real  z  = pt(2);
+      const auto & x  = pt(0);
+      const auto & y  = pt(1);
+      const auto & z  = pt(2);
       *node = Point(( cp*cs-sp*ct*ss)*x + ( sp*cs+cp*ct*ss)*y + (st*ss)*z,
                     (-cp*ss-sp*ct*cs)*x + (-sp*ss+cp*ct*cs)*y + (st*cs)*z,
                     ( sp*st)*x          + (-cp*st)*y          + (ct)*z   );
@@ -1134,7 +1135,7 @@ void MeshTools::Modification::smooth (MeshBase & mesh,
         {
           // initialize the storage (have to do it on every level to get empty vectors
           std::vector<Point> new_positions;
-          std::vector<Real>   weight;
+          std::vector<GeomReal>   weight;
           new_positions.resize(mesh.n_nodes());
           weight.resize(mesh.n_nodes());
 
@@ -1166,7 +1167,7 @@ void MeshTools::Modification::smooth (MeshBase & mesh,
                             const Node & node0 = side->node_ref(0);
                             const Node & node1 = side->node_ref(1);
 
-                            Real node_weight = 1.;
+                            GeomReal node_weight = 1.;
                             // calculate the weight of the nodes
                             if (power > 0)
                               {

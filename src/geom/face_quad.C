@@ -308,29 +308,29 @@ Real Quad::quality (const ElemQuality q) const
         // 2) all of the cross products point in the same direction.
 
         auto p0 = MetaPhysicL::raw_value(point(0)),
-          p1 = MetaPhyiscL::raw_value(point(1)),
-          p2 = MetaPhyiscL::raw_value(point(2)),
-          p3 = MetaPhyiscL::raw_value(point(3));
+          p1 = MetaPhysicL::raw_value(point(1)),
+          p2 = MetaPhysicL::raw_value(point(2)),
+          p3 = MetaPhysicL::raw_value(point(3));
 
         // Corner 0
-        Point vec_01 = p1 - p0;
-        Point vec_03 = p3 - p0;
-        Point corner_0_vec = vec_01.cross(vec_03);
+        auto vec_01 = p1 - p0;
+        auto vec_03 = p3 - p0;
+        auto corner_0_vec = vec_01.cross(vec_03);
 
         // Corner 1
-        Point vec_12 = p2 - p1;
-        Point vec_10 = p0 - p1;
-        Point corner_1_vec = vec_12.cross(vec_10);
+        auto vec_12 = p2 - p1;
+        auto vec_10 = p0 - p1;
+        auto corner_1_vec = vec_12.cross(vec_10);
 
         // Corner 2
-        Point vec_23 = p3 - p2;
-        Point vec_21 = p1 - p2;
-        Point corner_2_vec = vec_23.cross(vec_21);
+        auto vec_23 = p3 - p2;
+        auto vec_21 = p1 - p2;
+        auto corner_2_vec = vec_23.cross(vec_21);
 
         // Corner 3
-        Point vec_30 = p0 - p3;
-        Point vec_32 = p2 - p3;
-        Point corner_3_vec = vec_30.cross(vec_32);
+        auto vec_30 = p0 - p3;
+        auto vec_32 = p2 - p3;
+        auto corner_3_vec = vec_30.cross(vec_32);
 
         // If any of these cross products is nearly zero, then either
         // we have nearly parallel adjacent edges or a nearly zero

@@ -34,6 +34,7 @@
 #include "libmesh/tensor_tools.h"
 #include "libmesh/enum_error_estimator_type.h"
 #include "libmesh/enum_norm_type.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -101,18 +102,18 @@ KellyErrorEstimator::internal_side_integration ()
   Real error = 1.e-30;
   unsigned int n_qp = fe_fine->n_quadrature_points();
 
-  std::vector<std::vector<RealGradient>> dphi_coarse = MetaPhysicL::raw_value(fe_coarse->get_dphi());
-  std::vector<std::vector<RealGradient>> dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
-  std::vector<Point> face_normals = fe_fine->get_normals();
-  std::vector<Real> JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
+  auto dphi_coarse = MetaPhysicL::raw_value(fe_coarse->get_dphi());
+  auto dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
+  auto face_normals = MetaPhysicL::raw_value(fe_fine->get_normals());
+  auto JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
 
   for (unsigned int qp=0; qp != n_qp; ++qp)
     {
       // Calculate solution gradients on fine and coarse elements
       // at this quadrature point
-      Gradient
-        grad_fine   = fine_context->side_gradient(var, qp),
-        grad_coarse = coarse_context->side_gradient(var, qp);
+      auto
+        grad_fine   = MetaPhysicL::raw_value(fine_context->side_gradient(var, qp)),
+        grad_coarse = MetaPhysicL::raw_value(coarse_context->side_gradient(var, qp));
 
       // Find the jump in the normal derivative
       // at this quadrature point
@@ -125,9 +126,9 @@ KellyErrorEstimator::internal_side_integration ()
 
   // Add the h-weighted jump integral to each error term
   fine_error =
-    error * fine_elem.hmax() * error_norm.weight(var);
+    error * MetaPhysicL::raw_value(fine_elem.hmax()) * error_norm.weight(var);
   coarse_error =
-    error * coarse_elem.hmax() * error_norm.weight(var);
+    error * MetaPhysicL::raw_value(coarse_elem.hmax()) * error_norm.weight(var);
 }
 
 
@@ -142,10 +143,10 @@ KellyErrorEstimator::boundary_side_integration ()
   const std::string & var_name =
     fine_context->get_system().variable_name(var);
 
-  std::vector<std::vector<RealGradient>> dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
-  std::vector<Point> face_normals = fe_fine->get_normals();
-  std::vector<Real> JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
-  std::vector<Point> qface_point = fe_fine->get_xyz();
+  auto dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
+  auto face_normals = MetaPhysicL::raw_value(fe_fine->get_normals());
+  auto JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
+  auto qface_point = MetaPhysicL::raw_value(fe_fine->get_xyz());
 
   // The reinitialization also recomputes the locations of
   // the quadrature points on the side.  By checking if the

@@ -231,7 +231,7 @@ int VariationalMeshSmoother::writegr(const Array2D<Real> & R)
     int i = 0;
     for (auto & node : _mesh.node_ptr_range())
       {
-        Real total_dist = 0.;
+        GeomReal total_dist = 0.;
 
         // Get a reference to the node
         Node & node_ref = *node;
@@ -239,7 +239,7 @@ int VariationalMeshSmoother::writegr(const Array2D<Real> & R)
         // For each node set its X Y [Z] coordinates
         for (unsigned int j=0; j<_dim; j++)
           {
-            Real distance = R[i][j] - node_ref(j);
+            auto distance = R[i][j] - node_ref(j);
 
             // Save the squares of the distance
             total_dist += Utility::pow<2>(distance);
@@ -266,7 +266,7 @@ int VariationalMeshSmoother::writegr(const Array2D<Real> & R)
 
 
 // reading grid from input file
-int VariationalMeshSmoother::readgr(Array2D<Real> & R,
+int VariationalMeshSmoother::readgr(Array2D<GeomReal> & R,
                                     std::vector<int> & mask,
                                     Array2D<int> & cells,
                                     std::vector<int> & mcells,
@@ -311,13 +311,13 @@ int VariationalMeshSmoother::readgr(Array2D<Real> & R,
                 MeshTools::find_nodal_neighbors(_mesh, node_ref, nodes_to_elem_map, neighbors);
 
                 // Grab the x,y coordinates
-                Real x = node_ref(0);
-                Real y = node_ref(1);
+                auto x = node_ref(0);
+                auto y = node_ref(1);
 
                 // Theta will represent the atan2 angle (meaning with the proper quadrant in mind)
                 // of the neighbor node in a system where the current node is at the origin
-                Real theta = 0;
-                std::vector<Real> thetas;
+                GeomReal theta = 0;
+                std::vector<GeomReal> thetas;
 
                 // Calculate the thetas
                 for (const auto & neighbor : neighbors)
@@ -3989,7 +3989,8 @@ void VariationalMeshSmoother::metr_data_gen(std::string grid,
                                             std::string metr,
                                             int me)
 {
-  Real det, g1, g2, g3, det_o, g1_o, g2_o, g3_o, eps=1e-3;
+  GeomReal det, g1, g2, g3, det_o, g1_o, g2_o, g3_o;
+  Real eps = 1e-3;
 
   std::vector<Real> K(9);
   Array2D<Real> Q(3, 3*_dim + _dim%2);
@@ -4003,7 +4004,7 @@ void VariationalMeshSmoother::metr_data_gen(std::string grid,
     mcells(_n_cells);
 
   Array2D<int> cells(_n_cells, 3*_dim + _dim%2);
-  Array2D<Real> R(_n_nodes,_dim);
+  Array2D<GeomReal> R(_n_nodes,_dim);
 
   readgr(R, mask, cells, mcells, mcells, mcells);
 

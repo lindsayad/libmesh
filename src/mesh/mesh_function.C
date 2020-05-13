@@ -39,12 +39,13 @@ namespace libMesh
 
 //------------------------------------------------------------------
 // MeshFunction methods
-MeshFunction::MeshFunction (const EquationSystems & eqn_systems,
+template <typename Output>
+MeshFunction<Output>::MeshFunction (const EquationSystems & eqn_systems,
                             const NumericVector<Number> & vec,
                             const DofMap & dof_map,
                             const std::vector<unsigned int> & vars,
-                            const FunctionBase<Number> * master) :
-  FunctionBase<Number> (master),
+                            const FunctionBase<Output> * master) :
+  FunctionBase<Output> (master),
   ParallelObject       (eqn_systems),
   _eqn_systems         (eqn_systems),
   _vector              (vec),
@@ -58,12 +59,13 @@ MeshFunction::MeshFunction (const EquationSystems & eqn_systems,
 
 
 
-MeshFunction::MeshFunction (const EquationSystems & eqn_systems,
+template <typename Output>
+MeshFunction<Output>::MeshFunction (const EquationSystems & eqn_systems,
                             const NumericVector<Number> & vec,
                             const DofMap & dof_map,
                             const unsigned int var,
-                            const FunctionBase<Number> * master) :
-  FunctionBase<Number> (master),
+                            const FunctionBase<Output> * master) :
+  FunctionBase<Output> (master),
   ParallelObject       (eqn_systems),
   _eqn_systems         (eqn_systems),
   _vector              (vec),
@@ -84,7 +86,8 @@ MeshFunction::MeshFunction (const EquationSystems & eqn_systems,
 
 
 
-MeshFunction::~MeshFunction ()
+template <typename Output>
+MeshFunction<Output>::~MeshFunction ()
 {
   delete this->_point_locator;
 }
@@ -92,7 +95,8 @@ MeshFunction::~MeshFunction ()
 
 
 
-void MeshFunction::init (const Trees::BuildType /*point_locator_build_type*/)
+template <typename Output>
+void MeshFunction<Output>::init (const Trees::BuildType /*point_locator_build_type*/)
 {
   // are indices of the desired variable(s) provided?
   libmesh_assert_greater (this->_system_vars.size(), 0);
@@ -117,8 +121,9 @@ void MeshFunction::init (const Trees::BuildType /*point_locator_build_type*/)
 }
 
 
+template <typename Output>
 void
-MeshFunction::clear ()
+MeshFunction<Output>::clear ()
 {
   // only delete the point locator when we are the master
   if ((this->_point_locator != nullptr) && (this->_master == nullptr))
@@ -131,7 +136,8 @@ MeshFunction::clear ()
 
 
 
-std::unique_ptr<FunctionBase<Number>> MeshFunction::clone () const
+template <typename Output>
+std::unique_ptr<FunctionBase<Output>> MeshFunction<Output>::clone () const
 {
   MeshFunction * mf_clone =
     new MeshFunction(_eqn_systems, _vector, _dof_map, _system_vars, this);
@@ -141,29 +147,31 @@ std::unique_ptr<FunctionBase<Number>> MeshFunction::clone () const
   mf_clone->set_point_locator_tolerance(
     this->get_point_locator().get_close_to_point_tol());
 
-  return std::unique_ptr<FunctionBase<Number>>(mf_clone);
+  return std::unique_ptr<FunctionBase<Output>>(mf_clone);
 }
 
 
 
-Number MeshFunction::operator() (const Point & p,
+template <typename Output>
+Output MeshFunction<Output>::operator() (const Point & p,
                                  const Real time)
 {
   libmesh_assert (this->initialized());
 
-  DenseVector<Number> buf (1);
+  DenseVector<Output> buf (1);
   this->operator() (p, time, buf);
   return buf(0);
 }
 
-std::map<const Elem *, Number> MeshFunction::discontinuous_value (const Point & p,
+template <typename Output>
+std::map<const Elem *, Output> MeshFunction<Output>::discontinuous_value (const Point & p,
                                                                   const Real time)
 {
   libmesh_assert (this->initialized());
 
-  std::map<const Elem *, DenseVector<Number>> buffer;
+  std::map<const Elem *, DenseVector<Output>> buffer;
   this->discontinuous_value (p, time, buffer);
-  std::map<const Elem *, Number> return_value;
+  std::map<const Elem *, Output> return_value;
   for (const auto & pr : buffer)
     return_value[pr.first] = pr.second(0);
   // NOTE: If no suitable element is found, then the map return_value is empty. This
@@ -171,24 +179,28 @@ std::map<const Elem *, Number> MeshFunction::discontinuous_value (const Point & 
   return return_value;
 }
 
-Gradient MeshFunction::gradient (const Point & p,
-                                 const Real time)
+template <typename Output>
+typename MeshFunction<Output>::OutputGradient
+MeshFunction<Output>::gradient (const Point & p,
+                        const Real time)
 {
   libmesh_assert (this->initialized());
 
-  std::vector<Gradient> buf (1);
+  std::vector<OutputGradient> buf (1);
   this->gradient(p, time, buf);
   return buf[0];
 }
 
-std::map<const Elem *, Gradient> MeshFunction::discontinuous_gradient (const Point & p,
-                                                                       const Real time)
+template <typename Output>
+std::map<const Elem *, typename MeshFunction<Output>::OutputGradient>
+MeshFunction<Output>::discontinuous_gradient (const Point & p,
+                                              const Real time)
 {
   libmesh_assert (this->initialized());
 
-  std::map<const Elem *, std::vector<Gradient>> buffer;
+  std::map<const Elem *, std::vector<OutputGradient>> buffer;
   this->discontinuous_gradient (p, time, buffer);
-  std::map<const Elem *, Gradient> return_value;
+  std::map<const Elem *, OutputGradient> return_value;
   for (const auto & pr : buffer)
     return_value[pr.first] = pr.second[0];
   // NOTE: If no suitable element is found, then the map return_value is empty. This
@@ -197,27 +209,31 @@ std::map<const Elem *, Gradient> MeshFunction::discontinuous_gradient (const Poi
 }
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-Tensor MeshFunction::hessian (const Point & p,
-                              const Real time)
+template <typename Output>
+typename MeshFunction<Output>::OutputTensor
+MeshFunction<Output>::hessian (const Point & p,
+                               const Real time)
 {
   libmesh_assert (this->initialized());
 
-  std::vector<Tensor> buf (1);
+  std::vector<OutputTensor> buf (1);
   this->hessian(p, time, buf);
   return buf[0];
 }
 #endif
 
-void MeshFunction::operator() (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::operator() (const Point & p,
                                const Real time,
-                               DenseVector<Number> & output)
+                               DenseVector<Output> & output)
 {
   this->operator() (p, time, output, nullptr);
 }
 
-void MeshFunction::operator() (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::operator() (const Point & p,
                                const Real,
-                               DenseVector<Number> & output,
+                               DenseVector<Output> & output,
                                const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
@@ -284,7 +300,7 @@ void MeshFunction::operator() (const Point & p,
 
               // interpolate the solution
               {
-                Number value = 0.;
+                Output value = 0.;
 
                 for (auto i : index_range(dof_indices))
                   value += this->_vector(dof_indices[i]) * data.shape[i];
@@ -301,18 +317,20 @@ void MeshFunction::operator() (const Point & p,
 }
 
 
-void MeshFunction::discontinuous_value (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::discontinuous_value (const Point & p,
                                         const Real time,
-                                        std::map<const Elem *, DenseVector<Number>> & output)
+                                        std::map<const Elem *, DenseVector<Output>> & output)
 {
   this->discontinuous_value (p, time, output, nullptr);
 }
 
 
 
-void MeshFunction::discontinuous_value (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::discontinuous_value (const Point & p,
                                         const Real,
-                                        std::map<const Elem *, DenseVector<Number>> & output,
+                                        std::map<const Elem *, DenseVector<Output>> & output,
                                         const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
@@ -330,7 +348,7 @@ void MeshFunction::discontinuous_value (const Point & p,
       const unsigned int dim = element->dim();
 
       // define a temporary vector to store all values
-      DenseVector<Number> temp_output (cast_int<unsigned int>(this->_system_vars.size()));
+      DenseVector<Output> temp_output (cast_int<unsigned int>(this->_system_vars.size()));
 
       /*
        * Get local coordinates to feed these into compute_data().
@@ -372,7 +390,7 @@ void MeshFunction::discontinuous_value (const Point & p,
 
             // interpolate the solution
             {
-              Number value = 0.;
+              Output value = 0.;
 
               for (auto i : index_range(dof_indices))
                 value += this->_vector(dof_indices[i]) * data.shape[i];
@@ -392,9 +410,10 @@ void MeshFunction::discontinuous_value (const Point & p,
 
 
 
-void MeshFunction::gradient (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::gradient (const Point & p,
                              const Real,
-                             std::vector<Gradient> & output,
+                             std::vector<OutputGradient> & output,
                              const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
@@ -439,7 +458,7 @@ void MeshFunction::gradient (const Point & p,
               {
                 libmesh_assert (_out_of_mesh_mode &&
                                 index < _out_of_mesh_value.size());
-                output[index] = Gradient(_out_of_mesh_value(index));
+                output[index] = OutputGradient(_out_of_mesh_value(index));
                 continue;
               }
 
@@ -450,7 +469,7 @@ void MeshFunction::gradient (const Point & p,
             this->_dof_map.dof_indices (element, dof_indices, var);
 
             // interpolate the solution
-            Gradient grad(0.);
+            OutputGradient grad(0.);
 #ifdef LIBMESH_ENABLE_INFINITE_ELEMENTS
             //The other algorithm works in case of finite elements as well,
             //but this one is faster.
@@ -458,7 +477,7 @@ void MeshFunction::gradient (const Point & p,
               {
 #endif
                 std::unique_ptr<FEBase> point_fe (FEBase::build(dim, fe_type));
-                const std::vector<std::vector<RealGradient>> & dphi = point_fe->get_dphi();
+                const auto & dphi = point_fe->get_dphi();
                 point_fe->reinit(element, &point_list);
 
                 for (auto i : index_range(dof_indices))
@@ -498,18 +517,20 @@ void MeshFunction::gradient (const Point & p,
 }
 
 
-void MeshFunction::discontinuous_gradient (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::discontinuous_gradient (const Point & p,
                                            const Real time,
-                                           std::map<const Elem *, std::vector<Gradient>> & output)
+                                           std::map<const Elem *, std::vector<OutputGradient>> & output)
 {
   this->discontinuous_gradient (p, time, output, nullptr);
 }
 
 
 
-void MeshFunction::discontinuous_gradient (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::discontinuous_gradient (const Point & p,
                                            const Real,
-                                           std::map<const Elem *, std::vector<Gradient>> & output,
+                                           std::map<const Elem *, std::vector<OutputGradient>> & output,
                                            const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
@@ -527,7 +548,7 @@ void MeshFunction::discontinuous_gradient (const Point & p,
       const unsigned int dim = element->dim();
 
       // define a temporary vector to store all values
-      std::vector<Gradient> temp_output (cast_int<unsigned int>(this->_system_vars.size()));
+      std::vector<OutputGradient> temp_output (cast_int<unsigned int>(this->_system_vars.size()));
 
       /*
        * Get local coordinates to feed these into compute_data().
@@ -550,7 +571,7 @@ void MeshFunction::discontinuous_gradient (const Point & p,
             {
               libmesh_assert (_out_of_mesh_mode &&
                               index < _out_of_mesh_value.size());
-              temp_output[index] = Gradient(_out_of_mesh_value(index));
+              temp_output[index] = OutputGradient(_out_of_mesh_value(index));
               continue;
             }
 
@@ -560,7 +581,7 @@ void MeshFunction::discontinuous_gradient (const Point & p,
           std::vector<dof_id_type> dof_indices;
           this->_dof_map.dof_indices (element, dof_indices, var);
 
-          Gradient grad(0.);
+          OutputGradient grad(0.);
 
           // for performance-reasons, we use different algorithms now.
           // TODO: Check that both give the same result for finite elements.
@@ -570,7 +591,7 @@ void MeshFunction::discontinuous_gradient (const Point & p,
             {
 #endif
               std::unique_ptr<FEBase> point_fe (FEBase::build(dim, fe_type));
-              const std::vector<std::vector<RealGradient>> & dphi = point_fe->get_dphi();
+              const auto & dphi = point_fe->get_dphi();
               point_fe->reinit(element, & point_list);
 
               for (auto i : index_range(dof_indices))
@@ -617,9 +638,10 @@ void MeshFunction::discontinuous_gradient (const Point & p,
 
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-void MeshFunction::hessian (const Point & p,
+template <typename Output>
+void MeshFunction<Output>::hessian (const Point & p,
                             const Real,
-                            std::vector<Tensor> & output,
+                            std::vector<OutputTensor> & output,
                             const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
@@ -670,13 +692,13 @@ void MeshFunction::hessian (const Point & p,
               {
                 libmesh_assert (_out_of_mesh_mode &&
                                 index < _out_of_mesh_value.size());
-                output[index] = Tensor(_out_of_mesh_value(index));
+                output[index] = OutputTensor(_out_of_mesh_value(index));
                 continue;
               }
             const FEType & fe_type = this->_dof_map.variable_type(var);
 
             std::unique_ptr<FEBase> point_fe (FEBase::build(dim, fe_type));
-            const std::vector<std::vector<RealTensor>> & d2phi =
+            const auto & d2phi =
               point_fe->get_d2phi();
             point_fe->reinit(element, &point_list);
 
@@ -685,7 +707,7 @@ void MeshFunction::hessian (const Point & p,
             this->_dof_map.dof_indices (element, dof_indices, var);
 
             // interpolate the solution
-            Tensor hess;
+            OutputTensor hess;
 
             for (auto i : index_range(dof_indices))
               hess.add_scaled(d2phi[i][0], this->_vector(dof_indices[i]));
@@ -697,7 +719,8 @@ void MeshFunction::hessian (const Point & p,
 }
 #endif
 
-const Elem * MeshFunction::find_element(const Point & p,
+template <typename Output>
+const Elem * MeshFunction<Output>::find_element(const Point & p,
                                         const std::set<subdomain_id_type> * subdomain_ids) const
 {
   /* Ensure that in the case of a master mesh function, the
@@ -741,7 +764,8 @@ const Elem * MeshFunction::find_element(const Point & p,
   return element;
 }
 
-std::set<const Elem *> MeshFunction::find_elements(const Point & p,
+template <typename Output>
+std::set<const Elem *> MeshFunction<Output>::find_elements(const Point & p,
                                                    const std::set<subdomain_id_type> * subdomain_ids) const
 {
   /* Ensure that in the case of a master mesh function, the
@@ -790,13 +814,15 @@ std::set<const Elem *> MeshFunction::find_elements(const Point & p,
   return final_candidate_elements;
 }
 
-const PointLocatorBase & MeshFunction::get_point_locator (void) const
+template <typename Output>
+const PointLocatorBase & MeshFunction<Output>::get_point_locator (void) const
 {
   libmesh_assert (this->initialized());
   return *_point_locator;
 }
 
-void MeshFunction::enable_out_of_mesh_mode(const DenseVector<Number> & value)
+template <typename Output>
+void MeshFunction<Output>::enable_out_of_mesh_mode(const DenseVector<Output> & value)
 {
   libmesh_assert (this->initialized());
   _point_locator->enable_out_of_mesh_mode();
@@ -804,28 +830,35 @@ void MeshFunction::enable_out_of_mesh_mode(const DenseVector<Number> & value)
   _out_of_mesh_value = value;
 }
 
-void MeshFunction::enable_out_of_mesh_mode(const Number & value)
+template <typename Output>
+void MeshFunction<Output>::enable_out_of_mesh_mode(const Output & value)
 {
-  DenseVector<Number> v(1);
+  DenseVector<Output> v(1);
   v(0) = value;
   this->enable_out_of_mesh_mode(v);
 }
 
-void MeshFunction::disable_out_of_mesh_mode(void)
+template <typename Output>
+void MeshFunction<Output>::disable_out_of_mesh_mode(void)
 {
   libmesh_assert (this->initialized());
   _point_locator->disable_out_of_mesh_mode();
   _out_of_mesh_mode = false;
 }
 
-void MeshFunction::set_point_locator_tolerance(Real tol)
+template <typename Output>
+void MeshFunction<Output>::set_point_locator_tolerance(Real tol)
 {
   _point_locator->set_close_to_point_tol(tol);
 }
 
-void MeshFunction::unset_point_locator_tolerance()
+template <typename Output>
+void MeshFunction<Output>::unset_point_locator_tolerance()
 {
   _point_locator->unset_close_to_point_tol();
 }
+
+template class MeshFunction<Number>;
+template class MeshFunction<GeomNumber>;
 
 } // namespace libMesh

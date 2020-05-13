@@ -32,6 +32,7 @@
 #include "libmesh/partitioner.h"
 #include "libmesh/remote_elem.h"
 #include "libmesh/unstructured_mesh.h"
+#include "libmesh/raw_type.h"
 
 namespace
 {
@@ -339,7 +340,10 @@ void BoundaryInfo::get_side_and_node_maps (UnstructuredMesh & boundary_mesh,
       for (auto side : interior_parent->side_index_range())
         {
           interior_parent->build_side_ptr(interior_parent_side, side);
-          Real centroid_distance = (boundary_elem->centroid() - interior_parent_side->centroid()).norm();
+          Real centroid_distance =
+              (MetaPhysicL::raw_value(boundary_elem->centroid()) -
+               MetaPhysicL::raw_value(interior_parent_side->centroid()))
+                  .norm();
 
           if (centroid_distance < (tolerance * boundary_elem->hmin()))
             {

@@ -161,7 +161,7 @@ private:
   /**
    * Records a relative "distance moved"
    */
-  Real _dist_norm;
+  GeomReal _dist_norm;
 
   /**
    * Map for hanging_nodes

@@ -899,7 +899,7 @@ void FEInterface::all_shapes<GeomReal>(const unsigned int dim,
 
 
 template<>
-void FEInterface::shape<RealGradient>(const unsigned int dim,
+void FEInterface::shape<GeomRealGradient>(const unsigned int dim,
                                       const FEType & fe_t,
                                       const ElemType t,
                                       const unsigned int i,
@@ -938,7 +938,7 @@ void FEInterface::shape<RealGradient>(const unsigned int dim,
 
 
 template<>
-void FEInterface::shapes<RealGradient>(const unsigned int dim,
+void FEInterface::shapes<GeomRealGradient>(const unsigned int dim,
                                        const FEType & fe_t,
                                        const Elem * elem,
                                        const unsigned int i,
@@ -979,7 +979,7 @@ void FEInterface::shapes<RealGradient>(const unsigned int dim,
 
 
 template<>
-void FEInterface::all_shapes<RealGradient>(const unsigned int dim,
+void FEInterface::all_shapes<GeomRealGradient>(const unsigned int dim,
                                            const FEType & fe_t,
                                            const Elem * elem,
                                            const std::vector<Point> & p,
@@ -1184,7 +1184,7 @@ FEInterface::shape_second_deriv_function(const unsigned int dim,
 
 
 template<>
-void FEInterface::shape<RealGradient>(const unsigned int dim,
+void FEInterface::shape<GeomRealGradient>(const unsigned int dim,
                                       const FEType & fe_t,
                                       const Elem * elem,
                                       const unsigned int i,

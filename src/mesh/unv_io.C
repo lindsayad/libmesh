@@ -34,6 +34,7 @@
 #include "libmesh/cell_prism6.h"
 #include "libmesh/utility.h"
 #include "libmesh/boundary_info.h"
+#include "libmesh/raw_type.h"
 
 // C++ includes
 #include <array>
@@ -907,16 +908,16 @@ void UNVIO::nodes_out (std::ostream & out_file)
                << '\n';
 
       // The coordinates - always write out three coords regardless of LIBMESH_DIM
-      Real x = (*current_node)(0);
+      Real x = MetaPhysicL::raw_value((*current_node)(0));
 
 #if LIBMESH_DIM > 1
-      Real y = (*current_node)(1);
+      Real y = MetaPhysicL::raw_value((*current_node)(1));
 #else
       Real y = 0.;
 #endif
 
 #if LIBMESH_DIM > 2
-      Real z = (*current_node)(2);
+      Real z = MetaPhysicL::raw_value((*current_node)(2));
 #else
       Real z = 0.;
 #endif
