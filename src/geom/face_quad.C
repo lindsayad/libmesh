@@ -20,6 +20,7 @@
 #include "libmesh/edge_edge2.h"
 #include "libmesh/face_quad4.h"
 #include "libmesh/enum_elem_quality.h"
+#include "libmesh/raw_type.h"
 
 // C++ includes
 #include <array>
@@ -171,7 +172,7 @@ Real Quad::quality (const ElemQuality q) const
       // Aspect Ratio: Maximum edge length ratios
     case ASPECT_RATIO:
       {
-        Real lengths[4] = {this->length(0,1), this->length(1,2), this->length(2,3), this->length(3,0)};
+        Real lengths[4] = {MetaPhysicL::raw_value(this->length(0,1)), MetaPhysicL::raw_value(this->length(1,2)), MetaPhysicL::raw_value(this->length(2,3)), MetaPhysicL::raw_value(this->length(3,0))};
         Real
           max = *std::max_element(lengths, lengths+4),
           min = *std::min_element(lengths, lengths+4);
@@ -189,10 +190,10 @@ Real Quad::quality (const ElemQuality q) const
     case DIAGONAL:
       {
         // Diagonal between node 0 and node 2
-        const Real d02 = this->length(0,2);
+        const Real d02 = MetaPhysicL::raw_value(this->length(0,2));
 
         // Diagonal between node 1 and node 3
-        const Real d13 = this->length(1,3);
+        const Real d13 = MetaPhysicL::raw_value(this->length(1,3));
 
         // Find the biggest and smallest diagonals
         if ((d02 > 0.) && (d13 >0.))
@@ -207,9 +208,9 @@ Real Quad::quality (const ElemQuality q) const
       // Stretch: Sqrt(2) * minimum edge length / maximum diagonal length
     case STRETCH:
       {
-        Real lengths[4] = {this->length(0,1), this->length(1,2), this->length(2,3), this->length(3,0)};
+        Real lengths[4] = {MetaPhysicL::raw_value(this->length(0,1)), MetaPhysicL::raw_value(this->length(1,2)), MetaPhysicL::raw_value(this->length(2,3)), MetaPhysicL::raw_value(this->length(3,0))};
         Real min_edge = *std::min_element(lengths, lengths+4);
-        Real d_max = std::max(this->length(0,2), this->length(1,3));
+        Real d_max = std::max(MetaPhysicL::raw_value(this->length(0,2)), MetaPhysicL::raw_value(this->length(1,3)));
 
         // Return 0. instead of dividing by zero.
         if (d_max == 0.)
@@ -229,9 +230,9 @@ Real Quad::quality (const ElemQuality q) const
 
         // x, y, z node coordinates.
         std::vector<Real>
-          x = {this->point(0)(0), this->point(1)(0), this->point(2)(0), this->point(3)(0)},
-          y = {this->point(0)(1), this->point(1)(1), this->point(2)(1), this->point(3)(1)},
-          z = {this->point(0)(2), this->point(1)(2), this->point(2)(2), this->point(3)(2)};
+          x = {MetaPhysicL::raw_value(this->point(0)(0)), MetaPhysicL::raw_value(this->point(1)(0)), MetaPhysicL::raw_value(this->point(2)(0)), MetaPhysicL::raw_value(this->point(3)(0))},
+          y = {MetaPhysicL::raw_value(this->point(0)(1)), MetaPhysicL::raw_value(this->point(1)(1)), MetaPhysicL::raw_value(this->point(2)(1)), MetaPhysicL::raw_value(this->point(3)(1))},
+          z = {MetaPhysicL::raw_value(this->point(0)(2)), MetaPhysicL::raw_value(this->point(1)(2)), MetaPhysicL::raw_value(this->point(2)(2)), MetaPhysicL::raw_value(this->point(3)(2))};
 
         // Nodal Jacobians. These are 3x2 matrices, hence we represent
         // them by Array6.
@@ -306,24 +307,29 @@ Real Quad::quality (const ElemQuality q) const
         // 1) None of the cross products are zero (within a tolernace), and
         // 2) all of the cross products point in the same direction.
 
+        auto p0 = MetaPhysicL::raw_value(point(0)),
+          p1 = MetaPhyiscL::raw_value(point(1)),
+          p2 = MetaPhyiscL::raw_value(point(2)),
+          p3 = MetaPhyiscL::raw_value(point(3));
+
         // Corner 0
-        Point vec_01 = point(1) - point(0);
-        Point vec_03 = point(3) - point(0);
+        Point vec_01 = p1 - p0;
+        Point vec_03 = p3 - p0;
         Point corner_0_vec = vec_01.cross(vec_03);
 
         // Corner 1
-        Point vec_12 = point(2) - point(1);
-        Point vec_10 = point(0) - point(1);
+        Point vec_12 = p2 - p1;
+        Point vec_10 = p0 - p1;
         Point corner_1_vec = vec_12.cross(vec_10);
 
         // Corner 2
-        Point vec_23 = point(3) - point(2);
-        Point vec_21 = point(1) - point(2);
+        Point vec_23 = p3 - p2;
+        Point vec_21 = p1 - p2;
         Point corner_2_vec = vec_23.cross(vec_21);
 
         // Corner 3
-        Point vec_30 = point(0) - point(3);
-        Point vec_32 = point(2) - point(3);
+        Point vec_30 = p0 - p3;
+        Point vec_32 = p2 - p3;
         Point corner_3_vec = vec_30.cross(vec_32);
 
         // If any of these cross products is nearly zero, then either

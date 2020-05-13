@@ -34,7 +34,7 @@ namespace {
 void scalar_nodal_soln(const Elem * elem,
                        const Order order,
                        const std::vector<Number> & elem_soln,
-                       std::vector<Number> &       nodal_soln)
+                       std::vector<GeomNumber> &       nodal_soln)
 {
   const unsigned int n_nodes = elem->n_nodes();
   nodal_soln.resize(n_nodes);
@@ -58,28 +58,28 @@ template <>
 void FE<0,SCALAR>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { scalar_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 template <>
 void FE<1,SCALAR>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { scalar_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 template <>
 void FE<2,SCALAR>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { scalar_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 template <>
 void FE<3,SCALAR>::nodal_soln(const Elem * elem,
                               const Order order,
                               const std::vector<Number> & elem_soln,
-                              std::vector<Number> & nodal_soln)
+                              std::vector<GeomNumber> & nodal_soln)
 { scalar_nodal_soln(elem, order, elem_soln, nodal_soln); }
 
 // Full specialization of n_dofs() function for every dimension

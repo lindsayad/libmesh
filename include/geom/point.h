@@ -21,7 +21,8 @@
 #define LIBMESH_POINT_H
 
 // Local includes
-#include "libmesh/type_vector.h"
+#include "libmesh/vector_value.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -35,7 +36,7 @@ namespace libMesh
  * \date 2003
  * \brief A geometric point in (x,y,z) space.
  */
-class Point : public TypeVector<GeomReal>
+class Point : public VectorValue<GeomReal>
 {
 public:
 
@@ -46,21 +47,28 @@ public:
   Point (const GeomReal x=0.,
          const GeomReal y=0.,
          const GeomReal z=0.) :
-    TypeVector<GeomReal> (x,y,z)
+    VectorValue<GeomReal> (x,y,z)
   {}
 
   /**
    * Copy-constructor.
    */
   Point (const Point & p) :
-    TypeVector<GeomReal> (p)
+    VectorValue<GeomReal> (p)
+  {}
+
+  /**
+   * Copy-constructor.
+   */
+  Point (const VectorValue<GeomReal> & p) :
+    VectorValue<GeomReal> (p)
   {}
 
   /**
    * Copy-constructor.
    */
   Point (const TypeVector<GeomReal> & p) :
-    TypeVector<GeomReal> (p)
+    VectorValue<GeomReal> (p)
   {}
 
   /**
@@ -75,7 +83,7 @@ public:
             typename = typename
               boostcopy::enable_if_c<ScalarTraits<T>::value,void>::type>
   Point (const T x) :
-    TypeVector<GeomReal> (x,0,0)
+    VectorValue<GeomReal> (x,0,0)
   {}
 
   /**
@@ -92,5 +100,24 @@ protected:
 };
 
 } // namespace libMesh
+
+namespace MetaPhysicL
+{
+template <>
+struct RawType<libMesh::Point>
+{
+  typedef libMesh::VectorValue<typename RawType<libMesh::GeomReal>::value_type> value_type;
+
+  static value_type value (const libMesh::Point & in)
+    {
+      value_type ret;
+      for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+        ret(i) = raw_value(in(i));
+
+      return ret;
+    }
+};
+}
+
 
 #endif // LIBMESH_POINT_H

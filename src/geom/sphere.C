@@ -41,7 +41,7 @@ Sphere::Sphere () :
 
 
 Sphere::Sphere (const Point & c,
-                const Real r)
+                const GeomReal & r)
 {
   libmesh_assert_greater (r, 0.);
 
@@ -69,34 +69,34 @@ Sphere::Sphere(const Point & pa,
   Point pbd = pb - pd;
   Point pcd = pc - pd;
 
-  TensorValue<Real> T(pad,pbd,pcd);
+  TensorValue<GeomReal> T(pad,pbd,pcd);
 
-  Real D = T.det();
+  GeomReal D = T.det();
 
   // The points had better not be coplanar
   libmesh_assert_greater (std::abs(D), 1e-12);
 
-  Real e = 0.5*(pa.norm_sq() - pd.norm_sq());
-  Real f = 0.5*(pb.norm_sq() - pd.norm_sq());
-  Real g = 0.5*(pc.norm_sq() - pd.norm_sq());
+  GeomReal e = 0.5*(pa.norm_sq() - pd.norm_sq());
+  GeomReal f = 0.5*(pb.norm_sq() - pd.norm_sq());
+  GeomReal g = 0.5*(pc.norm_sq() - pd.norm_sq());
 
-  TensorValue<Real> T1(e,pad(1),pad(2),
+  TensorValue<GeomReal> T1(e,pad(1),pad(2),
                        f,pbd(1),pbd(2),
                        g,pcd(1),pcd(2));
-  Real sx = T1.det()/D;
+  GeomReal sx = T1.det()/D;
 
-  TensorValue<Real> T2(pad(0),e,pad(2),
+  TensorValue<GeomReal> T2(pad(0),e,pad(2),
                        pbd(0),f,pbd(2),
                        pcd(0),g,pcd(2));
-  Real sy = T2.det()/D;
+  GeomReal sy = T2.det()/D;
 
-  TensorValue<Real> T3(pad(0),pad(1),e,
+  TensorValue<GeomReal> T3(pad(0),pad(1),e,
                        pbd(0),pbd(1),f,
                        pcd(0),pcd(1),g);
-  Real sz = T3.det()/D;
+  GeomReal sz = T3.det()/D;
 
   Point c(sx,sy,sz);
-  Real r = (c-pa).norm();
+  GeomReal r = (c-pa).norm();
 
   this->create_from_center_radius(c,r);
 #else // LIBMESH_DIM > 2
@@ -113,7 +113,7 @@ Sphere::~Sphere ()
 
 
 
-void Sphere::create_from_center_radius (const Point & c, const Real r)
+void Sphere::create_from_center_radius (const Point & c, const GeomReal & r)
 {
   this->center() = c;
   this->radius() = r;
@@ -130,12 +130,12 @@ bool Sphere::intersects (const Sphere & other_sphere) const
 
 
 
-Real Sphere::distance (const Sphere & other_sphere) const
+GeomReal Sphere::distance (const Sphere & other_sphere) const
 {
   libmesh_assert_greater ( this->radius(), 0. );
   libmesh_assert_greater ( other_sphere.radius(), 0. );
 
-  const Real the_distance = (this->center() - other_sphere.center()).norm();
+  const GeomReal the_distance = (this->center() - other_sphere.center()).norm();
 
   return the_distance - (this->radius() + other_sphere.radius());
 }

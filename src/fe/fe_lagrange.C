@@ -25,6 +25,7 @@
 #include "libmesh/remote_elem.h"
 #include "libmesh/threads.h"
 #include "libmesh/enum_to_string.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -790,11 +791,9 @@ void lagrange_compute_constraints (DofConstraints & constraints,
                   const dof_id_type their_dof_g =
                     parent_dof_indices[their_dof];
 
-                  const Real their_dof_value = FEInterface::shape(Dim-1,
-                                                                  fe_type,
-                                                                  parent_side->type(),
-                                                                  their_dof,
-                                                                  mapped_point);
+                  const Real their_dof_value = MetaPhysicL::raw_value(
+                      FEInterface::shape(Dim - 1, fe_type, parent_side->type(),
+                                         their_dof, mapped_point));
 
                   // Only add non-zero and non-identity values
                   // for Lagrange basis functions.

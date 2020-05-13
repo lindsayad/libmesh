@@ -238,11 +238,11 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  static Real shape(const unsigned int dim,
-                    const FEType & fe_t,
-                    const ElemType t,
-                    const unsigned int i,
-                    const Point & p);
+  static GeomReal shape(const unsigned int dim,
+                        const FEType & fe_t,
+                        const ElemType t,
+                        const unsigned int i,
+                        const Point & p);
 
   /**
    * \returns The value of the \f$ i^{th} \f$ shape function at
@@ -253,11 +253,11 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the base
    * order of the element.
    */
-  static Real shape(const unsigned int dim,
-                    const FEType & fe_t,
-                    const Elem * elem,
-                    const unsigned int i,
-                    const Point & p);
+  static GeomReal shape(const unsigned int dim,
+                        const FEType & fe_t,
+                        const Elem * elem,
+                        const unsigned int i,
+                        const Point & p);
 
   /**
    * \returns The value of the \f$ i^{th} \f$ shape function at
@@ -268,13 +268,13 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  template<typename OutputType>
+  template<typename OutputShape>
   static void shape(const unsigned int dim,
                     const FEType & fe_t,
                     const ElemType t,
                     const unsigned int i,
                     const Point & p,
-                    OutputType & phi);
+                    OutputShape & phi);
 
   /**
    * \returns The value of the \f$ i^{th} \f$ shape function at
@@ -285,13 +285,13 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  template<typename OutputType>
+  template<typename OutputShape>
   static void shape(const unsigned int dim,
                     const FEType & fe_t,
                     const Elem * elem,
                     const unsigned int i,
                     const Point & p,
-                    OutputType & phi);
+                    OutputShape & phi);
 
   /**
    * Fills \p phi with the values of the \f$ i^{th} \f$ shape function
@@ -301,24 +301,24 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  template<typename OutputType>
+  template<typename OutputShape>
   static void shapes(const unsigned int dim,
                      const FEType & fe_t,
                      const Elem * elem,
                      const unsigned int i,
                      const std::vector<Point> & p,
-                     std::vector<OutputType> & phi,
+                     std::vector<OutputShape> & phi,
                      const bool add_p_level = true);
 
-  template<typename OutputType>
+  template<typename OutputShape>
   static void all_shapes(const unsigned int dim,
                          const FEType & fe_t,
                          const Elem * elem,
                          const std::vector<Point> & p,
-                         std::vector<std::vector<OutputType>> & phi,
+                         std::vector<std::vector<OutputShape>> & phi,
                          const bool add_p_level = true);
 
-  typedef Real (*shape_ptr) (const FEType fe_t,
+  typedef GeomReal (*shape_ptr) (const FEType fe_t,
                              const Elem * elem,
                              const unsigned int i,
                              const Point & p,
@@ -344,7 +344,7 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  static Real shape_deriv(const unsigned int dim,
+  static GeomReal shape_deriv(const unsigned int dim,
                           const FEType & fe_t,
                           const ElemType t,
                           const unsigned int i,
@@ -361,14 +361,14 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  static Real shape_deriv (const unsigned int dim,
+  static GeomReal shape_deriv (const unsigned int dim,
                            const FEType & fe_t,
                            const Elem *elem,
                            const unsigned int i,
                            const unsigned int j,
                            const Point & p);
 
-  typedef Real (*shape_deriv_ptr) (const FEType fet,
+  typedef GeomReal (*shape_deriv_ptr) (const FEType fet,
                                    const Elem * elem,
                                    const unsigned int i,
                                    const unsigned int j,
@@ -404,7 +404,7 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  static Real shape_second_deriv(const unsigned int dim,
+  static GeomReal shape_second_deriv(const unsigned int dim,
                                  const FEType & fe_t,
                                  const ElemType t,
                                  const unsigned int i,
@@ -426,14 +426,14 @@ public:
    * \note On a p-refined element, \p fe_t.order should be the total
    * order of the element.
    */
-  static Real shape_second_deriv (const unsigned int dim,
+  static GeomReal shape_second_deriv (const unsigned int dim,
                                   const FEType & fe_t,
                                   const Elem *elem,
                                   const unsigned int i,
                                   const unsigned int j,
                                   const Point & p);
 
-  typedef Real (*shape_second_deriv_ptr) (const FEType fet,
+  typedef GeomReal (*shape_second_deriv_ptr) (const FEType fet,
                                           const Elem * elem,
                                           const unsigned int i,
                                           const unsigned int j,
@@ -598,27 +598,27 @@ private:
                                         const ElemType t,
                                         const Real eps);
 
-  static Real ifem_shape(const unsigned int dim,
+  static GeomReal ifem_shape(const unsigned int dim,
                          const FEType & fe_t,
                          const ElemType t,
                          const unsigned int i,
                          const Point & p);
 
-  static Real ifem_shape(const unsigned int dim,
+  static GeomReal ifem_shape(const unsigned int dim,
                          const FEType & fe_t,
                          const Elem * elem,
                          const unsigned int i,
                          const Point & p);
 
 
-  static Real ifem_shape_deriv(const unsigned int dim,
+  static GeomReal ifem_shape_deriv(const unsigned int dim,
                                const FEType & fe_t,
                                const ElemType t,
                                const unsigned int i,
                                const unsigned int j,
                                const Point & p);
 
-  static Real ifem_shape_deriv(const unsigned int dim,
+  static GeomReal ifem_shape_deriv(const unsigned int dim,
                                const FEType & fe_t,
                                const Elem * elem,
                                const unsigned int i,

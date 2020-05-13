@@ -616,7 +616,7 @@ void H1FETransformation<Real>::map_div(const unsigned int,
                                        const Elem * const,
                                        const std::vector<Point> &,
                                        const FEGenericBase<Real> &,
-                                       std::vector<std::vector<FEGenericBase<GeomReal>::OutputDivergence>> & ) const
+                                       std::vector<std::vector<FEGenericBase<Real>::OutputDivergence>> & ) const
 {
   libmesh_error_msg("Computing the divergence of a shape function only \nmakes sense for vector-valued elements.");
 }
@@ -627,7 +627,7 @@ void H1FETransformation<RealGradient>::map_div(const unsigned int dim,
                                                const Elem * const,
                                                const std::vector<Point> &,
                                                const FEGenericBase<RealGradient> & fe,
-                                               std::vector<std::vector<FEGenericBase<GeomRealGradient>::OutputDivergence>> & div_phi) const
+                                               std::vector<std::vector<FEGenericBase<RealGradient>::OutputDivergence>> & div_phi) const
 {
   switch (dim)
     {

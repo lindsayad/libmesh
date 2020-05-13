@@ -389,9 +389,9 @@ bool Tet4::contains_point (const Point & p, Real tol) const
 
   libmesh_try
     {
-      RealTensorValue(col1(0), col2(0), col3(0),
-                      col1(1), col2(1), col3(1),
-                      col1(2), col2(2), col3(2)).solve(p - point(0), r);
+      GeomRealTensorValue(col1(0), col2(0), col3(0),
+                          col1(1), col2(1), col3(1),
+                          col1(2), col2(2), col3(2)).solve(p - point(0), r);
     }
   libmesh_catch (ConvergenceFailure &)
     {

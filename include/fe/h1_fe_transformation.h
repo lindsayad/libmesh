@@ -121,7 +121,7 @@ public:
                        const Elem * const elem,
                        const std::vector<Point> & qp,
                        const FEGenericBase<OutputType> & fe,
-                       std::vector<std::vector<typename FEGenericBase<OutputShape>::OutputDivergence>> & div_phi) const override;
+                       std::vector<std::vector<typename FEGenericBase<OutputType>::OutputDivergence>> & div_phi) const override;
 
 }; // class H1FETransformation
 

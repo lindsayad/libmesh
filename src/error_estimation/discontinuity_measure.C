@@ -120,9 +120,9 @@ DiscontinuityMeasure::internal_side_integration ()
 
   // Add the h-weighted jump integral to each error term
   fine_error =
-    error * fine_elem.hmax() * error_norm.weight(var);
+    error * MetaPhysicL::raw_value(fine_elem.hmax()) * error_norm.weight(var);
   coarse_error =
-    error * coarse_elem.hmax() * error_norm.weight(var);
+    error * MetaPhysicL::raw_value(coarse_elem.hmax()) * error_norm.weight(var);
 }
 
 
@@ -150,7 +150,7 @@ DiscontinuityMeasure::boundary_side_integration ()
   if (this->_bc_function(fine_context->get_system(),
                          qface_point[0], var_name).first)
     {
-      const Real h = fine_elem.hmax();
+      const Real h = MetaPhysicL::raw_value(fine_elem.hmax());
 
       // The number of quadrature points
       const unsigned int n_qp = fe_fine->n_quadrature_points();
