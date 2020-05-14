@@ -129,12 +129,12 @@ public:
    * the user specifies an actual number of smoothing
    * iterations.
    */
-  GeomReal smooth(unsigned int n_iterations);
+  Real smooth(unsigned int n_iterations);
 
   /**
    * \returns Max distance a node moved during the last smooth.
    */
-  GeomReal distance_moved() const { return _distance; }
+  Real distance_moved() const { return _distance; }
 
   /**
    * Allow user to control whether the metric is generated from the initial mesh.
@@ -151,7 +151,7 @@ private:
   /**
    * Max distance of the last set of movement.
    */
-  GeomReal _distance;
+  Real _distance;
 
   /**
    * Dampening factor
@@ -161,7 +161,7 @@ private:
   /**
    * Records a relative "distance moved"
    */
-  GeomReal _dist_norm;
+  Real _dist_norm;
 
   /**
    * Map for hanging_nodes
@@ -258,9 +258,9 @@ private:
   };
 
 
-  int writegr(const Array2D<GeomReal> & R);
+  int writegr(const Array2D<Real> & R);
 
-  int readgr(Array2D<GeomReal> & R,
+  int readgr(Array2D<Real> & R,
              std::vector<int> & mask,
              Array2D<int> & cells,
              std::vector<int> & mcells,
@@ -272,12 +272,12 @@ private:
 
   int read_adp(std::vector<Real> & afun);
 
-  GeomReal jac3(const GeomReal & x1, const GeomReal & y1, const GeomReal & z1,
-                const GeomReal & x2, const GeomReal & y2, const GeomReal & z2,
-                const GeomReal & x3, const GeomReal & y3, const GeomReal & z3);
+  Real jac3(Real x1, Real y1, Real z1,
+            Real x2, Real y2, Real z2,
+            Real x3, Real y3, Real z3);
 
-  GeomReal jac2(const GeomReal & x1, const GeomReal & y1,
-                const GeomReal & x2, const GeomReal & y2);
+  Real jac2(Real x1, Real y1,
+            Real x2, Real y2);
 
   int basisA(Array2D<Real> & Q,
              int nvert,
