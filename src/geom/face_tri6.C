@@ -361,18 +361,18 @@ BoundingBox Tri6::loose_bounding_box () const
   //
   // FIXME - I haven't yet proven the formula below to be correct for
   // quadratics in 2D - RHS
-  Point pmin, pmax;
+  RawPoint pmin, pmax;
 
   for (unsigned d=0; d<LIBMESH_DIM; ++d)
     {
-      GeomReal center = this->point(0)(d);
+      auto center = MetaPhysicL::raw_value(this->point(0)(d));
       for (unsigned int p=1; p != 6; ++p)
-        center += this->point(p)(d);
+        center += MetaPhysicL::raw_value(this->point(p)(d));
       center /= 6;
 
-      GeomReal hd = std::abs(center - this->point(0)(d));
+      auto hd = std::abs(center - MetaPhysicL::raw_value(this->point(0)(d)));
       for (unsigned int p=1; p != 6; ++p)
-        hd = std::max(hd, std::abs(center - this->point(p)(d)));
+        hd = std::max(hd, std::abs(center - MetaPhysicL::raw_value(this->point(p)(d))));
 
       pmin(d) = center - hd;
       pmax(d) = center + hd;

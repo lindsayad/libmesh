@@ -35,6 +35,7 @@
 #include "libmesh/int_range.h"
 #include "libmesh/utility.h"
 #include "libmesh/boundary_info.h"
+#include "libmesh/raw_type.h"
 
 #ifdef DEBUG
 #  include "libmesh/remote_elem.h"
@@ -115,7 +116,7 @@ public:
     for (const auto & node : range)
       {
         libmesh_assert(node);
-        _bbox.union_with(*node);
+        _bbox.union_with(MetaPhysicL::raw_value(static_cast<const Point &>(*node)));
       }
   }
 
@@ -128,9 +129,9 @@ public:
       }
   }
 
-  Point & min() { return _bbox.min(); }
+  RawPoint & min() { return _bbox.min(); }
 
-  Point & max() { return _bbox.max(); }
+  RawPoint & max() { return _bbox.max(); }
 
   // If we don't have threads we never need a join, and icpc yells a
   // warning if it sees an anonymous function that's never used

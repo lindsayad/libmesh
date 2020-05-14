@@ -230,13 +230,13 @@ BoundingBox Edge3::loose_bounding_box () const
   // This might be a curved line through 2-space or 3-space, in which
   // case the full bounding box can be larger than the bounding box of
   // just the nodes.
-  Point pmin, pmax;
+  RawPoint pmin, pmax;
 
   for (unsigned d=0; d<LIBMESH_DIM; ++d)
     {
-      GeomReal center = this->point(2)(d);
-      GeomReal hd = std::max(std::abs(center - this->point(0)(d)),
-                         std::abs(center - this->point(1)(d)));
+      auto center = MetaPhysicL::raw_value(this->point(2)(d));
+      auto hd = std::max(std::abs(center - MetaPhysicL::raw_value(this->point(0)(d))),
+                         std::abs(center - MetaPhysicL::raw_value(this->point(1)(d))));
 
       pmin(d) = center - hd;
       pmax(d) = center + hd;

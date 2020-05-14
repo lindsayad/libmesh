@@ -73,6 +73,7 @@
 #include "libmesh/enum_io_package.h"
 #include "libmesh/enum_order.h"
 #include "libmesh/elem_internal.h"
+#include "libmesh/raw_type.h"
 
 #ifdef LIBMESH_ENABLE_PERIODIC
 #include "libmesh/mesh.h"
@@ -2667,14 +2668,14 @@ GeomReal Elem::volume () const
 
 BoundingBox Elem::loose_bounding_box () const
 {
-  Point pmin = this->point(0);
-  Point pmax = pmin;
+  auto pmin = MetaPhysicL::raw_value(this->point(0));
+  auto pmax = pmin;
 
   unsigned int n_points = this->n_nodes();
   for (unsigned int p=0; p != n_points; ++p)
     for (unsigned d=0; d<LIBMESH_DIM; ++d)
       {
-        const Point & pt = this->point(p);
+        const auto & pt = MetaPhysicL::raw_value(this->point(p));
         if (pmin(d) > pt(d))
           pmin(d) = pt(d);
 
