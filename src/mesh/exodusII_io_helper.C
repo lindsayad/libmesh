@@ -1780,15 +1780,15 @@ void ExodusII_IO_Helper::write_nodal_coordinates(const MeshBase & mesh, bool use
         {
           const Node & node = *node_ptr;
 
-          x.push_back(node(0) + _coordinate_offset(0));
+          x.push_back(MetaPhysicL::raw_value(node(0)) + _coordinate_offset(0));
 
 #if LIBMESH_DIM > 1
-          y.push_back(node(1) + _coordinate_offset(1));
+          y.push_back(MetaPhysicL::raw_value(node(1)) + _coordinate_offset(1));
 #else
           y.push_back(0.);
 #endif
 #if LIBMESH_DIM > 2
-          z.push_back(node(2) + _coordinate_offset(2));
+          z.push_back(MetaPhysicL::raw_value(node(2)) + _coordinate_offset(2));
 #else
           z.push_back(0.);
 #endif
@@ -1807,14 +1807,14 @@ void ExodusII_IO_Helper::write_nodal_coordinates(const MeshBase & mesh, bool use
       for (const auto & elem : mesh.active_element_ptr_range())
         for (const Node & node : elem->node_ref_range())
           {
-            x.push_back(node(0));
+            x.push_back(MetaPhysicL::raw_value(node(0)));
 #if LIBMESH_DIM > 1
-            y.push_back(node(1));
+            y.push_back(MetaPhysicL::raw_value(node(1)));
 #else
             y.push_back(0.);
 #endif
 #if LIBMESH_DIM > 2
-            z.push_back(node(2));
+            z.push_back(MetaPhysicL::raw_value(node(2)));
 #else
             z.push_back(0.);
 #endif
@@ -3187,9 +3187,9 @@ void ExodusII_IO_Helper::write_as_dimension(unsigned dim)
 
 
 
-void ExodusII_IO_Helper::set_coordinate_offset(Point p)
+void ExodusII_IO_Helper::set_coordinate_offset(const Point & p)
 {
-  _coordinate_offset = p;
+  _coordinate_offset = MetaPhysicL::raw_value(p);
 }
 
 

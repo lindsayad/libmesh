@@ -50,6 +50,7 @@
 #include "libmesh/int_range.h"
 #include "libmesh/parallel.h"
 #include "libmesh/parallel_ghost_sync.h"
+#include "libmesh/raw_type.h"
 
 // C++ includes
 #include <cstdlib> // *must* precede <cmath> for proper std:abs() on PGI, Sun Studio CC
@@ -211,10 +212,12 @@ public:
    * MeshTools::Modification::redistribute() calls.  Moves the points
    * of the grid to the Gauss-Lobatto points.
    */
-  virtual void operator() (const Point & p,
+  virtual void operator() (const Point & point,
                            const Real /*time*/,
                            DenseVector<Real> & output) override
   {
+    const auto & p = MetaPhysicL::raw_value(point);
+
     output.resize(3);
 
     for (unsigned dir=0; dir<3; ++dir)

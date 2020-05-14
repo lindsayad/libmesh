@@ -38,6 +38,7 @@
 #include "libmesh/tensor_value.h"
 #include "libmesh/threads.h"
 #include "libmesh/fe_type.h"
+#include "libmesh/raw_type.h"
 
 // Anonymous namespace, for a helper function for periodic boundary
 // constraint calculations
@@ -742,9 +743,9 @@ void FEGenericBase<Real>::compute_dual_shape_coeffs ()
 
   //compute dual basis coefficient (dual_coeff)
   dual_coeff.resize(sz, sz);
-  DenseMatrix<Real> A(sz, sz), D(sz, sz);
+  DenseMatrix<GeomReal> A(sz, sz), D(sz, sz);
 
-  const std::vector<Real> JxW = this->get_JxW();
+  const auto & JxW = this->get_JxW();
 
   for (auto i : index_range(phi))
     for (auto qp : index_range(phi[i]))
@@ -757,7 +758,7 @@ void FEGenericBase<Real>::compute_dual_shape_coeffs ()
   // dual_coeff = A^-1*D
   for (auto j : index_range(phi))
   {
-    DenseVector<Real> Dcol(sz), coeffcol(sz);
+    DenseVector<GeomReal> Dcol(sz), coeffcol(sz);
     for (auto i : index_range(phi))
       Dcol(i) = D(i, j);
     A.lu_solve(Dcol, coeffcol);
@@ -978,33 +979,33 @@ FEGenericBase<OutputType>::coarsened_dof_values(const NumericVector<Number> & ol
 
   // The values of the shape functions at the quadrature
   // points
-  const std::vector<std::vector<OutputShape>> & phi_values =
-    fe->get_phi();
-  const std::vector<std::vector<OutputShape>> & phi_coarse =
-    fe_coarse->get_phi();
+  const auto& phi_values =
+    MetaPhysicL::raw_value(fe->get_phi());
+  const auto & phi_coarse =
+    MetaPhysicL::raw_value(fe_coarse->get_phi());
 
   // The gradients of the shape functions at the quadrature
   // points on the child element.
-  const std::vector<std::vector<OutputGradient>> * dphi_values =
+  const std::vector<std::vector<RawOutputGradient>> * dphi_values =
     nullptr;
-  const std::vector<std::vector<OutputGradient>> * dphi_coarse =
+  const std::vector<std::vector<RawOutputGradient>> * dphi_coarse =
     nullptr;
 
   const FEContinuity cont = fe->get_continuity();
 
   if (cont == C_ONE)
     {
-      const std::vector<std::vector<OutputGradient>> &
-        ref_dphi_values = fe->get_dphi();
+      const auto &
+        ref_dphi_values = MetaPhysicL::raw_value(fe->get_dphi());
       dphi_values = &ref_dphi_values;
-      const std::vector<std::vector<OutputGradient>> &
-        ref_dphi_coarse = fe_coarse->get_dphi();
+      const auto &
+        ref_dphi_coarse = MetaPhysicL::raw_value(fe_coarse->get_dphi());
       dphi_coarse = &ref_dphi_coarse;
     }
 
   // The Jacobian * quadrature weight at the quadrature points
-  const std::vector<GeomReal> & JxW =
-    fe->get_JxW();
+  const auto & JxW =
+    MetaPhysicL::raw_value(fe->get_JxW());
 
   // The XYZ locations of the quadrature points on the
   // child element
@@ -1153,9 +1154,9 @@ FEGenericBase<OutputType>::coarsened_dof_values(const NumericVector<Number> & ol
             for (unsigned int qp=0; qp<n_qp; qp++)
               {
                 // solution value at the quadrature point
-                OutputNumber fineval = libMesh::zero;
+                RawOutputNumber fineval = libMesh::zero;
                 // solution grad at the quadrature point
-                OutputNumberGradient finegrad;
+                RawOutputNumberGradient finegrad;
 
                 // Sum the solution values * the DOF
                 // values at the quadrature point to
@@ -1293,9 +1294,9 @@ FEGenericBase<OutputType>::coarsened_dof_values(const NumericVector<Number> & ol
             for (unsigned int qp=0; qp<n_qp; qp++)
               {
                 // solution value at the quadrature point
-                OutputNumber fineval = libMesh::zero;
+                RawOutputNumber fineval = libMesh::zero;
                 // solution grad at the quadrature point
-                OutputNumberGradient finegrad;
+                RawOutputNumberGradient finegrad;
 
                 // Sum the solution values * the DOF
                 // values at the quadrature point to
@@ -1410,9 +1411,9 @@ FEGenericBase<OutputType>::coarsened_dof_values(const NumericVector<Number> & ol
       for (unsigned int qp=0; qp<n_qp; qp++)
         {
           // solution value at the quadrature point
-          OutputNumber fineval = libMesh::zero;
+          RawOutputNumber fineval = libMesh::zero;
           // solution grad at the quadrature point
-          OutputNumberGradient finegrad;
+          RawOutputNumberGradient finegrad;
 
           // Sum the solution values * the DOF
           // values at the quadrature point to
@@ -1558,28 +1559,27 @@ FEGenericBase<OutputType>::compute_proj_constraints (DofConstraints & constraint
   my_fe->attach_quadrature_rule (&my_qface);
   std::vector<Point> neigh_qface;
 
-  const std::vector<GeomReal> & JxW = my_fe->get_JxW();
+  const auto & JxW = MetaPhysicL::raw_value(my_fe->get_JxW());
   const std::vector<Point> & q_point = my_fe->get_xyz();
-  const std::vector<std::vector<OutputShape>> & phi = my_fe->get_phi();
-  const std::vector<std::vector<OutputShape>> & neigh_phi =
-    neigh_fe->get_phi();
-  const std::vector<Point> * face_normals = nullptr;
-  const std::vector<std::vector<OutputGradient>> * dphi = nullptr;
-  const std::vector<std::vector<OutputGradient>> * neigh_dphi = nullptr;
+  const auto & phi = MetaPhysicL::raw_value(my_fe->get_phi());
+  const auto & neigh_phi = MetaPhysicL::raw_value(neigh_fe->get_phi());
+  const std::vector<RawPoint> * face_normals = nullptr;
+  const std::vector<std::vector<RawOutputGradient>> * dphi = nullptr;
+  const std::vector<std::vector<RawOutputGradient>> * neigh_dphi = nullptr;
 
   std::vector<dof_id_type> my_dof_indices, neigh_dof_indices;
   std::vector<unsigned int> my_side_dofs, neigh_side_dofs;
 
   if (cont != C_ZERO)
     {
-      const std::vector<Point> & ref_face_normals =
-        my_fe->get_normals();
+      const auto & ref_face_normals =
+        MetaPhysicL::raw_value(my_fe->get_normals());
       face_normals = &ref_face_normals;
-      const std::vector<std::vector<OutputGradient>> & ref_dphi =
-        my_fe->get_dphi();
+      const auto & ref_dphi =
+        MetaPhysicL::raw_value(my_fe->get_dphi());
       dphi = &ref_dphi;
-      const std::vector<std::vector<OutputGradient>> & ref_neigh_dphi =
-        neigh_fe->get_dphi();
+      const auto& ref_neigh_dphi =
+        MetaPhysicL::raw_value(neigh_fe->get_dphi());
       neigh_dphi = &ref_neigh_dphi;
     }
 
@@ -1853,7 +1853,7 @@ compute_periodic_constraints (DofConstraints & constraints,
   libmesh_assert (cont == C_ZERO || cont == C_ONE);
 
   // We'll use element size to generate relative tolerances later
-  const GeomReal primary_hmin = elem->hmin();
+  const auto primary_hmin = MetaPhysicL::raw_value(elem->hmin());
 
   std::unique_ptr<FEGenericBase<OutputType>> neigh_fe
     (FEGenericBase<OutputType>::build(Dim, base_fe_type));
@@ -1862,27 +1862,27 @@ compute_periodic_constraints (DofConstraints & constraints,
   my_fe->attach_quadrature_rule (&my_qface);
   std::vector<Point> neigh_qface;
 
-  const std::vector<GeomReal> & JxW = my_fe->get_JxW();
+  const auto & JxW = MetaPhysicL::raw_value(my_fe->get_JxW());
   const std::vector<Point> & q_point = my_fe->get_xyz();
-  const std::vector<std::vector<OutputShape>> & phi = my_fe->get_phi();
-  const std::vector<std::vector<OutputShape>> & neigh_phi =
-    neigh_fe->get_phi();
-  const std::vector<Point> * face_normals = nullptr;
-  const std::vector<std::vector<OutputGradient>> * dphi = nullptr;
-  const std::vector<std::vector<OutputGradient>> * neigh_dphi = nullptr;
+  const auto & phi = MetaPhysicL::raw_value(my_fe->get_phi());
+  const auto & neigh_phi =
+    MetaPhysicL::raw_value(neigh_fe->get_phi());
+  const std::vector<RawPoint> * face_normals = nullptr;
+  const std::vector<std::vector<RawOutputGradient>> * dphi = nullptr;
+  const std::vector<std::vector<RawOutputGradient>> * neigh_dphi = nullptr;
   std::vector<dof_id_type> my_dof_indices, neigh_dof_indices;
   std::vector<unsigned int> my_side_dofs, neigh_side_dofs;
 
   if (cont != C_ZERO)
     {
-      const std::vector<Point> & ref_face_normals =
-        my_fe->get_normals();
+      const auto & ref_face_normals =
+        MetaPhysicL::raw_value(my_fe->get_normals());
       face_normals = &ref_face_normals;
-      const std::vector<std::vector<OutputGradient>> & ref_dphi =
-        my_fe->get_dphi();
+      const auto & ref_dphi =
+        MetaPhysicL::raw_value(my_fe->get_dphi());
       dphi = &ref_dphi;
-      const std::vector<std::vector<OutputGradient>> & ref_neigh_dphi =
-        neigh_fe->get_dphi();
+      const auto & ref_neigh_dphi =
+        MetaPhysicL::raw_value(neigh_fe->get_dphi());
       neigh_dphi = &ref_neigh_dphi;
     }
 

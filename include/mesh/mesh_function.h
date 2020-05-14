@@ -157,8 +157,8 @@ public:
    * \returns The first derivatives of variable 0 at point
    * \p p and for \p time, which defaults to zero.
    */
-  Gradient gradient (const Point & p,
-                     const Real time=0.);
+  OutputGradient gradient (const Point & p,
+                           const Real time=0.);
 
   /**
    * \returns A map of first derivatives (gradients) of variable 0 at point
@@ -166,7 +166,7 @@ public:
    * map is from element to Gradient and accounts for double defined
    * values on faces if the gradient is discontinuous
    */
-  std::map<const Elem *, Gradient> discontinuous_gradient (const Point & p,
+  std::map<const Elem *, OutputGradient> discontinuous_gradient (const Point & p,
                                                            const Real time=0.);
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
@@ -174,7 +174,7 @@ public:
    * \returns The second derivatives of variable 0 at point
    * \p p and for \p time, which defaults to zero.
    */
-  Tensor hessian (const Point & p,
+  OutputTensor hessian (const Point & p,
                   const Real time=0.);
 #endif
 
@@ -225,7 +225,7 @@ public:
    */
   void gradient (const Point & p,
                  const Real time,
-                 std::vector<Gradient> & output,
+                 std::vector<OutputGradient> & output,
                  const std::set<subdomain_id_type> * subdomain_ids = nullptr);
 
   /**
@@ -235,7 +235,7 @@ public:
    */
   void discontinuous_gradient (const Point & p,
                                const Real time,
-                               std::map<const Elem *, std::vector<Gradient>> & output);
+                               std::map<const Elem *, std::vector<OutputGradient>> & output);
 
   /**
    * Similar to gradient, but with the difference
@@ -244,7 +244,7 @@ public:
    */
   void discontinuous_gradient (const Point & p,
                                const Real time,
-                               std::map<const Elem *, std::vector<Gradient>> & output,
+                               std::map<const Elem *, std::vector<OutputGradient>> & output,
                                const std::set<subdomain_id_type> * subdomain_ids);
 
   /**
@@ -255,7 +255,7 @@ public:
    */
   void hessian (const Point & p,
                 const Real time,
-                std::vector<Tensor> & output,
+                std::vector<OutputTensor> & output,
                 const std::set<subdomain_id_type> * subdomain_ids = nullptr);
 
   /**

@@ -260,11 +260,11 @@ private:
   const AddConstraint     & add_fn;
 
   static Number f_component (FunctionBase<Number> * f,
-                                 FEMFunctionBase<Number> * f_fem,
-                                 const FEMContext * c,
-                                 unsigned int i,
-                                 const Point & p,
-                                 Real time)
+                             FEMFunctionBase<Number> * f_fem,
+                             const FEMContext * c,
+                             unsigned int i,
+                             const Point & p,
+                             Real time)
   {
     if (f_fem)
       {
@@ -390,10 +390,10 @@ private:
       }
 
     // The Jacobian * quadrature weight at the quadrature points
-    const auto JxW = MetPhysicL::raw_value(fe->get_JxW());
+    const auto JxW = MetaPhysicL::raw_value(fe->get_JxW());
 
     // The XYZ locations of the quadrature points
-    const auto xyz_values = MetaPhysicL::raw_value(fe->get_xyz());
+    const auto & xyz_values = fe->get_xyz();
 
     // The global DOF indices
     std::vector<dof_id_type> dof_indices;

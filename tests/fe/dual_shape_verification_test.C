@@ -39,7 +39,7 @@ public:
 
     _fe->reinit(_elem);
 
-    const DenseMatrix<Real> & dual_coeff = _fe->get_dual_coeff();
+    const auto & dual_coeff = MetaPhysicL::raw_value(_fe->get_dual_coeff());
 
     CPPUNIT_ASSERT_EQUAL(dual_coeff.m(), unsigned(2));
     CPPUNIT_ASSERT_EQUAL(dual_coeff.n(), unsigned(2));

@@ -43,6 +43,7 @@
 #include "libmesh/enum_error_estimator_type.h"
 #include "libmesh/enum_norm_type.h"
 #include "libmesh/int_range.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -75,13 +76,15 @@ PatchRecoveryErrorEstimator::PatchRecoveryErrorEstimator() :
 
 std::vector<Real> PatchRecoveryErrorEstimator::specpoly(const unsigned int dim,
                                                         const Order order,
-                                                        const Point p,
+                                                        const Point point,
                                                         const unsigned int matsize)
 {
   std::vector<Real> psi;
   psi.reserve(matsize);
   int npows = order+1;
   std::vector<Real> xpow(npows,1.), ypow, zpow;
+  auto p = MetaPhysicL::raw_value(point);
+
   {
     Real x = p(0);
     for (auto i : make_range(1, npows))
@@ -327,14 +330,14 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
           fe->attach_quadrature_rule (qrule.get());
 
           // Get Jacobian values, etc..
-          const std::vector<Real> & JxW = fe->get_JxW();
+          const auto JxW = MetaPhysicL::raw_value(fe->get_JxW());
           const std::vector<Point> & q_point = fe->get_xyz();
 
           // Get whatever phi/dphi/d2phi values we need.  Avoid
           // getting them unless the requested norm is actually going
           // to use them.
 
-          const std::vector<std::vector<Real>> * phi = nullptr;
+          std::vector<std::vector<Real>> phi;
           // If we're using phi to assert the correct dof_indices
           // vector size later, then we'll need to get_phi whether we
           // plan to use it or not.
@@ -342,21 +345,21 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
           if (error_estimator.error_norm.type(var) == L2 ||
               error_estimator.error_norm.type(var) == L_INF)
 #endif
-            phi = &(fe->get_phi());
+            phi = MetaPhysicL::raw_value(fe->get_phi());
 
-          const std::vector<std::vector<RealGradient>> * dphi = nullptr;
+          std::vector<std::vector<RealGradient>> dphi;
           if (error_estimator.error_norm.type(var) == H1_SEMINORM ||
               error_estimator.error_norm.type(var) == H1_X_SEMINORM ||
               error_estimator.error_norm.type(var) == H1_Y_SEMINORM ||
               error_estimator.error_norm.type(var) == H1_Z_SEMINORM ||
               error_estimator.error_norm.type(var) == W1_INF_SEMINORM)
-            dphi = &(fe->get_dphi());
+            dphi = MetaPhysicL::raw_value(fe->get_dphi());
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-          const std::vector<std::vector<RealTensor>> * d2phi = nullptr;
+          std::vector<std::vector<RealTensor>> d2phi;
           if (error_estimator.error_norm.type(var) == H2_SEMINORM ||
               error_estimator.error_norm.type(var) == W2_INF_SEMINORM)
-            d2phi = &(fe->get_d2phi());
+            d2phi = MetaPhysicL::raw_value(fe->get_d2phi());
 #endif
 
           // global DOF indices
@@ -464,7 +467,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Number u_h = libMesh::zero;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        u_h += (*phi)[i][qp]*system.current_solution (dof_indices[i]);
+                        u_h += phi[i][qp]*system.current_solution (dof_indices[i]);
 
                       // Patch RHS contributions
                       for (unsigned int i=0; i != psi_size; i++)
@@ -479,7 +482,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][qp],
+                        grad_u_h.add_scaled (dphi[i][qp],
                                              system.current_solution(dof_indices[i]));
 
                       // Patch RHS contributions
@@ -501,7 +504,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][qp],
+                        grad_u_h.add_scaled (dphi[i][qp],
                                              system.current_solution(dof_indices[i]));
 
                       // Patch RHS contributions
@@ -518,7 +521,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][qp],
+                        grad_u_h.add_scaled (dphi[i][qp],
                                              system.current_solution(dof_indices[i]));
 
                       // Patch RHS contributions
@@ -536,7 +539,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][qp],
+                        grad_u_h.add_scaled (dphi[i][qp],
                                              system.current_solution(dof_indices[i]));
 
                       // Patch RHS contributions
@@ -555,7 +558,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Tensor hess_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        hess_u_h.add_scaled ((*d2phi)[i][qp],
+                        hess_u_h.add_scaled (d2phi[i][qp],
                                              system.current_solution(dof_indices[i]));
 
                       // Patch RHS contributions
@@ -726,7 +729,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Number u_h = libMesh::zero;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        u_h += (*phi)[i][sp]*system.current_solution (dof_indices[i]);
+                        u_h += phi[i][sp]*system.current_solution (dof_indices[i]);
 
                       // Compute the phi values at the current sample point
                       std::vector<Real> psi(specpoly(dim, element_order, q_point[sp], matsize));
@@ -744,7 +747,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][sp],
+                        grad_u_h.add_scaled (dphi[i][sp],
                                              system.current_solution(dof_indices[i]));
 
                       // Compute the phi values at the current sample point
@@ -774,7 +777,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][sp],
+                        grad_u_h.add_scaled (dphi[i][sp],
                                              system.current_solution(dof_indices[i]));
 
                       // Compute the phi values at the current sample point
@@ -793,7 +796,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][sp],
+                        grad_u_h.add_scaled (dphi[i][sp],
                                              system.current_solution(dof_indices[i]));
 
                       // Compute the phi values at the current sample point
@@ -813,7 +816,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Gradient grad_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        grad_u_h.add_scaled ((*dphi)[i][sp],
+                        grad_u_h.add_scaled (dphi[i][sp],
                                              system.current_solution(dof_indices[i]));
 
                       // Compute the phi values at the current sample point
@@ -834,7 +837,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
                       Tensor hess_u_h;
 
                       for (unsigned int i=0; i<n_dofs; i++)
-                        hess_u_h.add_scaled ((*d2phi)[i][sp],
+                        hess_u_h.add_scaled (d2phi[i][sp],
                                              system.current_solution(dof_indices[i]));
 
                       // Compute the phi values at the current sample point

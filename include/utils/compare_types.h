@@ -225,6 +225,22 @@ SUPERTYPE(long double, Real);
   };
 */
 
+/**
+ * Helper struct that can be useful for determing whether raw_value conversions need to occur in
+ * things like Functions (say if the Function is of type Function<Real> but we are returning the
+ * component of a Point where GeomReal is of dual type
+ */
+template <typename>
+struct IsDual
+{
+  static constexpr bool value = false;
+};
+
+template <template <typename> class W, typename T>
+struct IsDual<W<T>>
+{
+  static constexpr bool value = IsDual<T>::value;
+};
 } // namespace libMesh
 
 #ifdef LIBMESH_HAVE_METAPHYSICL
@@ -291,6 +307,12 @@ template <typename T, typename D, bool asd>
 struct ScalarTraits<MetaPhysicL::DualNumber<T, D, asd>>
 {
   static const bool value = ScalarTraits<T>::value;
+};
+
+template <typename T, typename D, bool asd>
+struct IsDual<MetaPhysicL::DualNumber<T,D,asd>>
+{
+  static constexpr bool value = true;
 };
 } // namespace libMesh
 

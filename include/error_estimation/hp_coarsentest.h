@@ -130,9 +130,9 @@ protected:
   /**
    * The shape functions and their derivatives
    */
-  std::vector<std::vector<GeomReal>> phi, phi_coarse;
-  std::vector<std::vector<GeomRealGradient>> dphi, dphi_coarse;
-  std::vector<std::vector<GeomRealTensor>> d2phi, d2phi_coarse;
+  std::vector<std::vector<Real>> phi, phi_coarse;
+  std::vector<std::vector<RealGradient>> dphi, dphi_coarse;
+  std::vector<std::vector<RealTensor>> d2phi, d2phi_coarse;
 
   /**
    * Mapping jacobians
@@ -142,8 +142,8 @@ protected:
   /**
    * Quadrature locations
    */
-  std::vector<RealVectorValue> xyz_values;
-  std::vector<RealVectorValue> coarse_qpoints;
+  const std::vector<Point> * xyz_values;
+  std::vector<Point> coarse_qpoints;
 
   /**
    * The quadrature rule for the fine element

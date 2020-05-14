@@ -33,8 +33,8 @@ namespace libMesh
 DirichletBoundary::
 DirichletBoundary(const std::set<boundary_id_type> & b_in,
                   const std::vector<unsigned int> & variables_in,
-                  const FunctionBase<GeomNumber> * f_in,
-                  const FunctionBase<GeomNumberGradient> * g_in) :
+                  const FunctionBase<Number> * f_in,
+                  const FunctionBase<Gradient> * g_in) :
   b(b_in),
   variables(variables_in),
   f(f_in ? f_in->clone() : nullptr),
@@ -52,7 +52,7 @@ DirichletBoundary(const std::set<boundary_id_type> & b_in,
 DirichletBoundary::
 DirichletBoundary(const std::set<boundary_id_type> & b_in,
                   const std::vector<unsigned int> & variables_in,
-                  const FunctionBase<GeomNumber> & f_in,
+                  const FunctionBase<Number> & f_in,
                   VariableIndexing type) :
   b(b_in),
   variables(variables_in),
@@ -61,7 +61,7 @@ DirichletBoundary(const std::set<boundary_id_type> & b_in,
 {
   if (type == LOCAL_VARIABLE_ORDER)
     {
-      auto c = libmesh_make_unique<CompositeFunction<GeomNumber>>();
+      auto c = libmesh_make_unique<CompositeFunction<Number>>();
       c->attach_subfunction(f_in, variables_in);
       f = std::move(c);
     }
@@ -75,8 +75,8 @@ DirichletBoundary(const std::set<boundary_id_type> & b_in,
 DirichletBoundary::
 DirichletBoundary(const std::set<boundary_id_type> & b_in,
                   const std::vector<unsigned int> & variables_in,
-                  const FunctionBase<GeomNumber> & f_in,
-                  const FunctionBase<GeomNumberGradient> & g_in,
+                  const FunctionBase<Number> & f_in,
+                  const FunctionBase<Gradient> & g_in,
                   VariableIndexing type) :
   b(b_in),
   variables(variables_in),
@@ -85,11 +85,11 @@ DirichletBoundary(const std::set<boundary_id_type> & b_in,
 {
   if (type == LOCAL_VARIABLE_ORDER)
     {
-      auto cf = libmesh_make_unique<CompositeFunction<GeomNumber>>();
+      auto cf = libmesh_make_unique<CompositeFunction<Number>>();
       cf->attach_subfunction(f_in, variables_in);
       f = std::move(cf);
 
-      auto cg = libmesh_make_unique<CompositeFunction<GeomNumberGradient>>();
+      auto cg = libmesh_make_unique<CompositeFunction<Gradient>>();
       cg->attach_subfunction(g_in, variables_in);
       g = std::move(cg);
     }
@@ -108,8 +108,8 @@ DirichletBoundary::
 DirichletBoundary(const std::set<boundary_id_type> & b_in,
                   const std::vector<unsigned int> & variables_in,
                   const System & f_sys_in,
-                  const FEMFunctionBase<GeomNumber> * f_in,
-                  const FEMFunctionBase<GeomNumberGradient> * g_in) :
+                  const FEMFunctionBase<Number> * f_in,
+                  const FEMFunctionBase<Gradient> * g_in) :
   b(b_in),
   variables(variables_in),
   f_fem(f_in ? f_in->clone() : nullptr),
@@ -125,7 +125,7 @@ DirichletBoundary::
 DirichletBoundary(const std::set<boundary_id_type> & b_in,
                   const std::vector<unsigned int> & variables_in,
                   const System & f_sys_in,
-                  const FEMFunctionBase<GeomNumber> & f_in,
+                  const FEMFunctionBase<Number> & f_in,
                   VariableIndexing type) :
   b(b_in),
   variables(variables_in),
@@ -134,7 +134,7 @@ DirichletBoundary(const std::set<boundary_id_type> & b_in,
 {
   if (type == LOCAL_VARIABLE_ORDER)
     {
-      auto c = libmesh_make_unique<CompositeFEMFunction<GeomNumber>>();
+      auto c = libmesh_make_unique<CompositeFEMFunction<Number>>();
       c->attach_subfunction(f_in, variables_in);
       f_fem = std::move(c);
     }
@@ -147,8 +147,8 @@ DirichletBoundary::
 DirichletBoundary(const std::set<boundary_id_type> & b_in,
                   const std::vector<unsigned int> & variables_in,
                   const System & f_sys_in,
-                  const FEMFunctionBase<GeomNumber> & f_in,
-                  const FEMFunctionBase<GeomNumberGradient> & g_in,
+                  const FEMFunctionBase<Number> & f_in,
+                  const FEMFunctionBase<Gradient> & g_in,
                   VariableIndexing type) :
   b(b_in),
   variables(variables_in),
@@ -157,11 +157,11 @@ DirichletBoundary(const std::set<boundary_id_type> & b_in,
 {
   if (type == LOCAL_VARIABLE_ORDER)
     {
-      auto cf = libmesh_make_unique<CompositeFEMFunction<GeomNumber>>();
+      auto cf = libmesh_make_unique<CompositeFEMFunction<Number>>();
       cf->attach_subfunction(f_in, variables_in);
       f_fem = std::move(cf);
 
-      auto cg = libmesh_make_unique<CompositeFEMFunction<GeomNumberGradient>>();
+      auto cg = libmesh_make_unique<CompositeFEMFunction<Gradient>>();
       cg->attach_subfunction(g_in, variables_in);
       g_fem = std::move(cg);
     }

@@ -134,6 +134,7 @@ public:
  * between Real and Complex data types.
  */
 typedef VectorValue<Real>       RealVectorValue;
+typedef RealVectorValue         RawPoint;
 typedef VectorValue<GeomReal>   GeomRealVectorValue;
 typedef VectorValue<Number>     NumberVectorValue;
 typedef RealVectorValue         RealGradient;

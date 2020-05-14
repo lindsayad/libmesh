@@ -123,7 +123,7 @@ VariationalMeshSmoother::VariationalMeshSmoother(UnstructuredMesh & mesh,
 
 
 
-Real VariationalMeshSmoother::smooth(unsigned int)
+GeomReal VariationalMeshSmoother::smooth(unsigned int)
 {
   // If the log file is already open, for example on subsequent calls
   // to smooth() on the same object, we'll just keep writing to it,
@@ -167,7 +167,7 @@ Real VariationalMeshSmoother::smooth(unsigned int)
     mcells(_n_cells),
     hnodes(_n_hanging_edges);
 
-  Array2D<Real> R(_n_nodes, _dim);
+  Array2D<GeomReal> R(_n_nodes, _dim);
   Array2D<int> cells(_n_cells, 3*_dim + _dim%2);
   Array3D<Real> H(_n_cells, _dim, _dim);
 
@@ -220,7 +220,7 @@ Real VariationalMeshSmoother::smooth(unsigned int)
 
 
 // save grid
-int VariationalMeshSmoother::writegr(const Array2D<Real> & R)
+int VariationalMeshSmoother::writegr(const Array2D<GeomReal> & R)
 {
   libMesh::out << "Starting writegr" << std::endl;
 
@@ -324,7 +324,7 @@ int VariationalMeshSmoother::readgr(Array2D<GeomReal> & R,
                   {
                     // Note that the x and y values of this node are subtracted off
                     // this centers the system around this node
-                    theta = atan2((*neighbor)(1)-y, (*neighbor)(0)-x);
+                    theta = std::atan2((*neighbor)(1)-y, (*neighbor)(0)-x);
 
                     // Save it for later
                     thetas.push_back(theta);
@@ -592,25 +592,25 @@ int VariationalMeshSmoother::read_adp(std::vector<Real> & afun)
 
 
 
-Real VariationalMeshSmoother::jac3(Real x1,
-                                     Real y1,
-                                     Real z1,
-                                     Real x2,
-                                     Real y2,
-                                     Real z2,
-                                     Real x3,
-                                     Real y3,
-                                     Real z3)
+GeomReal VariationalMeshSmoother::jac3(const GeomReal & x1,
+                                       const GeomReal & y1,
+                                       const GeomReal & z1,
+                                       const GeomReal & x2,
+                                       const GeomReal & y2,
+                                       const GeomReal & z2,
+                                       const GeomReal & x3,
+                                       const GeomReal & y3,
+                                       const GeomReal & z3)
 {
   return x1*(y2*z3 - y3*z2) + y1*(z2*x3 - z3*x2) + z1*(x2*y3 - x3*y2);
 }
 
 
 
-Real VariationalMeshSmoother::jac2(Real x1,
-                                     Real y1,
-                                     Real x2,
-                                     Real y2)
+GeomReal VariationalMeshSmoother::jac2(const GeomReal & x1,
+                                       const GeomReal & y1,
+                                       const GeomReal & x2,
+                                       const GeomReal & y2)
 {
   return x1*y2 - x2*y1;
 }
@@ -4095,7 +4095,7 @@ void VariationalMeshSmoother::metr_data_gen(std::string grid,
                       first_neighbor_index = first_neighbor_indices[ni],
                       second_neighbor_index = second_neighbor_indices[ni];
 
-                    Real
+                    auto
                       node_x = R[cells[i][node_index]][0],
                       node_y = R[cells[i][node_index]][1],
                       first_neighbor_x = R[cells[i][first_neighbor_index]][0],
@@ -4189,11 +4189,11 @@ void VariationalMeshSmoother::metr_data_gen(std::string grid,
 
                 // write to file
                 if (me == 2)
-                  metric_file << 1./pow(det, 1./3.)
+                  metric_file << 1./std::pow(det, 1./3.)
                               << " 0.000000e+00  0.000000e+00\n0.000000e+00 "
-                              << 1./pow(det, 1./3.)
+                              << 1./std::pow(det, 1./3.)
                               << " 0.000000e+00\n0.000000e+00 0.000000e+00 "
-                              << 1./pow(det, 1./3.)
+                              << 1./std::pow(det, 1./3.)
                               << std::endl;
 
                 if (me == 3)
@@ -4231,7 +4231,7 @@ void VariationalMeshSmoother::metr_data_gen(std::string grid,
                       second_neighbor_index = second_neighbor_indices[ni],
                       third_neighbor_index = third_neighbor_indices[ni];
 
-                    Real
+                    auto
                       node_x = R[cells[i][node_index]][0],
                       node_y = R[cells[i][node_index]][1],
                       node_z = R[cells[i][node_index]][2],
@@ -4282,12 +4282,12 @@ void VariationalMeshSmoother::metr_data_gen(std::string grid,
 
                     // write to file
                     if (me == 2)
-                      metric_file << 1./pow(det, 1./3.) << " "
-                                  << 0.5/pow(det, 1./3.) << " "
-                                  << 0.5/pow(det, 1./3.) << "\n0.000000e+00 "
-                                  << 0.5*std::sqrt(3.)/pow(det, 1./3.) << " "
-                                  << 0.5/(std::sqrt(3.)*pow(det, 1./3.)) << "\n0.000000e+00 0.000000e+00 "
-                                  << std::sqrt(2/3.)/pow(det, 1./3.)
+                      metric_file << 1./std::pow(det, 1./3.) << " "
+                                  << 0.5/std::pow(det, 1./3.) << " "
+                                  << 0.5/std::pow(det, 1./3.) << "\n0.000000e+00 "
+                                  << 0.5*std::sqrt(3.)/std::pow(det, 1./3.) << " "
+                                  << 0.5/(std::sqrt(3.)*std::pow(det, 1./3.)) << "\n0.000000e+00 0.000000e+00 "
+                                  << std::sqrt(2/3.)/std::pow(det, 1./3.)
                                   << std::endl;
 
                     if (me == 3)

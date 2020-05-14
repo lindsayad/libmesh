@@ -206,7 +206,7 @@ void PostscriptIO::plot_linear_elem(const Elem * elem)
   // so we can just draw them in the same order.
 
   // 1.)
-  _current_point = (elem->point(0) - _offset) * _scale;
+  _current_point = (MetaPhysicL::raw_value(elem->point(0)) - _offset) * _scale;
   _cell_string << _current_point(0) << " " << _current_point(1) << " "; // write x y
   _cell_string << "m ";
 
@@ -214,13 +214,13 @@ void PostscriptIO::plot_linear_elem(const Elem * elem)
   const unsigned int nv=elem->n_vertices();
   for (unsigned int v=1; v<nv-1; ++v)
     {
-      _current_point = (elem->point(v) - _offset) * _scale;
+      _current_point = (MetaPhysicL::raw_value(elem->point(v)) - _offset) * _scale;
       _cell_string << _current_point(0) << " " << _current_point(1) << " "; // write x y
       _cell_string << "l ";
     }
 
   // 3.)
-  _current_point = (elem->point(nv-1) - _offset) * _scale;
+  _current_point = (MetaPhysicL::raw_value(elem->point(nv-1)) - _offset) * _scale;
   _cell_string << _current_point(0) << " " << _current_point(1) << " "; // write x y
 
   // We draw the shaded (interior) parts first, if applicable.

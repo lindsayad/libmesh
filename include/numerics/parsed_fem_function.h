@@ -159,19 +159,6 @@ protected:
 #endif
 
 private:
-  template <typename T, typename std::enable_if<!(!std::is_same<Output, T>::value &&
-                                                  std::is_same<T, GeomReal>::value), int>::type = 0>
-  static Output convert_to_output(const T & in)
-    {
-      return in;
-    }
-
-  template <typename T, typename std::enable_if<!std::is_same<Output, T>::value &&
-                                                std::is_same<T, GeomReal>::value, int>::type = 0>
-  static Output convert_to_output(const T & in)
-    {
-      return MetaPhysicL::raw_value(in);
-    }
 
   const System & _sys;
   std::string _expression;
@@ -689,12 +676,12 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
                                       const Point & p,
                                       const Real time)
 {
-  _spacetime[0] = convert_to_output(p(0));
+  _spacetime[0] = this->dual_converter(p(0));
 #if LIBMESH_DIM > 1
-  _spacetime[1] = convert_to_output(p(1));
+  _spacetime[1] = this->dual_converter(p(1));
 #endif
 #if LIBMESH_DIM > 2
-  _spacetime[2] = convert_to_output(p(2));
+  _spacetime[2] = this->dual_converter(p(2));
 #endif
   _spacetime[LIBMESH_DIM] = time;
 
@@ -791,7 +778,7 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
               const Point & n = normals[qp];
               for (unsigned int d=0; d != LIBMESH_DIM; ++d)
                 {
-                  _spacetime[LIBMESH_DIM+1+request_index] = convert_to_output(n(d));
+                  _spacetime[LIBMESH_DIM+1+request_index] = this->dual_converter(n(d));
                   request_index++;
                 }
 #ifndef NDEBUG

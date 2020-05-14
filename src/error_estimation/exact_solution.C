@@ -34,6 +34,7 @@
 #include "libmesh/enum_norm_type.h"
 #include "libmesh/utility.h"
 #include "libmesh/auto_ptr.h" // libmesh_make_unique
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -444,7 +445,7 @@ Real ExactSolution::h2_error(const std::string & sys_name,
 
 
 
-template<typename OutputShape>
+template<typename OutputType>
 void ExactSolution::_compute_error(const std::string & sys_name,
                                    const std::string & unknown_name,
                                    std::vector<Real> & error_vals)
@@ -473,7 +474,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
     computed_system.variable_scalar_number(var, 0);
 
   // Prepare a global solution and a MeshFunction of the coarse system if we need one
-  std::unique_ptr<MeshFunction> coarse_values;
+  std::unique_ptr<MeshFunction<Number>> coarse_values;
   std::unique_ptr<NumericVector<Number>> comparison_soln = NumericVector<Number>::build(_equation_systems.comm());
   if (_equation_systems_fine)
     {
@@ -485,7 +486,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
       comparison_soln->init(comparison_system.solution->size(), true, SERIAL);
       (*comparison_soln) = global_soln;
 
-      coarse_values = libmesh_make_unique<MeshFunction>
+      coarse_values = libmesh_make_unique<MeshFunction<Number>>
         (_equation_systems,
          *comparison_soln,
          comparison_system.get_dof_map(),
@@ -541,7 +542,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
 
 
   // Allow space for dims 0-3, even if we don't use them all
-  std::vector<std::unique_ptr<FEGenericBase<OutputShape>>> fe_ptrs(4);
+  std::vector<std::unique_ptr<FEGenericBase<OutputType>>> fe_ptrs(4);
   std::vector<std::unique_ptr<QBase>> q_rules(4);
 
   // Prepare finite elements for each dimension present in the mesh
@@ -551,7 +552,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
       q_rules[dim] = fe_type.default_quadrature_rule (dim, _extra_order);
 
       // Construct finite element object
-      fe_ptrs[dim] = FEGenericBase<OutputShape>::build(dim, fe_type);
+      fe_ptrs[dim] = FEGenericBase<OutputType>::build(dim, fe_type);
 
       // Attach quadrature rule to FE object
       fe_ptrs[dim]->attach_quadrature_rule (q_rules[dim].get());
@@ -590,40 +591,39 @@ void ExactSolution::_compute_error(const std::string & sys_name,
       std::set<subdomain_id_type> subdomain_id;
       subdomain_id.insert(elem_subid);
 
-      FEGenericBase<OutputShape> * fe = fe_ptrs[dim].get();
+      FEGenericBase<OutputType> * fe = fe_ptrs[dim].get();
       QBase * qrule = q_rules[dim].get();
       libmesh_assert(fe);
       libmesh_assert(qrule);
 
       // The Jacobian*weight at the quadrature points.
-      const std::vector<Real> & JxW = fe->get_JxW();
+      const auto & JxW = MetaPhysicL::raw_value(fe->get_JxW());
 
       // The value of the shape functions at the quadrature points
       // i.e. phi(i) = phi_values[i][qp]
-      const std::vector<std::vector<OutputShape>> &  phi_values = fe->get_phi();
+      const auto & phi_values = MetaPhysicL::raw_value(fe->get_phi());
 
       // The value of the shape function gradients at the quadrature points
-      const std::vector<std::vector<typename FEGenericBase<OutputShape>::OutputGradient>> &
-        dphi_values = fe->get_dphi();
+      const auto & dphi_values = MetaPhysicL::raw_value(fe->get_dphi());
 
       // The value of the shape function curls at the quadrature points
       // Only computed for vector-valued elements
-      const std::vector<std::vector<typename FEGenericBase<OutputShape>::OutputShape>> * curl_values = nullptr;
+      std::vector<std::vector<typename FEGenericBase<OutputType>::RawOutputShape>> curl_values;
 
       // The value of the shape function divergences at the quadrature points
       // Only computed for vector-valued elements
-      const std::vector<std::vector<typename FEGenericBase<OutputShape>::OutputDivergence>> * div_values = nullptr;
+      std::vector<std::vector<typename FEGenericBase<OutputType>::RawOutputDivergence>> div_values;
 
       if (FEInterface::field_type(fe_type) == TYPE_VECTOR)
         {
-          curl_values = &fe->get_curl_phi();
-          div_values = &fe->get_div_phi();
+          curl_values = MetaPhysicL::raw_value(fe->get_curl_phi());
+          div_values = MetaPhysicL::raw_value(fe->get_div_phi());
         }
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
       // The value of the shape function second derivatives at the quadrature points
-      const std::vector<std::vector<typename FEGenericBase<OutputShape>::OutputTensor>> &
-        d2phi_values = fe->get_d2phi();
+      const auto &
+        d2phi_values = MetaPhysicL::raw_value(fe->get_d2phi());
 #endif
 
       // The XYZ locations (in physical space) of the quadrature points
@@ -651,14 +651,14 @@ void ExactSolution::_compute_error(const std::string & sys_name,
           // Real u_h = 0.;
           // RealGradient grad_u_h;
 
-          typename FEGenericBase<OutputShape>::OutputNumber u_h(0.);
+          typename FEGenericBase<OutputType>::RawOutputNumber u_h(0.);
 
-          typename FEGenericBase<OutputShape>::OutputNumberGradient grad_u_h;
+          typename FEGenericBase<OutputType>::RawOutputNumberGradient grad_u_h;
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
-          typename FEGenericBase<OutputShape>::OutputNumberTensor grad2_u_h;
+          typename FEGenericBase<OutputType>::RawOutputNumberTensor grad2_u_h;
 #endif
-          typename FEGenericBase<OutputShape>::OutputNumber curl_u_h(0.0);
-          typename FEGenericBase<OutputShape>::OutputNumberDivergence div_u_h = 0.0;
+          typename FEGenericBase<OutputType>::RawOutputNumber curl_u_h(0.0);
+          typename FEGenericBase<OutputType>::RawOutputNumberDivergence div_u_h = 0.0;
 
           // Compute solution values at the current
           // quadrature point.  This requires a sum
@@ -674,14 +674,14 @@ void ExactSolution::_compute_error(const std::string & sys_name,
 #endif
               if (FEInterface::field_type(fe_type) == TYPE_VECTOR)
                 {
-                  curl_u_h += (*curl_values)[i][qp]*computed_system.current_solution (dof_indices[i]);
-                  div_u_h += (*div_values)[i][qp]*computed_system.current_solution (dof_indices[i]);
+                  curl_u_h += curl_values[i][qp]*computed_system.current_solution (dof_indices[i]);
+                  div_u_h += div_values[i][qp]*computed_system.current_solution (dof_indices[i]);
                 }
             }
 
           // Compute the value of the error at this quadrature point
-          typename FEGenericBase<OutputShape>::OutputNumber exact_val(0);
-          RawAccessor<typename FEGenericBase<OutputShape>::OutputNumber> exact_val_accessor( exact_val, dim );
+          typename FEGenericBase<OutputType>::RawOutputNumber exact_val(0);
+          RawAccessor<typename FEGenericBase<OutputType>::RawOutputNumber> exact_val_accessor( exact_val, dim );
           if (_exact_values.size() > sys_num && _exact_values[sys_num])
             {
               for (unsigned int c = 0; c < n_vec_dim; c++)
@@ -696,7 +696,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
               (*coarse_values)(q_point[qp],time,output,&subdomain_id);
               exact_val = output(0);
             }
-          const typename FEGenericBase<OutputShape>::OutputNumber val_error = u_h - exact_val;
+          const typename FEGenericBase<OutputType>::RawOutputNumber val_error = u_h - exact_val;
 
           // Add the squares of the error to each contribution
           Real error_sq = TensorTools::norm_sq(val_error);
@@ -709,8 +709,8 @@ void ExactSolution::_compute_error(const std::string & sys_name,
 
           // Compute the value of the error in the gradient at this
           // quadrature point
-          typename FEGenericBase<OutputShape>::OutputNumberGradient exact_grad;
-          RawAccessor<typename FEGenericBase<OutputShape>::OutputNumberGradient> exact_grad_accessor( exact_grad, LIBMESH_DIM );
+          typename FEGenericBase<OutputType>::RawOutputNumberGradient exact_grad;
+          RawAccessor<typename FEGenericBase<OutputType>::RawOutputNumberGradient> exact_grad_accessor( exact_grad, LIBMESH_DIM );
           if (_exact_derivs.size() > sys_num && _exact_derivs[sys_num])
             {
               for (unsigned int c = 0; c < n_vec_dim; c++)
@@ -727,7 +727,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
               exact_grad = output[0];
             }
 
-          const typename FEGenericBase<OutputShape>::OutputNumberGradient grad_error = grad_u_h - exact_grad;
+          const typename FEGenericBase<OutputType>::RawOutputNumberGradient grad_error = grad_u_h - exact_grad;
 
           error_vals[1] += JxW[qp]*grad_error.norm_sq();
 
@@ -736,7 +736,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
             {
               // Compute the value of the error in the curl at this
               // quadrature point
-              typename FEGenericBase<OutputShape>::OutputNumber exact_curl(0.0);
+              typename FEGenericBase<OutputType>::RawOutputNumber exact_curl(0.0);
               if (_exact_derivs.size() > sys_num && _exact_derivs[sys_num])
                 {
                   exact_curl = TensorTools::curl_from_grad( exact_grad );
@@ -747,13 +747,13 @@ void ExactSolution::_compute_error(const std::string & sys_name,
                   //        solution for vector-valued elements
                 }
 
-              const typename FEGenericBase<OutputShape>::OutputNumber curl_error = curl_u_h - exact_curl;
+              const typename FEGenericBase<OutputType>::RawOutputNumber curl_error = curl_u_h - exact_curl;
 
               error_vals[5] += JxW[qp]*TensorTools::norm_sq(curl_error);
 
               // Compute the value of the error in the divergence at this
               // quadrature point
-              typename FEGenericBase<OutputShape>::OutputNumberDivergence exact_div = 0.0;
+              typename FEGenericBase<OutputType>::RawOutputNumberDivergence exact_div = 0.0;
               if (_exact_derivs.size() > sys_num && _exact_derivs[sys_num])
                 {
                   exact_div = TensorTools::div_from_grad( exact_grad );
@@ -764,7 +764,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
                   //        solution for vector-valued elements
                 }
 
-              const typename FEGenericBase<OutputShape>::OutputNumberDivergence div_error = div_u_h - exact_div;
+              const typename FEGenericBase<OutputType>::RawOutputNumberDivergence div_error = div_u_h - exact_div;
 
               error_vals[6] += JxW[qp]*TensorTools::norm_sq(div_error);
             }
@@ -772,8 +772,8 @@ void ExactSolution::_compute_error(const std::string & sys_name,
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
           // Compute the value of the error in the hessian at this
           // quadrature point
-          typename FEGenericBase<OutputShape>::OutputNumberTensor exact_hess;
-          RawAccessor<typename FEGenericBase<OutputShape>::OutputNumberTensor> exact_hess_accessor( exact_hess, dim );
+          typename FEGenericBase<OutputType>::RawOutputNumberTensor exact_hess;
+          RawAccessor<typename FEGenericBase<OutputType>::RawOutputNumberTensor> exact_hess_accessor( exact_hess, dim );
           if (_exact_hessians.size() > sys_num && _exact_hessians[sys_num])
             {
               //FIXME: This needs to be implemented to support rank 3 tensors
@@ -797,7 +797,7 @@ void ExactSolution::_compute_error(const std::string & sys_name,
               exact_hess = output[0];
             }
 
-          const typename FEGenericBase<OutputShape>::OutputNumberTensor grad2_error = grad2_u_h - exact_hess;
+          const typename FEGenericBase<OutputType>::RawOutputNumberTensor grad2_error = grad2_u_h - exact_hess;
 
           // FIXME: PB: Is this what we want for rank 3 tensors?
           error_vals[2] += JxW[qp]*grad2_error.norm_sq();

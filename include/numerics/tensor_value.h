@@ -280,7 +280,6 @@ TensorValue<T>::TensorValue (const TypeTensor<Real> & p_re,
 
 } // namespace libMesh
 
-#ifdef LIBMESH_HAVE_METAPHYSICL
 namespace MetaPhysicL
 {
 template <typename T>
@@ -299,6 +298,5 @@ struct RawType<libMesh::TensorValue<T>>
     }
 };
 }
-#endif
 
 #endif // LIBMESH_TENSOR_VALUE_H

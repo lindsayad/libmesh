@@ -154,7 +154,7 @@ std::unique_ptr<FunctionBase<Output>> MeshFunction<Output>::clone () const
 
 template <typename Output>
 Output MeshFunction<Output>::operator() (const Point & p,
-                                 const Real time)
+                                         const Real time)
 {
   libmesh_assert (this->initialized());
 
@@ -165,7 +165,7 @@ Output MeshFunction<Output>::operator() (const Point & p,
 
 template <typename Output>
 std::map<const Elem *, Output> MeshFunction<Output>::discontinuous_value (const Point & p,
-                                                                  const Real time)
+                                                                          const Real time)
 {
   libmesh_assert (this->initialized());
 
@@ -182,7 +182,7 @@ std::map<const Elem *, Output> MeshFunction<Output>::discontinuous_value (const 
 template <typename Output>
 typename MeshFunction<Output>::OutputGradient
 MeshFunction<Output>::gradient (const Point & p,
-                        const Real time)
+                                const Real time)
 {
   libmesh_assert (this->initialized());
 
@@ -232,9 +232,9 @@ void MeshFunction<Output>::operator() (const Point & p,
 
 template <typename Output>
 void MeshFunction<Output>::operator() (const Point & p,
-                               const Real,
-                               DenseVector<Output> & output,
-                               const std::set<subdomain_id_type> * subdomain_ids)
+                                       const Real,
+                                       DenseVector<Output> & output,
+                                       const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
 
@@ -303,7 +303,7 @@ void MeshFunction<Output>::operator() (const Point & p,
                 Output value = 0.;
 
                 for (auto i : index_range(dof_indices))
-                  value += this->_vector(dof_indices[i]) * data.shape[i];
+                  value += this->_vector(dof_indices[i]) * this->dual_converter(data.shape[i]);
 
                 output(index) = value;
               }
@@ -319,8 +319,8 @@ void MeshFunction<Output>::operator() (const Point & p,
 
 template <typename Output>
 void MeshFunction<Output>::discontinuous_value (const Point & p,
-                                        const Real time,
-                                        std::map<const Elem *, DenseVector<Output>> & output)
+                                                const Real time,
+                                                std::map<const Elem *, DenseVector<Output>> & output)
 {
   this->discontinuous_value (p, time, output, nullptr);
 }
@@ -329,9 +329,9 @@ void MeshFunction<Output>::discontinuous_value (const Point & p,
 
 template <typename Output>
 void MeshFunction<Output>::discontinuous_value (const Point & p,
-                                        const Real,
-                                        std::map<const Elem *, DenseVector<Output>> & output,
-                                        const std::set<subdomain_id_type> * subdomain_ids)
+                                                const Real,
+                                                std::map<const Elem *, DenseVector<Output>> & output,
+                                                const std::set<subdomain_id_type> * subdomain_ids)
 {
   libmesh_assert (this->initialized());
 
@@ -393,7 +393,7 @@ void MeshFunction<Output>::discontinuous_value (const Point & p,
               Output value = 0.;
 
               for (auto i : index_range(dof_indices))
-                value += this->_vector(dof_indices[i]) * data.shape[i];
+                value += this->_vector(dof_indices[i]) * this->dual_converter(data.shape[i]);
 
               temp_output(index) = value;
             }
@@ -503,8 +503,8 @@ void MeshFunction<Output>::gradient (const Point & p,
                       for (std::size_t xyz=0; xyz<LIBMESH_DIM; xyz++)
                         {
                           // FIXME: this needs better syntax: It is matrix-vector multiplication.
-                          grad(xyz) += data.local_transform[v][xyz]
-                            * data.dshape[i](v)
+                          grad(xyz) += this->dual_converter(data.local_transform[v][xyz])
+                            * this->dual_converter(data.dshape[i](v))
                             * this->_vector(dof_indices[i]);
                         }
                   }
@@ -618,8 +618,8 @@ void MeshFunction<Output>::discontinuous_gradient (const Point & p,
                     for (std::size_t xyz=0; xyz<LIBMESH_DIM; xyz++)
                       {
                         // FIXME: this needs better syntax: It is matrix-vector multiplication.
-                        grad(xyz) += data.local_transform[v][xyz]
-                          * data.dshape[i](v)
+                        grad(xyz) += this->dual_converter(data.local_transform[v][xyz])
+                          * this->dual_converter(data.dshape[i](v))
                           * this->_vector(dof_indices[i]);
                       }
                 }
@@ -858,7 +858,6 @@ void MeshFunction<Output>::unset_point_locator_tolerance()
   _point_locator->unset_close_to_point_tol();
 }
 
-template class MeshFunction<Number>;
 template class MeshFunction<GeomNumber>;
 
 } // namespace libMesh

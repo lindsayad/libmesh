@@ -836,10 +836,10 @@ public:
     mesh_function_vector->init(sys.n_dofs(), false, SERIAL);
     sys.solution->localize( *mesh_function_vector );
 
-    MeshFunction mesh_function(es,
-                               *mesh_function_vector,
-                               sys.get_dof_map(),
-                               variables);
+    MeshFunction<> mesh_function(es,
+                                 *mesh_function_vector,
+                                 sys.get_dof_map(),
+                                 variables);
     mesh_function.init();
 
     // Make a second system and project onto it using a MeshFunction

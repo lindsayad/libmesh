@@ -146,7 +146,7 @@ KellyErrorEstimator::boundary_side_integration ()
   auto dphi_fine = MetaPhysicL::raw_value(fe_fine->get_dphi());
   auto face_normals = MetaPhysicL::raw_value(fe_fine->get_normals());
   auto JxW_face = MetaPhysicL::raw_value(fe_fine->get_JxW());
-  auto qface_point = MetaPhysicL::raw_value(fe_fine->get_xyz());
+  const auto & qface_point = fe_fine->get_xyz();
 
   // The reinitialization also recomputes the locations of
   // the quadrature points on the side.  By checking if the
@@ -178,7 +178,7 @@ KellyErrorEstimator::boundary_side_integration ()
           libmesh_assert_equal_to (flux_bc.first, true);
 
           // The solution gradient from each element
-          Gradient grad_fine = fine_context->side_gradient(var, qp);
+          Gradient grad_fine = MetaPhysicL::raw_value(fine_context->side_gradient(var, qp));
 
           // The difference between the desired BC and the approximate solution.
           const Number jump = flux_bc.second - grad_fine*face_normals[qp];

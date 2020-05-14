@@ -302,7 +302,7 @@ private:
    * private function since it is used by the implementation when
    * solving for several unknowns in several systems.
    */
-  template<typename OutputShape>
+  template<typename OutputType>
   void _compute_error(const std::string & sys_name,
                       const std::string & unknown_name,
                       std::vector<Real> & error_vals);
