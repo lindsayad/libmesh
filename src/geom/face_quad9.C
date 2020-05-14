@@ -21,7 +21,6 @@
 #include "libmesh/face_quad9.h"
 #include "libmesh/enum_io_package.h"
 #include "libmesh/enum_order.h"
-#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -396,14 +395,14 @@ BoundingBox Quad9::loose_bounding_box () const
   //
   // FIXME - I haven't yet proven the formula below to be correct for
   // biquadratics - RHS
-  RawPoint pmin, pmax;
+  Point pmin, pmax;
 
   for (unsigned d=0; d<LIBMESH_DIM; ++d)
     {
-      const auto & center = MetaPhysicL::raw_value(this->point(8)(d));
-      auto hd = std::abs(center - MetaPhysicL::raw_value(this->point(0)(d)));
+      const GeomReal center = this->point(8)(d);
+      GeomReal hd = std::abs(center - this->point(0)(d));
       for (unsigned int p=0; p != 8; ++p)
-        hd = std::max(hd, std::abs(center - MetaPhysicL::raw_value(this->point(p)(d))));
+        hd = std::max(hd, std::abs(center - this->point(p)(d)));
 
       pmin(d) = center - hd;
       pmax(d) = center + hd;

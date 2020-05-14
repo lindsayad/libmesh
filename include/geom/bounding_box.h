@@ -37,17 +37,17 @@ namespace libMesh
  * Defines a Cartesian bounding box by the two
  * corner extremum.
  */
-class BoundingBox : public std::pair<RawPoint, RawPoint>
+class BoundingBox : public std::pair<Point, Point>
 {
 public:
 
-  BoundingBox (const RawPoint & new_min,
-               const RawPoint & new_max) :
-    std::pair<RawPoint, RawPoint>(new_min, new_max)
+  BoundingBox (const Point & new_min,
+               const Point & new_max) :
+    std::pair<Point, Point>(new_min, new_max)
   {}
 
-  BoundingBox (const std::pair<RawPoint, RawPoint> & bbox) :
-    std::pair<RawPoint, RawPoint> (bbox)
+  BoundingBox (const std::pair<Point, Point> & bbox) :
+    std::pair<Point, Point> (bbox)
   {}
 
   /**
@@ -73,19 +73,19 @@ public:
   /**
    * \returns A point at the minimum x,y,z coordinates of the box.
    */
-  const RawPoint & min() const
+  const Point & min() const
   { return this->first; }
 
-  RawPoint & min()
+  Point & min()
   { return this->first; }
 
   /**
    * \returns A point at the maximum x,y,z coordinates of the box.
    */
-  const RawPoint & max() const
+  const Point & max() const
   { return this->second; }
 
-  RawPoint & max()
+  Point & max()
   { return this->second; }
 
   /**
@@ -125,7 +125,7 @@ public:
   /**
    * \returns \p true if the bounding box contains the given point.
    */
-  bool contains_point (const RawPoint &) const;
+  bool contains_point (const Point &) const;
 
   /**
    * Sets this bounding box to be the intersection with the other
@@ -136,7 +136,7 @@ public:
   /**
    * Enlarges this bounding box to include the given point
    */
-  void union_with (const RawPoint & p);
+  void union_with (const Point & p);
 
   /**
    * Sets this bounding box to be the union with the other
@@ -145,12 +145,12 @@ public:
   void union_with (const BoundingBox &);
 
   /**
-   * Computes the signed distance, d, from a given RawPoint p to this
+   * Computes the signed distance, d, from a given Point p to this
    * BoundingBox.  The sign convention is:
    * d > 0 if the point is outside the BoundingBox
    * d <= 0 if the point is inside the Bounding Box
    */
-  Real signed_distance(const RawPoint & p) const;
+  GeomReal signed_distance(const Point & p) const;
 };
 
 
@@ -160,7 +160,7 @@ public:
 
 inline
 void
-BoundingBox::union_with(const RawPoint & p)
+BoundingBox::union_with(const Point & p)
 {
   for (unsigned int i=0; i<LIBMESH_DIM; i++)
     {

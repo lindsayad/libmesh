@@ -185,13 +185,13 @@ BoundingBox Edge4::loose_bounding_box () const
   //
   // FIXME - I haven't yet proven the formula below to be correct for
   // cubics - RHS
-  RawPoint pmin, pmax;
+  Point pmin, pmax;
 
   for (unsigned d=0; d<LIBMESH_DIM; ++d)
     {
-      auto center = MetaPhysicL::raw_value(this->point(2)(d) + this->point(3)(d))/2;
-      auto hd = std::max(std::abs(center - MetaPhysicL::raw_value(this->point(0)(d))),
-                         std::abs(center - MetaPhysicL::raw_value(this->point(1)(d))));
+      GeomReal center = (this->point(2)(d) + this->point(3)(d))/2;
+      GeomReal hd = std::max(std::abs(center - this->point(0)(d)),
+                         std::abs(center - this->point(1)(d)));
 
       pmin(d) = center - hd;
       pmax(d) = center + hd;
