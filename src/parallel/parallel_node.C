@@ -24,6 +24,7 @@
 #include "libmesh/node.h"
 #include "libmesh/parallel_mesh.h"
 #include "libmesh/parallel_node.h"
+#include "libmesh/parallel_algebra.h"
 
 // C++ includes
 #include <cstring> // memcpy
@@ -149,11 +150,8 @@ Packing<const Node *>::pack (const Node * const & node,
 
   for (unsigned int i=0; i != LIBMESH_DIM; ++i)
     {
-      const Real node_i = (*node)(i);
-      largest_id_type Real_as_idtypes[idtypes_per_Real];
-      std::memcpy(Real_as_idtypes, &node_i, sizeof(Real));
-      for (unsigned int j=0; j != idtypes_per_Real; ++j)
-        *data_out++ =(Real_as_idtypes[j]);
+      const GeomReal & node_i = (*node)(i);
+      Packing<GeomReal>::pack(node_i, data_out, mesh);
     }
 
   // Add any DofObject indices

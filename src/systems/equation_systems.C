@@ -37,6 +37,7 @@
 #include "libmesh/mesh_base.h"
 #include "libmesh/elem.h"
 #include "libmesh/libmesh_logging.h"
+#include "libmesh/raw_type.h"
 
 // Include the systems before this one to avoid
 // overlapping forward declarations.
@@ -726,7 +727,7 @@ EquationSystems::build_parallel_solution_vector(const std::set<std::string> * sy
       NumericVector<Number> & sys_soln(*system.current_local_solution);
 
       std::vector<Number>      elem_soln;   // The finite element solution
-      std::vector<Number>      nodal_soln;  // The FE solution interpolated to the nodes
+      std::vector<GeomNumber>  nodal_soln;  // The FE solution interpolated to the nodes
       std::vector<dof_id_type> dof_indices; // The DOF indices for the finite element
 
       unsigned var_inc = 0;
@@ -768,7 +769,7 @@ EquationSystems::build_parallel_solution_vector(const std::set<std::string> * sy
                             {
                               // For vector-valued elements, all components are in nodal_soln. For each
                               // node, the components are stored in order, i.e. node_0 -> s0_x, s0_y, s0_z
-                              parallel_soln.add(nv*(elem->node_id(n)) + (var_inc+d + var_num), nodal_soln[n_vec_dim*n+d]);
+                              parallel_soln.add(nv*(elem->node_id(n)) + (var_inc+d + var_num), MetaPhysicL::raw_value(nodal_soln[n_vec_dim*n+d]));
 
                               // Increment the repeat count for this position
                               repeat_count.add(nv*(elem->node_id(n)) + (var_inc+d + var_num), 1);
@@ -1127,7 +1128,7 @@ EquationSystems::build_discontinuous_solution_vector
       if (_mesh.processor_id() == 0)
         {
           std::vector<Number>       soln_coeffs; // The finite element solution coeffs
-          std::vector<Number>       nodal_soln;  // The FE solution interpolated to the nodes
+          std::vector<GeomNumber>   nodal_soln;  // The FE solution interpolated to the nodes
           std::vector<dof_id_type>  dof_indices; // The DOF indices for the finite element
 
           // For each variable, determine if we are supposed to
@@ -1189,7 +1190,7 @@ EquationSystems::build_discontinuous_solution_vector
                               std::size_t index =
                                 nv * (nn++) + (n_vars_written_current_system + var_offset);
 
-                              soln[index] += nodal_soln[n];
+                              soln[index] += MetaPhysicL::raw_value(nodal_soln[n]);
                             }
                         }
                     }

@@ -189,6 +189,7 @@ bool TypeTensor<Complex>::operator > (const TypeTensor<Complex> & rhs) const
 // ------------------------------------------------------------
 // Explicit instantiations
 template class TypeTensor<Real>;
+template class TypeTensor<GeomReal>;
 
 #ifdef LIBMESH_USE_COMPLEX_NUMBERS
 template class TypeTensor<Complex>;

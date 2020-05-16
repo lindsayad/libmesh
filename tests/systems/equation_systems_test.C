@@ -19,13 +19,13 @@ using namespace libMesh;
 // Anonymous namespace to avoid linker conflicts
 namespace {
 
-GeomNumber bilinear_test (const Point& p,
-                          const Parameters&,
-                          const std::string&,
-                          const std::string&)
+Number bilinear_test (const Point& p,
+                      const Parameters&,
+                      const std::string&,
+                      const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = p(1);
+  const auto x = MetaPhysicL::raw_value(p(0));
+  const auto y = MetaPhysicL::raw_value(p(1));
 
   return 4*x*y - 3*x + 2*y - 1;
 }

@@ -248,7 +248,7 @@ void PostscriptIO::plot_quadratic_elem(const Elem * elem)
       _out << "0 sg ";
 
       // Move to the first point on this side.
-      _current_point = (side->point(0) - _offset) * _scale;
+      _current_point = (MetaPhysicL::raw_value(side->point(0)) - _offset) * _scale;
       _out << _current_point(0) << " " << _current_point(1) << " "; // write x y
       _out << "m ";
 

@@ -17,13 +17,15 @@
 using namespace libMesh;
 
 
-GeomNumber x_plus_y (const Point& p,
-                     const Parameters&,
-                     const std::string&,
-                     const std::string&)
+Number x_plus_y (const Point& point,
+                 const Parameters&,
+                 const std::string&,
+                 const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = p(1);
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const auto x = p(0);
+  const auto y = p(1);
 
   return x + y;
 }

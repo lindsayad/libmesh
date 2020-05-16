@@ -33,6 +33,7 @@
 #include "libmesh/numeric_vector.h"
 #include "libmesh/int_range.h"
 #include "libmesh/utility.h"
+#include "libmesh/raw_type.h"
 
 #if defined(LIBMESH_HAVE_NEMESIS_API) && defined(LIBMESH_HAVE_EXODUS_API)
 
@@ -2236,7 +2237,7 @@ void Nemesis_IO_Helper::write_nodal_coordinates(const MeshBase & mesh, bool /*us
   // Just loop over our list outputting the nodes the way we built the map
   for (auto i : make_range(local_num_nodes))
     {
-      const Point & pt = mesh.point(this->exodus_node_num_to_libmesh[i]);
+      const auto pt = MetaPhysicL::raw_value(mesh.point(this->exodus_node_num_to_libmesh[i]));
       x[i]=pt(0);
       y[i]=pt(1);
       z[i]=pt(2);

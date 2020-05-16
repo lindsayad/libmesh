@@ -342,60 +342,66 @@ void assembly_with_dg_fem_context(EquationSystems& es,
 }
 
 
-GeomNumber cubic_test (const Point& p,
+Number cubic_test (const Point& point,
                    const Parameters&,
                    const std::string&,
                    const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const Real x = p(0);
+  const Real y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const Real z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return x*(1-x)*(1-x) + x*x*(1-y) + x*(1-y)*(1-z) + y*(1-y)*z + z*(1-z)*(1-z);
 }
 
 
-GeomNumber new_linear_test (const Point& p,
-                    const Parameters&,
-                    const std::string&,
-                    const std::string&)
+Number new_linear_test (const Point& point,
+                        const Parameters&,
+                        const std::string&,
+                        const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const Real x = p(0);
+  const Real y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const Real z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return x + 2*y + 3*z - 1;
 }
 
 
-GeomNumber disc_thirds_test (const Point& p,
+Number disc_thirds_test (const Point& point,
                          const Parameters&,
                          const std::string&,
                          const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const Real x = p(0);
+  const Real y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const Real z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return (3*x < 1) + (3*y < 2) + (3*z > 2);
 }
 
 
-struct TripleFunction : public FunctionBase<GeomNumber>
+struct TripleFunction : public FunctionBase<Number>
 {
   TripleFunction(Number _offset = 0) : offset(_offset) {}
 
-  virtual std::unique_ptr<FunctionBase<GeomNumber>> clone () const
+  virtual std::unique_ptr<FunctionBase<Number>> clone () const
   { return libmesh_make_unique<TripleFunction>(offset); }
 
   // We only really need the vector-valued output for projections
-  virtual GeomNumber operator() (const Point &,
+  virtual Number operator() (const Point &,
                              const Real /*time*/ = 0.) override
   { libmesh_error(); }
 
   virtual void operator() (const Point & p,
                            const Real time,
-                           DenseVector<GeomNumber> & output) override
+                           DenseVector<Number> & output) override
   {
     libmesh_assert_greater(output.size(), 0);
     Parameters params;
@@ -406,7 +412,7 @@ struct TripleFunction : public FunctionBase<GeomNumber>
       output(2) = disc_thirds_test(p, params, "", "") + offset;
   }
 
-  GeomNumber component (unsigned int i,
+  Number component (unsigned int i,
                     const Point & p,
                     Real /* time */) override
   {

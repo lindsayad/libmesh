@@ -22,6 +22,7 @@
 #include "libmesh/point_locator_tree.h"
 #include "libmesh/elem.h"
 #include "libmesh/enum_point_locator_type.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -138,7 +139,7 @@ locate_node(const Point & p,
   for (const auto & elem : candidate_elements)
     {
       const int elem_n_nodes = elem->n_nodes();
-      const Real hmax = elem->hmax();
+      const auto hmax = MetaPhysicL::raw_value(elem->hmax());
       const Real dist_tol_sq = (tol * hmax) * (tol * hmax);
 
       for (int n=0; n != elem_n_nodes; ++n)

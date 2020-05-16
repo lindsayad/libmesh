@@ -282,20 +282,33 @@ TensorValue<T>::TensorValue (const TypeTensor<Real> & p_re,
 
 namespace MetaPhysicL
 {
+// specialization when conversion needs to happen
 template <typename T>
-struct RawType<libMesh::TensorValue<T>>
+struct RawType<libMesh::TensorValue<T>,
+               typename std::enable_if<!IsRawSame<T>::value>::type>
 {
   typedef libMesh::TensorValue<typename RawType<T>::value_type> value_type;
 
-  static value_type value (const libMesh::TensorValue<T> & in)
-    {
-      value_type ret;
-      for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
-        for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
-          ret(i,j) = raw_value(in(i,j));
+  static value_type value(const libMesh::TensorValue<T> & in)
+  {
+    value_type ret_val;
+    for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+      for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
+        ret_val(i,j) = raw_value(in(i,j));
+  }
+};
 
-      return ret;
-    }
+// specialization when we can just pass through
+template <typename T>
+struct RawType<libMesh::TensorValue<T>,
+               typename std::enable_if<IsRawSame<T>::value>::type>
+{
+  typedef const libMesh::TensorValue<T> & value_type;
+
+  static value_type value(const libMesh::TensorValue<T> & in)
+  {
+    return in;
+  }
 };
 }
 

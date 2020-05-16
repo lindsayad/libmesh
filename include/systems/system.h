@@ -503,8 +503,8 @@ public:
    * If non-default \p Parameters are to be used, they can be provided
    * in the \p parameters argument.
    */
-  void project_solution (FunctionBase<GeomNumber> * f,
-                         FunctionBase<GeomNumberGradient> * g = nullptr) const;
+  void project_solution (FunctionBase<Number> * f,
+                         FunctionBase<Gradient> * g = nullptr) const;
 
   /**
    * Projects arbitrary functions onto the current solution.
@@ -515,8 +515,8 @@ public:
    * If non-default \p Parameters are to be used, they can be provided
    * in the \p parameters argument.
    */
-  void project_solution (FEMFunctionBase<GeomNumber> * f,
-                         FEMFunctionBase<GeomNumberGradient> * g = nullptr) const;
+  void project_solution (FEMFunctionBase<Number> * f,
+                         FEMFunctionBase<Gradient> * g = nullptr) const;
 
   /**
    * Projects arbitrary functions onto the current solution.
@@ -525,14 +525,14 @@ public:
    * A gradient \p gptr is only required/used for projecting onto
    * finite element spaces with continuous derivatives.
    */
-  typedef GeomNumber (*ValueFunctionPointer)(const Point & p,
-                                             const Parameters & Parameters,
-                                             const std::string & sys_name,
-                                             const std::string & unknown_name);
-  typedef GeomNumberGradient (*GradientFunctionPointer)(const Point & p,
-                                                        const Parameters & parameters,
-                                                        const std::string & sys_name,
-                                                        const std::string & unknown_name);
+  typedef Number (*ValueFunctionPointer)(const Point & p,
+                                         const Parameters & Parameters,
+                                         const std::string & sys_name,
+                                         const std::string & unknown_name);
+  typedef Gradient (*GradientFunctionPointer)(const Point & p,
+                                              const Parameters & parameters,
+                                              const std::string & sys_name,
+                                              const std::string & unknown_name);
   void project_solution (ValueFunctionPointer fptr,
                          GradientFunctionPointer gptr,
                          const Parameters & parameters) const;
@@ -551,8 +551,8 @@ public:
    * primal constraints if is_adjoint is non-negative.
    */
   void project_vector (NumericVector<Number> & new_vector,
-                       FunctionBase<GeomNumber> * f,
-                       FunctionBase<GeomNumberGradient> * g = nullptr,
+                       FunctionBase<Number> * f,
+                       FunctionBase<Gradient> * g = nullptr,
                        int is_adjoint = -1) const;
 
   /**
@@ -569,8 +569,8 @@ public:
    * primal constraints if is_adjoint is non-negative.
    */
   void project_vector (NumericVector<Number> & new_vector,
-                       FEMFunctionBase<GeomNumber> * f,
-                       FEMFunctionBase<GeomNumberGradient> * g = nullptr,
+                       FEMFunctionBase<Number> * f,
+                       FEMFunctionBase<Gradient> * g = nullptr,
                        int is_adjoint = -1) const;
 
   /**
@@ -606,8 +606,8 @@ public:
    */
   void boundary_project_solution (const std::set<boundary_id_type> & b,
                                   const std::vector<unsigned int> & variables,
-                                  FunctionBase<GeomNumber> * f,
-                                  FunctionBase<GeomNumberGradient> * g = nullptr);
+                                  FunctionBase<Number> * f,
+                                  FunctionBase<Gradient> * g = nullptr);
 
   /**
    * Projects arbitrary boundary functions onto a vector of degree of
@@ -647,8 +647,8 @@ public:
   void boundary_project_vector (const std::set<boundary_id_type> & b,
                                 const std::vector<unsigned int> & variables,
                                 NumericVector<Number> & new_vector,
-                                FunctionBase<GeomNumber> * f,
-                                FunctionBase<GeomNumberGradient> * g = nullptr,
+                                FunctionBase<Number> * f,
+                                FunctionBase<Gradient> * g = nullptr,
                                 int is_adjoint = -1) const;
 
   /**

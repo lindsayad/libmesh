@@ -32,7 +32,7 @@ namespace libMesh
  * \date 2012
  * \brief ConstFunction that simply returns 0.
  */
-template <typename Output=GeomNumber>
+template <typename Output=Number>
 class ZeroFunction : public ConstFunction<Output>
 {
 public:

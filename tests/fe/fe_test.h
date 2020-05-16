@@ -30,25 +30,27 @@
 using namespace libMesh;
 
 inline
-GeomReal linear_test (const Point& p,
-                    const Parameters&,
-                    const std::string&,
-                    const std::string&)
+Real linear_test (const Point& point,
+                  const Parameters&,
+                  const std::string&,
+                  const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-  const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const Real x = p(0);
+  const Real y = (LIBMESH_DIM > 1) ? p(1) : 0;
+  const Real z = (LIBMESH_DIM > 2) ? p(2) : 0;
 
   return x + 0.25*y + 0.0625*z;
 }
 
 inline
-GeomRealGradient linear_test_grad (const Point&,
-                           const Parameters&,
-                           const std::string&,
-                           const std::string&)
+RealGradient linear_test_grad (const Point&,
+                               const Parameters&,
+                               const std::string&,
+                               const std::string&)
 {
-  GeomRealGradient grad = 1;
+  RealGradient grad = 1;
   if (LIBMESH_DIM > 1)
     grad(1) = 0.25;
   if (LIBMESH_DIM > 2)
@@ -59,29 +61,33 @@ GeomRealGradient linear_test_grad (const Point&,
 
 
 inline
-GeomReal quadratic_test (const Point& p,
-                       const Parameters&,
-                       const std::string&,
-                       const std::string&)
+Real quadratic_test (const Point& point,
+                     const Parameters&,
+                     const std::string&,
+                     const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-  const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const Real x = p(0);
+  const Real y = (LIBMESH_DIM > 1) ? p(1) : 0;
+  const Real z = (LIBMESH_DIM > 2) ? p(2) : 0;
 
   return x*x + 0.5*y*y + 0.25*z*z + 0.125*x*y + 0.0625*x*z + 0.03125*y*z;
 }
 
 inline
-GeomRealGradient quadratic_test_grad (const Point & p,
-                              const Parameters&,
-                              const std::string&,
-                              const std::string&)
+RealGradient quadratic_test_grad (const Point & point,
+                                  const Parameters&,
+                                  const std::string&,
+                                  const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-  const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
 
-  GeomRealGradient grad = 2*x + 0.125*y + 0.0625*z;
+  const Real x = p(0);
+  const Real y = (LIBMESH_DIM > 1) ? p(1) : 0;
+  const Real z = (LIBMESH_DIM > 2) ? p(2) : 0;
+
+  RealGradient grad = 2*x + 0.125*y + 0.0625*z;
   if (LIBMESH_DIM > 1)
     grad(1) = y + 0.125*x + 0.03125*z;
   if (LIBMESH_DIM > 2)
@@ -97,16 +103,17 @@ GeomRealGradient quadratic_test_grad (const Point & p,
 static const Real rational_w = 0.75;
 
 inline
-GeomReal rational_test (const Point& p,
-                      const Parameters&,
-                      const std::string&,
-                      const std::string&)
+Real rational_test (const Point& point,
+                    const Parameters&,
+                    const std::string&,
+                    const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-  const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+  const Real x = p(0);
+  const Real y = (LIBMESH_DIM > 1) ? p(1) : 0;
+  const Real z = (LIBMESH_DIM > 2) ? p(2) : 0;
 
-  const GeomReal denom = ((1-x)*(1-x)+x*x+2*rational_w*x*(1-x))*
+  const Real denom = ((1-x)*(1-x)+x*x+2*rational_w*x*(1-x))*
                      ((1-y)*(1-y)+y*y+2*rational_w*y*(1-y))*
                      ((1-z)*(1-z)+z*z+2*rational_w*z*(1-z));
 
@@ -114,27 +121,29 @@ GeomReal rational_test (const Point& p,
 }
 
 inline
-GeomRealGradient rational_test_grad (const Point& p,
-                                     const Parameters&,
-                                     const std::string&,
-                                     const std::string&)
+RealGradient rational_test_grad (const Point& point,
+                                 const Parameters&,
+                                 const std::string&,
+                                 const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-  const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
 
-  const GeomReal xpoly = (1-x)*(1-x)+x*x+2*rational_w*x*(1-x);
-  const GeomReal xderiv = -2*(1-x)+2*x+2*rational_w*(1-2*x);
-  const GeomReal ypoly = (1-y)*(1-y)+y*y+2*rational_w*y*(1-y);
-  const GeomReal yderiv = -2*(1-y)+2*y+2*rational_w*(1-2*y);
-  const GeomReal zpoly = (1-z)*(1-z)+z*z+2*rational_w*z*(1-z);
-  const GeomReal zderiv = -2*(1-z)+2*z+2*rational_w*(1-2*z);
+  const Real x = p(0);
+  const Real y = (LIBMESH_DIM > 1) ? p(1) : 0;
+  const Real z = (LIBMESH_DIM > 2) ? p(2) : 0;
 
-  const GeomReal denom = xpoly * ypoly * zpoly;
+  const Real xpoly = (1-x)*(1-x)+x*x+2*rational_w*x*(1-x);
+  const Real xderiv = -2*(1-x)+2*x+2*rational_w*(1-2*x);
+  const Real ypoly = (1-y)*(1-y)+y*y+2*rational_w*y*(1-y);
+  const Real yderiv = -2*(1-y)+2*y+2*rational_w*(1-2*y);
+  const Real zpoly = (1-z)*(1-z)+z*z+2*rational_w*z*(1-z);
+  const Real zderiv = -2*(1-z)+2*z+2*rational_w*(1-2*z);
 
-  const GeomReal numer = (x + 0.25*y + 0.0625*z);
+  const Real denom = xpoly * ypoly * zpoly;
 
-  GeomRealGradient grad_n = 1, grad_d = xderiv * ypoly * zpoly;
+  const Real numer = (x + 0.25*y + 0.0625*z);
+
+  RealGradient grad_n = 1, grad_d = xderiv * ypoly * zpoly;
   if (LIBMESH_DIM > 1)
     {
       grad_n(1) = 0.25;
@@ -146,7 +155,7 @@ GeomRealGradient rational_test_grad (const Point& p,
       grad_d(2) = xpoly * ypoly * zderiv;
     }
 
-  GeomRealGradient grad = (grad_n - numer * grad_d / denom) / denom;
+  RealGradient grad = (grad_n - numer * grad_d / denom) / denom;
 
   return grad;
 }
@@ -345,25 +354,25 @@ public:
             // Reinit at point to test against analytic solution
             _fe->reinit(_elem, &master_points);
 
-            GeomNumber u = 0;
+            Number u = 0;
             for (std::size_t d = 0; d != _dof_indices.size(); ++d)
-              u += _fe->get_phi()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+              u += MetaPhysicL::raw_value(_fe->get_phi()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 
             if (family == RATIONAL_BERNSTEIN && order > 1)
               LIBMESH_ASSERT_FP_EQUAL
-                (libmesh_real(MetaPhysicL::raw_value(rational_test(p, dummy, "", ""))),
-                 libmesh_real(MetaPhysicL::raw_value(u)),
+                (libmesh_real(rational_test(p, dummy, "", "")),
+                 libmesh_real(u),
                  value_tol);
             else if (order > 1)
               LIBMESH_ASSERT_FP_EQUAL
                 (libmesh_real(x*x + 0.5*y*y + 0.25*z*z + 0.125*x*y +
                               0.0625*x*z + 0.03125*y*z),
-                 libmesh_real(MetaPhysicL::raw_value(u)),
+                 libmesh_real(u),
                  value_tol);
             else
               LIBMESH_ASSERT_FP_EQUAL
                 (libmesh_real(x + 0.25*y + 0.0625*z),
-                 libmesh_real(MetaPhysicL::raw_value(u)),
+                 libmesh_real(u),
                  value_tol);
           }
 #endif
@@ -422,51 +431,51 @@ public:
 
             _fe->reinit(_elem, &master_points);
 
-            GeomRealGradient grad_u = 0;
+            RealGradient grad_u = 0;
             for (std::size_t d = 0; d != _dof_indices.size(); ++d)
-              grad_u += _fe->get_dphi()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+              grad_u += MetaPhysicL::raw_value(_fe->get_dphi()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 
             if (family == RATIONAL_BERNSTEIN && order > 1)
               {
-                const GeomRealGradient rat_grad =
+                const RealGradient rat_grad =
                   rational_test_grad(p, dummy, "", "");
 
-                LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(grad_u(0))),
-                                        libmesh_real(MetaPhysicL::raw_value(rat_grad(0))),
+                LIBMESH_ASSERT_FP_EQUAL(libmesh_real(grad_u(0)),
+                                        libmesh_real(rat_grad(0)),
                                         grad_tol);
                 if (_dim > 1)
-                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(grad_u(1))),
-                                          libmesh_real(MetaPhysicL::raw_value(rat_grad(1))),
+                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(grad_u(1)),
+                                          libmesh_real(rat_grad(1)),
                                           grad_tol);
                 if (_dim > 2)
-                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(grad_u(2))),
-                                          libmesh_real(MetaPhysicL::raw_value(rat_grad(2))),
+                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(grad_u(2)),
+                                          libmesh_real(rat_grad(2)),
                                           grad_tol);
               }
             else if (order > 1)
               {
-                const GeomReal & x = p(0);
-                const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-                const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+                const Real x = MetaPhysicL::raw_value(p(0));
+                const Real y = (LIBMESH_DIM > 1) ? MetaPhysicL::raw_value(p(1)) : 0;
+                const Real z = (LIBMESH_DIM > 2) ? MetaPhysicL::raw_value(p(2)) : 0;
 
-                LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(2*x+0.125*y+0.0625*z), libmesh_real(MetaPhysicL::raw_value(grad_u(0))),
+                LIBMESH_ASSERT_FP_EQUAL(2*x+0.125*y+0.0625*z, libmesh_real(grad_u(0)),
                                         grad_tol);
                 if (_dim > 1)
-                  LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(y+0.125*x+0.03125*z), libmesh_real(MetaPhysicL::raw_value(grad_u(1))),
+                  LIBMESH_ASSERT_FP_EQUAL(y+0.125*x+0.03125*z, libmesh_real(grad_u(1)),
                                           grad_tol);
                 if (_dim > 2)
-                  LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(0.5*z+0.0625*x+0.03125*y), libmesh_real(MetaPhysicL::raw_value(grad_u(2))),
+                  LIBMESH_ASSERT_FP_EQUAL(0.5*z+0.0625*x+0.03125*y, libmesh_real(grad_u(2)),
                                           grad_tol);
               }
             else
               {
-                LIBMESH_ASSERT_FP_EQUAL(1.0, libmesh_real(MetaPhysicL::raw_value(grad_u(0))),
+                LIBMESH_ASSERT_FP_EQUAL(1.0, libmesh_real(grad_u(0)),
                                         grad_tol);
                 if (_dim > 1)
-                  LIBMESH_ASSERT_FP_EQUAL(0.25, libmesh_real(MetaPhysicL::raw_value(grad_u(1))),
+                  LIBMESH_ASSERT_FP_EQUAL(0.25, libmesh_real(grad_u(1)),
                                           grad_tol);
                 if (_dim > 2)
-                  LIBMESH_ASSERT_FP_EQUAL(0.0625, libmesh_real(MetaPhysicL::raw_value(grad_u(2))),
+                  LIBMESH_ASSERT_FP_EQUAL(0.0625, libmesh_real(grad_u(2)),
                                           grad_tol);
               }
           }
@@ -508,59 +517,59 @@ public:
 
             _fe->reinit(_elem, &master_points);
 
-            GeomNumber grad_u_x = 0, grad_u_y = 0, grad_u_z = 0;
+            Number grad_u_x = 0, grad_u_y = 0, grad_u_z = 0;
             for (std::size_t d = 0; d != _dof_indices.size(); ++d)
               {
-                grad_u_x += _fe->get_dphidx()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+                grad_u_x += MetaPhysicL::raw_value(_fe->get_dphidx()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 #if LIBMESH_DIM > 1
-                grad_u_y += _fe->get_dphidy()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+                grad_u_y += MetaPhysicL::raw_value(_fe->get_dphidy()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 #endif
 #if LIBMESH_DIM > 2
-                grad_u_z += _fe->get_dphidz()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+                grad_u_z += MetaPhysicL::raw_value(_fe->get_dphidz()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 #endif
               }
 
             if (family == RATIONAL_BERNSTEIN && order > 1)
               {
-                const GeomRealGradient rat_grad =
+                const RealGradient rat_grad =
                   rational_test_grad(p, dummy, "", "");
 
-                LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(grad_u_x)),
-                                        libmesh_real(MetaPhysicL::raw_value(rat_grad(0))),
+                LIBMESH_ASSERT_FP_EQUAL(libmesh_real(grad_u_x),
+                                        libmesh_real(rat_grad(0)),
                                         grad_tol);
                 if (_dim > 1)
-                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(grad_u_y)),
-                                          libmesh_real(MetaPhysicL::raw_value(rat_grad(1))),
+                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(grad_u_y),
+                                          libmesh_real(rat_grad(1)),
                                           grad_tol);
                 if (_dim > 2)
-                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(grad_u_z)),
-                                          libmesh_real(MetaPhysicL::raw_value(rat_grad(2))),
+                  LIBMESH_ASSERT_FP_EQUAL(libmesh_real(grad_u_z),
+                                          libmesh_real(rat_grad(2)),
                                           grad_tol);
               }
             else if (order > 1)
               {
-                const GeomReal & x = p(0);
-                const GeomReal & y = (LIBMESH_DIM > 1) ? p(1) : 0;
-                const GeomReal & z = (LIBMESH_DIM > 2) ? p(2) : 0;
+                const Real x = MetaPhysicL::raw_value(p(0));
+                const Real y = (LIBMESH_DIM > 1) ? MetaPhysicL::raw_value(p(1)) : 0;
+                const Real z = (LIBMESH_DIM > 2) ? MetaPhysicL::raw_value(p(2)) : 0;
 
-                LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(2*x+0.125*y+0.0625*z), libmesh_real(MetaPhysicL::raw_value(grad_u_x)),
+                LIBMESH_ASSERT_FP_EQUAL(2*x+0.125*y+0.0625*z, libmesh_real(grad_u_x),
                                         grad_tol);
                 if (_dim > 1)
-                  LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(y+0.125*x+0.03125*z), libmesh_real(MetaPhysicL::raw_value(grad_u_y)),
+                  LIBMESH_ASSERT_FP_EQUAL(y+0.125*x+0.03125*z, libmesh_real(grad_u_y),
                                           grad_tol);
                 if (_dim > 2)
-                  LIBMESH_ASSERT_FP_EQUAL(MetaPhysicL::raw_value(0.5*z+0.0625*x+0.03125*y), libmesh_real(MetaPhysicL::raw_value(grad_u_z)),
+                  LIBMESH_ASSERT_FP_EQUAL(0.5*z+0.0625*x+0.03125*y, libmesh_real(grad_u_z),
                                           grad_tol);
               }
             else
               {
-                LIBMESH_ASSERT_FP_EQUAL(1.0, libmesh_real(MetaPhysicL::raw_value(grad_u_x)),
+                LIBMESH_ASSERT_FP_EQUAL(1.0, libmesh_real(grad_u_x),
                                         grad_tol);
                 if (_dim > 1)
-                  LIBMESH_ASSERT_FP_EQUAL(0.25, libmesh_real(MetaPhysicL::raw_value(grad_u_y)),
+                  LIBMESH_ASSERT_FP_EQUAL(0.25, libmesh_real(grad_u_y),
                                           grad_tol);
                 if (_dim > 2)
-                  LIBMESH_ASSERT_FP_EQUAL(0.0625, libmesh_real(MetaPhysicL::raw_value(grad_u_z)),
+                  LIBMESH_ASSERT_FP_EQUAL(0.0625, libmesh_real(grad_u_z),
                                           grad_tol);
               }
           }
@@ -608,9 +617,9 @@ public:
 
             _fe->reinit(_elem, &master_points);
 
-            GeomNumberTensor hess_u;
+            Tensor hess_u;
             for (std::size_t d = 0; d != _dof_indices.size(); ++d)
-              hess_u += _fe->get_d2phi()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+              hess_u += MetaPhysicL::raw_value(_fe->get_d2phi()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 
             if (family == RATIONAL_BERNSTEIN && order > 1)
               {
@@ -618,55 +627,55 @@ public:
               }
             else if (order > 1)
               {
-                LIBMESH_ASSERT_FP_EQUAL(2, libmesh_real(MetaPhysicL::raw_value(hess_u(0,0))),
+                LIBMESH_ASSERT_FP_EQUAL(2, libmesh_real(hess_u(0,0)),
                                         hess_tol);
                 if (_dim > 1)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(hess_u(0,1))), libmesh_real(MetaPhysicL::raw_value(hess_u(1,0))),
+                    LIBMESH_ASSERT_FP_EQUAL(libmesh_real(hess_u(0,1)), libmesh_real(hess_u(1,0)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0.125, libmesh_real(MetaPhysicL::raw_value(hess_u(0,1))),
+                    LIBMESH_ASSERT_FP_EQUAL(0.125, libmesh_real(hess_u(0,1)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(1, libmesh_real(MetaPhysicL::raw_value(hess_u(1,1))),
+                    LIBMESH_ASSERT_FP_EQUAL(1, libmesh_real(hess_u(1,1)),
                                             hess_tol);
                   }
                 if (_dim > 2)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(hess_u(0,2))), libmesh_real(MetaPhysicL::raw_value(hess_u(2,0))),
+                    LIBMESH_ASSERT_FP_EQUAL(libmesh_real(hess_u(0,2)), libmesh_real(hess_u(2,0)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(libmesh_real(MetaPhysicL::raw_value(hess_u(1,2))), libmesh_real(MetaPhysicL::raw_value(hess_u(2,1))),
+                    LIBMESH_ASSERT_FP_EQUAL(libmesh_real(hess_u(1,2)), libmesh_real(hess_u(2,1)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0.0625, libmesh_real(MetaPhysicL::raw_value(hess_u(0,2))),
+                    LIBMESH_ASSERT_FP_EQUAL(0.0625, libmesh_real(hess_u(0,2)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0.03125, libmesh_real(MetaPhysicL::raw_value(hess_u(1,2))),
+                    LIBMESH_ASSERT_FP_EQUAL(0.03125, libmesh_real(hess_u(1,2)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0.5, libmesh_real(MetaPhysicL::raw_value(hess_u(2,2))),
+                    LIBMESH_ASSERT_FP_EQUAL(0.5, libmesh_real(hess_u(2,2)),
                                             hess_tol);
                   }
               }
             else
               {
-                LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(0,0))),
+                LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(0,0)),
                                         hess_tol);
                 if (_dim > 1)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(0,1))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(0,1)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(1,0))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(1,0)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(1,1))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(1,1)),
                                             hess_tol);
                   }
                 if (_dim > 2)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(0,2))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(0,2)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(1,2))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(1,2)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(2,0))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(2,0)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(2,1))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(2,1)),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u(2,2))),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u(2,2)),
                                             hess_tol);
                   }
               }
@@ -718,19 +727,19 @@ public:
 
             _fe->reinit(_elem, &master_points);
 
-            GeomNumber hess_u_xx = 0, hess_u_xy = 0, hess_u_yy = 0,
+            Number hess_u_xx = 0, hess_u_xy = 0, hess_u_yy = 0,
               hess_u_xz = 0, hess_u_yz = 0, hess_u_zz = 0;
             for (std::size_t d = 0; d != _dof_indices.size(); ++d)
               {
-                hess_u_xx += _fe->get_d2phidx2()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+                hess_u_xx += MetaPhysicL::raw_value(_fe->get_d2phidx2()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 #if LIBMESH_DIM > 1
-                hess_u_xy += _fe->get_d2phidxdy()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
-                hess_u_yy += _fe->get_d2phidy2()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+                hess_u_xy += MetaPhysicL::raw_value(_fe->get_d2phidxdy()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
+                hess_u_yy += MetaPhysicL::raw_value(_fe->get_d2phidy2()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 #endif
 #if LIBMESH_DIM > 2
-                hess_u_xz += _fe->get_d2phidxdz()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
-                hess_u_yz += _fe->get_d2phidydz()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
-                hess_u_zz += _fe->get_d2phidz2()[d][0] * (*_sys->current_local_solution)(_dof_indices[d]);
+                hess_u_xz += MetaPhysicL::raw_value(_fe->get_d2phidxdz()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
+                hess_u_yz += MetaPhysicL::raw_value(_fe->get_d2phidydz()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
+                hess_u_zz += MetaPhysicL::raw_value(_fe->get_d2phidz2()[d][0]) * (*_sys->current_local_solution)(_dof_indices[d]);
 #endif
               }
 
@@ -740,43 +749,43 @@ public:
               }
             else if (order > 1)
               {
-                LIBMESH_ASSERT_FP_EQUAL(2, libmesh_real(MetaPhysicL::raw_value(hess_u_xx)),
+                LIBMESH_ASSERT_FP_EQUAL(2, libmesh_real(hess_u_xx),
                                         hess_tol);
                 if (_dim > 1)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(0.125, libmesh_real(MetaPhysicL::raw_value(hess_u_xy)),
+                    LIBMESH_ASSERT_FP_EQUAL(0.125, libmesh_real(hess_u_xy),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(1, libmesh_real(MetaPhysicL::raw_value(hess_u_yy)),
+                    LIBMESH_ASSERT_FP_EQUAL(1, libmesh_real(hess_u_yy),
                                             hess_tol);
                   }
                 if (_dim > 2)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL( 0.0625, libmesh_real(MetaPhysicL::raw_value(hess_u_xz)),
+                    LIBMESH_ASSERT_FP_EQUAL( 0.0625, libmesh_real(hess_u_xz),
                                              hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL( 0.03125, libmesh_real(MetaPhysicL::raw_value(hess_u_yz)),
+                    LIBMESH_ASSERT_FP_EQUAL( 0.03125, libmesh_real(hess_u_yz),
                                              hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL( 0.5, libmesh_real(MetaPhysicL::raw_value(hess_u_zz)),
+                    LIBMESH_ASSERT_FP_EQUAL( 0.5, libmesh_real(hess_u_zz),
                                              hess_tol);
                   }
               }
             else
               {
-                LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u_xx)),
+                LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u_xx),
                                         hess_tol);
                 if (_dim > 1)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u_xy)),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u_xy),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u_yy)),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u_yy),
                                             hess_tol);
                   }
                 if (_dim > 2)
                   {
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u_xz)),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u_xz),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u_yz)),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u_yz),
                                             hess_tol);
-                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(MetaPhysicL::raw_value(hess_u_zz)),
+                    LIBMESH_ASSERT_FP_EQUAL(0, libmesh_real(hess_u_zz),
                                             hess_tol);
                   }
               }

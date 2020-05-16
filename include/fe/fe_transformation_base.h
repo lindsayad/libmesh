@@ -25,6 +25,9 @@ namespace libMesh
 template <typename>
 class VectorValue;
 typedef VectorValue<Real> RealVectorValue;
+template <typename T>
+class TensorValue;
+typedef TensorValue<Real> RealTensorValue;
 class Elem;
 class Point;
 
@@ -40,6 +43,11 @@ template <>
 struct MakeOutput<RealVectorValue>
 {
   typedef VectorValue<GeomReal> type;
+};
+template <>
+struct MakeOutput<RealTensorValue>
+{
+  typedef TensorValue<GeomReal> type;
 };
 
 //Forward Declarations

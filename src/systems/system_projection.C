@@ -120,6 +120,7 @@ void convert_from_receive (SendT & received,
 #include "libmesh/wrapped_function.h"
 #include "libmesh/wrapped_functor.h"
 #include "libmesh/fe_interface.h"
+#include "libmesh/raw_type.h"
 
 
 
@@ -509,7 +510,7 @@ public:
 template <typename Output,
           void (FEMContext::*point_output) (unsigned int,
                                             const Point &,
-                                            Output &,
+                                            typename MakeOutput<Output>::type &,
                                             const Real) const>
 class OldSolutionCoefs : public OldSolutionBase<Output, point_output>
 {
@@ -707,7 +708,7 @@ eval_at_point(const FEMContext & c,
     this->old_context.build_new_fe(fe, p);
 
   // Get the values and global indices of the shape functions
-  const std::vector<std::vector<Real> > & phi = fe_new->get_phi();
+  const auto & phi = MetaPhysicL::raw_value(fe_new->get_phi());
   const std::vector<dof_id_type> & dof_indices =
     this->old_context.get_dof_indices(i);
 
@@ -754,7 +755,7 @@ eval_at_point(const FEMContext & c,
     this->old_context.build_new_fe(fe, p);
 
   // Get the values and global indices of the shape functions
-  const std::vector<std::vector<RealGradient> > & dphi = fe_new->get_dphi();
+  const auto & dphi = MetaPhysicL::raw_value(fe_new->get_dphi());
   const std::vector<dof_id_type> & dof_indices =
     this->old_context.get_dof_indices(i);
 
@@ -1461,11 +1462,11 @@ void BoundaryProjectSolution::operator()(const ConstElemRange & range) const
 
       // The values of the shape functions at the quadrature
       // points
-      const std::vector<std::vector<Real>> & phi = fe->get_phi();
+      const auto & phi = MetaPhysicL::raw_value(fe->get_phi());
 
       // The gradients of the shape functions at the quadrature
       // points on the child element.
-      const std::vector<std::vector<RealGradient>> * dphi = nullptr;
+      const std::vector<std::vector<GeomRealGradient>> * dphi = nullptr;
 
       const FEContinuity cont = fe->get_continuity();
 
@@ -1474,14 +1475,12 @@ void BoundaryProjectSolution::operator()(const ConstElemRange & range) const
           // We'll need gradient data for a C1 projection
           libmesh_assert(g.get());
 
-          const std::vector<std::vector<RealGradient>> &
-            ref_dphi = fe->get_dphi();
+          const auto & ref_dphi = fe->get_dphi();
           dphi = &ref_dphi;
         }
 
       // The Jacobian * quadrature weight at the quadrature points
-      const std::vector<Real> & JxW =
-        fe->get_JxW();
+      const auto & JxW = MetaPhysicL::raw_value(fe->get_JxW());
 
       // The XYZ locations of the quadrature points
       const std::vector<Point> & xyz_values =
@@ -1820,12 +1819,12 @@ void BoundaryProjectSolution::operator()(const ConstElemRange & range) const
                             if (cont == C_ONE)
                               {
                                 if (dof_is_fixed[j])
-                                  Fe(freei) -= ((*dphi)[i][qp] *
-                                                (*dphi)[j][qp]) *
+                                  Fe(freei) -= (MetaPhysicL::raw_value((*dphi)[i][qp]) *
+                                                MetaPhysicL::raw_value((*dphi)[j][qp])) *
                                     JxW[qp] * Ue(j);
                                 else
-                                  Ke(freei,freej) += ((*dphi)[i][qp] *
-                                                      (*dphi)[j][qp])
+                                  Ke(freei,freej) += (MetaPhysicL::raw_value((*dphi)[i][qp]) *
+                                                      MetaPhysicL::raw_value((*dphi)[j][qp]))
                                     * JxW[qp];
                               }
                             if (!dof_is_fixed[j])
@@ -1833,7 +1832,7 @@ void BoundaryProjectSolution::operator()(const ConstElemRange & range) const
                           }
                         Fe(freei) += phi[i][qp] * fineval * JxW[qp];
                         if (cont == C_ONE)
-                          Fe(freei) += (finegrad * (*dphi)[i][qp]) *
+                          Fe(freei) += (finegrad * MetaPhysicL::raw_value((*dphi)[i][qp])) *
                             JxW[qp];
                         freei++;
                       }
@@ -1921,12 +1920,12 @@ void BoundaryProjectSolution::operator()(const ConstElemRange & range) const
                             if (cont == C_ONE)
                               {
                                 if (dof_is_fixed[j])
-                                  Fe(freei) -= ((*dphi)[i][qp] *
-                                                (*dphi)[j][qp]) *
+                                  Fe(freei) -= (MetaPhysicL::raw_value((*dphi)[i][qp]) *
+                                                MetaPhysicL::raw_value((*dphi)[j][qp])) *
                                     JxW[qp] * Ue(j);
                                 else
-                                  Ke(freei,freej) += ((*dphi)[i][qp] *
-                                                      (*dphi)[j][qp])
+                                  Ke(freei,freej) += (MetaPhysicL::raw_value((*dphi)[i][qp]) *
+                                                      MetaPhysicL::raw_value((*dphi)[j][qp]))
                                     * JxW[qp];
                               }
                             if (!dof_is_fixed[j])
@@ -1934,7 +1933,7 @@ void BoundaryProjectSolution::operator()(const ConstElemRange & range) const
                           }
                         Fe(freei) += (fineval * phi[i][qp]) * JxW[qp];
                         if (cont == C_ONE)
-                          Fe(freei) += (finegrad * (*dphi)[i][qp]) *
+                          Fe(freei) += (finegrad * MetaPhysicL::raw_value((*dphi)[i][qp])) *
                             JxW[qp];
                         freei++;
                       }

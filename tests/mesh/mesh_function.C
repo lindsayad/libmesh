@@ -14,15 +14,15 @@
 
 using namespace libMesh;
 
-GeomNumber projection_function (const Point & p,
+Number projection_function (const Point & p,
                             const Parameters &,
                             const std::string &,
                             const std::string &)
 {
   return
-    cos(.5*libMesh::pi*p(0)) *
-    sin(.5*libMesh::pi*p(1)) *
-    cos(.5*libMesh::pi*p(2));
+    cos(.5*libMesh::pi*MetaPhysicL::raw_value(p(0))) *
+    sin(.5*libMesh::pi*MetaPhysicL::raw_value(p(1))) *
+    cos(.5*libMesh::pi*MetaPhysicL::raw_value(p(2)));
 }
 
 class MeshFunctionTest : public CppUnit::TestCase
@@ -99,7 +99,7 @@ public:
 
     mesh_function->init();
     mesh_function->set_point_locator_tolerance(0.0001);
-    DenseVector<GeomNumber> vec_values;
+    DenseVector<Number> vec_values;
     std::string dummy;
 
     // Make sure the MeshFunction's values interpolate the projected solution
@@ -107,15 +107,15 @@ public:
     for (const auto & node : mesh.local_node_ptr_range())
       {
         (*mesh_function)(*node, /*time=*/ 0., vec_values);
-        GeomNumber mesh_function_value =
+        Number mesh_function_value =
           projection_function(*node,
                               es.parameters,
                               dummy,
                               dummy);
 
         LIBMESH_ASSERT_FP_EQUAL
-          (libmesh_real(MetaPhysicL::raw_value(vec_values(0))),
-           libmesh_real(MetaPhysicL::raw_value(mesh_function_value)),
+          (libmesh_real(vec_values(0)),
+           libmesh_real(mesh_function_value),
            TOLERANCE*TOLERANCE);
       }
   }

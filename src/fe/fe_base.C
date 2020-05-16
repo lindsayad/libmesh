@@ -761,7 +761,7 @@ void FEGenericBase<Real>::compute_dual_shape_coeffs ()
     DenseVector<GeomReal> Dcol(sz), coeffcol(sz);
     for (auto i : index_range(phi))
       Dcol(i) = D(i, j);
-    A.lu_solve(Dcol, coeffcol);
+    A.cholesky_solve(Dcol, coeffcol);
 
     for (auto row : index_range(phi))
       dual_coeff(row, j)=coeffcol(row);

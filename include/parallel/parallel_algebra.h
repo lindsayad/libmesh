@@ -505,6 +505,189 @@ unpack(BufferIter in, Context * ctx)
 
   return point;
 }
+
+template <typename T>
+class Packing<VectorValue<T>,
+              typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>
+{
+public:
+  typedef std::size_t buffer_type;
+
+  template <typename OutputIter,
+            typename Context>
+  static void pack(const VectorValue<T> & vector, OutputIter data_out, const Context * context);
+
+  template <typename Context>
+  static unsigned int packable_size(const VectorValue<T> & vector, const Context * context);
+
+  template <typename BufferIter>
+  static unsigned int packed_size(BufferIter iter);
+
+  template <typename BufferIter, typename Context>
+  static VectorValue<T> unpack(BufferIter in, Context * ctx);
+};
+
+template <typename T>
+template <typename Context>
+unsigned int
+Packing<VectorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+packable_size(const VectorValue<T> & vector,
+              const Context * ctx)
+{
+  unsigned int size = 0;
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    size += Packing<T>::packable_size(vector(i), ctx);
+
+  // Record the size in the first buffer entry
+  return size + 1;
+}
+
+template <typename T>
+template <typename BufferIter>
+unsigned int
+Packing<VectorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+packed_size(BufferIter iter)
+{
+  // We recorded the size in the first buffer entry
+  return *iter;
+}
+
+template <typename T>
+template <typename OutputIter, typename Context>
+void
+Packing<VectorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+pack(const VectorValue<T> & vector,
+     OutputIter data_out,
+     const Context * ctx)
+{
+  unsigned int size = packable_size(vector, ctx);
+
+  // First write out the buffer size
+  *data_out++ = cast_int<std::size_t>(size);
+
+  // Now pack the data. Note that TIMPI uses a back_inserter for `pack_range` so we don't (and
+  // can't) actually increment the iterator with operator+=. operator++ is a no-op
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    Packing<T>::pack(vector(i), data_out, ctx);
+}
+
+template <typename T>
+template <typename BufferIter, typename Context>
+VectorValue<T>
+Packing<VectorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+unpack(BufferIter in, Context * ctx)
+{
+  VectorValue<T> vector;
+
+  // We don't care about the size
+  in++;
+
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+  {
+    Packing<T>::unpack(in, ctx);
+    // Make sure we increment the iterator
+    in += Packing<T>::packable_size(vector(i), ctx);
+  }
+
+  return vector;
+}
+
+template <typename T>
+class Packing<TensorValue<T>,
+              typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>
+{
+public:
+  typedef std::size_t buffer_type;
+
+  template <typename OutputIter,
+            typename Context>
+  static void pack(const TensorValue<T> & tensor, OutputIter data_out, const Context * context);
+
+  template <typename Context>
+  static unsigned int packable_size(const TensorValue<T> & tensor, const Context * context);
+
+  template <typename BufferIter>
+  static unsigned int packed_size(BufferIter iter);
+
+  template <typename BufferIter, typename Context>
+  static TensorValue<T> unpack(BufferIter in, Context * ctx);
+};
+
+template <typename T>
+template <typename Context>
+unsigned int
+Packing<TensorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+packable_size(const TensorValue<T> & tensor,
+              const Context * ctx)
+{
+  unsigned int size = 0;
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
+      size += Packing<T>::packable_size(tensor(i,j), ctx);
+
+  // Record the size in the first buffer entry
+  return size + 1;
+}
+
+template <typename T>
+template <typename BufferIter>
+unsigned int
+Packing<TensorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+packed_size(BufferIter iter)
+{
+  // We recorded the size in the first buffer entry
+  return *iter;
+}
+
+template <typename T>
+template <typename OutputIter, typename Context>
+void
+Packing<TensorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+pack(const TensorValue<T> & tensor,
+     OutputIter data_out,
+     const Context * ctx)
+{
+  unsigned int size = packable_size(tensor, ctx);
+
+  // First write out the buffer size
+  *data_out++ = cast_int<std::size_t>(size);
+
+  // Now pack the data. Note that TIMPI uses a back_inserter for `pack_range` so we don't (and
+  // can't) actually increment the iterator with operator+=. operator++ is a no-op
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
+      Packing<T>::pack(tensor(i,j), data_out, ctx);
+}
+
+template <typename T>
+template <typename BufferIter, typename Context>
+TensorValue<T>
+Packing<TensorValue<T>,
+        typename std::enable_if<!TIMPI::StandardType<T>::is_fixed_type>::type>::
+unpack(BufferIter in, Context * ctx)
+{
+  TensorValue<T> tensor;
+
+  // We don't care about the size
+  in++;
+
+  for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+    for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
+    {
+      Packing<T>::unpack(in, ctx);
+      // Make sure we increment the iterator
+      in += Packing<T>::packable_size(tensor(i,j), ctx);
+    }
+
+  return tensor;
+}
 }
 }
 

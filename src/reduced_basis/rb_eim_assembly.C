@@ -28,6 +28,7 @@
 #include "libmesh/quadrature.h"
 #include "libmesh/libmesh_logging.h"
 #include "libmesh/int_range.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -69,7 +70,7 @@ void RBEIMAssembly::evaluate_basis_function(unsigned int var,
 {
   LOG_SCOPE("evaluate_basis_function", "RBEIMAssembly");
 
-  const std::vector<std::vector<Real>> & phi = get_fe().get_phi();
+  const auto & phi = MetaPhysicL::raw_value(get_fe().get_phi());
 
   // The FE object caches data, hence we recompute as little as
   // possible on the call to reinit.

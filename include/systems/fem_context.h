@@ -26,6 +26,7 @@
 #include "libmesh/fe_type.h"
 #include "libmesh/fe_base.h"
 #include "libmesh/vector_value.h"
+#include "libmesh/raw_type.h"
 
 #ifdef LIBMESH_ENABLE_SECOND_DERIVATIVES
 #include "libmesh/tensor_value.h"
@@ -1093,12 +1094,13 @@ protected:
   template <typename OutputType>
   struct FENeeded
   {
+    typedef typename MetaPhysicL::RawType<OutputType>::value_type RawType;
     // Rank decrementer helper types
-    typedef typename TensorTools::DecrementRank<OutputType>::type Rank1Decrement;
+    typedef typename TensorTools::DecrementRank<RawType>::type Rank1Decrement;
     typedef typename TensorTools::DecrementRank<Rank1Decrement>::type Rank2Decrement;
 
     // Typedefs for "Value getter" function pointer
-    typedef typename TensorTools::MakeReal<OutputType>::type value_shape;
+    typedef typename TensorTools::MakeReal<RawType>::type value_shape;
     typedef FEGenericBase<value_shape> value_base;
     typedef void (FEMContext::*value_getter) (unsigned int, value_base *&, unsigned short) const;
 

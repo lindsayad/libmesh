@@ -228,24 +228,35 @@ VectorValue<T>::VectorValue (const TypeVector<Real> & p_re,
 
 } // namespace libMesh
 
-#ifdef LIBMESH_HAVE_METAPHYSICL
 namespace MetaPhysicL
 {
+// specialization when conversion needs to happen
 template <typename T>
-struct RawType<libMesh::VectorValue<T>>
+struct RawType<libMesh::VectorValue<T>,
+               typename std::enable_if<!IsRawSame<T>::value>::type>
 {
   typedef libMesh::VectorValue<typename RawType<T>::value_type> value_type;
 
-  static value_type value (const libMesh::VectorValue<T> & in)
-    {
-      value_type ret;
-      for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
-        ret(i) = raw_value(in(i));
+  static value_type value(const libMesh::VectorValue<T> & in)
+  {
+    value_type ret_val;
+    for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
+      ret_val(i) = raw_value(in(i));
+  }
+};
 
-      return ret;
-    }
+// specialization when we can just pass through
+template <typename T>
+struct RawType<libMesh::VectorValue<T>,
+               typename std::enable_if<IsRawSame<T>::value>::type>
+{
+  typedef const libMesh::VectorValue<T> & value_type;
+
+  static value_type value(const libMesh::VectorValue<T> & in)
+  {
+    return in;
+  }
 };
 }
-#endif
 
 #endif // LIBMESH_VECTOR_VALUE_H

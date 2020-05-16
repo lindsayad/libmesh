@@ -60,14 +60,16 @@ public:
   /**
    * Copy-constructor.
    */
-  Point (const VectorValue<GeomReal> & p) :
+  template <typename T>
+  Point (const VectorValue<T> & p) :
     VectorValue<GeomReal> (p)
   {}
 
   /**
    * Copy-constructor.
    */
-  Point (const TypeVector<GeomReal> & p) :
+  template <typename T>
+  Point (const TypeVector<T> & p) :
     VectorValue<GeomReal> (p)
   {}
 
@@ -103,11 +105,28 @@ protected:
 
 namespace MetaPhysicL
 {
+template <bool>
+struct PointRawValueHelper;
+
+template <>
+struct PointRawValueHelper<true>
+{
+  typedef const libMesh::Point & value_type;
+};
+
+template <>
+struct PointRawValueHelper<false>
+{
+  typedef libMesh::VectorValue<typename RawType<libMesh::GeomReal>::value_type> value_type;
+};
+
 template <>
 struct RawType<libMesh::Point>
 {
-  typedef libMesh::VectorValue<typename RawType<libMesh::GeomReal>::value_type> value_type;
+  typedef typename PointRawValueHelper<IsRawSame<libMesh::GeomReal>::value>::value_type value_type;
 
+  template <typename T = libMesh::GeomReal,
+            typename std::enable_if<!IsRawSame<T>::value, int>::type = 0>
   static value_type value (const libMesh::Point & in)
     {
       value_type ret;
@@ -115,6 +134,13 @@ struct RawType<libMesh::Point>
         ret(i) = raw_value(in(i));
 
       return ret;
+    }
+
+  template <typename T = libMesh::GeomReal,
+            typename std::enable_if<IsRawSame<T>::value, int>::type = 0>
+  static value_type value (const libMesh::Point & in)
+    {
+      return in;
     }
 };
 }

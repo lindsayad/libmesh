@@ -246,6 +246,13 @@ private:
   int version_number;
 };
 
+template <>
+inline
+void Xdr::data(GeomReal &, const char *)
+{
+  libmesh_error_msg("Where are you calling me from?!");
+}
+
 
 } // namespace libMesh
 

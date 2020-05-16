@@ -691,7 +691,9 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
       if (!_need_var[v])
         continue;
 
-      c.point_value(v, p, _spacetime[LIBMESH_DIM+1+request_index]);
+      GeomNumber val = _spacetime[LIBMESH_DIM+1+request_index];
+      c.point_value(v, p, val);
+      _spacetime[LIBMESH_DIM+1+request_index] = this->dual_converter(val);
       request_index++;
     }
 
@@ -708,7 +710,7 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
             )
           continue;
 
-        Gradient g;
+        GeomNumberGradient g;
         c.point_gradient(v, p, g);
 
         for (unsigned int d=0; d != LIBMESH_DIM; ++d)
@@ -716,7 +718,7 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
             if (!_need_var_grad[v*LIBMESH_DIM+d])
               continue;
 
-            _spacetime[LIBMESH_DIM+1+request_index] = g(d);
+            _spacetime[LIBMESH_DIM+1+request_index] = this->dual_converter(g(d));
             request_index++;
           }
       }
@@ -741,7 +743,7 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
             )
           continue;
 
-        Tensor h;
+        GeomNumberTensor h;
         c.point_hessian(v, p, h);
 
         for (unsigned int d1=0; d1 != LIBMESH_DIM; ++d1)
@@ -750,7 +752,7 @@ ParsedFEMFunction<Output>::eval_args (const FEMContext & c,
               if (!_need_var_hess[v*LIBMESH_DIM*LIBMESH_DIM+d1*LIBMESH_DIM+d2])
                 continue;
 
-              _spacetime[LIBMESH_DIM+1+request_index] = h(d1,d2);
+              _spacetime[LIBMESH_DIM+1+request_index] = this->dual_converter(h(d1,d2));
               request_index++;
             }
       }

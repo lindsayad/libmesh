@@ -27,6 +27,7 @@
 #include "libmesh/parallel.h"
 #include "libmesh/parallel_algebra.h"
 #include "libmesh/auto_ptr.h" // libmesh_make_unique
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -226,7 +227,9 @@ void InverseDistanceInterpolation<KDDim>::interpolate_field_data (const std::vec
 
     for (const auto & tgt : tgt_pts)
       {
-        const Real query_pt[] = { tgt(0), tgt(1), tgt(2) };
+        const Real query_pt[] = { MetaPhysicL::raw_value(tgt(0)),
+                                  MetaPhysicL::raw_value(tgt(1)),
+                                  MetaPhysicL::raw_value(tgt(2)) };
 
         _kd_tree->knnSearch(query_pt, num_results, ret_index.data(), ret_dist_sqr.data());
 

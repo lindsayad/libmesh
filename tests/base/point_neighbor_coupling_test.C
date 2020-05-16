@@ -16,14 +16,16 @@ using namespace libMesh;
 
 
 
-GeomNumber cubic_point_neighbor_coupling_test (const Point& p,
-                                               const Parameters&,
-                                               const std::string&,
-                                               const std::string&)
+Number cubic_point_neighbor_coupling_test (const Point& point,
+                                           const Parameters&,
+                                           const std::string&,
+                                           const std::string&)
 {
-  const GeomReal & x = p(0);
-  const GeomReal & y = LIBMESH_DIM > 1 ? p(1) : 0;
-  const GeomReal & z = LIBMESH_DIM > 2 ? p(2) : 0;
+  const auto & p = MetaPhysicL::raw_value(point);
+
+  const auto x = p(0);
+  const auto y = LIBMESH_DIM > 1 ? p(1) : 0;
+  const auto z = LIBMESH_DIM > 2 ? p(2) : 0;
 
   return x*(1-x)*(1-x) + x*x*(1-y) + x*(1-y)*(1-z) + y*(1-y)*z + z*(1-z)*(1-z);
 }

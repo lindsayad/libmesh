@@ -1122,12 +1122,12 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
           typedef nanoflann::KDTreeSingleIndexAdaptor<nanoflann::L2_Simple_Adaptor<Real, VectorOfNodesAdaptor>, VectorOfNodesAdaptor, 3> kd_tree_t;
 
           // Create the dataset needed to build the kd tree with nanoflann
-          std::vector<std::pair<Point, dof_id_type>> this_mesh_nodes(this_boundary_node_ids.size());
+          std::vector<std::pair<RawPoint, dof_id_type>> this_mesh_nodes(this_boundary_node_ids.size());
           std::set<dof_id_type>::iterator current_node = this_boundary_node_ids.begin(),
                                           node_ids_end = this_boundary_node_ids.end();
           for (unsigned int ctr = 0; current_node != node_ids_end; ++current_node, ++ctr)
           {
-            this_mesh_nodes[ctr].first = this->point(*current_node);
+            this_mesh_nodes[ctr].first = MetaPhysicL::raw_value(this->point(*current_node));
             this_mesh_nodes[ctr].second = *current_node;
           }
 
@@ -1189,7 +1189,7 @@ void ReplicatedMesh::stitching_helper (const ReplicatedMesh * other_mesh,
             for (const auto & other_node_id : other_boundary_node_ids)
             {
               const auto other_node = MetaPhysicL::raw_value(
-                  static_cast<Point &>(other_mesh->node_ref(other_node_id)));
+                  static_cast<const Point &>(other_mesh->node_ref(other_node_id)));
 
               Real node_distance = (this_node - other_node).norm();
 

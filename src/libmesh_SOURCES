@@ -1,4 +1,4 @@
-# Do not edit - automatically generated from rebuild_libmesh_SOURCES.sh
+# Do not edit - automatically generated from ./rebuild_libmesh_SOURCES.sh
 libmesh_SOURCES =  \
         src/base/default_coupling.C \
         src/base/dirichlet_boundary.C \
@@ -232,6 +232,7 @@ libmesh_SOURCES =  \
         src/numerics/dense_matrix.C \
         src/numerics/dense_matrix_base.C \
         src/numerics/dense_matrix_blas_lapack.C \
+        src/numerics/dense_matrix_geom_real.C \
         src/numerics/dense_submatrix.C \
         src/numerics/dense_subvector.C \
         src/numerics/dense_vector.C \

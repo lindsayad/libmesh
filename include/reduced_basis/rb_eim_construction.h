@@ -307,7 +307,7 @@ private:
   /**
    * A mesh function to interpolate on the mesh.
    */
-  std::unique_ptr<MeshFunction> _mesh_function;
+  std::unique_ptr<MeshFunction<Number>> _mesh_function;
 
   /**
    * We also need an extra vector in which we can store a ghosted

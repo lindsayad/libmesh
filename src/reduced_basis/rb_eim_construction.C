@@ -178,7 +178,7 @@ void RBEIMConstruction::initialize_rb_construction(bool skip_matrix_assembly,
   // solution vector at quadrature points
   std::vector<unsigned int> vars;
   get_explicit_system().get_all_variable_numbers(vars);
-  _mesh_function = libmesh_make_unique<MeshFunction>
+  _mesh_function = libmesh_make_unique<MeshFunction<>>
     (get_equation_systems(),
      *_ghosted_meshfunction_vector,
      get_explicit_system().get_dof_map(),
@@ -384,7 +384,7 @@ void RBEIMConstruction::enrich_RB_space()
 
           for (unsigned int qp=0; qp<n_qpoints; qp++)
             {
-              Number value = explicit_context.interior_value(var, qp);
+              Number value = MetaPhysicL::raw_value(explicit_context.interior_value(var, qp));
               Real abs_value = std::abs(value);
 
               if (abs_value > largest_abs_value)
@@ -624,8 +624,8 @@ Real RBEIMConstruction::truth_solve(int plot_solution)
       // time elem_fe_reinit() is called).
       FEBase * elem_fe = nullptr;
       context.get_element_fe( 0, elem_fe );
-      const std::vector<Real> & JxW = elem_fe->get_JxW();
-      const std::vector<std::vector<Real>> & phi = elem_fe->get_phi();
+      const auto & JxW = MetaPhysicL::raw_value(elem_fe->get_JxW());
+      const auto & phi = MetaPhysicL::raw_value(elem_fe->get_phi());
       const std::vector<Point> & xyz = elem_fe->get_xyz();
 
       // First cache all the element data

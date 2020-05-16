@@ -481,7 +481,7 @@ void MeshFunction<Output>::gradient (const Point & p,
                 point_fe->reinit(element, &point_list);
 
                 for (auto i : index_range(dof_indices))
-                  grad.add_scaled(dphi[i][0], this->_vector(dof_indices[i]));
+                  grad.add_scaled(this->dual_converter(dphi[i][0]), this->_vector(dof_indices[i]));
 
 #ifdef LIBMESH_ENABLE_INFINITE_ELEMENTS
               }
@@ -595,7 +595,7 @@ void MeshFunction<Output>::discontinuous_gradient (const Point & p,
               point_fe->reinit(element, & point_list);
 
               for (auto i : index_range(dof_indices))
-                grad.add_scaled(dphi[i][0], this->_vector(dof_indices[i]));
+                grad.add_scaled(this->dual_converter(dphi[i][0]), this->_vector(dof_indices[i]));
 #ifdef LIBMESH_ENABLE_INFINITE_ELEMENTS
             }
           else
@@ -710,7 +710,7 @@ void MeshFunction<Output>::hessian (const Point & p,
             OutputTensor hess;
 
             for (auto i : index_range(dof_indices))
-              hess.add_scaled(d2phi[i][0], this->_vector(dof_indices[i]));
+              hess.add_scaled(this->dual_converter(d2phi[i][0]), this->_vector(dof_indices[i]));
 
             output[index] = hess;
           }
@@ -859,5 +859,6 @@ void MeshFunction<Output>::unset_point_locator_tolerance()
 }
 
 template class MeshFunction<GeomNumber>;
+template class MeshFunction<Number>;
 
 } // namespace libMesh

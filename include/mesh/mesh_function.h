@@ -51,7 +51,7 @@ class PointLocatorBase;
  * \author Daniel Dreyer
  * \date 2003
  */
-template <typename Output=GeomNumber>
+template <typename Output=Number>
 class MeshFunction : public FunctionBase<Output>,
                      public ParallelObject
 {
