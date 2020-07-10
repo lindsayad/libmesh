@@ -191,7 +191,7 @@ void PetscVector<T>::add (const numeric_index_type i, const T value)
 
   PetscErrorCode ierr=0;
   PetscInt i_val = static_cast<PetscInt>(i);
-  PetscScalar petsc_value = PS(value);
+  PetscScalar petsc_value = PS(_transform ? _transform(value) : value);
 
   ierr = VecSetValues (_vec, 1, &i_val, &petsc_value, ADD_VALUES);
   LIBMESH_CHKERR(ierr);
@@ -202,7 +202,7 @@ void PetscVector<T>::add (const numeric_index_type i, const T value)
 
 
 template <typename T>
-void PetscVector<T>::add_vector (const T * v,
+void PetscVector<T>::add_vector (const T * v_in,
                                  const std::vector<numeric_index_type> & dof_indices)
 {
   // If we aren't adding anything just return
@@ -213,6 +213,17 @@ void PetscVector<T>::add_vector (const T * v,
 
   PetscErrorCode ierr=0;
   const PetscInt * i_val = reinterpret_cast<const PetscInt *>(dof_indices.data());
+
+  const T * v;
+  std::vector<T> v_work;
+  if (_transform)
+  {
+    v_work.resize(dof_indices.size());
+    std::transform(v_in, v_in + dof_indices.size(), v_work.begin(), _transform);
+    v = v_work.data();
+  }
+  else
+    v = v_in;
   const PetscScalar * petsc_value = pPS(v);
 
   ierr = VecSetValues (_vec, cast_int<PetscInt>(dof_indices.size()),
@@ -228,6 +239,8 @@ template <typename T>
 void PetscVector<T>::add_vector (const NumericVector<T> & v_in,
                                  const SparseMatrix<T> & A_in)
 {
+  libmesh_assert_msg(!_transform, "Transformation not currently implemented for addition of A_in * v_in");
+
   this->_restore_array();
   // Make sure the data passed in are really of Petsc types
   const PetscVector<T> * v = cast_ptr<const PetscVector<T> *>(&v_in);
@@ -256,6 +269,8 @@ template <typename T>
 void PetscVector<T>::add_vector_transpose (const NumericVector<T> & v_in,
                                            const SparseMatrix<T> & A_in)
 {
+  libmesh_assert_msg(!_transform, "Transformation not currently implemented for addition of transpose(A_in * v_in)");
+
   this->_restore_array();
   // Make sure the data passed in are really of Petsc types
   const PetscVector<T> * v = cast_ptr<const PetscVector<T> *>(&v_in);
@@ -284,6 +299,8 @@ template <typename T>
 void PetscVector<T>::add_vector_conjugate_transpose (const NumericVector<T> & v_in,
                                                      const SparseMatrix<T> & A_in)
 {
+  libmesh_assert_msg(!_transform, "Transformation not currently implemented for addition of conjugate_transpose(A_in * v_in)");
+
   this->_restore_array();
   // Make sure the data passed in are really of Petsc types
   const PetscVector<T> * v = cast_ptr<const PetscVector<T> *>(&v_in);
@@ -318,8 +335,12 @@ void PetscVector<T>::add (const T v_in)
 {
   this->_get_array(false);
 
-  for (numeric_index_type i=0; i<_local_size; i++)
-    _values[i] += PetscScalar(v_in);
+  if (_transform)
+    for (numeric_index_type i=0; i<_local_size; i++)
+      _values[i] += PetscScalar(_transform(v_in));
+  else
+    for (numeric_index_type i=0; i<_local_size; i++)
+      _values[i] += PetscScalar(v_in);
 }
 
 
@@ -335,6 +356,8 @@ void PetscVector<T>::add (const NumericVector<T> & v)
 template <typename T>
 void PetscVector<T>::add (const T a_in, const NumericVector<T> & v_in)
 {
+  libmesh_assert_msg(!_transform, "Transformation not currently implemented for NumericVector (and derived) additions");
+
   this->_restore_array();
 
   PetscErrorCode ierr = 0;

@@ -717,6 +717,14 @@ public:
    */
   virtual void swap (NumericVector<T> & v);
 
+  /**
+   * attach a transformation function
+   */
+  void attach_transform(Number(*attach_transform)(Number))
+    {
+      _transform = attach_transform;
+    }
+
 protected:
 
   /**
@@ -735,6 +743,11 @@ protected:
    * Type of vector.
    */
   ParallelType _type;
+
+  /**
+   * optional transformation function to apply when adding vector entries
+   */
+  std::function<T(T)> _transform;
 };
 
 

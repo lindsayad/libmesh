@@ -336,6 +336,8 @@ public:
 
   Vec vec () const { libmesh_assert (_vec); return _vec; }
 
+protected:
+  using NumericVector<T>::_transform;
 
 private:
 
