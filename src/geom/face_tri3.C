@@ -21,6 +21,7 @@
 #include "libmesh/face_tri3.h"
 #include "libmesh/enum_io_package.h"
 #include "libmesh/enum_order.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -223,9 +224,9 @@ std::pair<GeomReal, GeomReal> Tri3::min_and_max_angle() const
     theta2=libMesh::pi - theta0 - theta1
     ;
 
-  libmesh_assert_greater (theta0, 0.);
-  libmesh_assert_greater (theta1, 0.);
-  libmesh_assert_greater (theta2, 0.);
+  libmesh_assert_greater (MetaPhysicL::raw_value(theta0), 0.);
+  libmesh_assert_greater (MetaPhysicL::raw_value(theta1), 0.);
+  libmesh_assert_greater (MetaPhysicL::raw_value(theta2), 0.);
 
   return std::make_pair(std::min(theta0, std::min(theta1,theta2)),
                         std::max(theta0, std::max(theta1,theta2)));

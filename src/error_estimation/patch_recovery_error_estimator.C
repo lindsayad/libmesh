@@ -438,7 +438,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
               // Get the global DOF indices for the current variable
               // in the current element
               dof_map.dof_indices (e_p, dof_indices, var);
-              libmesh_assert_equal_to (dof_indices.size(), phi->size());
+              libmesh_assert_equal_to (dof_indices.size(), phi.size());
 
               const unsigned int n_dofs =
                 cast_int<unsigned int>(dof_indices.size());
@@ -692,7 +692,7 @@ void PatchRecoveryErrorEstimator::EstimateError::operator()(const ConstElemRange
               // Get the global DOF indices for the current variable
               // in the current element
               dof_map.dof_indices (e_p, dof_indices, var);
-              libmesh_assert_equal_to (dof_indices.size(), phi->size());
+              libmesh_assert_equal_to (dof_indices.size(), phi.size());
 
               // The number of dofs for this variable on this element
               const unsigned int n_dofs =

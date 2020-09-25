@@ -30,6 +30,7 @@
 #include "libmesh/elem.h"
 #include "libmesh/libmesh_logging.h"
 #include "libmesh/tensor_value.h"  // May be necessary if destructors
+#include "libmesh/raw_type.h"
 // get instantiated here
 
 namespace libMesh
@@ -796,7 +797,7 @@ void FEMap::compute_face_map(int dim, const std::vector<Real> & qw,
               {
                 const GeomReal the_jac = this->dxyzdxi_map[p].norm();
 
-                libmesh_assert_greater (the_jac, 0.);
+                libmesh_assert_greater (MetaPhysicL::raw_value(the_jac), 0.);
 
                 this->JxW[p] = the_jac*qw[p];
               }
@@ -935,7 +936,7 @@ void FEMap::compute_face_map(int dim, const std::vector<Real> & qw,
 
                 const GeomReal the_jac = std::sqrt(g11*g22 - g12*g21);
 
-                libmesh_assert_greater (the_jac, 0.);
+                libmesh_assert_greater (MetaPhysicL::raw_value(the_jac), 0.);
 
                 this->JxW[p] = the_jac*qw[p];
               }
@@ -1054,7 +1055,7 @@ void FEMap::compute_edge_map(int dim,
                                        this->dydxi_map(p)*this->dydxi_map(p) +
                                        this->dzdxi_map(p)*this->dzdxi_map(p));
 
-        libmesh_assert_greater (the_jac, 0.);
+        libmesh_assert_greater (MetaPhysicL::raw_value(the_jac), 0.);
 
         this->JxW[p] = the_jac*qw[p];
       }

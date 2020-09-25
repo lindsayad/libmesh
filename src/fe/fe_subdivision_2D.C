@@ -25,7 +25,7 @@
 #include "libmesh/fe_macro.h"
 #include "libmesh/dense_matrix.h"
 #include "libmesh/utility.h"
-
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -143,9 +143,9 @@ GeomReal FESubdivision::regular_shape(const unsigned int i,
   // Int. J. Numer. Meth. Engng. 2000; 47:2039-2072, Appendix A.1.
 
   const GeomReal u = 1 - v - w;
-  libmesh_assert_less_equal(0, v);
-  libmesh_assert_less_equal(0, w);
-  libmesh_assert_less_equal(0, u);
+  libmesh_assert_less_equal(0, MetaPhysicL::raw_value(v));
+  libmesh_assert_less_equal(0, MetaPhysicL::raw_value(w));
+  libmesh_assert_less_equal(0, MetaPhysicL::raw_value(u));
 
   using Utility::pow;
   const Real factor = 1. / 12;
@@ -507,8 +507,8 @@ void FESubdivision::init_shape_functions(const std::vector<Point> & qp,
           v *= pow2;
           w *= pow2;
           u = 1 - v - w;
-          libmesh_assert_less(u, 0.5 + eps);
-          libmesh_assert_greater(u, -eps);
+          libmesh_assert_less(MetaPhysicL::raw_value(u), 0.5 + eps);
+          libmesh_assert_greater(MetaPhysicL::raw_value(u), -eps);
 
           // find out in which subdivided patch we are and setup the "selection matrix" P and the transformation Jacobian
           // (see Int. J. Numer. Meth. Engng. 2000; 47:2039-2072, Appendix A.2.)

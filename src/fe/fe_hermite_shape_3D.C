@@ -23,7 +23,7 @@
 #include "libmesh/elem.h"
 #include "libmesh/fe_interface.h"
 #include "libmesh/number_lookups.h"
-
+#include "libmesh/raw_type.h"
 
 namespace
 {
@@ -95,12 +95,12 @@ void hermite_compute_coefs(const Elem * elem, std::vector<std::vector<GeomReal>>
       libmesh_assert(dxdxi[2][p]);
       // No non-rectilinear or non-axis-aligned elements!
 #ifdef DEBUG
-      libmesh_assert_less (std::abs(dydxi[p]), TOLERANCE);
-      libmesh_assert_less (std::abs(dzdeta[p]), TOLERANCE);
-      libmesh_assert_less (std::abs(dxdzeta[p]), TOLERANCE);
-      libmesh_assert_less (std::abs(dzdxi[p]), TOLERANCE);
-      libmesh_assert_less (std::abs(dxdeta[p]), TOLERANCE);
-      libmesh_assert_less (std::abs(dydzeta[p]), TOLERANCE);
+      libmesh_assert_less (std::abs(MetaPhysicL::raw_value(dydxi[p])), TOLERANCE);
+      libmesh_assert_less (std::abs(MetaPhysicL::raw_value(dzdeta[p])), TOLERANCE);
+      libmesh_assert_less (std::abs(MetaPhysicL::raw_value(dxdzeta[p])), TOLERANCE);
+      libmesh_assert_less (std::abs(MetaPhysicL::raw_value(dzdxi[p])), TOLERANCE);
+      libmesh_assert_less (std::abs(MetaPhysicL::raw_value(dxdeta[p])), TOLERANCE);
+      libmesh_assert_less (std::abs(MetaPhysicL::raw_value(dydzeta[p])), TOLERANCE);
 #endif
     }
 }

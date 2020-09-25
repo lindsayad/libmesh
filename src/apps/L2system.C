@@ -79,11 +79,11 @@ bool L2System::element_time_derivative (bool request_jacobian,
   // will be used to assemble the linear system.
 
   // Element Jacobian * quadrature weights for interior integration
-  const std::vector<Real> & JxW = c.get_element_fe(0)->get_JxW();
+  const auto & JxW = MetaPhysicL::raw_value(c.get_element_fe(0)->get_JxW());
 
-  const std::vector<std::vector<Real>> & phi = c.get_element_fe(0)->get_phi();
+  const auto & phi = MetaPhysicL::raw_value(c.get_element_fe(0)->get_phi());
 
-  const std::vector<Point> & xyz = c.get_element_fe(0)->get_xyz();
+  const auto & xyz = MetaPhysicL::raw_value(c.get_element_fe(0)->get_xyz());
 
   // The number of local degrees of freedom in each variable
   const unsigned int n_u_dofs = c.n_dof_indices(0);
@@ -102,7 +102,7 @@ bool L2System::element_time_derivative (bool request_jacobian,
 
   for (unsigned int qp=0; qp != n_qpoints; qp++)
     {
-      Number u = c.interior_value(0, qp);
+      Number u = MetaPhysicL::raw_value(c.interior_value(0, qp));
 
       Number ufunc = (*goal_func)(input_c, xyz[qp]);
 

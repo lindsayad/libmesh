@@ -1763,7 +1763,7 @@ Point FEMap::inverse_map (const unsigned int dim,
             const GeomReal G = dxi*dxi;
 
             if (secure)
-              libmesh_assert_greater (G, 0.);
+              libmesh_assert_greater (MetaPhysicL::raw_value(G), 0.);
 
             const GeomReal Ginv = 1./G;
 

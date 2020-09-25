@@ -113,7 +113,7 @@ void FEXYZMap::compute_face_map(int dim, const std::vector<Real> & qw, const Ele
             const GeomReal the_jac = std::sqrt(this->dxdxi_map(p)*this->dxdxi_map(p) +
                                            this->dydxi_map(p)*this->dydxi_map(p));
 
-            libmesh_assert_greater (the_jac, 0.);
+            libmesh_assert_greater (MetaPhysicL::raw_value(the_jac), 0.);
 
             this->JxW[p] = the_jac*qw[p];
           }

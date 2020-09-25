@@ -22,6 +22,7 @@
 
 // The library configuration options
 #include "libmesh/libmesh_config.h"
+#include "libmesh/raw_type.h" // for MetaPhysicL::RawType definition
 
 // Use actual timestamps or constant dummies (to aid ccache)
 #ifdef LIBMESH_ENABLE_TIMESTAMPS
@@ -383,6 +384,28 @@ struct casting_compare {
   {
     return Comp<T1>()(e1, e2);
   }
+
+#ifdef LIBMESH_HAVE_METAPHYSICL
+  template <typename T1, typename T2, typename D1>
+  bool operator()(const MetaPhysicL::DualNumber<T1, D1> & e1, const T2 & e2) const
+  {
+    typedef typename std::decay<typename MetaPhysicL::RawType<MetaPhysicL::DualNumber<T1, D1>>
+                                ::value_type>::type DT1;
+    typedef typename std::decay<T2>::type DT2;
+    return (Comp<DT2>()(static_cast<DT2>(MetaPhysicL::raw_value(e1)), e2) &&
+            Comp<DT1>()(MetaPhysicL::raw_value(e1), static_cast<DT1>(e2)));
+  }
+
+  template <typename T1, typename T2, typename D2>
+  bool operator()(const T1 & e1, const MetaPhysicL::DualNumber<T2, D2> & e2) const
+  {
+    typedef typename std::decay<T1>::type DT1;
+    typedef typename std::decay<typename MetaPhysicL::RawType<MetaPhysicL::DualNumber<T2, D2>>
+                                ::value_type>::type DT2;
+    return (Comp<DT2>()(static_cast<DT2>(e1), MetaPhysicL::raw_value(e2)) &&
+            Comp<DT1>()(e1, static_cast<DT1>(MetaPhysicL::raw_value(e2))));
+  }
+#endif
 };
 
 #define libmesh_assert_less_msg(expr1,expr2, msg)                       \

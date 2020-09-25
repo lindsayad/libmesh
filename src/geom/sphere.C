@@ -25,6 +25,7 @@
 // Local includes
 #include "libmesh/tensor_value.h"
 #include "libmesh/sphere.h"
+#include "libmesh/raw_type.h"
 
 namespace libMesh
 {
@@ -43,7 +44,7 @@ Sphere::Sphere () :
 Sphere::Sphere (const Point & c,
                 const GeomReal & r)
 {
-  libmesh_assert_greater (r, 0.);
+  libmesh_assert_greater (MetaPhysicL::raw_value(r), 0.);
 
   this->create_from_center_radius (c, r);
 }
@@ -74,7 +75,7 @@ Sphere::Sphere(const Point & pa,
   GeomReal D = T.det();
 
   // The points had better not be coplanar
-  libmesh_assert_greater (std::abs(D), 1e-12);
+  libmesh_assert_greater (std::abs(MetaPhysicL::raw_value(D)), 1e-12);
 
   GeomReal e = 0.5*(pa.norm_sq() - pd.norm_sq());
   GeomReal f = 0.5*(pb.norm_sq() - pd.norm_sq());
@@ -118,7 +119,7 @@ void Sphere::create_from_center_radius (const Point & c, const GeomReal & r)
   this->center() = c;
   this->radius() = r;
 
-  libmesh_assert_greater (this->radius(), 0.);
+  libmesh_assert_greater (MetaPhysicL::raw_value(this->radius()), 0.);
 }
 
 
@@ -132,8 +133,8 @@ bool Sphere::intersects (const Sphere & other_sphere) const
 
 GeomReal Sphere::distance (const Sphere & other_sphere) const
 {
-  libmesh_assert_greater ( this->radius(), 0. );
-  libmesh_assert_greater ( other_sphere.radius(), 0. );
+  libmesh_assert_greater ( MetaPhysicL::raw_value(this->radius()), 0. );
+  libmesh_assert_greater ( MetaPhysicL::raw_value(other_sphere.radius()), 0. );
 
   const GeomReal the_distance = (this->center() - other_sphere.center()).norm();
 

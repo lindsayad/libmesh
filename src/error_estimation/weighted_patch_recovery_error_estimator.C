@@ -338,7 +338,7 @@ void WeightedPatchRecoveryErrorEstimator::EstimateError::operator()(const ConstE
               // Get the global DOF indices for the current variable
               // in the current element
               dof_map.dof_indices (e_p, dof_indices, var);
-              libmesh_assert (dof_indices.size() == phi->size());
+              libmesh_assert (dof_indices.size() == phi.size());
 
               const unsigned int n_dofs =
                 cast_int<unsigned int>(dof_indices.size());
@@ -611,7 +611,7 @@ void WeightedPatchRecoveryErrorEstimator::EstimateError::operator()(const ConstE
               // Get the global DOF indices for the current variable
               // in the current element
               dof_map.dof_indices (e_p, dof_indices, var);
-              libmesh_assert (dof_indices.size() == phi->size());
+              libmesh_assert (dof_indices.size() == phi.size());
 
               // The number of dofs for this variable on this element
               const unsigned int n_dofs =

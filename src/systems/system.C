@@ -2041,12 +2041,12 @@ GeomNumber System::point_value(unsigned int var,
   // And every processor had better agree about which point we're
   // looking for
 #ifndef NDEBUG
-  libmesh_assert(this->comm().verify(p(0)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(0))));
 #if LIBMESH_DIM > 1
-  libmesh_assert(this->comm().verify(p(1)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(1))));
 #endif
 #if LIBMESH_DIM > 2
-  libmesh_assert(this->comm().verify(p(2)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(2))));
 #endif
 #endif // NDEBUG
 
@@ -2170,12 +2170,12 @@ GeomNumberGradient System::point_gradient(unsigned int var,
   // And every processor had better agree about which point we're
   // looking for
 #ifndef NDEBUG
-  libmesh_assert(this->comm().verify(p(0)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(0))));
 #if LIBMESH_DIM > 1
-  libmesh_assert(this->comm().verify(p(1)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(1))));
 #endif
 #if LIBMESH_DIM > 2
-  libmesh_assert(this->comm().verify(p(2)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(2))));
 #endif
 #endif // NDEBUG
 
@@ -2314,12 +2314,12 @@ GeomNumberTensor System::point_hessian(unsigned int var,
   // And every processor had better agree about which point we're
   // looking for
 #ifndef NDEBUG
-  libmesh_assert(this->comm().verify(p(0)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(0))));
 #if LIBMESH_DIM > 1
-  libmesh_assert(this->comm().verify(p(1)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(1))));
 #endif
 #if LIBMESH_DIM > 2
-  libmesh_assert(this->comm().verify(p(2)));
+  libmesh_assert(this->comm().verify(MetaPhysicL::raw_value(p(2))));
 #endif
 #endif // NDEBUG
 

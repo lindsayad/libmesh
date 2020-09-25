@@ -902,7 +902,7 @@ void MeshCommunication::find_global_indices (const Parallel::Communicator & comm
                           static_cast<Real>(output[2].racks()[0]) / max_int_as_real);
 
               // Convert the points from [0,1]^3 to their actual (x,y,z) locations
-              Real
+              GeomReal
                 xmin = bbox.first(0),
                 xmax = bbox.second(0),
                 ymin = bbox.first(1),

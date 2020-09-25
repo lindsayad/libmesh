@@ -74,7 +74,7 @@ T assert_argument (GetPot & cl,
 // TODO: libMesh needs functor-based alternatives to these types of
 // function arguments
 std::string current_sys_name;
-std::map<std::string, MeshFunction *> mesh_functions;
+std::map<std::string, MeshFunction<> *> mesh_functions;
 
 // Return the function value on the old mesh and solution
 Number fptr(const Point & p,
@@ -86,7 +86,7 @@ Number fptr(const Point & p,
   libmesh_assert(mesh_functions.count(unknown_name));
   libmesh_assert(mesh_functions[unknown_name]);
 
-  MeshFunction & meshfunc = *mesh_functions[unknown_name];
+  MeshFunction<> & meshfunc = *mesh_functions[unknown_name];
 
   return meshfunc(p);
 }
@@ -101,7 +101,7 @@ Gradient gptr(const Point & p,
   libmesh_assert(mesh_functions.count(unknown_name));
   libmesh_assert(mesh_functions[unknown_name]);
 
-  MeshFunction & meshfunc = *mesh_functions[unknown_name];
+  MeshFunction<> & meshfunc = *mesh_functions[unknown_name];
 
   return meshfunc.gradient(p);
 }
@@ -201,9 +201,9 @@ int main(int argc, char ** argv)
         {
           libMesh::out << " with variable " << old_sys.variable_name(j) << std::endl;
 
-          MeshFunction * mesh_func =
-            new MeshFunction(old_es, *comparison_soln,
-                             old_sys.get_dof_map(), j);
+          MeshFunction<> * mesh_func =
+            new MeshFunction<>(old_es, *comparison_soln,
+                               old_sys.get_dof_map(), j);
           mesh_func->init();
           mesh_functions[old_sys.variable_name(j)] = mesh_func;
         }

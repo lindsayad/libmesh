@@ -76,7 +76,7 @@ point_construct(T & standard_type, const Point * example)
 
 template <typename T, typename std::enable_if<!T::is_fixed_type, int>::type = 0>
 void
-point_construct(T &, const Point * example)
+point_construct(T &, const Point *)
 {
 }
 
