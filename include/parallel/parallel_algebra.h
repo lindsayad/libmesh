@@ -195,90 +195,17 @@ public:
 };
 
 template <>
-class StandardType<Point> : public DataType
+class StandardType<Point> : public MaybeADataType<StandardType<libMesh::GeomReal>::is_fixed_type>::type
 {
 public:
-  template <typename T = libMesh::GeomReal, typename std::enable_if<StandardType<T>::is_fixed_type,
-                                                           int>::type = 0>
   explicit
-  StandardType(const Point * example=nullptr)
-  {
-    // Prevent unused variable warnings when !LIBMESH_HAVE_MPI
-    libmesh_ignore(example);
+  StandardType(const Point * example=nullptr);
 
-#ifdef LIBMESH_HAVE_MPI
+  StandardType(const StandardType<Point> & t);
 
-    // We need an example for MPI_Address to use
-    Point * ex;
-
-    std::unique_ptr<Point> temp;
-    if (example)
-      ex = const_cast<Point *>(example);
-    else
-      {
-        temp = libmesh_make_unique<Point>();
-        ex = temp.get();
-      }
-
-    StandardType<T> T_type(&((*ex)(0)));
-
-    int blocklength = LIBMESH_DIM;
-    MPI_Aint displs, start;
-    MPI_Datatype tmptype, type = T_type;
-
-    timpi_call_mpi
-      (MPI_Get_address (ex, &start));
-    timpi_call_mpi
-      (MPI_Get_address (&((*ex)(0)), &displs));
-
-    // subtract off offset to first value from the beginning of the structure
-    displs -= start;
-
-    // create a prototype structure
-    timpi_call_mpi
-      (MPI_Type_create_struct (1, &blocklength, &displs, &type,
-                               &tmptype));
-    timpi_call_mpi
-      (MPI_Type_commit (&tmptype));
-
-    // resize the structure type to account for padding, if any
-    timpi_call_mpi
-      (MPI_Type_create_resized (tmptype, 0, sizeof(Point),
-                                &_datatype));
-
-    timpi_call_mpi
-      (MPI_Type_commit (&_datatype));
-
-    timpi_call_mpi
-      (MPI_Type_free (&tmptype));
-#endif // #ifdef LIBMESH_HAVE_MPI
-  }
-
-  template <typename T = libMesh::GeomReal, typename std::enable_if<StandardType<T>::is_fixed_type,
-                                                           int>::type = 0>
-  StandardType(const StandardType<Point> & timpi_mpi_var(t))
-    : DataType()
-  {
-    timpi_call_mpi (MPI_Type_dup (t._datatype, &_datatype));
-  }
-
-  // GeomReal is_fixed_type free
-  template <
-      typename T = libMesh::GeomReal,
-      typename std::enable_if<StandardType<T>::is_fixed_type, int>::type = 0>
-  void free() {
-    DataType::free();
-  }
-
-  // GeomReal !is_fixed_type free
-  template <
-      typename T = libMesh::GeomReal,
-      typename std::enable_if<!StandardType<T>::is_fixed_type, int>::type = 0>
-  void free() {}
+  void free();
 
   ~StandardType() { this->free(); }
-
-  static const bool is_fixed_type = StandardType<libMesh::GeomReal>::is_fixed_type;
 };
 
 // OpFunction<> specializations to return an MPI_Op version of the
