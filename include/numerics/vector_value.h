@@ -242,6 +242,8 @@ struct RawType<libMesh::VectorValue<T>,
     value_type ret_val;
     for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
       ret_val(i) = raw_value(in(i));
+
+    return ret_val;
   }
 };
 

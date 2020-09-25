@@ -295,6 +295,8 @@ struct RawType<libMesh::TensorValue<T>,
     for (unsigned int i = 0; i < LIBMESH_DIM; ++i)
       for (unsigned int j = 0; j < LIBMESH_DIM; ++j)
         ret_val(i,j) = raw_value(in(i,j));
+
+    return ret_val;
   }
 };
 
