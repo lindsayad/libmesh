@@ -55,6 +55,9 @@ class Node;
 class Point;
 class Partitioner;
 class BoundaryInfo;
+#ifdef LIBMESH_ENABLE_PERIODIC
+class PeriodicBoundaries;
+#endif
 
 template <class MT>
 class MeshInput;
@@ -1650,6 +1653,12 @@ public:
   const std::map<subdomain_id_type, std::string> & get_subdomain_name_map () const
   { return _block_id_to_name; }
 
+#ifdef LIBMESH_ENABLE_PERIODIC
+  /**
+   * Attaches periodic boundaries to ghosting functors
+   */
+  void set_periodic_boundaries(const PeriodicBoundaries * pbs);
+#endif
 
   /**
    * Search the mesh and cache the different dimensions of the elements

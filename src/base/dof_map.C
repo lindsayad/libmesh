@@ -198,6 +198,10 @@ DofMap::DofMap(const unsigned int number,
 
   this->add_coupling_functor(*_default_coupling);
   this->add_algebraic_ghosting_functor(*_default_evaluating);
+
+#ifdef LIBMESH_ENABLE_PERIODIC
+  _mesh.set_periodic_boundaries(_periodic_boundaries.get());
+#endif
 }
 
 

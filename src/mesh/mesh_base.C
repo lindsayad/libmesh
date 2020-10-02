@@ -1034,5 +1034,12 @@ MeshBase::merge_extra_integer_names(const MeshBase & other)
   return returnval;
 }
 
-
+#ifdef LIBMESH_ENABLE_PERIODIC
+void
+MeshBase::set_periodic_boundaries(const PeriodicBoundaries * const pbs)
+{
+  for (GhostingFunctor * const gf : _ghosting_functors)
+    gf->set_periodic_boundaries(pbs);
+}
+#endif
 } // namespace libMesh
