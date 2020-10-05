@@ -61,8 +61,6 @@ public:
 
   CPPUNIT_TEST( testDynaReadElem );
   CPPUNIT_TEST( testDynaReadPatch );
-
-  CPPUNIT_TEST( testMeshMoveConstructor );
 #endif // LIBMESH_DIM > 1
 
   CPPUNIT_TEST_SUITE_END();
