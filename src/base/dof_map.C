@@ -1483,7 +1483,13 @@ merge_ghost_functor_outputs(GhostingFunctor::map_type & elements_to_ghost,
                           temporary_coupling_matrices.find(const_cast<CouplingMatrix *>(existing_it->second)) == temporary_coupling_matrices.end())
                         {
                           CouplingMatrix * cm = new CouplingMatrix(*existing_it->second);
-                          temporary_coupling_matrices.insert(cm);
+#ifndef NDEBUG
+                          auto dbg_pr =
+#endif
+                            temporary_coupling_matrices.insert(cm);
+                          libmesh_assert_msg(dbg_pr.second,
+                                             "We must actually insert this new coupling matrix or "
+                                             "else we are going to leak");
                           existing_it->second = cm;
                         }
                       const_cast<CouplingMatrix &>(*existing_it->second) &= *pr.second;
@@ -1501,7 +1507,10 @@ merge_ghost_functor_outputs(GhostingFunctor::map_type & elements_to_ghost,
                       std::set<CouplingMatrix *>::iterator temp_it =
                         temporary_coupling_matrices.find(const_cast<CouplingMatrix *>(existing_it->second));
                       if (temp_it != temporary_coupling_matrices.end())
+                      {
+                        delete *temp_it;
                         temporary_coupling_matrices.erase(temp_it);
+                      }
 
                       existing_it->second = nullptr;
                     }
