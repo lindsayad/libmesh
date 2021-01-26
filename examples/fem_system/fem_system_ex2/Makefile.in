@@ -102,6 +102,7 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps =  \
 	$(top_srcdir)/m4/autoconf-submodule/acsm_code_coverage.m4 \
 	$(top_srcdir)/m4/autoconf-submodule/acsm_compiler_control_args.m4 \
+	$(top_srcdir)/m4/autoconf-submodule/acsm_cxx_compiler_standard.m4 \
 	$(top_srcdir)/m4/autoconf-submodule/acsm_mpi.m4 \
 	$(top_srcdir)/m4/autoconf-submodule/acsm_scrape_petsc_configure.m4 \
 	$(top_srcdir)/m4/autoconf-submodule/acsm_summarize_env.m4 \
@@ -491,6 +492,8 @@ GXX_VERSION = @GXX_VERSION@
 GZSTREAM_INCLUDE = @GZSTREAM_INCLUDE@
 GZSTREAM_LIB = @GZSTREAM_LIB@
 HAVE_CXX11 = @HAVE_CXX11@
+HAVE_CXX14 = @HAVE_CXX14@
+HAVE_CXX17 = @HAVE_CXX17@
 HAVE_DOT = @HAVE_DOT@
 HAVE_GCOV_TOOLS = @HAVE_GCOV_TOOLS@
 HDF5_CFLAGS = @HDF5_CFLAGS@

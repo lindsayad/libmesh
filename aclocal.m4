@@ -1171,6 +1171,7 @@ AC_SUBST([am__untar])
 
 m4_include([m4/autoconf-submodule/acsm_code_coverage.m4])
 m4_include([m4/autoconf-submodule/acsm_compiler_control_args.m4])
+m4_include([m4/autoconf-submodule/acsm_cxx_compiler_standard.m4])
 m4_include([m4/autoconf-submodule/acsm_mpi.m4])
 m4_include([m4/autoconf-submodule/acsm_scrape_petsc_configure.m4])
 m4_include([m4/autoconf-submodule/acsm_summarize_env.m4])
