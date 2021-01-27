@@ -12853,6 +12853,11 @@ fi
 
            { $as_echo "$as_me:${as_lineno-$LINENO}: Found C++17 standard support" >&5
 $as_echo "$as_me: Found C++17 standard support" >&6;}
+
+                                                       HAVE_CXX14=1
+           HAVE_CXX11=1
+
+
            acsm_found_cxx=1
            acsm_cxx_version=17
 else
@@ -15585,6 +15590,9 @@ fi
 
            { $as_echo "$as_me:${as_lineno-$LINENO}: Found C++14 standard support" >&5
 $as_echo "$as_me: Found C++14 standard support" >&6;}
+
+                                 HAVE_CXX11=1
+
            acsm_found_cxx=1
            acsm_cxx_version=14
 else
