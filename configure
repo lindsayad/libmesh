@@ -7866,8 +7866,6 @@ fi
 acsm_found_cxx=0
 acsm_cxx_version=0
 
-if test "$acsm_found_cxx" = "0"; then :
-
   if test 2017 -le "$acsm_CXX_STD_MAX"; then :
 
     if test 2017 -gt "$acsm_CXX_STD_MIN"; then :
@@ -10359,7 +10357,6 @@ $as_echo "#define HAVE_CXX17 1" >>confdefs.h
 
 
 else
-  if test 2017 -eq "$acsm_CXX_STD_MIN"; then :
     ax_cxx_compile_alternatives="17 1z"    ax_cxx_compile_cxx17_required=true
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -12848,18 +12845,14 @@ $as_echo "#define HAVE_CXX17 1" >>confdefs.h
 
 
 fi
-fi
     if test "$HAVE_CXX17" = "1"; then :
 
            { $as_echo "$as_me:${as_lineno-$LINENO}: Found C++17 standard support" >&5
 $as_echo "$as_me: Found C++17 standard support" >&6;}
-
-                                                       HAVE_CXX14=1
-           HAVE_CXX11=1
-
-
+           if test $acsm_found_cxx -eq 0; then :
+  acsm_cxx_version=17
+fi
            acsm_found_cxx=1
-           acsm_cxx_version=17
 else
   if test "$HAVE_CXX17" = "0"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: Did not find C++17 standard support" >&5
@@ -12868,10 +12861,6 @@ fi
 fi
 
 fi
-
-fi
-
-if test "$acsm_found_cxx" = "0"; then :
 
   if test 2014 -le "$acsm_CXX_STD_MAX"; then :
 
@@ -14230,7 +14219,6 @@ $as_echo "#define HAVE_CXX14 1" >>confdefs.h
 
 
 else
-  if test 2014 -eq "$acsm_CXX_STD_MIN"; then :
     ax_cxx_compile_alternatives="14 1y"    ax_cxx_compile_cxx14_required=true
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -15585,16 +15573,14 @@ $as_echo "#define HAVE_CXX14 1" >>confdefs.h
 
 
 fi
-fi
     if test "$HAVE_CXX14" = "1"; then :
 
            { $as_echo "$as_me:${as_lineno-$LINENO}: Found C++14 standard support" >&5
 $as_echo "$as_me: Found C++14 standard support" >&6;}
-
-                                 HAVE_CXX11=1
-
+           if test $acsm_found_cxx -eq 0; then :
+  acsm_cxx_version=14
+fi
            acsm_found_cxx=1
-           acsm_cxx_version=14
 else
   if test "$HAVE_CXX14" = "0"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: Did not find C++14 standard support" >&5
@@ -15604,13 +15590,9 @@ fi
 
 fi
 
-fi
-
-if test "$acsm_found_cxx" = "0"; then :
-
   if test 2011 -le "$acsm_CXX_STD_MAX"; then :
 
-    if test 2011 -ge "$acsm_CXX_STD_MIN"; then :
+    if test 2011 -gt "$acsm_CXX_STD_MIN"; then :
     ax_cxx_compile_alternatives="11 0x"    ax_cxx_compile_cxx11_required=false
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -16605,7 +16587,6 @@ $as_echo "#define HAVE_CXX11 1" >>confdefs.h
 
 
 else
-  if test 2011 -eq "$acsm_CXX_STD_MIN"; then :
     ax_cxx_compile_alternatives="11 0x"    ax_cxx_compile_cxx11_required=true
   ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
@@ -17600,20 +17581,19 @@ $as_echo "#define HAVE_CXX11 1" >>confdefs.h
 
 
 fi
-fi
     if test "$HAVE_CXX11" = "1"; then :
 
            { $as_echo "$as_me:${as_lineno-$LINENO}: Found C++11 standard support" >&5
 $as_echo "$as_me: Found C++11 standard support" >&6;}
+           if test $acsm_found_cxx -eq 0; then :
+  acsm_cxx_version=11
+fi
            acsm_found_cxx=1
-           acsm_cxx_version=11
 else
   if test "$HAVE_CXX11" = "0"; then :
   { $as_echo "$as_me:${as_lineno-$LINENO}: Did not find C++11 standard support" >&5
 $as_echo "$as_me: Did not find C++11 standard support" >&6;}
 fi
-fi
-
 fi
 
 fi
