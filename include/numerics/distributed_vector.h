@@ -255,6 +255,26 @@ private:
    * The last component (+1) stored locally.
    */
   numeric_index_type _last_local_index;
+
+  /**
+   * Whether we are in add mode. If false, then we are in set mode
+   */
+  bool _add_mode;
+
+  /**
+   * A map from ghost dof (global index) to cached value
+   */
+  std::unordered_map<numeric_index_type, T> _ghost_dof_to_value;
+
+  /**
+   * A map from processor id to its first index
+   */
+  std::vector<numeric_index_type> _first_indices;
+
+  /**
+   * The global ghost indices
+   */
+  std::vector<std::vector<numeric_index_type>> _global_ghost_indices;
 };
 
 
@@ -268,7 +288,8 @@ DistributedVector<T>::DistributedVector (const Parallel::Communicator & comm_in,
   _global_size      (0),
   _local_size       (0),
   _first_local_index(0),
-  _last_local_index (0)
+  _last_local_index (0),
+  _first_indices(this->n_processors())
 {
   this->_type = ptype;
 }
@@ -321,10 +342,24 @@ void DistributedVector<T>::init (const numeric_index_type n,
                                  const bool fast,
                                  const ParallelType ptype)
 {
+  this->init(n, n_local, std::vector<numeric_index_type>{}, fast, ptype);
+}
+
+
+template <typename T>
+inline
+void DistributedVector<T>::init (const numeric_index_type n,
+                                 const numeric_index_type n_local,
+                                 const std::vector<numeric_index_type> & ghost,
+                                 const bool fast,
+                                 const ParallelType ptype)
+{
   // This function must be run on all processors at once
   parallel_object_only();
 
   libmesh_assert_less_equal (n_local, n);
+
+  _first_indices.resize(this->n_processors());
 
   if (ptype == AUTOMATIC)
     {
@@ -363,8 +398,13 @@ void DistributedVector<T>::init (const numeric_index_type n,
 
   // _first_local_index is the sum of _local_size
   // for all processor ids less than ours
-  for (auto p : make_range(this->processor_id()))
-    _first_local_index += local_sizes[p];
+  numeric_index_type first_index = 0;
+  for (auto p : make_range(this->n_processors()))
+  {
+    _first_indices[p] = first_index;
+    first_index += local_sizes[p];
+  }
+  _first_local_index = _first_indices[this->processor_id()];
 
 
 #  ifdef DEBUG
@@ -388,25 +428,15 @@ void DistributedVector<T>::init (const numeric_index_type n,
 
   _last_local_index = _first_local_index + n_local;
 
+  _global_ghost_indices.resize(this->n_processors());
+  _communicator.allgather(ghost, _global_ghost_indices);
+
   // Set the initialized flag
   this->_is_initialized = true;
 
   // Zero the components unless directed otherwise
   if (!fast)
     this->zero();
-}
-
-
-template <typename T>
-inline
-void DistributedVector<T>::init (const numeric_index_type n,
-                                 const numeric_index_type n_local,
-                                 const std::vector<numeric_index_type> & /*ghost*/,
-                                 const bool fast,
-                                 const ParallelType ptype)
-{
-  // TODO: we shouldn't ignore the ghost sparsity pattern
-  this->init(n, n_local, fast, ptype);
 }
 
 
@@ -438,6 +468,8 @@ inline
 void DistributedVector<T>::close ()
 {
   libmesh_assert (this->initialized());
+
+
 
   this->_is_closed = true;
 }
@@ -574,10 +606,14 @@ void DistributedVector<T>::set (const numeric_index_type i, const T value)
   libmesh_assert_equal_to (_values.size(), _local_size);
   libmesh_assert_equal_to ((_last_local_index - _first_local_index), _local_size);
   libmesh_assert_less (i, size());
-  libmesh_assert_less (i-first_local_index(), local_size());
 
-  _values[i - _first_local_index] = value;
+  if (!this->_is_closed && _add_mode)
+    libmesh_error_msg("Vector is currently in add mode. You must close the vector before switching from add to set mode.");
 
+  if (i >= _first_local_index && i < _last_local_index)
+  _values[i - _first_local_index] += value;
+  else
+    _ghost_dof_to_value[i] += value;
 
   this->_is_closed = false;
 }
@@ -593,10 +629,14 @@ void DistributedVector<T>::add (const numeric_index_type i, const T value)
   libmesh_assert_equal_to (_values.size(), _local_size);
   libmesh_assert_equal_to ((_last_local_index - _first_local_index), _local_size);
   libmesh_assert_less (i, size());
-  libmesh_assert_less (i-first_local_index(), local_size());
 
+  if (!this->_is_closed && !_add_mode)
+    libmesh_error_msg("Vector is currently in set mode. You must close the vector before switching from set to add modes.");
+
+  if (i >= _first_local_index && i < _last_local_index)
   _values[i - _first_local_index] += value;
-
+  else
+    _ghost_dof_to_value[i] += value;
 
   this->_is_closed = false;
 }
