@@ -309,6 +309,11 @@ public:
   SparseMatrix<Number> & get_system_matrix();
 
   /**
+   * Set the preconditioning matrix
+   */
+  void set_preconditioning_matrix(SparseMatrix<Number> & pre_matrix) { _pre_matrix = &pre_matrix; }
+
+  /**
    * The system matrix.  Implicit systems are characterized by
    * the need to solve the linear system Ax=b.  This is the
    * system matrix A.
@@ -340,6 +345,8 @@ protected:
    * Adds the system matrix
    */
   virtual void add_matrices() override;
+
+  SparseMatrix<Number> * _pre_matrix;
 };
 
 

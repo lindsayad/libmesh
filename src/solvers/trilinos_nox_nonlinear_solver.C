@@ -297,7 +297,8 @@ NoxNonlinearSolver<T>::solve (SparseMatrix<T> &  /* jac_in */,  // System Jacobi
                               NumericVector<T> & x_in,          // Solution vector
                               NumericVector<T> & /* r_in */,    // Residual vector
                               const double,                    // Stopping tolerance
-                              const unsigned int)
+                              const unsigned int,
+                              SparseMatrix<T> *)
 {
   this->init ();
 

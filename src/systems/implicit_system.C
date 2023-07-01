@@ -43,7 +43,8 @@ ImplicitSystem::ImplicitSystem (EquationSystems & es,
 
   Parent            (es, name_in, number_in),
   matrix            (nullptr),
-  zero_out_matrix_and_rhs(true)
+  zero_out_matrix_and_rhs(true),
+  _pre_matrix       (nullptr)
 {
 }
 
@@ -60,6 +61,7 @@ void ImplicitSystem::clear ()
 
   // Restore us to a "basic" state
   matrix = nullptr;
+  _pre_matrix = nullptr;
 }
 
 
@@ -75,6 +77,8 @@ void ImplicitSystem::assemble ()
     {
       matrix->zero ();
       rhs->zero ();
+      if (_pre_matrix)
+        _pre_matrix->zero ();
     }
 
   // Call the base class assemble function

@@ -202,7 +202,8 @@ void NonlinearImplicitSystem::solve ()
       std::tie(_n_nonlinear_iterations, _final_nonlinear_residual) =
         nonlinear_solver->solve (*matrix, *solution, *rhs,
                                  nonlinear_solver->relative_residual_tolerance,
-                                 nonlinear_solver->max_linear_iterations);
+                                 nonlinear_solver->max_linear_iterations,
+                                 _pre_matrix);
     }
 
   // Update the system after the solve

@@ -120,7 +120,8 @@ public:
          NumericVector<T> &,                    // Solution vector
          NumericVector<T> &,                    // Residual vector
          const double,                         // Stopping tolerance
-         const unsigned int) override; // N. Iterations
+         const unsigned int,                   // N. Iterations
+         SparseMatrix<T> * = nullptr) override;
 
   /**
    * Prints a useful message about why the latest nonlinear solve

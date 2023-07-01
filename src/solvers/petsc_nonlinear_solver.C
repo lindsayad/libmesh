@@ -515,30 +515,38 @@ extern "C"
       sys.get_dof_map().enforce_constraints_exactly(sys, sys.current_local_solution.get());
 
     if (solver->_zero_out_jacobian)
-      PC.zero();
-
+    {
+      Jac.zero();
+      if (jac != pc)
+        PC.zero();
+    }
 
     if (solver->jacobian != nullptr)
-      solver->jacobian(*sys.current_local_solution.get(), PC, sys);
+      solver->jacobian(*sys.current_local_solution.get(), Jac, sys);
 
     else if (solver->jacobian_object != nullptr)
-      solver->jacobian_object->jacobian(*sys.current_local_solution.get(), PC, sys);
+      solver->jacobian_object->jacobian(*sys.current_local_solution.get(), Jac, sys);
 
     else if (solver->matvec != nullptr)
-      solver->matvec(*sys.current_local_solution.get(), nullptr, &PC, sys);
+      solver->matvec(*sys.current_local_solution.get(), nullptr, &Jac, sys);
 
     else
       libmesh_error_msg("Error! Unable to compute residual and/or Jacobian!");
 
-    PC.close();
+    Jac.close();
+    if (jac != pc)
+      PC.close();
+
     if (solver->_exact_constraint_enforcement)
       {
-        sys.get_dof_map().enforce_constraints_on_jacobian(sys, &PC);
-        PC.close();
+        sys.get_dof_map().enforce_constraints_on_jacobian(sys, &Jac);
+        Jac.close();
+        if (jac != pc)
+        {
+          sys.get_dof_map().enforce_constraints_on_jacobian(sys, &PC);
+          PC.close();
+        }
       }
-
-    Jac.close();
-
     return ierr;
   }
 
@@ -878,21 +886,26 @@ PetscNonlinearSolver<T>::build_mat_null_space(NonlinearImplicitSystem::ComputeVe
 
 template <typename T>
 std::pair<unsigned int, Real>
-PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  pre_in,  // System Preconditioning Matrix
+PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  jac_in,  // System Jacobian Matrix
                                 NumericVector<T> & x_in,    // Solution vector
                                 NumericVector<T> & r_in,    // Residual vector
                                 const double,              // Stopping tolerance
-                                const unsigned int)
+                                const unsigned int,
+                                SparseMatrix<T> * pre_in)
 {
   parallel_object_only();
 
   LOG_SCOPE("solve()", "PetscNonlinearSolver");
   this->init ();
 
+  if (!pre_in)
+    pre_in = &jac_in;
+
   // Make sure the data passed in are really of Petsc types
-  PetscMatrix<T> * pre = cast_ptr<PetscMatrix<T> *>(&pre_in);
+  PetscMatrix<T> * jac = cast_ptr<PetscMatrix<T> *>(&jac_in);
   PetscVector<T> * x   = cast_ptr<PetscVector<T> *>(&x_in);
   PetscVector<T> * r   = cast_ptr<PetscVector<T> *>(&r_in);
+  PetscMatrix<T> * pre = cast_ptr<PetscMatrix<T> *>(pre_in);
 
   PetscErrorCode ierr=0;
   PetscInt n_iterations =0;
@@ -939,7 +952,7 @@ PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  pre_in,  // System Preconditi
   // This allows a user to set their own jacobian function if they want to
   if (this->jacobian || this->jacobian_object || this->residual_and_jacobian_object)
     {
-      ierr = SNESSetJacobian (_snes, pre->mat(), pre->mat(), libmesh_petsc_snes_jacobian, this);
+      ierr = SNESSetJacobian (_snes, jac->mat(), pre->mat(), libmesh_petsc_snes_jacobian, this);
       LIBMESH_CHKERR(ierr);
     }
 
@@ -951,7 +964,7 @@ PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  pre_in,  // System Preconditi
       this->build_mat_null_space(this->nullspace_object, this->nullspace, msp.get());
       if (msp)
         {
-          ierr = MatSetNullSpace(pre->mat(), msp);
+          ierr = MatSetNullSpace(jac->mat(), msp);
           LIBMESH_CHKERR(ierr);
         }
     }
@@ -966,7 +979,7 @@ PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  pre_in,  // System Preconditi
       this->build_mat_null_space(this->transpose_nullspace_object, this->transpose_nullspace, msp.get());
       if (msp)
         {
-          ierr = MatSetTransposeNullSpace(pre->mat(), msp);
+          ierr = MatSetTransposeNullSpace(jac->mat(), msp);
           LIBMESH_CHKERR(ierr);
         }
 #endif
@@ -980,7 +993,7 @@ PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  pre_in,  // System Preconditi
 
       if (msp)
         {
-          ierr = MatSetNearNullSpace(pre->mat(), msp);
+          ierr = MatSetNearNullSpace(jac->mat(), msp);
           LIBMESH_CHKERR(ierr);
         }
     }
@@ -1019,7 +1032,7 @@ PetscNonlinearSolver<T>::solve (SparseMatrix<T> &  pre_in,  // System Preconditi
   //Set the preconditioning matrix
   if (this->_preconditioner)
     {
-      this->_preconditioner->set_matrix(pre_in);
+      this->_preconditioner->set_matrix(*pre_in);
       this->_preconditioner->init();
     }
 
