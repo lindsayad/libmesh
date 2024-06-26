@@ -34,8 +34,6 @@
 #include "libmesh/wrapped_petsc.h"
 #include "libmesh/fuzzy_equal.h"
 
-#include <petscstring.h>
-
 // C++ includes
 #ifdef LIBMESH_HAVE_UNISTD_H
 #include <unistd.h> // mkstemp
@@ -1598,7 +1596,7 @@ PetscMatrix<T>::fuzzy_equal(const SparseMatrix<T> & other, const Real tol) const
   if ((this->local_m() != other.local_m()) || (this->local_n() != other.local_n()))
   {
     equiv = false;
-    goto endLoop;
+    goto globalComm;
   }
 
   for (const auto i : make_range(this->row_start(), this->row_stop()))
@@ -1644,15 +1642,16 @@ PetscMatrix<T>::fuzzy_equal(const SparseMatrix<T> & other, const Real tol) const
     if (ncols != ncols_other)
     {
       compared_false();
-      goto endLoop;
+      goto globalComm;
     }
 
     // No need for fuzzy comparison here
-    PetscBool petsc_equiv;
-    ierr = PetscArraycmp(petsc_cols, petsc_cols_other, ncols, &petsc_equiv);
-    LIBMESH_CHKERR(ierr);
-    if (petsc_equiv == PETSC_FALSE)
-      compared_false();
+    for (const auto j_val : make_range(ncols))
+      if (petsc_cols[j_val] != petsc_cols_other[j_val])
+      {
+        compared_false();
+        goto globalComm;
+      }
 
     for (const auto j_val : make_range(ncols))
       if (relative_fuzzy_equal(petsc_row[j_val], petsc_row_other[j_val], tol) ||
@@ -1661,13 +1660,13 @@ PetscMatrix<T>::fuzzy_equal(const SparseMatrix<T> & other, const Real tol) const
       else
       {
         compared_false();
-        goto endLoop;
+        goto globalComm;
       }
 
     restore_rows();
   }
 
-endLoop:
+globalComm:
   this->comm().min(equiv);
 
   return equiv;
