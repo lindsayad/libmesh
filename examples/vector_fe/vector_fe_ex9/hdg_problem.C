@@ -274,7 +274,7 @@ HDGProblem::scalar_volume_jacobian(const unsigned int vel_component,
 }
 
 void
-HDGProblem::pressure_volume_residual(DenseVector<Number> & Rp, DenseVector<Number> & Rglm)
+HDGProblem::pressure_volume_residual(DenseVector<Number> & Rp)
 {
   for (const auto qp : make_range(qrule->n_points()))
   {
@@ -291,26 +291,23 @@ HDGProblem::pressure_volume_residual(DenseVector<Number> & Rp, DenseVector<Numbe
       if (mms)
         // Pressure equation RHS
         Rp(i) -= (*JxW)[qp] * (*scalar_phi)[i][qp] * f;
-
-      if (cavity)
-        Rp(i) -= (*JxW)[qp] * (*scalar_phi)[i][qp] * global_lm_dof_value;
     }
-
-    if (cavity)
-      Rglm(0) -= (*JxW)[qp] * p_sol[qp];
   }
 }
 
 void
-HDGProblem::pressure_volume_jacobian(DenseMatrix<Number> & Jpu,
-                                     DenseMatrix<Number> & Jpv,
-                                     DenseMatrix<Number> & Jpglm,
-                                     DenseMatrix<Number> & Jglmp)
+HDGProblem::mean_pressure_volume_residual(Number & Rmp, Number & Rglm)
+{
+  libmesh_assert(cavity);
+  Rmp += global_lm_dof_value;
+  Rglm += mean_pressure_dof_value;
+}
+
+void
+HDGProblem::pressure_volume_jacobian(DenseMatrix<Number> & Jpu, DenseMatrix<Number> & Jpv)
 {
   for (const auto qp : make_range(qrule->n_points()))
-  {
     for (const auto i : make_range(p_n_dofs))
-    {
       for (const auto j : make_range(scalar_n_dofs))
       {
         {
@@ -322,47 +319,112 @@ HDGProblem::pressure_volume_jacobian(DenseMatrix<Number> & Jpu,
           Jpv(i, j) -= (*JxW)[qp] * ((*grad_scalar_phi)[i][qp] * phi);
         }
       }
-      if (cavity)
-        Jpglm(i, 0) -= (*JxW)[qp] * (*scalar_phi)[i][qp];
-    }
-
-    if (cavity)
-    {
-      libmesh_assert(scalar_n_dofs == p_n_dofs);
-      for (const auto j : make_range(p_n_dofs))
-        Jglmp(0, j) -= (*JxW)[qp] * (*scalar_phi)[j][qp];
-    }
-  }
 }
 
 void
-HDGProblem::pressure_face_residual(DenseVector<Number> & R)
+HDGProblem::mean_pressure_volume_jacobian(DenseMatrix<Number> & Jmpglm, DenseMatrix<Number> & Jglmmp)
+{
+  libmesh_assert(cavity);
+  Jmpglm(0, 0) += 1;
+  Jglmmp(0, 0) += 1;
+}
+
+void
+HDGProblem::pressure_face_residual(DenseVector<Number> & Rp, Number & Rllm)
 {
   for (const auto qp : make_range(qface->n_points()))
   {
     const Gradient vel(lm_u_sol[qp], lm_v_sol[qp]);
     const auto vdotn = vel * (*normals)[qp];
     for (const auto i : make_range(p_n_dofs))
-      R(i) += (*JxW_face)[qp] * vdotn * ((*scalar_phi_face)[i][qp] - qbar[i]);
+    {
+      Rp(i) += (*JxW_face)[qp] * vdotn * ((*scalar_phi_face)[i][qp] - qbar[i]);
+
+      // Constraining mean pressure
+      Rp(i) += (*JxW_face)[qp] * local_lm_dof_value * (*scalar_phi_face)[i][qp];
+    }
+
+    // Constraining mean pressure
+    Rllm += (*JxW_face)[qp] * p_sol[qp];
   }
 }
 
 void
-HDGProblem::pressure_face_jacobian(DenseMatrix<Number> & Jplm_u, DenseMatrix<Number> & Jplm_v)
+HDGProblem::pressure_face_jacobian(DenseMatrix<Number> & Jplm_u,
+                                   DenseMatrix<Number> & Jplm_v,
+                                   DenseMatrix<Number> & Jp_llm,
+                                   DenseMatrix<Number> & Jllm_p)
 {
+  libmesh_assert(Jp_llm.n() == 1);
+  libmesh_assert(Jllm_p.m() == 1);
+
   for (const auto qp : make_range(qface->n_points()))
+  {
     for (const auto i : make_range(p_n_dofs))
+    {
       for (const auto j : make_range(lm_n_dofs))
       {
         {
           const Gradient phi((*lm_phi_face)[j][qp], 0);
-          Jplm_u(i, j) += (*JxW_face)[qp] * phi * (*normals)[qp] * ((*scalar_phi_face)[i][qp] - qbar[i]);
+          Jplm_u(i, j) +=
+              (*JxW_face)[qp] * phi * (*normals)[qp] * ((*scalar_phi_face)[i][qp] - qbar[i]);
         }
         {
           const Gradient phi(0, (*lm_phi_face)[j][qp]);
-          Jplm_v(i, j) += (*JxW_face)[qp] * phi * (*normals)[qp] * ((*scalar_phi_face)[i][qp] - qbar[i]);
+          Jplm_v(i, j) +=
+              (*JxW_face)[qp] * phi * (*normals)[qp] * ((*scalar_phi_face)[i][qp] - qbar[i]);
         }
       }
+
+      Jp_llm(i, 0) += (*JxW_face)[qp] * (*scalar_phi_face)[i][qp];
+    }
+
+    for (const auto j : make_range(p_n_dofs))
+      Jllm_p(0, j) += (*JxW_face)[qp] * (*scalar_phi_face)[j][qp];
+  }
+}
+
+void
+HDGProblem::mean_pressure_face_residual(Number & Rmp, Number & Rllm)
+{
+  for (const auto qp : make_range(qface->n_points()))
+  {
+    // Local divergence free for velocity
+    const Gradient vel(lm_u_sol[qp], lm_v_sol[qp]);
+    const auto vdotn = vel * (*normals)[qp];
+    Rmp += (*JxW_face)[qp] * vdotn;
+
+    // Constraining mean pressure
+    Rmp -= (*JxW_face)[qp] * local_lm_dof_value;
+    Rllm -= (*JxW_face)[qp] * mean_pressure_dof_value;
+  }
+}
+
+void
+HDGProblem::mean_pressure_face_jacobian(DenseMatrix<Number> & Jmplm_u,
+                                        DenseMatrix<Number> & Jmplm_v,
+                                        DenseMatrix<Number> & Jmpllm,
+                                        DenseMatrix<Number> & Jllmmp)
+{
+  libmesh_assert(Jmplm_u.m() == 1);
+  libmesh_assert(Jmplm_v.m() == 1);
+  for (const auto qp : make_range(qface->n_points()))
+  {
+    for (const auto j : make_range(lm_n_dofs))
+    {
+      {
+        const Gradient phi((*lm_phi_face)[j][qp], 0);
+        Jmplm_u(0, j) += (*JxW_face)[qp] * phi * (*normals)[qp];
+      }
+      {
+        const Gradient phi(0, (*lm_phi_face)[j][qp]);
+        Jmplm_v(0, j) += (*JxW_face)[qp] * phi * (*normals)[qp];
+      }
+    }
+
+    Jmpllm(0, 0) -= (*JxW_face)[qp];
+    Jllmmp(0, 0) -= (*JxW_face)[qp];
+  }
 }
 
 RealVectorValue
@@ -391,14 +453,64 @@ HDGProblem::get_dirichlet_velocity(const unsigned int qp) const
 }
 
 void
-HDGProblem::pressure_dirichlet_residual(DenseVector<Number> & R)
+HDGProblem::pressure_dirichlet_residual(DenseVector<Number> & Rp, Number & Rllm)
 {
   for (const auto qp : make_range(qface->n_points()))
   {
     const auto dirichlet_velocity = get_dirichlet_velocity(qp);
     const auto vdotn = dirichlet_velocity * (*normals)[qp];
     for (const auto i : make_range(p_n_dofs))
-      R(i) += (*JxW_face)[qp] * vdotn * ((*scalar_phi_face)[i][qp] - qbar[i]);
+    {
+      Rp(i) += (*JxW_face)[qp] * vdotn * ((*scalar_phi_face)[i][qp] - qbar[i]);
+
+      // Constraining mean pressure
+      Rp(i) += (*JxW_face)[qp] * local_lm_dof_value * (*scalar_phi_face)[i][qp];
+    }
+
+    // Constraining mean pressure
+    Rllm += (*JxW_face)[qp] * p_sol[qp];
+  }
+}
+
+void
+HDGProblem::pressure_dirichlet_jacobian(DenseMatrix<Number> & Jpllm, DenseMatrix<Number> & Jllmp)
+{
+  libmesh_assert(Jpllm.n() == 1);
+  libmesh_assert(Jllmp.m() == 1);
+
+  for (const auto qp : make_range(qface->n_points()))
+  {
+    for (const auto i : make_range(p_n_dofs))
+      Jpllm(i, 0) += (*JxW_face)[qp] * (*scalar_phi_face)[i][qp];
+
+    for (const auto j : make_range(p_n_dofs))
+      Jllmp(0, j) += (*JxW_face)[qp] * (*scalar_phi_face)[j][qp];
+  }
+}
+
+void
+HDGProblem::mean_pressure_dirichlet_residual(Number & Rmp, Number & Rllm)
+{
+  for (const auto qp : make_range(qface->n_points()))
+  {
+    // Local divergence free for velocity
+    const auto dirichlet_velocity = get_dirichlet_velocity(qp);
+    const auto vdotn = dirichlet_velocity * (*normals)[qp];
+    Rmp += (*JxW_face)[qp] * vdotn;
+
+    // Constraining mean pressure
+    Rmp -= (*JxW_face)[qp] * local_lm_dof_value;
+    Rllm -= (*JxW_face)[qp] * mean_pressure_dof_value;
+  }
+}
+
+void
+HDGProblem::mean_pressure_dirichlet_jacobian(DenseMatrix<Number> & Jmpllm, DenseMatrix<Number> & Jllmmp)
+{
+  for (const auto qp : make_range(qface->n_points()))
+  {
+    Jmpllm(0, 0) -= (*JxW_face)[qp];
+    Jllmmp(0, 0) -= (*JxW_face)[qp];
   }
 }
 
@@ -741,11 +853,13 @@ HDGProblem::residual(const NumericVector<Number> & X,
   const auto lm_u_num = S.variable_number("lm_u");
   const auto lm_v_num = S.variable_number("lm_v");
   const auto p_num = S.variable_number("pressure");
+  const auto mp_num = S.variable_number("mean_pressure");
+  const auto local_lm_num = S.variable_number("local_lm");
   const auto global_lm_num = cavity ? S.variable_number("global_lm") : invalid_uint;
 
   std::vector<boundary_id_type> boundary_ids;
   const auto & boundary_info = mesh->get_boundary_info();
-  DenseVector<Number> Rqu, Rqv, Ru, Rv, Rlm_u, Rlm_v, Rp, Rglm;
+  DenseVector<Number> Rqu, Rqv, Ru, Rv, Rlm_u, Rlm_v, Rp;
 
   for (const auto & elem : mesh->active_local_element_ptr_range())
   {
@@ -757,6 +871,10 @@ HDGProblem::residual(const NumericVector<Number> & X,
     dof_map->dof_indices(elem, v_dof_indices, v_num);
     dof_map->dof_indices(elem, lm_v_dof_indices, lm_v_num);
     dof_map->dof_indices(elem, p_dof_indices, p_num);
+    dof_map->dof_indices(elem, mean_p_dof_indices, mp_num);
+    dof_map->dof_indices(elem, local_lm_dof_indices, local_lm_num);
+    libmesh_assert(mean_p_dof_indices.size() == 1);
+    libmesh_assert(local_lm_dof_indices.size() == 1);
     if (cavity)
     {
       dof_map->dof_indices(elem, global_lm_dof_indices, global_lm_num);
@@ -768,6 +886,7 @@ HDGProblem::residual(const NumericVector<Number> & X,
     lm_n_dofs = lm_u_dof_indices.size();
     p_n_dofs = p_dof_indices.size();
     libmesh_assert(p_n_dofs == scalar_n_dofs);
+
     Rqu.resize(vector_n_dofs);
     Rqv.resize(vector_n_dofs);
     Ru.resize(scalar_n_dofs);
@@ -775,7 +894,7 @@ HDGProblem::residual(const NumericVector<Number> & X,
     Rlm_u.resize(lm_n_dofs);
     Rlm_v.resize(lm_n_dofs);
     Rp.resize(p_n_dofs);
-    Rglm.resize(global_lm_dof_indices.size());
+    Number Rmp = 0, Rllm = 0, Rglm = 0;
 
     // Reinit our volume FE objects
     vector_fe->reinit(elem);
@@ -792,6 +911,8 @@ HDGProblem::residual(const NumericVector<Number> & X,
     X.get(v_dof_indices, v_dof_values);
     X.get(lm_v_dof_indices, lm_v_dof_values);
     X.get(p_dof_indices, p_dof_values);
+    mean_pressure_dof_value = X(mean_p_dof_indices[0]);
+    local_lm_dof_value = X(local_lm_dof_indices[0]);
     if (cavity)
       global_lm_dof_value = X(global_lm_dof_indices[0]);
 
@@ -817,7 +938,9 @@ HDGProblem::residual(const NumericVector<Number> & X,
     scalar_volume_residual(qv_sol, 1, sigma_v, Rv);
 
     // p
-    pressure_volume_residual(Rp, Rglm);
+    pressure_volume_residual(Rp);
+    // mp
+    mean_pressure_volume_residual(Rmp, Rglm);
 
     for (auto side : elem->side_index_range())
     {
@@ -853,7 +976,9 @@ HDGProblem::residual(const NumericVector<Number> & X,
           scalar_dirichlet_residual(qv_sol, v_sol, 1, Rv);
 
           // p
-          pressure_dirichlet_residual(Rp);
+          pressure_dirichlet_residual(Rp, Rllm);
+          // mp
+          mean_pressure_dirichlet_residual(Rmp, Rllm);
 
           // Set the LMs on these Dirichlet boundary faces to 0
           create_identity_residual(*qface, *JxW_face, *lm_phi_face, lm_u_sol, lm_n_dofs, Rlm_u);
@@ -878,7 +1003,9 @@ HDGProblem::residual(const NumericVector<Number> & X,
       lm_face_residual(qv_sol, v_sol, lm_v_sol, 1, Rlm_v);
 
       // p
-      pressure_face_residual(Rp);
+      pressure_face_residual(Rp, Rllm);
+      // mp
+      mean_pressure_face_residual(Rmp, Rllm);
     }
 
     R.add_vector(Rqu, qu_dof_indices);
@@ -888,8 +1015,10 @@ HDGProblem::residual(const NumericVector<Number> & X,
     R.add_vector(Rlm_u, lm_u_dof_indices);
     R.add_vector(Rlm_v, lm_v_dof_indices);
     R.add_vector(Rp, p_dof_indices);
+    R.add(mean_p_dof_indices[0], Rmp);
+    R.add(local_lm_dof_indices[0], Rllm);
     if (cavity)
-      R.add_vector(Rglm, global_lm_dof_indices);
+      R.add(global_lm_dof_indices[0], Rglm);
   }
 }
 
@@ -905,15 +1034,17 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
   const auto lm_u_num = S.variable_number("lm_u");
   const auto lm_v_num = S.variable_number("lm_v");
   const auto p_num = S.variable_number("pressure");
+  const auto mp_num = S.variable_number("mean_pressure");
+  const auto local_lm_num = S.variable_number("local_lm");
   const auto global_lm_num = cavity ? S.variable_number("global_lm") : invalid_uint;
 
   std::vector<boundary_id_type> boundary_ids;
   const auto & boundary_info = mesh->get_boundary_info();
 
   DenseMatrix<Number> Jqu_qu, Jqv_qv, Jqu_u, Jqv_v, Ju_qu, Jv_qv, Ju_p, Jv_p, Ju_u, Jv_u, Ju_v,
-      Jv_v, Jp_u, Jp_v, Jp_glm, Jglm_p, Jp_lmu, Jp_lmv, Jqu_lmu, Jqv_lmv, Ju_lmu, Jv_lmv, Jv_lmu,
-      Ju_lmv, Jlmu_qu, Jlmv_qv, Jlmu_p, Jlmv_p, Jlmu_u, Jlmv_v, Jlmu_lmu, Jlmv_lmu, Jlmu_lmv,
-      Jlmv_lmv;
+      Jv_v, Jp_u, Jp_v, Jp_lmu, Jp_lmv, Jqu_lmu, Jqv_lmv, Ju_lmu, Jv_lmv, Jv_lmu, Ju_lmv, Jlmu_qu,
+      Jlmv_qv, Jlmu_p, Jlmv_p, Jlmu_u, Jlmv_v, Jlmu_lmu, Jlmv_lmu, Jlmu_lmv, Jlmv_lmv, Jmp_lmu,
+      Jmp_lmv, Jp_llm, Jllm_p, Jmp_glm, Jglm_mp, Jmp_llm, Jllm_mp;
 
   for (const auto & elem : mesh->active_local_element_ptr_range())
   {
@@ -925,6 +1056,10 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     dof_map->dof_indices(elem, v_dof_indices, v_num);
     dof_map->dof_indices(elem, lm_v_dof_indices, lm_v_num);
     dof_map->dof_indices(elem, p_dof_indices, p_num);
+    dof_map->dof_indices(elem, mean_p_dof_indices, mp_num);
+    dof_map->dof_indices(elem, local_lm_dof_indices, local_lm_num);
+    libmesh_assert(mean_p_dof_indices.size() == 1);
+    libmesh_assert(local_lm_dof_indices.size() == 1);
     if (cavity)
     {
       dof_map->dof_indices(elem, global_lm_dof_indices, global_lm_num);
@@ -951,8 +1086,6 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     Jv_v.resize(v_dof_indices.size(), v_dof_indices.size());
     Jp_u.resize(p_dof_indices.size(), u_dof_indices.size());
     Jp_v.resize(p_dof_indices.size(), v_dof_indices.size());
-    Jp_glm.resize(p_dof_indices.size(), global_lm_dof_indices.size());
-    Jglm_p.resize(global_lm_dof_indices.size(), p_dof_indices.size());
     Jp_lmu.resize(p_dof_indices.size(), lm_u_dof_indices.size());
     Jp_lmv.resize(p_dof_indices.size(), lm_v_dof_indices.size());
     Jqu_lmu.resize(qu_dof_indices.size(), lm_u_dof_indices.size());
@@ -971,6 +1104,14 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     Jlmv_lmu.resize(lm_v_dof_indices.size(), lm_u_dof_indices.size());
     Jlmu_lmv.resize(lm_u_dof_indices.size(), lm_v_dof_indices.size());
     Jlmv_lmv.resize(lm_v_dof_indices.size(), lm_v_dof_indices.size());
+    Jmp_lmu.resize(1, lm_u_dof_indices.size());
+    Jmp_lmv.resize(1, lm_v_dof_indices.size());
+    Jp_llm.resize(p_dof_indices.size(), 1);
+    Jllm_p.resize(1, p_dof_indices.size());
+    Jmp_glm.resize(1, global_lm_dof_indices.size());
+    Jglm_mp.resize(global_lm_dof_indices.size(), 1);
+    Jmp_llm.resize(1, 1);
+    Jllm_mp.resize(1, 1);
 
     // Reinit our volume FE objects
     vector_fe->reinit(elem);
@@ -987,6 +1128,8 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     X.get(v_dof_indices, v_dof_values);
     X.get(lm_v_dof_indices, lm_v_dof_values);
     X.get(p_dof_indices, p_dof_values);
+    mean_pressure_dof_value = X(mean_p_dof_indices[0]);
+    local_lm_dof_value = X(local_lm_dof_indices[0]);
     if (cavity)
       global_lm_dof_value = X(global_lm_dof_indices[0]);
 
@@ -1012,7 +1155,9 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     scalar_volume_jacobian(1, Jv_qv, Jv_p, Jv_u, Jv_v);
 
     // p
-    pressure_volume_jacobian(Jp_u, Jp_v, Jp_glm, Jglm_p);
+    pressure_volume_jacobian(Jp_u, Jp_v);
+    // mp
+    mean_pressure_volume_jacobian(Jmp_glm, Jglm_mp);
 
     for (auto side : elem->side_index_range())
     {
@@ -1045,6 +1190,11 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
           // qv, v
           scalar_dirichlet_jacobian(1, Jv_qv, Jv_p, Jv_v);
 
+          // p
+          pressure_dirichlet_jacobian(Jp_llm, Jllm_p);
+          // mp
+          mean_pressure_dirichlet_jacobian(Jmp_llm, Jllm_mp);
+
           // Set the LMs on these Dirichlet boundary faces to 0
           create_identity_jacobian(*qface, *JxW_face, *lm_phi_face, lm_n_dofs, Jlmu_lmu);
           create_identity_jacobian(*qface, *JxW_face, *lm_phi_face, lm_n_dofs, Jlmv_lmv);
@@ -1068,7 +1218,9 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
       lm_face_jacobian(1, Jlmv_qv, Jlmv_p, Jlmv_v, Jlmv_lmv, Jlmv_lmu, Jlmv_lmv);
 
       // p
-      pressure_face_jacobian(Jp_lmu, Jp_lmv);
+      pressure_face_jacobian(Jp_lmu, Jp_lmv, Jp_llm, Jllm_p);
+      // mp
+      mean_pressure_face_jacobian(Jmp_lmu, Jmp_lmv, Jmp_llm, Jllm_mp);
     }
 
     sc->add_matrix(*elem, qu_num, qu_num, Jqu_qu);
@@ -1085,11 +1237,6 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     sc->add_matrix(*elem, v_num, v_num, Jv_v);
     sc->add_matrix(*elem, p_num, u_num, Jp_u);
     sc->add_matrix(*elem, p_num, v_num, Jp_v);
-    if (global_lm_num != invalid_uint)
-    {
-      sc->add_matrix(*elem, p_num, global_lm_num, Jp_glm);
-      sc->add_matrix(*elem, global_lm_num, p_num, Jglm_p);
-    }
     sc->add_matrix(*elem, p_num, lm_u_num, Jp_lmu);
     sc->add_matrix(*elem, p_num, lm_v_num, Jp_lmv);
     sc->add_matrix(*elem, qu_num, lm_u_num, Jqu_lmu);
@@ -1108,6 +1255,17 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     sc->add_matrix(*elem, lm_v_num, lm_u_num, Jlmv_lmu);
     sc->add_matrix(*elem, lm_u_num, lm_v_num, Jlmu_lmv);
     sc->add_matrix(*elem, lm_v_num, lm_v_num, Jlmv_lmv);
+    sc->add_matrix(*elem, mp_num, lm_u_num, Jmp_lmu);
+    sc->add_matrix(*elem, mp_num, lm_v_num, Jmp_lmv);
+    sc->add_matrix(*elem, p_num, local_lm_num, Jp_llm);
+    sc->add_matrix(*elem, local_lm_num, p_num, Jllm_p);
+    sc->add_matrix(*elem, mp_num, local_lm_num, Jmp_llm);
+    sc->add_matrix(*elem, local_lm_num, mp_num, Jllm_mp);
+    if (global_lm_num != invalid_uint)
+    {
+      sc->add_matrix(*elem, mp_num, global_lm_num, Jmp_glm);
+      sc->add_matrix(*elem, global_lm_num, mp_num, Jglm_mp);
+    }
   }
 }
 

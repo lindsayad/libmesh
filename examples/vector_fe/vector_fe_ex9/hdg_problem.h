@@ -129,20 +129,35 @@ private:
                               DenseMatrix<Number> & Jsu,
                               DenseMatrix<Number> & Jsv);
 
-  void pressure_volume_residual(DenseVector<Number> & Rp, DenseVector<Number> & Rglm);
+  void pressure_volume_residual(DenseVector<Number> & Rp);
 
-  void pressure_volume_jacobian(DenseMatrix<Number> & Jpu,
-                                DenseMatrix<Number> & Jpv,
-                                DenseMatrix<Number> & Jpglm,
-                                DenseMatrix<Number> & Jglmp);
+  void mean_pressure_volume_residual(Number & Rmp, Number & Rglm);
 
-  void pressure_face_residual(DenseVector<Number> & R);
+  void pressure_volume_jacobian(DenseMatrix<Number> & Jpu, DenseMatrix<Number> & Jpv);
 
-  void pressure_face_jacobian(DenseMatrix<Number> & Jplm_u, DenseMatrix<Number> & Jplm_v);
+  void mean_pressure_volume_jacobian(DenseMatrix<Number> & Jmpglm, DenseMatrix<Number> & Jglmmp);
+
+  void pressure_face_residual(DenseVector<Number> & Rp, Number & Rllm);
+
+  void pressure_face_jacobian(DenseMatrix<Number> & Jplm_u,
+                              DenseMatrix<Number> & Jplm_v,
+                              DenseMatrix<Number> & Jpllm,
+                              DenseMatrix<Number> & Jllmp);
+
+  void mean_pressure_face_residual(Number & Rmp, Number & Rllm);
+
+  void mean_pressure_face_jacobian(DenseMatrix<Number> & Jmplm_u,
+                                   DenseMatrix<Number> & Jmplm_v,
+                                   DenseMatrix<Number> & Jmpllm,
+                                   DenseMatrix<Number> & Jllmmp);
 
   RealVectorValue get_dirichlet_velocity(const unsigned int qp) const;
 
-  void pressure_dirichlet_residual(DenseVector<Number> & R);
+  void pressure_dirichlet_residual(DenseVector<Number> & Rp, Number & Rllm);
+  void pressure_dirichlet_jacobian(DenseMatrix<Number> & Jpllm, DenseMatrix<Number> & Jllmp);
+
+  void mean_pressure_dirichlet_residual(Number & Rmp, Number & Rllm);
+  void mean_pressure_dirichlet_jacobian(DenseMatrix<Number> & Jmpllm, DenseMatrix<Number> & Jllmmp);
 
   void vector_dirichlet_residual(const unsigned int vel_component, DenseVector<Number> & R);
 
@@ -214,8 +229,9 @@ private:
   std::vector<dof_id_type> v_dof_indices;
   std::vector<dof_id_type> lm_v_dof_indices;
   std::vector<dof_id_type> p_dof_indices;
-  std::vector<dof_id_type> lm_dof_indices;
-  std::vector<dof_id_type> mixed_dof_indices;
+  // The following should only ever be size 1
+  std::vector<dof_id_type> mean_p_dof_indices;
+  std::vector<dof_id_type> local_lm_dof_indices;
   std::vector<dof_id_type> global_lm_dof_indices;
 
   // local solutions at quadrature points
@@ -239,6 +255,8 @@ private:
   std::vector<Number> v_dof_values;
   std::vector<Number> lm_v_dof_values;
   std::vector<Number> p_dof_values;
+  Number mean_pressure_dof_value;
+  Number local_lm_dof_value;
   Number global_lm_dof_value;
 
   // Number of dofs on elem

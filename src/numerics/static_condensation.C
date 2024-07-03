@@ -193,10 +193,10 @@ StaticCondensation::init()
       }
     }
 
-    local_data.Acc.resize(condensed_dof_size, condensed_dof_size);
-    local_data.Acu.resize(condensed_dof_size, uncondensed_dof_size);
-    local_data.Auc.resize(uncondensed_dof_size, condensed_dof_size);
-    local_data.Auu.resize(uncondensed_dof_size, uncondensed_dof_size);
+    local_data.Acc.setZero(condensed_dof_size, condensed_dof_size);
+    local_data.Acu.setZero(condensed_dof_size, uncondensed_dof_size);
+    local_data.Auc.setZero(uncondensed_dof_size, condensed_dof_size);
+    local_data.Auu.setZero(uncondensed_dof_size, uncondensed_dof_size);
   }
   _local_uncondensed_dofs.assign(local_uncondensed_dofs.begin(), local_uncondensed_dofs.end());
   local_uncondensed_dofs.clear();
@@ -342,12 +342,12 @@ StaticCondensation::setup()
   _reduced_sys_mat->zero();
 
   const static Eigen::IOFormat CSVFormat(Eigen::StreamPrecision, 0, ", ", "\n");
-  auto original_flags = libMesh::out.flags();
-  libMesh::out << std::fixed << std::setprecision(2);
 
   for (auto & [elem_id, local_data] : _elem_to_local_data)
   {
     libmesh_ignore(elem_id);
+    auto original_flags = libMesh::out.flags();
+    libMesh::out << std::fixed << std::setprecision(2);
     libMesh::out << "Matrix for elem ID " << elem_id << ":\n"
                  << local_data.Acc.format(CSVFormat) << std::endl;
     libMesh::out.flags(original_flags);
