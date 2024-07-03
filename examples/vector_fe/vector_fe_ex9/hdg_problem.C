@@ -83,7 +83,7 @@ HDGProblem::init()
   vector_phi_face = &vector_fe_face->get_phi();
   scalar_phi_face = &scalar_fe_face->get_phi();
   lm_phi_face = &lm_fe_face->get_phi();
-  JxW_face = &vector_fe_face->get_JxW();
+  JxW_face = &scalar_fe_face->get_JxW();
   qface_point = &vector_fe_face->get_xyz();
   normals = &vector_fe_face->get_normals();
 
@@ -343,7 +343,7 @@ HDGProblem::pressure_face_residual(DenseVector<Number> & R)
     const Gradient vel(lm_u_sol[qp], lm_v_sol[qp]);
     const auto vdotn = vel * (*normals)[qp];
     for (const auto i : make_range(p_n_dofs))
-      R(i) += (*JxW_face)[qp] * vdotn * (*scalar_phi_face)[i][qp];
+      R(i) += (*JxW_face)[qp] * vdotn * ((*scalar_phi_face)[i][qp] - qbar[i]);
   }
 }
 
@@ -356,11 +356,11 @@ HDGProblem::pressure_face_jacobian(DenseMatrix<Number> & Jplm_u, DenseMatrix<Num
       {
         {
           const Gradient phi((*lm_phi_face)[j][qp], 0);
-          Jplm_u(i, j) += (*JxW_face)[qp] * phi * (*normals)[qp] * (*scalar_phi_face)[i][qp];
+          Jplm_u(i, j) += (*JxW_face)[qp] * phi * (*normals)[qp] * ((*scalar_phi_face)[i][qp] - qbar[i]);
         }
         {
           const Gradient phi(0, (*lm_phi_face)[j][qp]);
-          Jplm_v(i, j) += (*JxW_face)[qp] * phi * (*normals)[qp] * (*scalar_phi_face)[i][qp];
+          Jplm_v(i, j) += (*JxW_face)[qp] * phi * (*normals)[qp] * ((*scalar_phi_face)[i][qp] - qbar[i]);
         }
       }
 }
@@ -398,7 +398,7 @@ HDGProblem::pressure_dirichlet_residual(DenseVector<Number> & R)
     const auto dirichlet_velocity = get_dirichlet_velocity(qp);
     const auto vdotn = dirichlet_velocity * (*normals)[qp];
     for (const auto i : make_range(p_n_dofs))
-      R(i) += (*JxW_face)[qp] * vdotn * (*scalar_phi_face)[i][qp];
+      R(i) += (*JxW_face)[qp] * vdotn * ((*scalar_phi_face)[i][qp] - qbar[i]);
   }
 }
 
@@ -707,6 +707,27 @@ HDGProblem::lm_face_jacobian(const unsigned int vel_component,
 }
 
 void
+HDGProblem::compute_qbar(const Elem * const elem)
+{
+  libmesh_assert_msg(scalar_phi->size(), "Our volumetric phi should already be initialized");
+  qbar.assign(scalar_phi->size(), 0);
+  Real area = 0;
+  for (auto side : elem->side_index_range())
+  {
+    scalar_fe_face->reinit(elem, side);
+    for (const auto qp : make_range(qface->n_points()))
+    {
+      area += (*JxW_face)[qp];
+      for (const auto i : index_range(*scalar_phi))
+        qbar[i] += (*JxW_face)[qp] * (*scalar_phi_face)[i][qp];
+    }
+  }
+
+  for (auto & qbar_el : qbar)
+    qbar_el /= area;
+}
+
+void
 HDGProblem::residual(const NumericVector<Number> & X,
                      NumericVector<Number> & R,
                      NonlinearImplicitSystem & S)
@@ -780,6 +801,8 @@ HDGProblem::residual(const NumericVector<Number> & X,
     compute_qp_soln(qv_sol, qrule->n_points(), *vector_phi, qv_dof_values);
     compute_qp_soln(v_sol, qrule->n_points(), *scalar_phi, v_dof_values);
     compute_qp_soln(p_sol, qrule->n_points(), *scalar_phi, p_dof_values);
+
+    compute_qbar(elem);
 
     //
     // compute volumetric residuals and Jacobians
@@ -973,6 +996,8 @@ HDGProblem::jacobian(const NumericVector<Number> & X,
     compute_qp_soln(qv_sol, qrule->n_points(), *vector_phi, qv_dof_values);
     compute_qp_soln(v_sol, qrule->n_points(), *scalar_phi, v_dof_values);
     compute_qp_soln(p_sol, qrule->n_points(), *scalar_phi, p_dof_values);
+
+    compute_qbar(elem);
 
     //
     // compute volumetric residuals and Jacobians

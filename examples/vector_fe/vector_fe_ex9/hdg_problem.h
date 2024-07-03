@@ -188,6 +188,8 @@ private:
                         DenseMatrix<Number> & Jlm_lmu,
                         DenseMatrix<Number> & Jlm_lmv);
 
+  void compute_qbar(const Elem * const elem);
+
   // volume
   const std::vector<Real> * JxW;
   const std::vector<Point> * q_point;
