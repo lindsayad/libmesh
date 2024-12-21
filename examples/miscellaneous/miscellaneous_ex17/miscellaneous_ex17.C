@@ -48,9 +48,28 @@
 #include "petscksp.h"
 
 #include <iostream>
+#include <iostream>
+#include <sstream>
+#include <vector>
+#include <string>
 
 // Bring in everything from the libMesh namespace
 using namespace libMesh;
+
+// Function to join elements of a vector into a single string with a given delimiter
+std::string join(const std::vector<dof_id_type> & elements, const std::string & delimiter)
+{
+  std::ostringstream os;
+  for (auto it = elements.begin(); it != elements.end(); ++it)
+    {
+      os << std::to_string(*it);
+      if (std::next(it) != elements.end())
+        { // Don't add delimiter after the last element
+          os << delimiter;
+        }
+    }
+  return os.str();
+}
 
 void assemble_poisson(EquationSystems & es,
                       const std::string & system_name);
@@ -167,8 +186,6 @@ int main (int argc, char ** argv)
   // All done.
   return 0;
 }
-
-
 
 // We now define the matrix assembly function for the
 // Poisson system.  We need to first compute element
@@ -466,6 +483,8 @@ void assemble_poisson(EquationSystems & es,
       // for this element.  Add them to the global matrix and
       // right-hand-side vector.  The  SparseMatrix::add_matrix()
       // and  NumericVector::add_vector() members do this for us.
+      libMesh::out << "On processor " << dof_map.processor_id()
+                   << " adding 'nonzeroes' for dof indices " << join(dof_indices, ",") << std::endl;
       matrix.add_matrix(Ke, dof_indices);
       pre_matrix.add_matrix(Ke, dof_indices);
       system.rhs->add_vector    (Fe, dof_indices);
