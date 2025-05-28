@@ -20,7 +20,6 @@ include_HEADERS =  \
         base/auto_ptr.h \
         base/dirichlet_boundaries.h \
         base/dof_map.h \
-        base/dof_map_base.h \
         base/dof_object.h \
         base/factory.h \
         base/float128_shims.h \
@@ -43,6 +42,7 @@ include_HEADERS =  \
         base/reference_counter.h \
         base/single_predicates.h \
         base/sparsity_pattern.h \
+        base/standard_dof_map.h \
         base/variable.h \
         base/variant_filter_iterator.h \
         enums/enum_convergence_flags.h \

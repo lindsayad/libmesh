@@ -9,7 +9,6 @@ BUILT_SOURCES = \
         auto_ptr.h \
         dirichlet_boundaries.h \
         dof_map.h \
-        dof_map_base.h \
         dof_object.h \
         factory.h \
         float128_shims.h \
@@ -33,6 +32,7 @@ BUILT_SOURCES = \
         reference_counter.h \
         single_predicates.h \
         sparsity_pattern.h \
+        standard_dof_map.h \
         variable.h \
         variant_filter_iterator.h \
         enum_convergence_flags.h \
@@ -624,9 +624,6 @@ dirichlet_boundaries.h: $(top_srcdir)/include/base/dirichlet_boundaries.h
 dof_map.h: $(top_srcdir)/include/base/dof_map.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
-dof_map_base.h: $(top_srcdir)/include/base/dof_map_base.h
-	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
-
 dof_object.h: $(top_srcdir)/include/base/dof_object.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
@@ -694,6 +691,9 @@ single_predicates.h: $(top_srcdir)/include/base/single_predicates.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 sparsity_pattern.h: $(top_srcdir)/include/base/sparsity_pattern.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+standard_dof_map.h: $(top_srcdir)/include/base/standard_dof_map.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 variable.h: $(top_srcdir)/include/base/variable.h
