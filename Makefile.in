@@ -267,15 +267,15 @@ am__DEPENDENCIES_2 = $(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
 @LIBMESH_DBG_MODE_TRUE@	contrib/libcontrib_dbg.la \
 @LIBMESH_DBG_MODE_TRUE@	$(am__DEPENDENCIES_2)
 am__libmesh_dbg_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
-	src/base/dof_map.C src/base/dof_map_base.C \
-	src/base/dof_map_constraints.C src/base/dof_object.C \
-	src/base/libmesh.C src/base/libmesh_common.C \
-	src/base/libmesh_singleton.C src/base/libmesh_version.C \
-	src/base/periodic_boundaries.C src/base/periodic_boundary.C \
-	src/base/periodic_boundary_base.C src/base/print_trace.C \
-	src/base/reference_counted_object.C \
+	src/base/dof_map.C src/base/dof_map_constraints.C \
+	src/base/dof_object.C src/base/libmesh.C \
+	src/base/libmesh_common.C src/base/libmesh_singleton.C \
+	src/base/libmesh_version.C src/base/periodic_boundaries.C \
+	src/base/periodic_boundary.C src/base/periodic_boundary_base.C \
+	src/base/print_trace.C src/base/reference_counted_object.C \
 	src/base/reference_counter.C src/base/single_predicates.C \
-	src/base/sparsity_pattern.C src/base/variable.C \
+	src/base/sparsity_pattern.C src/base/standard_dof_map.C \
+	src/base/variable.C \
 	src/error_estimation/adjoint_refinement_estimator.C \
 	src/error_estimation/adjoint_residual_error_estimator.C \
 	src/error_estimation/discontinuity_measure.C \
@@ -588,7 +588,6 @@ am__libmesh_dbg_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_1 = src/base/libmesh_dbg_la-dirichlet_boundary.lo \
 	src/base/libmesh_dbg_la-dof_map.lo \
-	src/base/libmesh_dbg_la-dof_map_base.lo \
 	src/base/libmesh_dbg_la-dof_map_constraints.lo \
 	src/base/libmesh_dbg_la-dof_object.lo \
 	src/base/libmesh_dbg_la-libmesh.lo \
@@ -603,6 +602,7 @@ am__objects_1 = src/base/libmesh_dbg_la-dirichlet_boundary.lo \
 	src/base/libmesh_dbg_la-reference_counter.lo \
 	src/base/libmesh_dbg_la-single_predicates.lo \
 	src/base/libmesh_dbg_la-sparsity_pattern.lo \
+	src/base/libmesh_dbg_la-standard_dof_map.lo \
 	src/base/libmesh_dbg_la-variable.lo \
 	src/error_estimation/libmesh_dbg_la-adjoint_refinement_estimator.lo \
 	src/error_estimation/libmesh_dbg_la-adjoint_residual_error_estimator.lo \
@@ -1072,15 +1072,15 @@ libmesh_dbg_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @LIBMESH_DEVEL_MODE_TRUE@	contrib/libcontrib_devel.la \
 @LIBMESH_DEVEL_MODE_TRUE@	$(am__DEPENDENCIES_2)
 am__libmesh_devel_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
-	src/base/dof_map.C src/base/dof_map_base.C \
-	src/base/dof_map_constraints.C src/base/dof_object.C \
-	src/base/libmesh.C src/base/libmesh_common.C \
-	src/base/libmesh_singleton.C src/base/libmesh_version.C \
-	src/base/periodic_boundaries.C src/base/periodic_boundary.C \
-	src/base/periodic_boundary_base.C src/base/print_trace.C \
-	src/base/reference_counted_object.C \
+	src/base/dof_map.C src/base/dof_map_constraints.C \
+	src/base/dof_object.C src/base/libmesh.C \
+	src/base/libmesh_common.C src/base/libmesh_singleton.C \
+	src/base/libmesh_version.C src/base/periodic_boundaries.C \
+	src/base/periodic_boundary.C src/base/periodic_boundary_base.C \
+	src/base/print_trace.C src/base/reference_counted_object.C \
 	src/base/reference_counter.C src/base/single_predicates.C \
-	src/base/sparsity_pattern.C src/base/variable.C \
+	src/base/sparsity_pattern.C src/base/standard_dof_map.C \
+	src/base/variable.C \
 	src/error_estimation/adjoint_refinement_estimator.C \
 	src/error_estimation/adjoint_residual_error_estimator.C \
 	src/error_estimation/discontinuity_measure.C \
@@ -1392,7 +1392,6 @@ am__libmesh_devel_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
 	src/utils/tree_node.C src/utils/utility.C src/utils/xdr_cxx.C
 am__objects_2 = src/base/libmesh_devel_la-dirichlet_boundary.lo \
 	src/base/libmesh_devel_la-dof_map.lo \
-	src/base/libmesh_devel_la-dof_map_base.lo \
 	src/base/libmesh_devel_la-dof_map_constraints.lo \
 	src/base/libmesh_devel_la-dof_object.lo \
 	src/base/libmesh_devel_la-libmesh.lo \
@@ -1407,6 +1406,7 @@ am__objects_2 = src/base/libmesh_devel_la-dirichlet_boundary.lo \
 	src/base/libmesh_devel_la-reference_counter.lo \
 	src/base/libmesh_devel_la-single_predicates.lo \
 	src/base/libmesh_devel_la-sparsity_pattern.lo \
+	src/base/libmesh_devel_la-standard_dof_map.lo \
 	src/base/libmesh_devel_la-variable.lo \
 	src/error_estimation/libmesh_devel_la-adjoint_refinement_estimator.lo \
 	src/error_estimation/libmesh_devel_la-adjoint_residual_error_estimator.lo \
@@ -1873,15 +1873,15 @@ libmesh_devel_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @LIBMESH_OPROF_MODE_TRUE@	contrib/libcontrib_oprof.la \
 @LIBMESH_OPROF_MODE_TRUE@	$(am__DEPENDENCIES_2)
 am__libmesh_oprof_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
-	src/base/dof_map.C src/base/dof_map_base.C \
-	src/base/dof_map_constraints.C src/base/dof_object.C \
-	src/base/libmesh.C src/base/libmesh_common.C \
-	src/base/libmesh_singleton.C src/base/libmesh_version.C \
-	src/base/periodic_boundaries.C src/base/periodic_boundary.C \
-	src/base/periodic_boundary_base.C src/base/print_trace.C \
-	src/base/reference_counted_object.C \
+	src/base/dof_map.C src/base/dof_map_constraints.C \
+	src/base/dof_object.C src/base/libmesh.C \
+	src/base/libmesh_common.C src/base/libmesh_singleton.C \
+	src/base/libmesh_version.C src/base/periodic_boundaries.C \
+	src/base/periodic_boundary.C src/base/periodic_boundary_base.C \
+	src/base/print_trace.C src/base/reference_counted_object.C \
 	src/base/reference_counter.C src/base/single_predicates.C \
-	src/base/sparsity_pattern.C src/base/variable.C \
+	src/base/sparsity_pattern.C src/base/standard_dof_map.C \
+	src/base/variable.C \
 	src/error_estimation/adjoint_refinement_estimator.C \
 	src/error_estimation/adjoint_residual_error_estimator.C \
 	src/error_estimation/discontinuity_measure.C \
@@ -2193,7 +2193,6 @@ am__libmesh_oprof_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
 	src/utils/tree_node.C src/utils/utility.C src/utils/xdr_cxx.C
 am__objects_3 = src/base/libmesh_oprof_la-dirichlet_boundary.lo \
 	src/base/libmesh_oprof_la-dof_map.lo \
-	src/base/libmesh_oprof_la-dof_map_base.lo \
 	src/base/libmesh_oprof_la-dof_map_constraints.lo \
 	src/base/libmesh_oprof_la-dof_object.lo \
 	src/base/libmesh_oprof_la-libmesh.lo \
@@ -2208,6 +2207,7 @@ am__objects_3 = src/base/libmesh_oprof_la-dirichlet_boundary.lo \
 	src/base/libmesh_oprof_la-reference_counter.lo \
 	src/base/libmesh_oprof_la-single_predicates.lo \
 	src/base/libmesh_oprof_la-sparsity_pattern.lo \
+	src/base/libmesh_oprof_la-standard_dof_map.lo \
 	src/base/libmesh_oprof_la-variable.lo \
 	src/error_estimation/libmesh_oprof_la-adjoint_refinement_estimator.lo \
 	src/error_estimation/libmesh_oprof_la-adjoint_residual_error_estimator.lo \
@@ -2674,15 +2674,15 @@ libmesh_oprof_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @LIBMESH_OPT_MODE_TRUE@	contrib/libcontrib_opt.la \
 @LIBMESH_OPT_MODE_TRUE@	$(am__DEPENDENCIES_2)
 am__libmesh_opt_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
-	src/base/dof_map.C src/base/dof_map_base.C \
-	src/base/dof_map_constraints.C src/base/dof_object.C \
-	src/base/libmesh.C src/base/libmesh_common.C \
-	src/base/libmesh_singleton.C src/base/libmesh_version.C \
-	src/base/periodic_boundaries.C src/base/periodic_boundary.C \
-	src/base/periodic_boundary_base.C src/base/print_trace.C \
-	src/base/reference_counted_object.C \
+	src/base/dof_map.C src/base/dof_map_constraints.C \
+	src/base/dof_object.C src/base/libmesh.C \
+	src/base/libmesh_common.C src/base/libmesh_singleton.C \
+	src/base/libmesh_version.C src/base/periodic_boundaries.C \
+	src/base/periodic_boundary.C src/base/periodic_boundary_base.C \
+	src/base/print_trace.C src/base/reference_counted_object.C \
 	src/base/reference_counter.C src/base/single_predicates.C \
-	src/base/sparsity_pattern.C src/base/variable.C \
+	src/base/sparsity_pattern.C src/base/standard_dof_map.C \
+	src/base/variable.C \
 	src/error_estimation/adjoint_refinement_estimator.C \
 	src/error_estimation/adjoint_residual_error_estimator.C \
 	src/error_estimation/discontinuity_measure.C \
@@ -2994,7 +2994,6 @@ am__libmesh_opt_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
 	src/utils/tree_node.C src/utils/utility.C src/utils/xdr_cxx.C
 am__objects_4 = src/base/libmesh_opt_la-dirichlet_boundary.lo \
 	src/base/libmesh_opt_la-dof_map.lo \
-	src/base/libmesh_opt_la-dof_map_base.lo \
 	src/base/libmesh_opt_la-dof_map_constraints.lo \
 	src/base/libmesh_opt_la-dof_object.lo \
 	src/base/libmesh_opt_la-libmesh.lo \
@@ -3009,6 +3008,7 @@ am__objects_4 = src/base/libmesh_opt_la-dirichlet_boundary.lo \
 	src/base/libmesh_opt_la-reference_counter.lo \
 	src/base/libmesh_opt_la-single_predicates.lo \
 	src/base/libmesh_opt_la-sparsity_pattern.lo \
+	src/base/libmesh_opt_la-standard_dof_map.lo \
 	src/base/libmesh_opt_la-variable.lo \
 	src/error_estimation/libmesh_opt_la-adjoint_refinement_estimator.lo \
 	src/error_estimation/libmesh_opt_la-adjoint_residual_error_estimator.lo \
@@ -3474,15 +3474,15 @@ libmesh_opt_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CXX \
 @LIBMESH_PROF_MODE_TRUE@	contrib/libcontrib_prof.la \
 @LIBMESH_PROF_MODE_TRUE@	$(am__DEPENDENCIES_2)
 am__libmesh_prof_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
-	src/base/dof_map.C src/base/dof_map_base.C \
-	src/base/dof_map_constraints.C src/base/dof_object.C \
-	src/base/libmesh.C src/base/libmesh_common.C \
-	src/base/libmesh_singleton.C src/base/libmesh_version.C \
-	src/base/periodic_boundaries.C src/base/periodic_boundary.C \
-	src/base/periodic_boundary_base.C src/base/print_trace.C \
-	src/base/reference_counted_object.C \
+	src/base/dof_map.C src/base/dof_map_constraints.C \
+	src/base/dof_object.C src/base/libmesh.C \
+	src/base/libmesh_common.C src/base/libmesh_singleton.C \
+	src/base/libmesh_version.C src/base/periodic_boundaries.C \
+	src/base/periodic_boundary.C src/base/periodic_boundary_base.C \
+	src/base/print_trace.C src/base/reference_counted_object.C \
 	src/base/reference_counter.C src/base/single_predicates.C \
-	src/base/sparsity_pattern.C src/base/variable.C \
+	src/base/sparsity_pattern.C src/base/standard_dof_map.C \
+	src/base/variable.C \
 	src/error_estimation/adjoint_refinement_estimator.C \
 	src/error_estimation/adjoint_residual_error_estimator.C \
 	src/error_estimation/discontinuity_measure.C \
@@ -3794,7 +3794,6 @@ am__libmesh_prof_la_SOURCES_DIST = src/base/dirichlet_boundary.C \
 	src/utils/tree_node.C src/utils/utility.C src/utils/xdr_cxx.C
 am__objects_5 = src/base/libmesh_prof_la-dirichlet_boundary.lo \
 	src/base/libmesh_prof_la-dof_map.lo \
-	src/base/libmesh_prof_la-dof_map_base.lo \
 	src/base/libmesh_prof_la-dof_map_constraints.lo \
 	src/base/libmesh_prof_la-dof_object.lo \
 	src/base/libmesh_prof_la-libmesh.lo \
@@ -3809,6 +3808,7 @@ am__objects_5 = src/base/libmesh_prof_la-dirichlet_boundary.lo \
 	src/base/libmesh_prof_la-reference_counter.lo \
 	src/base/libmesh_prof_la-single_predicates.lo \
 	src/base/libmesh_prof_la-sparsity_pattern.lo \
+	src/base/libmesh_prof_la-standard_dof_map.lo \
 	src/base/libmesh_prof_la-variable.lo \
 	src/error_estimation/libmesh_prof_la-adjoint_refinement_estimator.lo \
 	src/error_estimation/libmesh_prof_la-adjoint_residual_error_estimator.lo \
@@ -4733,7 +4733,6 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/apps/$(DEPDIR)/splitter_opt-splitter.Po \
 	src/base/$(DEPDIR)/libmesh_dbg_la-dirichlet_boundary.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-dof_map.Plo \
-	src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-dof_object.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-libmesh.Plo \
@@ -4748,10 +4747,10 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/base/$(DEPDIR)/libmesh_dbg_la-reference_counter.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-single_predicates.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-sparsity_pattern.Plo \
+	src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Plo \
 	src/base/$(DEPDIR)/libmesh_dbg_la-variable.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-dirichlet_boundary.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-dof_map.Plo \
-	src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-dof_object.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-libmesh.Plo \
@@ -4766,10 +4765,10 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/base/$(DEPDIR)/libmesh_devel_la-reference_counter.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-single_predicates.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-sparsity_pattern.Plo \
+	src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Plo \
 	src/base/$(DEPDIR)/libmesh_devel_la-variable.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-dirichlet_boundary.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-dof_map.Plo \
-	src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-dof_object.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-libmesh.Plo \
@@ -4784,10 +4783,10 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/base/$(DEPDIR)/libmesh_oprof_la-reference_counter.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-single_predicates.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-sparsity_pattern.Plo \
+	src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Plo \
 	src/base/$(DEPDIR)/libmesh_oprof_la-variable.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-dirichlet_boundary.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-dof_map.Plo \
-	src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-dof_object.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-libmesh.Plo \
@@ -4802,10 +4801,10 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/base/$(DEPDIR)/libmesh_opt_la-reference_counter.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-single_predicates.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-sparsity_pattern.Plo \
+	src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Plo \
 	src/base/$(DEPDIR)/libmesh_opt_la-variable.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-dirichlet_boundary.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-dof_map.Plo \
-	src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-dof_object.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-libmesh.Plo \
@@ -4820,6 +4819,7 @@ am__depfiles_remade = src/apps/$(DEPDIR)/amr_dbg-amr.Po \
 	src/base/$(DEPDIR)/libmesh_prof_la-reference_counter.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-single_predicates.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-sparsity_pattern.Plo \
+	src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Plo \
 	src/base/$(DEPDIR)/libmesh_prof_la-variable.Plo \
 	src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_refinement_estimator.Plo \
 	src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_residual_error_estimator.Plo \
@@ -7748,7 +7748,6 @@ DISTCLEANFILES = \
 libmesh_SOURCES = \
         src/base/dirichlet_boundary.C \
         src/base/dof_map.C \
-        src/base/dof_map_base.C \
         src/base/dof_map_constraints.C \
         src/base/dof_object.C \
         src/base/libmesh.C \
@@ -7763,6 +7762,7 @@ libmesh_SOURCES = \
         src/base/reference_counter.C \
         src/base/single_predicates.C \
         src/base/sparsity_pattern.C \
+        src/base/standard_dof_map.C \
         src/base/variable.C \
         src/error_estimation/adjoint_refinement_estimator.C \
         src/error_estimation/adjoint_residual_error_estimator.C \
@@ -8686,8 +8686,6 @@ src/base/libmesh_dbg_la-dirichlet_boundary.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_dbg_la-dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
-src/base/libmesh_dbg_la-dof_map_base.lo: src/base/$(am__dirstamp) \
-	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_dbg_la-dof_map_constraints.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_dbg_la-dof_object.lo: src/base/$(am__dirstamp) \
@@ -8715,6 +8713,8 @@ src/base/libmesh_dbg_la-reference_counter.lo:  \
 src/base/libmesh_dbg_la-single_predicates.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_dbg_la-sparsity_pattern.lo: src/base/$(am__dirstamp) \
+	src/base/$(DEPDIR)/$(am__dirstamp)
+src/base/libmesh_dbg_la-standard_dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_dbg_la-variable.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
@@ -9934,8 +9934,6 @@ src/base/libmesh_devel_la-dirichlet_boundary.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_devel_la-dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
-src/base/libmesh_devel_la-dof_map_base.lo: src/base/$(am__dirstamp) \
-	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_devel_la-dof_map_constraints.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_devel_la-dof_object.lo: src/base/$(am__dirstamp) \
@@ -9963,6 +9961,8 @@ src/base/libmesh_devel_la-reference_counter.lo:  \
 src/base/libmesh_devel_la-single_predicates.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_devel_la-sparsity_pattern.lo:  \
+	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
+src/base/libmesh_devel_la-standard_dof_map.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_devel_la-variable.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
@@ -11095,8 +11095,6 @@ src/base/libmesh_oprof_la-dirichlet_boundary.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_oprof_la-dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
-src/base/libmesh_oprof_la-dof_map_base.lo: src/base/$(am__dirstamp) \
-	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_oprof_la-dof_map_constraints.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_oprof_la-dof_object.lo: src/base/$(am__dirstamp) \
@@ -11124,6 +11122,8 @@ src/base/libmesh_oprof_la-reference_counter.lo:  \
 src/base/libmesh_oprof_la-single_predicates.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_oprof_la-sparsity_pattern.lo:  \
+	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
+src/base/libmesh_oprof_la-standard_dof_map.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_oprof_la-variable.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
@@ -12256,8 +12256,6 @@ src/base/libmesh_opt_la-dirichlet_boundary.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_opt_la-dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
-src/base/libmesh_opt_la-dof_map_base.lo: src/base/$(am__dirstamp) \
-	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_opt_la-dof_map_constraints.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_opt_la-dof_object.lo: src/base/$(am__dirstamp) \
@@ -12285,6 +12283,8 @@ src/base/libmesh_opt_la-reference_counter.lo:  \
 src/base/libmesh_opt_la-single_predicates.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_opt_la-sparsity_pattern.lo: src/base/$(am__dirstamp) \
+	src/base/$(DEPDIR)/$(am__dirstamp)
+src/base/libmesh_opt_la-standard_dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_opt_la-variable.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
@@ -13414,8 +13414,6 @@ src/base/libmesh_prof_la-dirichlet_boundary.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_prof_la-dof_map.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
-src/base/libmesh_prof_la-dof_map_base.lo: src/base/$(am__dirstamp) \
-	src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_prof_la-dof_map_constraints.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_prof_la-dof_object.lo: src/base/$(am__dirstamp) \
@@ -13443,6 +13441,8 @@ src/base/libmesh_prof_la-reference_counter.lo:  \
 src/base/libmesh_prof_la-single_predicates.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_prof_la-sparsity_pattern.lo:  \
+	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
+src/base/libmesh_prof_la-standard_dof_map.lo:  \
 	src/base/$(am__dirstamp) src/base/$(DEPDIR)/$(am__dirstamp)
 src/base/libmesh_prof_la-variable.lo: src/base/$(am__dirstamp) \
 	src/base/$(DEPDIR)/$(am__dirstamp)
@@ -15109,7 +15109,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/apps/$(DEPDIR)/splitter_opt-splitter.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-dirichlet_boundary.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-dof_map.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-dof_object.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-libmesh.Plo@am__quote@ # am--include-marker
@@ -15124,10 +15123,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-reference_counter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-single_predicates.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-sparsity_pattern.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_dbg_la-variable.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-dirichlet_boundary.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-dof_map.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-dof_object.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-libmesh.Plo@am__quote@ # am--include-marker
@@ -15142,10 +15141,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-reference_counter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-single_predicates.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-sparsity_pattern.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_devel_la-variable.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-dirichlet_boundary.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-dof_map.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-dof_object.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-libmesh.Plo@am__quote@ # am--include-marker
@@ -15160,10 +15159,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-reference_counter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-single_predicates.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-sparsity_pattern.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_oprof_la-variable.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-dirichlet_boundary.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-dof_map.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-dof_object.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-libmesh.Plo@am__quote@ # am--include-marker
@@ -15178,10 +15177,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-reference_counter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-single_predicates.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-sparsity_pattern.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_opt_la-variable.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-dirichlet_boundary.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-dof_map.Plo@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-dof_object.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-libmesh.Plo@am__quote@ # am--include-marker
@@ -15196,6 +15195,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-reference_counter.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-single_predicates.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-sparsity_pattern.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/base/$(DEPDIR)/libmesh_prof_la-variable.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_refinement_estimator.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_residual_error_estimator.Plo@am__quote@ # am--include-marker
@@ -17507,13 +17507,6 @@ src/base/libmesh_dbg_la-dof_map.lo: src/base/dof_map.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_dbg_la-dof_map.lo `test -f 'src/base/dof_map.C' || echo '$(srcdir)/'`src/base/dof_map.C
 
-src/base/libmesh_dbg_la-dof_map_base.lo: src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_dbg_la-dof_map_base.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Tpo -c -o src/base/libmesh_dbg_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Tpo src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/dof_map_base.C' object='src/base/libmesh_dbg_la-dof_map_base.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_dbg_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-
 src/base/libmesh_dbg_la-dof_map_constraints.lo: src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_dbg_la-dof_map_constraints.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Tpo -c -o src/base/libmesh_dbg_la-dof_map_constraints.lo `test -f 'src/base/dof_map_constraints.C' || echo '$(srcdir)/'`src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Tpo src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Plo
@@ -17611,6 +17604,13 @@ src/base/libmesh_dbg_la-sparsity_pattern.lo: src/base/sparsity_pattern.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/sparsity_pattern.C' object='src/base/libmesh_dbg_la-sparsity_pattern.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_dbg_la-sparsity_pattern.lo `test -f 'src/base/sparsity_pattern.C' || echo '$(srcdir)/'`src/base/sparsity_pattern.C
+
+src/base/libmesh_dbg_la-standard_dof_map.lo: src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_dbg_la-standard_dof_map.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Tpo -c -o src/base/libmesh_dbg_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Tpo src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/standard_dof_map.C' object='src/base/libmesh_dbg_la-standard_dof_map.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_dbg_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
 
 src/base/libmesh_dbg_la-variable.lo: src/base/variable.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_dbg_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_dbg_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_dbg_la-variable.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_dbg_la-variable.Tpo -c -o src/base/libmesh_dbg_la-variable.lo `test -f 'src/base/variable.C' || echo '$(srcdir)/'`src/base/variable.C
@@ -20804,13 +20804,6 @@ src/base/libmesh_devel_la-dof_map.lo: src/base/dof_map.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_devel_la-dof_map.lo `test -f 'src/base/dof_map.C' || echo '$(srcdir)/'`src/base/dof_map.C
 
-src/base/libmesh_devel_la-dof_map_base.lo: src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_devel_la-dof_map_base.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Tpo -c -o src/base/libmesh_devel_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Tpo src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/dof_map_base.C' object='src/base/libmesh_devel_la-dof_map_base.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_devel_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-
 src/base/libmesh_devel_la-dof_map_constraints.lo: src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_devel_la-dof_map_constraints.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Tpo -c -o src/base/libmesh_devel_la-dof_map_constraints.lo `test -f 'src/base/dof_map_constraints.C' || echo '$(srcdir)/'`src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Tpo src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Plo
@@ -20908,6 +20901,13 @@ src/base/libmesh_devel_la-sparsity_pattern.lo: src/base/sparsity_pattern.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/sparsity_pattern.C' object='src/base/libmesh_devel_la-sparsity_pattern.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_devel_la-sparsity_pattern.lo `test -f 'src/base/sparsity_pattern.C' || echo '$(srcdir)/'`src/base/sparsity_pattern.C
+
+src/base/libmesh_devel_la-standard_dof_map.lo: src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_devel_la-standard_dof_map.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Tpo -c -o src/base/libmesh_devel_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Tpo src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/standard_dof_map.C' object='src/base/libmesh_devel_la-standard_dof_map.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_devel_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
 
 src/base/libmesh_devel_la-variable.lo: src/base/variable.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_devel_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_devel_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_devel_la-variable.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_devel_la-variable.Tpo -c -o src/base/libmesh_devel_la-variable.lo `test -f 'src/base/variable.C' || echo '$(srcdir)/'`src/base/variable.C
@@ -24101,13 +24101,6 @@ src/base/libmesh_oprof_la-dof_map.lo: src/base/dof_map.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_oprof_la-dof_map.lo `test -f 'src/base/dof_map.C' || echo '$(srcdir)/'`src/base/dof_map.C
 
-src/base/libmesh_oprof_la-dof_map_base.lo: src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_oprof_la-dof_map_base.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Tpo -c -o src/base/libmesh_oprof_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Tpo src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/dof_map_base.C' object='src/base/libmesh_oprof_la-dof_map_base.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_oprof_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-
 src/base/libmesh_oprof_la-dof_map_constraints.lo: src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_oprof_la-dof_map_constraints.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Tpo -c -o src/base/libmesh_oprof_la-dof_map_constraints.lo `test -f 'src/base/dof_map_constraints.C' || echo '$(srcdir)/'`src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Tpo src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Plo
@@ -24205,6 +24198,13 @@ src/base/libmesh_oprof_la-sparsity_pattern.lo: src/base/sparsity_pattern.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/sparsity_pattern.C' object='src/base/libmesh_oprof_la-sparsity_pattern.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_oprof_la-sparsity_pattern.lo `test -f 'src/base/sparsity_pattern.C' || echo '$(srcdir)/'`src/base/sparsity_pattern.C
+
+src/base/libmesh_oprof_la-standard_dof_map.lo: src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_oprof_la-standard_dof_map.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Tpo -c -o src/base/libmesh_oprof_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Tpo src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/standard_dof_map.C' object='src/base/libmesh_oprof_la-standard_dof_map.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_oprof_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
 
 src/base/libmesh_oprof_la-variable.lo: src/base/variable.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_oprof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_oprof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_oprof_la-variable.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_oprof_la-variable.Tpo -c -o src/base/libmesh_oprof_la-variable.lo `test -f 'src/base/variable.C' || echo '$(srcdir)/'`src/base/variable.C
@@ -27398,13 +27398,6 @@ src/base/libmesh_opt_la-dof_map.lo: src/base/dof_map.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_opt_la-dof_map.lo `test -f 'src/base/dof_map.C' || echo '$(srcdir)/'`src/base/dof_map.C
 
-src/base/libmesh_opt_la-dof_map_base.lo: src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_opt_la-dof_map_base.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Tpo -c -o src/base/libmesh_opt_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Tpo src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/dof_map_base.C' object='src/base/libmesh_opt_la-dof_map_base.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_opt_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-
 src/base/libmesh_opt_la-dof_map_constraints.lo: src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_opt_la-dof_map_constraints.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Tpo -c -o src/base/libmesh_opt_la-dof_map_constraints.lo `test -f 'src/base/dof_map_constraints.C' || echo '$(srcdir)/'`src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Tpo src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Plo
@@ -27502,6 +27495,13 @@ src/base/libmesh_opt_la-sparsity_pattern.lo: src/base/sparsity_pattern.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/sparsity_pattern.C' object='src/base/libmesh_opt_la-sparsity_pattern.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_opt_la-sparsity_pattern.lo `test -f 'src/base/sparsity_pattern.C' || echo '$(srcdir)/'`src/base/sparsity_pattern.C
+
+src/base/libmesh_opt_la-standard_dof_map.lo: src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_opt_la-standard_dof_map.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Tpo -c -o src/base/libmesh_opt_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Tpo src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/standard_dof_map.C' object='src/base/libmesh_opt_la-standard_dof_map.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_opt_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
 
 src/base/libmesh_opt_la-variable.lo: src/base/variable.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_opt_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_opt_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_opt_la-variable.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_opt_la-variable.Tpo -c -o src/base/libmesh_opt_la-variable.lo `test -f 'src/base/variable.C' || echo '$(srcdir)/'`src/base/variable.C
@@ -30695,13 +30695,6 @@ src/base/libmesh_prof_la-dof_map.lo: src/base/dof_map.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_prof_la-dof_map.lo `test -f 'src/base/dof_map.C' || echo '$(srcdir)/'`src/base/dof_map.C
 
-src/base/libmesh_prof_la-dof_map_base.lo: src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_prof_la-dof_map_base.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Tpo -c -o src/base/libmesh_prof_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Tpo src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Plo
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/dof_map_base.C' object='src/base/libmesh_prof_la-dof_map_base.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_prof_la-dof_map_base.lo `test -f 'src/base/dof_map_base.C' || echo '$(srcdir)/'`src/base/dof_map_base.C
-
 src/base/libmesh_prof_la-dof_map_constraints.lo: src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_prof_la-dof_map_constraints.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Tpo -c -o src/base/libmesh_prof_la-dof_map_constraints.lo `test -f 'src/base/dof_map_constraints.C' || echo '$(srcdir)/'`src/base/dof_map_constraints.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Tpo src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Plo
@@ -30799,6 +30792,13 @@ src/base/libmesh_prof_la-sparsity_pattern.lo: src/base/sparsity_pattern.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/sparsity_pattern.C' object='src/base/libmesh_prof_la-sparsity_pattern.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_prof_la-sparsity_pattern.lo `test -f 'src/base/sparsity_pattern.C' || echo '$(srcdir)/'`src/base/sparsity_pattern.C
+
+src/base/libmesh_prof_la-standard_dof_map.lo: src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_prof_la-standard_dof_map.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Tpo -c -o src/base/libmesh_prof_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Tpo src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Plo
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/base/standard_dof_map.C' object='src/base/libmesh_prof_la-standard_dof_map.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -c -o src/base/libmesh_prof_la-standard_dof_map.lo `test -f 'src/base/standard_dof_map.C' || echo '$(srcdir)/'`src/base/standard_dof_map.C
 
 src/base/libmesh_prof_la-variable.lo: src/base/variable.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(LIBTOOL) $(AM_V_lt) --tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libmesh_prof_la_CPPFLAGS) $(CPPFLAGS) $(libmesh_prof_la_CXXFLAGS) $(CXXFLAGS) -MT src/base/libmesh_prof_la-variable.lo -MD -MP -MF src/base/$(DEPDIR)/libmesh_prof_la-variable.Tpo -c -o src/base/libmesh_prof_la-variable.lo `test -f 'src/base/variable.C' || echo '$(srcdir)/'`src/base/variable.C
@@ -35312,7 +35312,6 @@ distclean: distclean-recursive
 	-rm -f src/apps/$(DEPDIR)/splitter_opt-splitter.Po
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-libmesh.Plo
@@ -35327,10 +35326,10 @@ distclean: distclean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-libmesh.Plo
@@ -35345,10 +35344,10 @@ distclean: distclean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-libmesh.Plo
@@ -35363,10 +35362,10 @@ distclean: distclean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-libmesh.Plo
@@ -35381,10 +35380,10 @@ distclean: distclean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-libmesh.Plo
@@ -35399,6 +35398,7 @@ distclean: distclean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-variable.Plo
 	-rm -f src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_refinement_estimator.Plo
 	-rm -f src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_residual_error_estimator.Plo
@@ -37775,7 +37775,6 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/apps/$(DEPDIR)/splitter_opt-splitter.Po
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-libmesh.Plo
@@ -37790,10 +37789,10 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_dbg_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-libmesh.Plo
@@ -37808,10 +37807,10 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_devel_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-libmesh.Plo
@@ -37826,10 +37825,10 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_oprof_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-libmesh.Plo
@@ -37844,10 +37843,10 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_opt_la-variable.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dirichlet_boundary.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_map.Plo
-	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_map_base.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_map_constraints.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-dof_object.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-libmesh.Plo
@@ -37862,6 +37861,7 @@ maintainer-clean: maintainer-clean-recursive
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-reference_counter.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-single_predicates.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-sparsity_pattern.Plo
+	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-standard_dof_map.Plo
 	-rm -f src/base/$(DEPDIR)/libmesh_prof_la-variable.Plo
 	-rm -f src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_refinement_estimator.Plo
 	-rm -f src/error_estimation/$(DEPDIR)/libmesh_dbg_la-adjoint_residual_error_estimator.Plo

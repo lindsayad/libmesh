@@ -521,15 +521,15 @@ vtkversion = @vtkversion@
 # include the magic script!
 EXTRA_DIST = rebuild_makefile.sh
 BUILT_SOURCES = auto_ptr.h dirichlet_boundaries.h dof_map.h \
-	dof_map_base.h dof_object.h factory.h float128_shims.h \
-	getpot.h id_types.h libmesh.h libmesh_augment_std_namespace.h \
-	libmesh_base.h libmesh_common.h libmesh_documentation.h \
-	libmesh_exceptions.h libmesh_logging.h libmesh_singleton.h \
-	libmesh_version.h multi_predicates.h periodic_boundaries.h \
-	periodic_boundary.h periodic_boundary_base.h print_trace.h \
+	dof_object.h factory.h float128_shims.h getpot.h id_types.h \
+	libmesh.h libmesh_augment_std_namespace.h libmesh_base.h \
+	libmesh_common.h libmesh_documentation.h libmesh_exceptions.h \
+	libmesh_logging.h libmesh_singleton.h libmesh_version.h \
+	multi_predicates.h periodic_boundaries.h periodic_boundary.h \
+	periodic_boundary_base.h print_trace.h \
 	reference_counted_object.h reference_counter.h \
-	single_predicates.h sparsity_pattern.h variable.h \
-	variant_filter_iterator.h enum_convergence_flags.h \
+	single_predicates.h sparsity_pattern.h standard_dof_map.h \
+	variable.h variant_filter_iterator.h enum_convergence_flags.h \
 	enum_eigen_solver_type.h enum_elem_quality.h enum_elem_type.h \
 	enum_error_estimator_type.h enum_fe_family.h \
 	enum_inf_map_type.h enum_io_package.h enum_matrix_build_type.h \
@@ -953,9 +953,6 @@ dirichlet_boundaries.h: $(top_srcdir)/include/base/dirichlet_boundaries.h
 dof_map.h: $(top_srcdir)/include/base/dof_map.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
-dof_map_base.h: $(top_srcdir)/include/base/dof_map_base.h
-	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
-
 dof_object.h: $(top_srcdir)/include/base/dof_object.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
@@ -1023,6 +1020,9 @@ single_predicates.h: $(top_srcdir)/include/base/single_predicates.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 sparsity_pattern.h: $(top_srcdir)/include/base/sparsity_pattern.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+standard_dof_map.h: $(top_srcdir)/include/base/standard_dof_map.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 variable.h: $(top_srcdir)/include/base/variable.h
