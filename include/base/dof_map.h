@@ -15,8 +15,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#ifndef LIBMESH_DOF_MAP_BASE_H
-#define LIBMESH_DOF_MAP_BASE_H
+#ifndef LIBMESH_DOF_MAP_H
+#define LIBMESH_DOF_MAP_H
 
 #include "libmesh/id_types.h"
 #include "libmesh/parallel_object.h"
@@ -48,10 +48,10 @@ class Node;
  * it does not require its own partitioning capabilities. Consequently, partitioning interfaces
  * are not present in this base interface
  */
-class DofMapBase : public ParallelObject
+class DofMap : public ParallelObject
 {
 public:
-  DofMapBase(const Parallel::Communicator & comm);
+  DofMap(const Parallel::Communicator & comm);
 
   /**
    * \returns The number of variables in the global solution vector. Defaults
@@ -182,35 +182,35 @@ protected:
 #endif
 };
 
-inline dof_id_type DofMapBase::first_dof(const processor_id_type proc) const
+inline dof_id_type DofMap::first_dof(const processor_id_type proc) const
 {
   libmesh_assert_less(proc, _first_df.size());
   return _first_df[proc];
 }
 
-inline dof_id_type DofMapBase::end_dof(const processor_id_type proc) const
+inline dof_id_type DofMap::end_dof(const processor_id_type proc) const
 {
   libmesh_assert_less(proc, _end_df.size());
   return _end_df[proc];
 }
 
-inline dof_id_type DofMapBase::n_dofs_on_processor(const processor_id_type proc) const
+inline dof_id_type DofMap::n_dofs_on_processor(const processor_id_type proc) const
 {
   libmesh_assert_less(proc, _first_df.size());
   return cast_int<dof_id_type>(_end_df[proc] - _first_df[proc]);
 }
 
-inline dof_id_type DofMapBase::first_old_dof(const processor_id_type proc) const
+inline dof_id_type DofMap::first_old_dof(const processor_id_type proc) const
 {
   libmesh_assert_less(proc, _first_old_df.size());
   return _first_old_df[proc];
 }
 
-inline dof_id_type DofMapBase::end_old_dof(const processor_id_type proc) const
+inline dof_id_type DofMap::end_old_dof(const processor_id_type proc) const
 {
   libmesh_assert_less(proc, _end_old_df.size());
   return _end_old_df[proc];
 }
 
 }
-#endif // LIBMESH_DOF_MAP_BASE_H
+#endif // LIBMESH_DOF_MAP_H

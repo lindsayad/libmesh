@@ -61,7 +61,7 @@ class CouplingMatrix;
 class DefaultCoupling;
 class DirichletBoundary;
 class DirichletBoundaries;
-class DofMap;
+class StandardDofMap;
 class DofObject;
 class FEType;
 class MeshBase;
@@ -176,8 +176,8 @@ class NodeConstraints : public std::map<const Node *,
  * \date 2002-2007
  * \brief Manages the degrees of freedom (DOFs) in a simulation.
  */
-class DofMap : public DofMapBase,
-               public ReferenceCountedObject<DofMap>
+class StandardDofMap : public DofMap,
+                       public ReferenceCountedObject<StandardDofMap>
 {
 public:
 
@@ -187,13 +187,13 @@ public:
    * we are contained in, which defines our communication space.
    */
   explicit
-  DofMap(const unsigned int sys_number,
+  StandardDofMap(const unsigned int sys_number,
          MeshBase & mesh);
 
   /**
    * Destructor.
    */
-  ~DofMap();
+  ~StandardDofMap();
 
   /**
    * Backwards compatibility for prior AugmentSparsityPattern users.
@@ -2164,7 +2164,7 @@ private:
 // ------------------------------------------------------------
 // Dof Map inline member functions
 inline
-unsigned int DofMap::sys_number() const
+unsigned int StandardDofMap::sys_number() const
 {
   return _sys_number;
 }
@@ -2172,7 +2172,7 @@ unsigned int DofMap::sys_number() const
 
 
 inline
-const VariableGroup & DofMap::variable_group (const unsigned int g) const
+const VariableGroup & StandardDofMap::variable_group (const unsigned int g) const
 {
   libmesh_assert_less (g, _variable_groups.size());
 
@@ -2182,7 +2182,7 @@ const VariableGroup & DofMap::variable_group (const unsigned int g) const
 
 
 inline
-const Variable & DofMap::variable (const unsigned int c) const
+const Variable & StandardDofMap::variable (const unsigned int c) const
 {
   libmesh_assert_less (c, _variables.size());
 
@@ -2192,7 +2192,7 @@ const Variable & DofMap::variable (const unsigned int c) const
 
 
 inline
-Order DofMap::variable_order (const unsigned int c) const
+Order StandardDofMap::variable_order (const unsigned int c) const
 {
   libmesh_assert_less (c, _variables.size());
 
@@ -2202,7 +2202,7 @@ Order DofMap::variable_order (const unsigned int c) const
 
 
 inline
-Order DofMap::variable_group_order (const unsigned int vg) const
+Order StandardDofMap::variable_group_order (const unsigned int vg) const
 {
   libmesh_assert_less (vg, _variable_groups.size());
 
@@ -2212,7 +2212,7 @@ Order DofMap::variable_group_order (const unsigned int vg) const
 
 
 inline
-const FEType & DofMap::variable_type (const unsigned int c) const
+const FEType & StandardDofMap::variable_type (const unsigned int c) const
 {
   libmesh_assert_less (c, _variables.size());
 
@@ -2222,7 +2222,7 @@ const FEType & DofMap::variable_type (const unsigned int c) const
 
 
 inline
-const FEType & DofMap::variable_group_type (const unsigned int vg) const
+const FEType & StandardDofMap::variable_group_type (const unsigned int vg) const
 {
   libmesh_assert_less (vg, _variable_groups.size());
 
@@ -2234,7 +2234,7 @@ const FEType & DofMap::variable_group_type (const unsigned int vg) const
 
 
 inline
-bool DofMap::is_constrained_node (const Node *
+bool StandardDofMap::is_constrained_node (const Node *
 #ifdef LIBMESH_ENABLE_NODE_CONSTRAINTS
                                   node
 #endif
@@ -2250,7 +2250,7 @@ bool DofMap::is_constrained_node (const Node *
 
 
 inline
-bool DofMap::is_constrained_dof (const dof_id_type dof) const
+bool StandardDofMap::is_constrained_dof (const dof_id_type dof) const
 {
   if (_dof_constraints.count(dof))
     return true;
@@ -2260,7 +2260,7 @@ bool DofMap::is_constrained_dof (const dof_id_type dof) const
 
 
 inline
-bool DofMap::has_heterogeneous_adjoint_constraints (const unsigned int qoi_num) const
+bool StandardDofMap::has_heterogeneous_adjoint_constraints (const unsigned int qoi_num) const
 {
   AdjointDofConstraintValues::const_iterator it =
     _adjoint_constraint_values.find(qoi_num);
@@ -2274,8 +2274,8 @@ bool DofMap::has_heterogeneous_adjoint_constraints (const unsigned int qoi_num) 
 
 
 inline
-Number DofMap::has_heterogeneous_adjoint_constraint (const unsigned int qoi_num,
-                                                    const dof_id_type dof) const
+Number StandardDofMap::has_heterogeneous_adjoint_constraint (const unsigned int qoi_num,
+                                                             const dof_id_type dof) const
 {
   AdjointDofConstraintValues::const_iterator it =
     _adjoint_constraint_values.find(qoi_num);
@@ -2295,7 +2295,7 @@ Number DofMap::has_heterogeneous_adjoint_constraint (const unsigned int qoi_num,
 
 
 inline
-DofConstraintValueMap & DofMap::get_primal_constraint_values()
+DofConstraintValueMap & StandardDofMap::get_primal_constraint_values()
 {
   return _primal_constraint_values;
 }
@@ -2309,54 +2309,54 @@ DofConstraintValueMap & DofMap::get_primal_constraint_values()
 // constraints are disabled, so there's no reason for users not to
 // use them.
 
-inline void DofMap::constrain_element_matrix (DenseMatrix<Number> &,
-                                              std::vector<dof_id_type> &,
-                                              bool) const {}
+inline void StandardDofMap::constrain_element_matrix (DenseMatrix<Number> &,
+                                                      std::vector<dof_id_type> &,
+                                                      bool) const {}
 
-inline void DofMap::constrain_element_matrix (DenseMatrix<Number> &,
-                                              std::vector<dof_id_type> &,
-                                              std::vector<dof_id_type> &,
-                                              bool) const {}
+inline void StandardDofMap::constrain_element_matrix (DenseMatrix<Number> &,
+                                                      std::vector<dof_id_type> &,
+                                                      std::vector<dof_id_type> &,
+                                                      bool) const {}
 
-inline void DofMap::constrain_element_vector (DenseVector<Number> &,
-                                              std::vector<dof_id_type> &,
-                                              bool) const {}
+inline void StandardDofMap::constrain_element_vector (DenseVector<Number> &,
+                                                      std::vector<dof_id_type> &,
+                                                      bool) const {}
 
-inline void DofMap::constrain_element_matrix_and_vector (DenseMatrix<Number> &,
-                                                         DenseVector<Number> &,
-                                                         std::vector<dof_id_type> &,
-                                                         bool) const {}
+inline void StandardDofMap::constrain_element_matrix_and_vector (DenseMatrix<Number> &,
+                                                                 DenseVector<Number> &,
+                                                                 std::vector<dof_id_type> &,
+                                                                 bool) const {}
 
-inline void DofMap::heterogeneously_constrain_element_matrix_and_vector
+inline void StandardDofMap::heterogeneously_constrain_element_matrix_and_vector
   (DenseMatrix<Number> &, DenseVector<Number> &,
    std::vector<dof_id_type> &, bool, int) const {}
 
-inline void DofMap::heterogeneously_constrain_element_vector
+inline void StandardDofMap::heterogeneously_constrain_element_vector
   (const DenseMatrix<Number> &, DenseVector<Number> &,
    std::vector<dof_id_type> &, bool, int) const {}
 
-inline void DofMap::constrain_element_dyad_matrix (DenseVector<Number> &,
-                                                   DenseVector<Number> &,
-                                                   std::vector<dof_id_type> &,
-                                                   bool) const {}
+inline void StandardDofMap::constrain_element_dyad_matrix (DenseVector<Number> &,
+                                                           DenseVector<Number> &,
+                                                           std::vector<dof_id_type> &,
+                                                           bool) const {}
 
-inline void DofMap::constrain_nothing (std::vector<dof_id_type> &) const {}
+inline void StandardDofMap::constrain_nothing (std::vector<dof_id_type> &) const {}
 
-inline void DofMap::enforce_constraints_exactly (const System &,
-                                                 NumericVector<Number> *,
-                                                 bool) const {}
+inline void StandardDofMap::enforce_constraints_exactly (const System &,
+                                                         NumericVector<Number> *,
+                                                         bool) const {}
 
-inline void DofMap::enforce_adjoint_constraints_exactly (NumericVector<Number> &,
-                                                         unsigned int) const {}
+inline void StandardDofMap::enforce_adjoint_constraints_exactly (NumericVector<Number> &,
+                                                                 unsigned int) const {}
 
 
-inline void DofMap::enforce_constraints_on_residual
+inline void StandardDofMap::enforce_constraints_on_residual
   (const NonlinearImplicitSystem &,
    NumericVector<Number> *,
    NumericVector<Number> const *,
    bool) const {}
 
-inline void DofMap::enforce_constraints_on_jacobian
+inline void StandardDofMap::enforce_constraints_on_jacobian
   (const NonlinearImplicitSystem &,
    SparseMatrix<Number> *) const {}
 
@@ -2365,7 +2365,7 @@ inline void DofMap::enforce_constraints_on_jacobian
 
 
 inline
-void DofMap::set_constrained_sparsity_construction(bool use_constraints)
+void StandardDofMap::set_constrained_sparsity_construction(bool use_constraints)
 {
   // This got only partly finished...
   if (use_constraints)
@@ -2378,13 +2378,13 @@ void DofMap::set_constrained_sparsity_construction(bool use_constraints)
 }
 
 inline
-void DofMap::full_sparsity_pattern_needed()
+void StandardDofMap::full_sparsity_pattern_needed()
 {
   need_full_sparsity_pattern = true;
 }
 
 inline
-bool DofMap::constrained_sparsity_construction()
+bool StandardDofMap::constrained_sparsity_construction()
 {
 #ifdef LIBMESH_ENABLE_CONSTRAINTS
   return _constrained_sparsity_construction;
@@ -2394,7 +2394,7 @@ bool DofMap::constrained_sparsity_construction()
 }
 
 inline
-void DofMap::should_p_refine(const unsigned int g, const bool p_refine)
+void StandardDofMap::should_p_refine(const unsigned int g, const bool p_refine)
 {
 #ifdef LIBMESH_ENABLE_AMR
   if (p_refine)
@@ -2411,7 +2411,7 @@ void DofMap::should_p_refine(const unsigned int g, const bool p_refine)
 }
 
 inline
-bool DofMap::should_p_refine(const unsigned int g) const
+bool StandardDofMap::should_p_refine(const unsigned int g) const
 {
 #ifdef LIBMESH_ENABLE_AMR
   return !_dont_p_refine.count(g);
@@ -2422,14 +2422,14 @@ bool DofMap::should_p_refine(const unsigned int g) const
 }
 
 inline
-unsigned int DofMap::var_group_from_var_number(const unsigned int var_num) const
+unsigned int StandardDofMap::var_group_from_var_number(const unsigned int var_num) const
 {
   libmesh_assert(var_num < n_variables());
   return libmesh_map_find(_var_to_vg, var_num);
 }
 
 inline
-bool DofMap::should_p_refine_var(const unsigned int var) const
+bool StandardDofMap::should_p_refine_var(const unsigned int var) const
 {
 #ifdef LIBMESH_ENABLE_AMR
   const auto vg = this->var_group_from_var_number(var);
@@ -2441,15 +2441,15 @@ bool DofMap::should_p_refine_var(const unsigned int var) const
 }
 
 template <typename FieldDofsFunctor>
-void DofMap::_dof_indices (const Elem & elem,
-                           int p_level,
-                           std::vector<dof_id_type> & di,
-                           const unsigned int vg,
-                           const unsigned int vig,
-                           const Node * const * nodes,
-                           unsigned int       n_nodes,
-                           const unsigned int v,
-#ifdef DEBUG
+void StandardDofMap::_dof_indices (const Elem & elem,
+                                   int p_level,
+                                   std::vector<dof_id_type> & di,
+                                   const unsigned int vg,
+                                   const unsigned int vig,
+                                   const Node * const * nodes,
+                                   unsigned int       n_nodes,
+                                   const unsigned int v,
+#ifdef DEBUG        
                            std::size_t & tot_size,
 #endif
                            FieldDofsFunctor field_dofs_functor) const
@@ -2604,17 +2604,17 @@ void DofMap::_dof_indices (const Elem & elem,
 
 
 template <typename ScalarDofsFunctor, typename FieldDofsFunctor>
-void DofMap::dof_indices (const Elem * const elem,
-                          std::vector<dof_id_type> & di,
-                          const unsigned int vn,
-                          ScalarDofsFunctor scalar_dofs_functor,
-                          FieldDofsFunctor field_dofs_functor,
-                          int p_level) const
+void StandardDofMap::dof_indices (const Elem * const elem,
+                                  std::vector<dof_id_type> & di,
+                                  const unsigned int vn,
+                                  ScalarDofsFunctor scalar_dofs_functor,
+                                  FieldDofsFunctor field_dofs_functor,
+                                  int p_level) const
 {
   // We now allow elem==nullptr to request just SCALAR dofs
   // libmesh_assert(elem);
 
-  LOG_SCOPE("dof_indices()", "DofMap");
+  LOG_SCOPE("dof_indices()", "StandardDofMap");
 
   // Clear the DOF indices vector
   di.clear();
@@ -2681,7 +2681,7 @@ void DofMap::dof_indices (const Elem * const elem,
 }
 
 inline
-const StaticCondensationDofMap & DofMap::get_static_condensation() const
+const StaticCondensationDofMap & StandardDofMap::get_static_condensation() const
 {
   libmesh_assert(_sc);
   return *_sc;

@@ -56,15 +56,15 @@ namespace libMesh
 {
 
 // ------------------------------------------------------------
-// DofMap member functions
+// StandardDofMap member functions
 std::unique_ptr<SparsityPattern::Build>
-DofMap::build_sparsity (const MeshBase & mesh,
-                        const bool calculate_constrained,
-                        const bool use_condensed_system) const
+StandardDofMap::build_sparsity (const MeshBase & mesh,
+                                const bool calculate_constrained,
+                                const bool use_condensed_system) const
 {
   libmesh_assert (mesh.is_prepared());
 
-  LOG_SCOPE("build_sparsity()", "DofMap");
+  LOG_SCOPE("build_sparsity()", "StandardDofMap");
 
   // Compute the sparsity structure of the global matrix.  This can be
   // fed into a PetscMatrixBase to allocate exactly the number of nonzeros
@@ -133,8 +133,8 @@ DofMap::build_sparsity (const MeshBase & mesh,
 
 
 
-DofMap::DofMap(const unsigned int number,
-               MeshBase & mesh) :
+StandardDofMap::StandardDofMap(const unsigned int number,
+                               MeshBase & mesh) :
   DofMapBase (mesh.comm()),
   _dof_coupling(nullptr),
   _error_on_constraint_loop(false),
@@ -199,11 +199,11 @@ DofMap::DofMap(const unsigned int number,
 
 
 // Destructor
-DofMap::~DofMap()
+StandardDofMap::~StandardDofMap()
 {
   this->clear();
 
-  // clear() resets all but the default DofMap-based functors.  We
+  // clear() resets all but the default StandardDofMap-based functors.  We
   // need to remove those from the mesh too before we die.
   _mesh.remove_ghosting_functor(*_default_coupling);
   _mesh.remove_ghosting_functor(*_default_evaluating);
@@ -212,7 +212,7 @@ DofMap::~DofMap()
 
 #ifdef LIBMESH_ENABLE_PERIODIC
 
-bool DofMap::is_periodic_boundary (const boundary_id_type boundaryid) const
+bool StandardDofMap::is_periodic_boundary (const boundary_id_type boundaryid) const
 {
   if (_periodic_boundaries->count(boundaryid) != 0)
     return true;
@@ -224,28 +224,28 @@ bool DofMap::is_periodic_boundary (const boundary_id_type boundaryid) const
 
 
 
-// void DofMap::add_variable (const Variable & var)
+// void StandardDofMap::add_variable (const Variable & var)
 // {
 //   libmesh_not_implemented();
 //   _variables.push_back (var);
 // }
 
 
-void DofMap::set_error_on_cyclic_constraint(bool error_on_cyclic_constraint)
+void StandardDofMap::set_error_on_cyclic_constraint(bool error_on_cyclic_constraint)
 {
   // This function will eventually be officially libmesh_deprecated();
-  // Call DofMap::set_error_on_constraint_loop() instead.
+  // Call StandardDofMap::set_error_on_constraint_loop() instead.
   set_error_on_constraint_loop(error_on_cyclic_constraint);
 }
 
-void DofMap::set_error_on_constraint_loop(bool error_on_constraint_loop)
+void StandardDofMap::set_error_on_constraint_loop(bool error_on_constraint_loop)
 {
   _error_on_constraint_loop = error_on_constraint_loop;
 }
 
 
 
-void DofMap::add_variable_group (VariableGroup var_group)
+void StandardDofMap::add_variable_group (VariableGroup var_group)
 {
   // Ensure that we are not duplicating an existing entry in _variable_groups
   if (std::find(_variable_groups.begin(), _variable_groups.end(), var_group) == _variable_groups.end())
@@ -271,7 +271,7 @@ void DofMap::add_variable_group (VariableGroup var_group)
 
 
 
-void DofMap::attach_matrix (SparseMatrix<Number> & matrix)
+void StandardDofMap::attach_matrix (SparseMatrix<Number> & matrix)
 {
   parallel_object_only();
 
@@ -289,7 +289,7 @@ void DofMap::attach_matrix (SparseMatrix<Number> & matrix)
 
 
 
-bool DofMap::computed_sparsity_already() const
+bool StandardDofMap::computed_sparsity_already() const
 {
   bool computed_sparsity_already = _sp &&
     (!_sp->get_n_nz().empty() ||
@@ -300,7 +300,7 @@ bool DofMap::computed_sparsity_already() const
 
 
 
-void DofMap::update_sparsity_pattern(SparseMatrix<Number> & matrix) const
+void StandardDofMap::update_sparsity_pattern(SparseMatrix<Number> & matrix) const
 {
   matrix.attach_dof_map (*this);
 
@@ -326,7 +326,7 @@ void DofMap::update_sparsity_pattern(SparseMatrix<Number> & matrix) const
 
 
 
-bool DofMap::is_attached (SparseMatrix<Number> & matrix)
+bool StandardDofMap::is_attached (SparseMatrix<Number> & matrix)
 {
   return (std::find(_matrices.begin(), _matrices.end(),
                     &matrix) != _matrices.end());
@@ -334,14 +334,14 @@ bool DofMap::is_attached (SparseMatrix<Number> & matrix)
 
 
 
-DofObject * DofMap::node_ptr(MeshBase & mesh, dof_id_type i) const
+DofObject * StandardDofMap::node_ptr(MeshBase & mesh, dof_id_type i) const
 {
   return mesh.node_ptr(i);
 }
 
 
 
-DofObject * DofMap::elem_ptr(MeshBase & mesh, dof_id_type i) const
+DofObject * StandardDofMap::elem_ptr(MeshBase & mesh, dof_id_type i) const
 {
   return mesh.elem_ptr(i);
 }
@@ -349,10 +349,10 @@ DofObject * DofMap::elem_ptr(MeshBase & mesh, dof_id_type i) const
 
 
 template <typename iterator_type>
-void DofMap::set_nonlocal_dof_objects(iterator_type objects_begin,
-                                      iterator_type objects_end,
-                                      MeshBase & mesh,
-                                      dofobject_accessor objects)
+void StandardDofMap::set_nonlocal_dof_objects(iterator_type objects_begin,
+                                              iterator_type objects_end,
+                                              MeshBase & mesh,
+                                              dofobject_accessor objects)
 {
   // This function must be run on all processors at once
   parallel_object_only();
@@ -499,14 +499,14 @@ void DofMap::set_nonlocal_dof_objects(iterator_type objects_begin,
 
 
 
-void DofMap::reinit
+void StandardDofMap::reinit
   (MeshBase & mesh,
    const std::map<const Node *, std::set<subdomain_id_type>> &
      constraining_subdomains)
 {
   libmesh_assert (mesh.is_prepared());
 
-  LOG_SCOPE("reinit()", "DofMap");
+  LOG_SCOPE("reinit()", "StandardDofMap");
 
   // This is the common case and we want to optimize for it
   const bool constraining_subdomains_empty =
@@ -871,7 +871,7 @@ void DofMap::reinit
         }
     } // end loop over variable groups
 
-  // Calling DofMap::reinit() by itself makes little sense,
+  // Calling StandardDofMap::reinit() by itself makes little sense,
   // so we won't bother with nonlocal DofObjects.
   // Those will be fixed by distribute_dofs
 
@@ -883,7 +883,7 @@ void DofMap::reinit
 
 
 
-void DofMap::invalidate_dofs(MeshBase & mesh) const
+void StandardDofMap::invalidate_dofs(MeshBase & mesh) const
 {
   const unsigned int sys_num = this->sys_number();
 
@@ -898,9 +898,9 @@ void DofMap::invalidate_dofs(MeshBase & mesh) const
 
 
 
-void DofMap::clear()
+void StandardDofMap::clear()
 {
-  DofMapBase::clear();
+  StandardDofMapBase::clear();
 
   // we don't want to clear
   // the coupling matrix!
@@ -973,13 +973,13 @@ void DofMap::clear()
 
 
 
-std::size_t DofMap::distribute_dofs (MeshBase & mesh)
+std::size_t StandardDofMap::distribute_dofs (MeshBase & mesh)
 {
   // This function must be run on all processors at once
   parallel_object_only();
 
   // Log how long it takes to distribute the degrees of freedom
-  LOG_SCOPE("distribute_dofs()", "DofMap");
+  LOG_SCOPE("distribute_dofs()", "StandardDofMap");
 
   libmesh_assert (mesh.is_prepared());
 
@@ -1051,11 +1051,11 @@ std::size_t DofMap::distribute_dofs (MeshBase & mesh)
     {
       this->set_nonlocal_dof_objects(mesh.nodes_begin(),
                                      mesh.nodes_end(),
-                                     mesh, &DofMap::node_ptr);
+                                     mesh, &StandardDofMap::node_ptr);
 
       this->set_nonlocal_dof_objects(mesh.elements_begin(),
                                      mesh.elements_end(),
-                                     mesh, &DofMap::elem_ptr);
+                                     mesh, &StandardDofMap::elem_ptr);
     }
 
 #ifdef DEBUG
@@ -1146,9 +1146,9 @@ std::size_t DofMap::distribute_dofs (MeshBase & mesh)
 
 template <typename T, std::enable_if_t<std::is_same_v<T, dof_id_type> ||
                                        std::is_same_v<T, std::vector<dof_id_type>>, int>>
-void DofMap::local_variable_indices(T & idx,
-                                    const MeshBase & mesh,
-                                    unsigned int var_num) const
+void StandardDofMap::local_variable_indices(T & idx,
+                                            const MeshBase & mesh,
+                                            unsigned int var_num) const
 {
   // Only used if T == dof_id_type to keep track of the greatest dof we've seen
   dof_id_type greatest = 0;
@@ -1270,17 +1270,17 @@ void DofMap::local_variable_indices(T & idx,
     }
 }
 
-template void DofMap::local_variable_indices(dof_id_type &,
-                                             const MeshBase &,
-                                             unsigned int) const;
+template void StandardDofMap::local_variable_indices(dof_id_type &,
+                                                     const MeshBase &,
+                                                     unsigned int) const;
 
-template void DofMap::local_variable_indices(std::vector<dof_id_type> &,
-                                             const MeshBase &,
-                                             unsigned int) const;
+template void StandardDofMap::local_variable_indices(std::vector<dof_id_type> &,
+                                                     const MeshBase &,
+                                                     unsigned int) const;
 
 
 std::map<const Node *, std::set<subdomain_id_type>>
-DofMap::calculate_constraining_subdomains()
+StandardDofMap::calculate_constraining_subdomains()
 {
   std::map<const Node *, std::set<subdomain_id_type>> constraining_subdomains;
   const auto & constraint_rows = _mesh.get_constraint_rows();
@@ -1313,7 +1313,7 @@ DofMap::calculate_constraining_subdomains()
 }
 
 
-void DofMap::distribute_local_dofs_node_major
+void StandardDofMap::distribute_local_dofs_node_major
   (dof_id_type & next_free_dof,
    MeshBase & mesh,
    const std::map<const Node *, std::set<subdomain_id_type>> &
@@ -1327,7 +1327,7 @@ void DofMap::distribute_local_dofs_node_major
     constraining_subdomains.empty();
 
   // Our numbering here must be kept consistent with the numbering
-  // scheme assumed by DofMap::local_variable_indices!
+  // scheme assumed by StandardDofMap::local_variable_indices!
 
   //-------------------------------------------------------------------------
   // First count and assign temporary numbers to local dofs
@@ -1441,7 +1441,7 @@ void DofMap::distribute_local_dofs_node_major
 
 
 
-void DofMap::distribute_local_dofs_var_major
+void StandardDofMap::distribute_local_dofs_var_major
   (dof_id_type & next_free_dof,
    MeshBase & mesh,
    const std::map<const Node *, std::set<subdomain_id_type>> &
@@ -1455,7 +1455,7 @@ void DofMap::distribute_local_dofs_var_major
     constraining_subdomains.empty();
 
   // Our numbering here must be kept consistent with the numbering
-  // scheme assumed by DofMap::local_variable_indices!
+  // scheme assumed by StandardDofMap::local_variable_indices!
 
   //-------------------------------------------------------------------------
   // First count and assign temporary numbers to local dofs
@@ -1563,7 +1563,7 @@ void DofMap::distribute_local_dofs_var_major
 
 
 
-void DofMap::distribute_scalar_dofs(dof_id_type & next_free_dof)
+void StandardDofMap::distribute_scalar_dofs(dof_id_type & next_free_dof)
 {
   this->_n_SCALAR_dofs = 0;
   for (auto vg : make_range(this->n_variable_groups()))
@@ -1587,7 +1587,7 @@ void DofMap::distribute_scalar_dofs(dof_id_type & next_free_dof)
 
 
 #ifdef DEBUG
-void DofMap::assert_no_nodes_missed(MeshBase & mesh)
+void StandardDofMap::assert_no_nodes_missed(MeshBase & mesh)
 {
   MeshTools::libmesh_assert_valid_procids<Node>(mesh);
 
@@ -1608,7 +1608,7 @@ void DofMap::assert_no_nodes_missed(MeshBase & mesh)
 
 
 void
-DofMap::
+StandardDofMap::
 merge_ghost_functor_outputs(GhostingFunctor::map_type & elements_to_ghost,
                             CouplingMatricesSet & temporary_coupling_matrices,
                             const std::set<GhostingFunctor *>::iterator & gf_begin,
@@ -1711,9 +1711,9 @@ merge_ghost_functor_outputs(GhostingFunctor::map_type & elements_to_ghost,
 
 
 
-void DofMap::add_neighbors_to_send_list(MeshBase & mesh)
+void StandardDofMap::add_neighbors_to_send_list(MeshBase & mesh)
 {
-  LOG_SCOPE("add_neighbors_to_send_list()", "DofMap");
+  LOG_SCOPE("add_neighbors_to_send_list()", "StandardDofMap");
 
   // Return immediately if there's no ghost data
   if (this->n_processors() == 1)
@@ -1727,7 +1727,7 @@ void DofMap::add_neighbors_to_send_list(MeshBase & mesh)
     = mesh.active_local_elements_end();
 
   GhostingFunctor::map_type elements_to_send;
-  DofMap::CouplingMatricesSet temporary_coupling_matrices;
+  StandardDofMap::CouplingMatricesSet temporary_coupling_matrices;
 
   // We need to add dofs to the send list if they've been directly
   // requested by an algebraic ghosting functor or they've been
@@ -1859,9 +1859,9 @@ void DofMap::add_neighbors_to_send_list(MeshBase & mesh)
 
 
 
-void DofMap::prepare_send_list ()
+void StandardDofMap::prepare_send_list ()
 {
-  LOG_SCOPE("prepare_send_list()", "DofMap");
+  LOG_SCOPE("prepare_send_list()", "StandardDofMap");
 
   // Return immediately if there's no ghost data
   if (this->n_processors() == 1)
@@ -1901,7 +1901,7 @@ void DofMap::prepare_send_list ()
   libmesh_assert(_send_list.empty() || _send_list.back() < this->n_dofs());
 }
 
-void DofMap::reinit_send_list (MeshBase & mesh)
+void StandardDofMap::reinit_send_list (MeshBase & mesh)
 {
   this->clear_send_list();
   this->add_neighbors_to_send_list(mesh);
@@ -1915,19 +1915,19 @@ void DofMap::reinit_send_list (MeshBase & mesh)
   this->prepare_send_list();
 }
 
-void DofMap::set_implicit_neighbor_dofs(bool implicit_neighbor_dofs)
+void StandardDofMap::set_implicit_neighbor_dofs(bool implicit_neighbor_dofs)
 {
   _implicit_neighbor_dofs_initialized = true;
   _implicit_neighbor_dofs = implicit_neighbor_dofs;
 }
 
-void DofMap::set_verify_dirichlet_bc_consistency(bool val)
+void StandardDofMap::set_verify_dirichlet_bc_consistency(bool val)
 {
   _verify_dirichlet_bc_consistency = val;
 }
 
 
-bool DofMap::use_coupled_neighbor_dofs(const MeshBase & /*mesh*/) const
+bool StandardDofMap::use_coupled_neighbor_dofs(const MeshBase & /*mesh*/) const
 {
   // If we were asked on the command line, then we need to
   // include sensitivities between neighbor degrees of freedom
@@ -1983,7 +1983,7 @@ bool DofMap::use_coupled_neighbor_dofs(const MeshBase & /*mesh*/) const
 
 
 
-void DofMap::compute_sparsity(const MeshBase & mesh)
+void StandardDofMap::compute_sparsity(const MeshBase & mesh)
 {
   _sp = this->build_sparsity(mesh, this->_constrained_sparsity_construction);
 
@@ -2004,14 +2004,14 @@ void DofMap::compute_sparsity(const MeshBase & mesh)
 
 
 
-void DofMap::clear_sparsity()
+void StandardDofMap::clear_sparsity()
 {
   _sp.reset();
 }
 
 
 
-void DofMap::remove_default_ghosting()
+void StandardDofMap::remove_default_ghosting()
 {
   this->remove_coupling_functor(this->default_coupling());
   this->remove_algebraic_ghosting_functor(this->default_algebraic_ghosting());
@@ -2019,7 +2019,7 @@ void DofMap::remove_default_ghosting()
 
 
 
-void DofMap::add_default_ghosting()
+void StandardDofMap::add_default_ghosting()
 {
   this->add_coupling_functor(this->default_coupling());
   this->add_algebraic_ghosting_functor(this->default_algebraic_ghosting());
@@ -2028,8 +2028,8 @@ void DofMap::add_default_ghosting()
 
 
 void
-DofMap::add_coupling_functor(GhostingFunctor & coupling_functor,
-                             bool to_mesh)
+StandardDofMap::add_coupling_functor(GhostingFunctor & coupling_functor,
+                                     bool to_mesh)
 {
   _coupling_functors.insert(&coupling_functor);
   coupling_functor.set_mesh(&_mesh);
@@ -2040,7 +2040,7 @@ DofMap::add_coupling_functor(GhostingFunctor & coupling_functor,
 
 
 void
-DofMap::remove_coupling_functor(GhostingFunctor & coupling_functor)
+StandardDofMap::remove_coupling_functor(GhostingFunctor & coupling_functor)
 {
   _coupling_functors.erase(&coupling_functor);
   _mesh.remove_ghosting_functor(coupling_functor);
@@ -2053,8 +2053,8 @@ DofMap::remove_coupling_functor(GhostingFunctor & coupling_functor)
 
 
 void
-DofMap::add_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor,
-                                       bool to_mesh)
+StandardDofMap::add_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor,
+                                               bool to_mesh)
 {
   _algebraic_ghosting_functors.insert(&evaluable_functor);
   evaluable_functor.set_mesh(&_mesh);
@@ -2065,7 +2065,7 @@ DofMap::add_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor,
 
 
 void
-DofMap::remove_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor)
+StandardDofMap::remove_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor)
 {
   _algebraic_ghosting_functors.erase(&evaluable_functor);
   _mesh.remove_ghosting_functor(evaluable_functor);
@@ -2077,9 +2077,9 @@ DofMap::remove_algebraic_ghosting_functor(GhostingFunctor & evaluable_functor)
 
 
 
-void DofMap::extract_local_vector (const NumericVector<Number> & Ug,
-                                   const std::vector<dof_id_type> & dof_indices_in,
-                                   DenseVectorBase<Number> & Ue) const
+void StandardDofMap::extract_local_vector (const NumericVector<Number> & Ug,
+                                           const std::vector<dof_id_type> & dof_indices_in,
+                                           DenseVectorBase<Number> & Ue) const
 {
   const unsigned int n_original_dofs = dof_indices_in.size();
 
@@ -2159,8 +2159,8 @@ void DofMap::extract_local_vector (const NumericVector<Number> & Ug,
 #endif
 }
 
-void DofMap::dof_indices (const Elem * const elem,
-                          std::vector<dof_id_type> & di) const
+void StandardDofMap::dof_indices (const Elem * const elem,
+                                  std::vector<dof_id_type> & di) const
 {
   // We now allow elem==nullptr to request just SCALAR dofs
   // libmesh_assert(elem);
@@ -2175,7 +2175,7 @@ void DofMap::dof_indices (const Elem * const elem,
   // good candidate for logging, since the cost of the logging code
   // itself is roughly on par with the time required to call
   // dof_indices().
-  // LOG_SCOPE("dof_indices()", "DofMap");
+  // LOG_SCOPE("dof_indices()", "StandardDofMap");
 
   // Clear the DOF indices vector
   di.clear();
@@ -2275,10 +2275,10 @@ void DofMap::dof_indices (const Elem * const elem,
 }
 
 
-void DofMap::dof_indices (const Elem * const elem,
-                          std::vector<dof_id_type> & di,
-                          const unsigned int vn,
-                          int p_level) const
+void StandardDofMap::dof_indices (const Elem * const elem,
+                                  std::vector<dof_id_type> & di,
+                                  const unsigned int vn,
+                                  int p_level) const
 {
   dof_indices(
       elem,
@@ -2297,8 +2297,8 @@ void DofMap::dof_indices (const Elem * const elem,
       p_level);
 }
 
-void DofMap::dof_indices (const Node * const node,
-                          std::vector<dof_id_type> & di) const
+void StandardDofMap::dof_indices (const Node * const node,
+                                  std::vector<dof_id_type> & di) const
 {
   // We allow node==nullptr to request just SCALAR dofs
   // libmesh_assert(elem);
@@ -2308,7 +2308,7 @@ void DofMap::dof_indices (const Node * const node,
   // good candidate for logging, since the cost of the logging code
   // itself is roughly on par with the time required to call
   // dof_indices().
-  // LOG_SCOPE("dof_indices(Node)", "DofMap");
+  // LOG_SCOPE("dof_indices(Node)", "StandardDofMap");
 
   // Clear the DOF indices vector
   di.clear();
@@ -2350,9 +2350,9 @@ void DofMap::dof_indices (const Node * const node,
 }
 
 
-void DofMap::dof_indices (const Node * const node,
-                          std::vector<dof_id_type> & di,
-                          const unsigned int vn) const
+void StandardDofMap::dof_indices (const Node * const node,
+                                  std::vector<dof_id_type> & di,
+                                  const unsigned int vn) const
 {
   if (vn == libMesh::invalid_uint)
     {
@@ -2368,7 +2368,7 @@ void DofMap::dof_indices (const Node * const node,
   // good candidate for logging, since the cost of the logging code
   // itself is roughly on par with the time required to call
   // dof_indices().
-  // LOG_SCOPE("dof_indices(Node)", "DofMap");
+  // LOG_SCOPE("dof_indices(Node)", "StandardDofMap");
 
   // Clear the DOF indices vector
   di.clear();
@@ -2401,10 +2401,10 @@ void DofMap::dof_indices (const Node * const node,
 }
 
 
-void DofMap::dof_indices (const Elem & elem,
-                          unsigned int n,
-                          std::vector<dof_id_type> & di,
-                          const unsigned int vn) const
+void StandardDofMap::dof_indices (const Elem & elem,
+                                  unsigned int n,
+                                  std::vector<dof_id_type> & di,
+                                  const unsigned int vn) const
 {
   this->_node_dof_indices(elem, n, elem.node_ref(n), di, vn);
 }
@@ -2413,10 +2413,10 @@ void DofMap::dof_indices (const Elem & elem,
 
 #ifdef LIBMESH_ENABLE_AMR
 
-void DofMap::old_dof_indices (const Elem & elem,
-                              unsigned int n,
-                              std::vector<dof_id_type> & di,
-                              const unsigned int vn) const
+void StandardDofMap::old_dof_indices (const Elem & elem,
+                                      unsigned int n,
+                                      std::vector<dof_id_type> & di,
+                                      const unsigned int vn) const
 {
   const DofObject & old_obj = elem.node_ref(n).get_old_dof_object_ref();
   this->_node_dof_indices(elem, n, old_obj, di, vn);
@@ -2426,18 +2426,18 @@ void DofMap::old_dof_indices (const Elem & elem,
 
 
 
-void DofMap::_node_dof_indices (const Elem & elem,
-                                unsigned int n,
-                                const DofObject & obj,
-                                std::vector<dof_id_type> & di,
-                                const unsigned int vn) const
+void StandardDofMap::_node_dof_indices (const Elem & elem,
+                                        unsigned int n,
+                                        const DofObject & obj,
+                                        std::vector<dof_id_type> & di,
+                                        const unsigned int vn) const
 {
   // Half of this is a cut and paste of _dof_indices code below, but
   // duplication actually seems cleaner than creating a helper
   // function with a million arguments and hoping the compiler inlines
   // it properly into one of our most highly trafficked functions.
 
-  LOG_SCOPE("_node_dof_indices()", "DofMap");
+  LOG_SCOPE("_node_dof_indices()", "StandardDofMap");
 
   const unsigned int sys_num = this->sys_number();
   const auto [vg, vig] =
@@ -2510,14 +2510,14 @@ void DofMap::_node_dof_indices (const Elem & elem,
 }
 
 void
-DofMap::_dof_indices(const Elem & elem,
-                     int p_level,
-                     std::vector<dof_id_type> & di,
-                     const unsigned int vg,
-                     const unsigned int vig,
-                     const Node * const * nodes,
-                     unsigned int n_nodes,
-                     const unsigned int v
+StandardDofMap::_dof_indices(const Elem & elem,
+                             int p_level,
+                             std::vector<dof_id_type> & di,
+                             const unsigned int vg,
+                             const unsigned int vig,
+                             const Node * const * nodes,
+                             unsigned int n_nodes,
+                             const unsigned int v
 #ifdef DEBUG
                      ,
                      std::size_t & tot_size
@@ -2542,16 +2542,16 @@ DofMap::_dof_indices(const Elem & elem,
                   const dof_id_type dof) { functor_di.push_back(dof); });
 }
 
-void DofMap::SCALAR_dof_indices (std::vector<dof_id_type> & di,
-                                 const unsigned int vn,
+void StandardDofMap::SCALAR_dof_indices (std::vector<dof_id_type> & di,
+                                         const unsigned int vn,
 #ifdef LIBMESH_ENABLE_AMR
-                                 const bool old_dofs
+                                         const bool old_dofs
 #else
-                                 const bool
+                                         const bool
 #endif
                                  ) const
 {
-  LOG_SCOPE("SCALAR_dof_indices()", "DofMap");
+  LOG_SCOPE("SCALAR_dof_indices()", "StandardDofMap");
 
   libmesh_assert(this->variable(vn).type().family == SCALAR);
 
@@ -2578,7 +2578,7 @@ void DofMap::SCALAR_dof_indices (std::vector<dof_id_type> & di,
 
 
 
-bool DofMap::semilocal_index (dof_id_type dof_index) const
+bool StandardDofMap::semilocal_index (dof_id_type dof_index) const
 {
   // If it's not in the local indices
   if (!this->local_index(dof_index))
@@ -2594,7 +2594,7 @@ bool DofMap::semilocal_index (dof_id_type dof_index) const
 
 
 
-bool DofMap::all_semilocal_indices (const std::vector<dof_id_type> & dof_indices_in) const
+bool StandardDofMap::all_semilocal_indices (const std::vector<dof_id_type> & dof_indices_in) const
 {
   // We're all semilocal unless we find a counterexample
   for (const auto & di : dof_indices_in)
@@ -2607,8 +2607,8 @@ bool DofMap::all_semilocal_indices (const std::vector<dof_id_type> & dof_indices
 
 
 template <typename DofObjectSubclass>
-bool DofMap::is_evaluable(const DofObjectSubclass & obj,
-                          unsigned int var_num) const
+bool StandardDofMap::is_evaluable(const DofObjectSubclass & obj,
+                                  unsigned int var_num) const
 {
   // Everything is evaluable on a local object
   if (obj.processor_id() == this->processor_id())
@@ -2628,11 +2628,11 @@ bool DofMap::is_evaluable(const DofObjectSubclass & obj,
 
 #ifdef LIBMESH_ENABLE_AMR
 
-void DofMap::old_dof_indices (const Elem * const elem,
-                              std::vector<dof_id_type> & di,
-                              const unsigned int vn) const
+void StandardDofMap::old_dof_indices (const Elem * const elem,
+                                      std::vector<dof_id_type> & di,
+                                      const unsigned int vn) const
 {
-  LOG_SCOPE("old_dof_indices()", "DofMap");
+  LOG_SCOPE("old_dof_indices()", "StandardDofMap");
 
   libmesh_assert(elem);
 
@@ -2850,7 +2850,7 @@ void DofMap::old_dof_indices (const Elem * const elem,
 
 #ifdef LIBMESH_ENABLE_CONSTRAINTS
 
-void DofMap::find_connected_dofs (std::vector<dof_id_type> & elem_dofs) const
+void StandardDofMap::find_connected_dofs (std::vector<dof_id_type> & elem_dofs) const
 {
   typedef std::set<dof_id_type> RCSet;
 
@@ -2913,14 +2913,14 @@ void DofMap::find_connected_dofs (std::vector<dof_id_type> & elem_dofs) const
 
 
 
-void DofMap::print_info(std::ostream & os) const
+void StandardDofMap::print_info(std::ostream & os) const
 {
   os << this->get_info();
 }
 
 
 
-std::string DofMap::get_info() const
+std::string StandardDofMap::get_info() const
 {
   std::ostringstream os;
 
@@ -3070,7 +3070,7 @@ std::string DofMap::get_info() const
   return os.str();
 }
 
-template LIBMESH_EXPORT bool DofMap::is_evaluable<Elem>(const Elem &, unsigned int) const;
-template LIBMESH_EXPORT bool DofMap::is_evaluable<Node>(const Node &, unsigned int) const;
+template LIBMESH_EXPORT bool StandardDofMap::is_evaluable<Elem>(const Elem &, unsigned int) const;
+template LIBMESH_EXPORT bool StandardDofMap::is_evaluable<Node>(const Node &, unsigned int) const;
 
 } // namespace libMesh

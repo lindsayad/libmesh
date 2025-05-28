@@ -20,7 +20,7 @@
 
 namespace libMesh
 {
-DofMapBase::DofMapBase(const Parallel::Communicator & comm)
+DofMap::DofMap(const Parallel::Communicator & comm)
   : ParallelObject(comm),
     _n_dfs(0)
 #ifdef LIBMESH_ENABLE_AMR
@@ -30,7 +30,7 @@ DofMapBase::DofMapBase(const Parallel::Communicator & comm)
 {
 }
 
-std::size_t DofMapBase::compute_dof_info(const dof_id_type n_local_dofs)
+std::size_t DofMap::compute_dof_info(const dof_id_type n_local_dofs)
 {
   // Get DOF counts on all processors
   const auto n_proc = this->n_processors();
@@ -68,7 +68,7 @@ std::size_t DofMapBase::compute_dof_info(const dof_id_type n_local_dofs)
   return std::accumulate(dofs_on_proc.begin(), dofs_on_proc.end(), static_cast<std::size_t>(0));
 }
 
-void DofMapBase::clear()
+void DofMap::clear()
 {
   _first_df.clear();
   _end_df.clear();
