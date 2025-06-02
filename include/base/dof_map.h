@@ -20,6 +20,7 @@
 
 #include "libmesh/id_types.h"
 #include "libmesh/parallel_object.h"
+#include "libmesh/variable.h"
 #include <vector>
 
 namespace libMesh
@@ -27,6 +28,7 @@ namespace libMesh
 class Variable;
 class Elem;
 class Node;
+class FEType;
 
 /**
  * This base class provides a minimal set of interfaces for satisfying user requests for
@@ -140,6 +142,13 @@ public:
   dof_id_type end_old_dof() const { return this->end_old_dof(this->processor_id()); }
 #endif // LIBMESH_ENABLE_AMR
 
+  virtual const std::vector<dof_id_type> & get_send_list() const = 0;
+
+  /**
+   * \returns The finite element type for variable \p c.
+   */
+  const FEType & variable_type(const unsigned int c) const;
+
 protected:
   /**
    * compute the key degree of freedom information given the local number of degrees of freedom on
@@ -180,6 +189,11 @@ protected:
    */
   std::vector<dof_id_type> _end_old_df;
 #endif
+
+  /**
+   * All the variables held by this map
+   */
+  std::vector<Variable> _variables;
 };
 
 inline dof_id_type DofMap::first_dof(const processor_id_type proc) const
@@ -212,5 +226,11 @@ inline dof_id_type DofMap::end_old_dof(const processor_id_type proc) const
   return _end_old_df[proc];
 }
 
+inline const FEType & DofMap::variable_type(const unsigned int c) const
+{
+  libmesh_assert_less(c, _variables.size());
+
+  return _variables[c].type();
+}
 }
 #endif // LIBMESH_DOF_MAP_H

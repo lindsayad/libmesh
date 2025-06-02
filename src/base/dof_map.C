@@ -15,7 +15,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#include "libmesh/dof_map_base.h"
+#include "libmesh/dof_map.h"
 #include "libmesh/parallel_implementation.h"
 
 namespace libMesh
@@ -73,5 +73,6 @@ void DofMap::clear()
   _first_df.clear();
   _end_df.clear();
   _n_dfs = 0;
+  _variables.clear();
 }
 }

@@ -188,7 +188,7 @@ public:
    */
   explicit
   StandardDofMap(const unsigned int sys_number,
-         MeshBase & mesh);
+                 MeshBase & mesh);
 
   /**
    * Destructor.
@@ -523,7 +523,7 @@ public:
    * each solution step to retrieve solution values needed for
    * computation.
    */
-  const std::vector<dof_id_type> & get_send_list() const { return _send_list; }
+  const std::vector<dof_id_type> & get_send_list() const override { return _send_list; }
 
   /**
    * \returns A constant reference to the \p _n_nz list for this processor.
@@ -606,11 +606,6 @@ public:
    * \returns The approximation order for \p VariableGroup \p vg.
    */
   Order variable_group_order (const unsigned int vg) const;
-
-  /**
-   * \returns The finite element type for variable \p c.
-   */
-  const FEType & variable_type (const unsigned int c) const;
 
   /**
    * \returns The finite element type for \p VariableGroup \p vg.
@@ -1935,11 +1930,6 @@ private:
   bool _constrained_sparsity_construction;
 
   /**
-   * The finite element type for each variable.
-   */
-  std::vector<Variable> _variables;
-
-  /**
    * The finite element type for each variable group.
    */
   std::vector<VariableGroup> _variable_groups;
@@ -2207,16 +2197,6 @@ Order StandardDofMap::variable_group_order (const unsigned int vg) const
   libmesh_assert_less (vg, _variable_groups.size());
 
   return _variable_groups[vg].type().order;
-}
-
-
-
-inline
-const FEType & StandardDofMap::variable_type (const unsigned int c) const
-{
-  libmesh_assert_less (c, _variables.size());
-
-  return _variables[c].type();
 }
 
 

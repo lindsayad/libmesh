@@ -107,6 +107,13 @@ public:
 
   virtual void clear() override;
 
+  const std::vector<dof_id_type> & get_send_list() const override { libmesh_not_implemented(); }
+
+  /**
+   * \returns The finite element type for variable \p c.
+   */
+  const FEType & variable_type(const unsigned int c) const override;
+
 private:
   /**
    * Data stored on a per-element basis used to compute element Schur complements and their

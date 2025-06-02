@@ -252,18 +252,18 @@ void StaticCondensationDofMap::init()
 
   // Determine the variables with any degrees of freedom present in the reduced system
   _communicator.set_union(full_vars_present_in_reduced_sys);
-  _reduced_vars.reserve(full_vars_present_in_reduced_sys.size());
+  _variables.reserve(full_vars_present_in_reduced_sys.size());
   unsigned int first_local_number = 0;
   for (const auto i : index_range(full_vars_present_in_reduced_sys))
     {
       const auto full_var_num = *std::next(full_vars_present_in_reduced_sys.begin(), i);
       const auto & full_var = _dof_map.variable(full_var_num);
-      _reduced_vars.push_back(Variable{nullptr,
-                                       full_var.name(),
-                                       cast_int<unsigned int>(i),
-                                       first_local_number,
-                                       full_var.type()});
-      first_local_number += _reduced_vars.back().n_components(_mesh);
+      _variables.push_back(Variable{nullptr,
+                                    full_var.name(),
+                                    cast_int<unsigned int>(i),
+                                    first_local_number,
+                                    full_var.type()});
+      first_local_number += _variables.back().n_components(_mesh);
     }
 
   // Now we can finally set our element reduced dof indices
@@ -295,7 +295,7 @@ void StaticCondensationDofMap::init()
     }
 
   // Prevent querying Nodes for dof indices
-  std::vector<unsigned int> nvpg(_reduced_vars.size());
+  std::vector<unsigned int> nvpg(_variables.size());
   for (auto & elem : nvpg)
     elem = 1;
 
@@ -310,11 +310,11 @@ void StaticCondensationDofMap::init()
   _sc_is_initialized = true;
 }
 
-unsigned int StaticCondensationDofMap::n_variables() const { return _reduced_vars.size(); }
+unsigned int StaticCondensationDofMap::n_variables() const { return _variables.size(); }
 
 const Variable & StaticCondensationDofMap::variable(const unsigned int c) const
 {
-  return _reduced_vars[c];
+  return _variables[c];
 }
 
 void StaticCondensationDofMap::dof_indices(const Elem * const elem,
@@ -336,12 +336,12 @@ void StaticCondensationDofMap::dof_indices(const Node * const,
 
 void StaticCondensationDofMap::clear()
 {
-  DofMapBase::clear();
+  DofMap::clear();
   _elem_to_dof_data.clear();
   _uncondensed_vars.clear();
-  _reduced_vars.clear();
   _reduced_sp = nullptr;
   _reduced_nnz.clear();
   _reduced_noz.clear();
 }
+
 }

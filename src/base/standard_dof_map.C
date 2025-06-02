@@ -900,7 +900,7 @@ void StandardDofMap::invalidate_dofs(MeshBase & mesh) const
 
 void StandardDofMap::clear()
 {
-  StandardDofMapBase::clear();
+  DofMap::clear();
 
   // we don't want to clear
   // the coupling matrix!
@@ -946,7 +946,6 @@ void StandardDofMap::clear()
 
   this->_shared_functors.clear();
 
-  _variables.clear();
   _variable_groups.clear();
   _var_to_vg.clear();
   _variable_group_numbers.clear();
