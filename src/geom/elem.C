@@ -4050,6 +4050,13 @@ Elem::positive_face_orientation(const unsigned int i) const
 
 
 unsigned int
+Elem::edge_orientation(const unsigned int i) const
+{
+  return this->positive_edge_orientation(i);
+}
+
+
+unsigned int
 Elem::face_orientation(const unsigned int i) const
 {
   libmesh_assert_less (i, this->n_faces());

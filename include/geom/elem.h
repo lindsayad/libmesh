@@ -1259,6 +1259,17 @@ public:
   bool positive_face_orientation(const unsigned int i) const;
 
   /**
+   * \returns The orientation of edge \p i, which is 1 when the edge is
+   * positively oriented and 0 when it is not.
+   *
+   * A basis whose shape functions depend on the order of an edge's
+   * vertices, such as a hierarchic basis of order two or above, consumes
+   * this index to select the shape functions of the degrees of freedom
+   * that the edge owns.
+   */
+  unsigned int edge_orientation(const unsigned int i) const;
+
+  /**
    * \returns An index over the symmetries of face \p i (six for a
    * triangle, eight for a quadrilateral): twice the position of the
    * lexicographically least vertex in the face's node map, plus 1 if

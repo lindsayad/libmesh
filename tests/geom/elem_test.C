@@ -853,6 +853,8 @@ public:
                 const bool positive = elem->point(elem->local_edge_node(e, 0)) >
                                       elem->point(elem->local_edge_node(e, 1));
 
+                CPPUNIT_ASSERT_EQUAL(static_cast<unsigned int>(positive),
+                                     elem->edge_orientation(e));
                 CPPUNIT_ASSERT_EQUAL(positive, elem->positive_edge_orientation(e));
               }
 
