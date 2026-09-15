@@ -218,8 +218,10 @@ am__unit_tests_dbg_SOURCES_DIST = driver.C libmesh_cppunit.h \
 	fe/fe_hermite_test.C fe/fe_hierarchic_test.C \
 	fe/fe_orientation_test.C fe/inf_fe_radial_test.C \
 	fe/fe_l2_hierarchic_test.C fe/fe_l2_lagrange_test.C \
-	fe/fe_l2_lagrange_gll_test.C fe/fe_gll_collocation_test.C \
-	fe/fe_gll_lagrange_agreement_test.C fe/fe_lagrange_test.C \
+	fe/fe_l2_lagrange_gll_test.C fe/fe_lagrange_gll_test.C \
+	fe/fe_gll_collocation_test.C \
+	fe/fe_gll_lagrange_agreement_test.C \
+	fe/fe_amr_constraint_test.C fe/fe_lagrange_test.C \
 	fe/fe_monomial_test.C fe/fe_rational_map.C \
 	fe/fe_rational_test.C fe/fe_side_test.C fe/fe_szabab_test.C \
 	fe/fe_test.h fe/fe_xyz_test.C \
@@ -311,8 +313,10 @@ am__objects_2 = unit_tests_dbg-driver.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_l2_hierarchic_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_l2_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_l2_lagrange_gll_test.$(OBJEXT) \
+	fe/unit_tests_dbg-fe_lagrange_gll_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_gll_collocation_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_gll_lagrange_agreement_test.$(OBJEXT) \
+	fe/unit_tests_dbg-fe_amr_constraint_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_monomial_test.$(OBJEXT) \
 	fe/unit_tests_dbg-fe_rational_map.$(OBJEXT) \
@@ -447,8 +451,10 @@ am__unit_tests_devel_SOURCES_DIST = driver.C libmesh_cppunit.h \
 	fe/fe_hermite_test.C fe/fe_hierarchic_test.C \
 	fe/fe_orientation_test.C fe/inf_fe_radial_test.C \
 	fe/fe_l2_hierarchic_test.C fe/fe_l2_lagrange_test.C \
-	fe/fe_l2_lagrange_gll_test.C fe/fe_gll_collocation_test.C \
-	fe/fe_gll_lagrange_agreement_test.C fe/fe_lagrange_test.C \
+	fe/fe_l2_lagrange_gll_test.C fe/fe_lagrange_gll_test.C \
+	fe/fe_gll_collocation_test.C \
+	fe/fe_gll_lagrange_agreement_test.C \
+	fe/fe_amr_constraint_test.C fe/fe_lagrange_test.C \
 	fe/fe_monomial_test.C fe/fe_rational_map.C \
 	fe/fe_rational_test.C fe/fe_side_test.C fe/fe_szabab_test.C \
 	fe/fe_test.h fe/fe_xyz_test.C \
@@ -539,8 +545,10 @@ am__objects_4 = unit_tests_devel-driver.$(OBJEXT) \
 	fe/unit_tests_devel-fe_l2_hierarchic_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_l2_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_l2_lagrange_gll_test.$(OBJEXT) \
+	fe/unit_tests_devel-fe_lagrange_gll_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_gll_collocation_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_gll_lagrange_agreement_test.$(OBJEXT) \
+	fe/unit_tests_devel-fe_amr_constraint_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_monomial_test.$(OBJEXT) \
 	fe/unit_tests_devel-fe_rational_map.$(OBJEXT) \
@@ -693,8 +701,10 @@ am__unit_tests_oprof_SOURCES_DIST = driver.C libmesh_cppunit.h \
 	fe/fe_hermite_test.C fe/fe_hierarchic_test.C \
 	fe/fe_orientation_test.C fe/inf_fe_radial_test.C \
 	fe/fe_l2_hierarchic_test.C fe/fe_l2_lagrange_test.C \
-	fe/fe_l2_lagrange_gll_test.C fe/fe_gll_collocation_test.C \
-	fe/fe_gll_lagrange_agreement_test.C fe/fe_lagrange_test.C \
+	fe/fe_l2_lagrange_gll_test.C fe/fe_lagrange_gll_test.C \
+	fe/fe_gll_collocation_test.C \
+	fe/fe_gll_lagrange_agreement_test.C \
+	fe/fe_amr_constraint_test.C fe/fe_lagrange_test.C \
 	fe/fe_monomial_test.C fe/fe_rational_map.C \
 	fe/fe_rational_test.C fe/fe_side_test.C fe/fe_szabab_test.C \
 	fe/fe_test.h fe/fe_xyz_test.C \
@@ -785,8 +795,10 @@ am__objects_6 = unit_tests_oprof-driver.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_l2_hierarchic_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_l2_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_l2_lagrange_gll_test.$(OBJEXT) \
+	fe/unit_tests_oprof-fe_lagrange_gll_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_gll_collocation_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_gll_lagrange_agreement_test.$(OBJEXT) \
+	fe/unit_tests_oprof-fe_amr_constraint_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_monomial_test.$(OBJEXT) \
 	fe/unit_tests_oprof-fe_rational_map.$(OBJEXT) \
@@ -917,8 +929,10 @@ am__unit_tests_opt_SOURCES_DIST = driver.C libmesh_cppunit.h \
 	fe/fe_hermite_test.C fe/fe_hierarchic_test.C \
 	fe/fe_orientation_test.C fe/inf_fe_radial_test.C \
 	fe/fe_l2_hierarchic_test.C fe/fe_l2_lagrange_test.C \
-	fe/fe_l2_lagrange_gll_test.C fe/fe_gll_collocation_test.C \
-	fe/fe_gll_lagrange_agreement_test.C fe/fe_lagrange_test.C \
+	fe/fe_l2_lagrange_gll_test.C fe/fe_lagrange_gll_test.C \
+	fe/fe_gll_collocation_test.C \
+	fe/fe_gll_lagrange_agreement_test.C \
+	fe/fe_amr_constraint_test.C fe/fe_lagrange_test.C \
 	fe/fe_monomial_test.C fe/fe_rational_map.C \
 	fe/fe_rational_test.C fe/fe_side_test.C fe/fe_szabab_test.C \
 	fe/fe_test.h fe/fe_xyz_test.C \
@@ -1009,8 +1023,10 @@ am__objects_8 = unit_tests_opt-driver.$(OBJEXT) \
 	fe/unit_tests_opt-fe_l2_hierarchic_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_l2_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_l2_lagrange_gll_test.$(OBJEXT) \
+	fe/unit_tests_opt-fe_lagrange_gll_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_gll_collocation_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_gll_lagrange_agreement_test.$(OBJEXT) \
+	fe/unit_tests_opt-fe_amr_constraint_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_monomial_test.$(OBJEXT) \
 	fe/unit_tests_opt-fe_rational_map.$(OBJEXT) \
@@ -1141,8 +1157,10 @@ am__unit_tests_prof_SOURCES_DIST = driver.C libmesh_cppunit.h \
 	fe/fe_hermite_test.C fe/fe_hierarchic_test.C \
 	fe/fe_orientation_test.C fe/inf_fe_radial_test.C \
 	fe/fe_l2_hierarchic_test.C fe/fe_l2_lagrange_test.C \
-	fe/fe_l2_lagrange_gll_test.C fe/fe_gll_collocation_test.C \
-	fe/fe_gll_lagrange_agreement_test.C fe/fe_lagrange_test.C \
+	fe/fe_l2_lagrange_gll_test.C fe/fe_lagrange_gll_test.C \
+	fe/fe_gll_collocation_test.C \
+	fe/fe_gll_lagrange_agreement_test.C \
+	fe/fe_amr_constraint_test.C fe/fe_lagrange_test.C \
 	fe/fe_monomial_test.C fe/fe_rational_map.C \
 	fe/fe_rational_test.C fe/fe_side_test.C fe/fe_szabab_test.C \
 	fe/fe_test.h fe/fe_xyz_test.C \
@@ -1233,8 +1251,10 @@ am__objects_10 = unit_tests_prof-driver.$(OBJEXT) \
 	fe/unit_tests_prof-fe_l2_hierarchic_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_l2_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_l2_lagrange_gll_test.$(OBJEXT) \
+	fe/unit_tests_prof-fe_lagrange_gll_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_gll_collocation_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_gll_lagrange_agreement_test.$(OBJEXT) \
+	fe/unit_tests_prof-fe_amr_constraint_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_lagrange_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_monomial_test.$(OBJEXT) \
 	fe/unit_tests_prof-fe_rational_map.$(OBJEXT) \
@@ -1410,6 +1430,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	base/$(DEPDIR)/unit_tests_prof-overlapping_coupling_test.Po \
 	base/$(DEPDIR)/unit_tests_prof-point_neighbor_coupling_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-dual_shape_verification_test.Po \
+	fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_bernstein_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_clough_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Po \
@@ -1420,6 +1441,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_l2_hierarchic_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_test.Po \
+	fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_monomial_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_orientation_test.Po \
@@ -1430,6 +1452,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-fe_xyz_test.Po \
 	fe/$(DEPDIR)/unit_tests_dbg-inf_fe_radial_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-dual_shape_verification_test.Po \
+	fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_bernstein_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_clough_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Po \
@@ -1440,6 +1463,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_l2_hierarchic_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_test.Po \
+	fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_monomial_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_orientation_test.Po \
@@ -1450,6 +1474,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_devel-fe_xyz_test.Po \
 	fe/$(DEPDIR)/unit_tests_devel-inf_fe_radial_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-dual_shape_verification_test.Po \
+	fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_bernstein_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_clough_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Po \
@@ -1460,6 +1485,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_l2_hierarchic_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_test.Po \
+	fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_monomial_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_orientation_test.Po \
@@ -1470,6 +1496,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-fe_xyz_test.Po \
 	fe/$(DEPDIR)/unit_tests_oprof-inf_fe_radial_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-dual_shape_verification_test.Po \
+	fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_bernstein_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_clough_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Po \
@@ -1480,6 +1507,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_l2_hierarchic_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_test.Po \
+	fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_monomial_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_orientation_test.Po \
@@ -1490,6 +1518,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_opt-fe_xyz_test.Po \
 	fe/$(DEPDIR)/unit_tests_opt-inf_fe_radial_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-dual_shape_verification_test.Po \
+	fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_bernstein_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_clough_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Po \
@@ -1500,6 +1529,7 @@ am__depfiles_remade = ./$(DEPDIR)/unit_tests_dbg-driver.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_l2_hierarchic_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_test.Po \
+	fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_monomial_test.Po \
 	fe/$(DEPDIR)/unit_tests_prof-fe_orientation_test.Po \
@@ -2544,8 +2574,10 @@ unit_tests_sources = driver.C libmesh_cppunit.h stream_redirector.h \
 	fe/fe_hermite_test.C fe/fe_hierarchic_test.C \
 	fe/fe_orientation_test.C fe/inf_fe_radial_test.C \
 	fe/fe_l2_hierarchic_test.C fe/fe_l2_lagrange_test.C \
-	fe/fe_l2_lagrange_gll_test.C fe/fe_gll_collocation_test.C \
-	fe/fe_gll_lagrange_agreement_test.C fe/fe_lagrange_test.C \
+	fe/fe_l2_lagrange_gll_test.C fe/fe_lagrange_gll_test.C \
+	fe/fe_gll_collocation_test.C \
+	fe/fe_gll_lagrange_agreement_test.C \
+	fe/fe_amr_constraint_test.C fe/fe_lagrange_test.C \
 	fe/fe_monomial_test.C fe/fe_rational_map.C \
 	fe/fe_rational_test.C fe/fe_side_test.C fe/fe_szabab_test.C \
 	fe/fe_test.h fe/fe_xyz_test.C \
@@ -2939,9 +2971,13 @@ fe/unit_tests_dbg-fe_l2_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_dbg-fe_l2_lagrange_gll_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_dbg-fe_lagrange_gll_test.$(OBJEXT): fe/$(am__dirstamp) \
+	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_dbg-fe_gll_collocation_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_dbg-fe_gll_lagrange_agreement_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_dbg-fe_amr_constraint_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_dbg-fe_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
@@ -3275,9 +3311,13 @@ fe/unit_tests_devel-fe_l2_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_devel-fe_l2_lagrange_gll_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_devel-fe_lagrange_gll_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_devel-fe_gll_collocation_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_devel-fe_gll_lagrange_agreement_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_devel-fe_amr_constraint_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_devel-fe_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
@@ -3591,9 +3631,13 @@ fe/unit_tests_oprof-fe_l2_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_oprof-fe_l2_lagrange_gll_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_oprof-fe_lagrange_gll_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_oprof-fe_gll_collocation_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_oprof-fe_gll_lagrange_agreement_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_oprof-fe_amr_constraint_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_oprof-fe_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
@@ -3867,9 +3911,13 @@ fe/unit_tests_opt-fe_l2_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_opt-fe_l2_lagrange_gll_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_opt-fe_lagrange_gll_test.$(OBJEXT): fe/$(am__dirstamp) \
+	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_opt-fe_gll_collocation_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_opt-fe_gll_lagrange_agreement_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_opt-fe_amr_constraint_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_opt-fe_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
@@ -4143,9 +4191,13 @@ fe/unit_tests_prof-fe_l2_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_prof-fe_l2_lagrange_gll_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_prof-fe_lagrange_gll_test.$(OBJEXT): fe/$(am__dirstamp) \
+	fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_prof-fe_gll_collocation_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_prof-fe_gll_lagrange_agreement_test.$(OBJEXT):  \
+	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
+fe/unit_tests_prof-fe_amr_constraint_test.$(OBJEXT):  \
 	fe/$(am__dirstamp) fe/$(DEPDIR)/$(am__dirstamp)
 fe/unit_tests_prof-fe_lagrange_test.$(OBJEXT): fe/$(am__dirstamp) \
 	fe/$(DEPDIR)/$(am__dirstamp)
@@ -4445,6 +4497,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/unit_tests_prof-overlapping_coupling_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@base/$(DEPDIR)/unit_tests_prof-point_neighbor_coupling_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-dual_shape_verification_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_bernstein_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_clough_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Po@am__quote@ # am--include-marker
@@ -4455,6 +4508,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_l2_hierarchic_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_monomial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_orientation_test.Po@am__quote@ # am--include-marker
@@ -4465,6 +4519,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-fe_xyz_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_dbg-inf_fe_radial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-dual_shape_verification_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_bernstein_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_clough_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Po@am__quote@ # am--include-marker
@@ -4475,6 +4530,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_l2_hierarchic_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_monomial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_orientation_test.Po@am__quote@ # am--include-marker
@@ -4485,6 +4541,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-fe_xyz_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_devel-inf_fe_radial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-dual_shape_verification_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_bernstein_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_clough_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Po@am__quote@ # am--include-marker
@@ -4495,6 +4552,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_l2_hierarchic_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_monomial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_orientation_test.Po@am__quote@ # am--include-marker
@@ -4505,6 +4563,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-fe_xyz_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_oprof-inf_fe_radial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-dual_shape_verification_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_bernstein_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_clough_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Po@am__quote@ # am--include-marker
@@ -4515,6 +4574,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_l2_hierarchic_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_monomial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_orientation_test.Po@am__quote@ # am--include-marker
@@ -4525,6 +4585,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-fe_xyz_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_opt-inf_fe_radial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-dual_shape_verification_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_bernstein_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_clough_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Po@am__quote@ # am--include-marker
@@ -4535,6 +4596,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_l2_hierarchic_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_monomial_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fe/$(DEPDIR)/unit_tests_prof-fe_orientation_test.Po@am__quote@ # am--include-marker
@@ -5352,6 +5414,20 @@ fe/unit_tests_dbg-fe_l2_lagrange_gll_test.obj: fe/fe_l2_lagrange_gll_test.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_dbg-fe_l2_lagrange_gll_test.obj `if test -f 'fe/fe_l2_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_l2_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_l2_lagrange_gll_test.C'; fi`
 
+fe/unit_tests_dbg-fe_lagrange_gll_test.o: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_dbg-fe_lagrange_gll_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_dbg-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_dbg-fe_lagrange_gll_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_dbg-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+
+fe/unit_tests_dbg-fe_lagrange_gll_test.obj: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_dbg-fe_lagrange_gll_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_dbg-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_dbg-fe_lagrange_gll_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_dbg-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+
 fe/unit_tests_dbg-fe_gll_collocation_test.o: fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_dbg-fe_gll_collocation_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Tpo -c -o fe/unit_tests_dbg-fe_gll_collocation_test.o `test -f 'fe/fe_gll_collocation_test.C' || echo '$(srcdir)/'`fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Tpo fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Po
@@ -5379,6 +5455,20 @@ fe/unit_tests_dbg-fe_gll_lagrange_agreement_test.obj: fe/fe_gll_lagrange_agreeme
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_gll_lagrange_agreement_test.C' object='fe/unit_tests_dbg-fe_gll_lagrange_agreement_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_dbg-fe_gll_lagrange_agreement_test.obj `if test -f 'fe/fe_gll_lagrange_agreement_test.C'; then $(CYGPATH_W) 'fe/fe_gll_lagrange_agreement_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_gll_lagrange_agreement_test.C'; fi`
+
+fe/unit_tests_dbg-fe_amr_constraint_test.o: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_dbg-fe_amr_constraint_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_dbg-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_dbg-fe_amr_constraint_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_dbg-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+
+fe/unit_tests_dbg-fe_amr_constraint_test.obj: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_dbg-fe_amr_constraint_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_dbg-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_dbg-fe_amr_constraint_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_dbg-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
 
 fe/unit_tests_dbg-fe_lagrange_test.o: fe/fe_lagrange_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_dbg_CPPFLAGS) $(CPPFLAGS) $(unit_tests_dbg_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_dbg-fe_lagrange_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_test.Tpo -c -o fe/unit_tests_dbg-fe_lagrange_test.o `test -f 'fe/fe_lagrange_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_test.C
@@ -7214,6 +7304,20 @@ fe/unit_tests_devel-fe_l2_lagrange_gll_test.obj: fe/fe_l2_lagrange_gll_test.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_devel-fe_l2_lagrange_gll_test.obj `if test -f 'fe/fe_l2_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_l2_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_l2_lagrange_gll_test.C'; fi`
 
+fe/unit_tests_devel-fe_lagrange_gll_test.o: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_devel-fe_lagrange_gll_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_devel-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_devel-fe_lagrange_gll_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_devel-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+
+fe/unit_tests_devel-fe_lagrange_gll_test.obj: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_devel-fe_lagrange_gll_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_devel-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_devel-fe_lagrange_gll_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_devel-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+
 fe/unit_tests_devel-fe_gll_collocation_test.o: fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_devel-fe_gll_collocation_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Tpo -c -o fe/unit_tests_devel-fe_gll_collocation_test.o `test -f 'fe/fe_gll_collocation_test.C' || echo '$(srcdir)/'`fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Tpo fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Po
@@ -7241,6 +7345,20 @@ fe/unit_tests_devel-fe_gll_lagrange_agreement_test.obj: fe/fe_gll_lagrange_agree
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_gll_lagrange_agreement_test.C' object='fe/unit_tests_devel-fe_gll_lagrange_agreement_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_devel-fe_gll_lagrange_agreement_test.obj `if test -f 'fe/fe_gll_lagrange_agreement_test.C'; then $(CYGPATH_W) 'fe/fe_gll_lagrange_agreement_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_gll_lagrange_agreement_test.C'; fi`
+
+fe/unit_tests_devel-fe_amr_constraint_test.o: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_devel-fe_amr_constraint_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_devel-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_devel-fe_amr_constraint_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_devel-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+
+fe/unit_tests_devel-fe_amr_constraint_test.obj: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_devel-fe_amr_constraint_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_devel-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_devel-fe_amr_constraint_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_devel-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
 
 fe/unit_tests_devel-fe_lagrange_test.o: fe/fe_lagrange_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_devel_CPPFLAGS) $(CPPFLAGS) $(unit_tests_devel_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_devel-fe_lagrange_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_test.Tpo -c -o fe/unit_tests_devel-fe_lagrange_test.o `test -f 'fe/fe_lagrange_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_test.C
@@ -9076,6 +9194,20 @@ fe/unit_tests_oprof-fe_l2_lagrange_gll_test.obj: fe/fe_l2_lagrange_gll_test.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_oprof-fe_l2_lagrange_gll_test.obj `if test -f 'fe/fe_l2_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_l2_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_l2_lagrange_gll_test.C'; fi`
 
+fe/unit_tests_oprof-fe_lagrange_gll_test.o: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_oprof-fe_lagrange_gll_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_oprof-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_oprof-fe_lagrange_gll_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_oprof-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+
+fe/unit_tests_oprof-fe_lagrange_gll_test.obj: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_oprof-fe_lagrange_gll_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_oprof-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_oprof-fe_lagrange_gll_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_oprof-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+
 fe/unit_tests_oprof-fe_gll_collocation_test.o: fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_oprof-fe_gll_collocation_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Tpo -c -o fe/unit_tests_oprof-fe_gll_collocation_test.o `test -f 'fe/fe_gll_collocation_test.C' || echo '$(srcdir)/'`fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Tpo fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Po
@@ -9103,6 +9235,20 @@ fe/unit_tests_oprof-fe_gll_lagrange_agreement_test.obj: fe/fe_gll_lagrange_agree
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_gll_lagrange_agreement_test.C' object='fe/unit_tests_oprof-fe_gll_lagrange_agreement_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_oprof-fe_gll_lagrange_agreement_test.obj `if test -f 'fe/fe_gll_lagrange_agreement_test.C'; then $(CYGPATH_W) 'fe/fe_gll_lagrange_agreement_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_gll_lagrange_agreement_test.C'; fi`
+
+fe/unit_tests_oprof-fe_amr_constraint_test.o: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_oprof-fe_amr_constraint_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_oprof-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_oprof-fe_amr_constraint_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_oprof-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+
+fe/unit_tests_oprof-fe_amr_constraint_test.obj: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_oprof-fe_amr_constraint_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_oprof-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_oprof-fe_amr_constraint_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_oprof-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
 
 fe/unit_tests_oprof-fe_lagrange_test.o: fe/fe_lagrange_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_oprof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_oprof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_oprof-fe_lagrange_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_test.Tpo -c -o fe/unit_tests_oprof-fe_lagrange_test.o `test -f 'fe/fe_lagrange_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_test.C
@@ -10938,6 +11084,20 @@ fe/unit_tests_opt-fe_l2_lagrange_gll_test.obj: fe/fe_l2_lagrange_gll_test.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_opt-fe_l2_lagrange_gll_test.obj `if test -f 'fe/fe_l2_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_l2_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_l2_lagrange_gll_test.C'; fi`
 
+fe/unit_tests_opt-fe_lagrange_gll_test.o: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_opt-fe_lagrange_gll_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_opt-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_opt-fe_lagrange_gll_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_opt-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+
+fe/unit_tests_opt-fe_lagrange_gll_test.obj: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_opt-fe_lagrange_gll_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_opt-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_opt-fe_lagrange_gll_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_opt-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+
 fe/unit_tests_opt-fe_gll_collocation_test.o: fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_opt-fe_gll_collocation_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Tpo -c -o fe/unit_tests_opt-fe_gll_collocation_test.o `test -f 'fe/fe_gll_collocation_test.C' || echo '$(srcdir)/'`fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Tpo fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Po
@@ -10965,6 +11125,20 @@ fe/unit_tests_opt-fe_gll_lagrange_agreement_test.obj: fe/fe_gll_lagrange_agreeme
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_gll_lagrange_agreement_test.C' object='fe/unit_tests_opt-fe_gll_lagrange_agreement_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_opt-fe_gll_lagrange_agreement_test.obj `if test -f 'fe/fe_gll_lagrange_agreement_test.C'; then $(CYGPATH_W) 'fe/fe_gll_lagrange_agreement_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_gll_lagrange_agreement_test.C'; fi`
+
+fe/unit_tests_opt-fe_amr_constraint_test.o: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_opt-fe_amr_constraint_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_opt-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_opt-fe_amr_constraint_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_opt-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+
+fe/unit_tests_opt-fe_amr_constraint_test.obj: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_opt-fe_amr_constraint_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_opt-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_opt-fe_amr_constraint_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_opt-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
 
 fe/unit_tests_opt-fe_lagrange_test.o: fe/fe_lagrange_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_opt_CPPFLAGS) $(CPPFLAGS) $(unit_tests_opt_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_opt-fe_lagrange_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_test.Tpo -c -o fe/unit_tests_opt-fe_lagrange_test.o `test -f 'fe/fe_lagrange_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_test.C
@@ -12800,6 +12974,20 @@ fe/unit_tests_prof-fe_l2_lagrange_gll_test.obj: fe/fe_l2_lagrange_gll_test.C
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_prof-fe_l2_lagrange_gll_test.obj `if test -f 'fe/fe_l2_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_l2_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_l2_lagrange_gll_test.C'; fi`
 
+fe/unit_tests_prof-fe_lagrange_gll_test.o: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_prof-fe_lagrange_gll_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_prof-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_prof-fe_lagrange_gll_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_prof-fe_lagrange_gll_test.o `test -f 'fe/fe_lagrange_gll_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_gll_test.C
+
+fe/unit_tests_prof-fe_lagrange_gll_test.obj: fe/fe_lagrange_gll_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_prof-fe_lagrange_gll_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Tpo -c -o fe/unit_tests_prof-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Tpo fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_lagrange_gll_test.C' object='fe/unit_tests_prof-fe_lagrange_gll_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_prof-fe_lagrange_gll_test.obj `if test -f 'fe/fe_lagrange_gll_test.C'; then $(CYGPATH_W) 'fe/fe_lagrange_gll_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_lagrange_gll_test.C'; fi`
+
 fe/unit_tests_prof-fe_gll_collocation_test.o: fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_prof-fe_gll_collocation_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Tpo -c -o fe/unit_tests_prof-fe_gll_collocation_test.o `test -f 'fe/fe_gll_collocation_test.C' || echo '$(srcdir)/'`fe/fe_gll_collocation_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Tpo fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Po
@@ -12827,6 +13015,20 @@ fe/unit_tests_prof-fe_gll_lagrange_agreement_test.obj: fe/fe_gll_lagrange_agreem
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_gll_lagrange_agreement_test.C' object='fe/unit_tests_prof-fe_gll_lagrange_agreement_test.obj' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_prof-fe_gll_lagrange_agreement_test.obj `if test -f 'fe/fe_gll_lagrange_agreement_test.C'; then $(CYGPATH_W) 'fe/fe_gll_lagrange_agreement_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_gll_lagrange_agreement_test.C'; fi`
+
+fe/unit_tests_prof-fe_amr_constraint_test.o: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_prof-fe_amr_constraint_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_prof-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_prof-fe_amr_constraint_test.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_prof-fe_amr_constraint_test.o `test -f 'fe/fe_amr_constraint_test.C' || echo '$(srcdir)/'`fe/fe_amr_constraint_test.C
+
+fe/unit_tests_prof-fe_amr_constraint_test.obj: fe/fe_amr_constraint_test.C
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_prof-fe_amr_constraint_test.obj -MD -MP -MF fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Tpo -c -o fe/unit_tests_prof-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Tpo fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='fe/fe_amr_constraint_test.C' object='fe/unit_tests_prof-fe_amr_constraint_test.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -c -o fe/unit_tests_prof-fe_amr_constraint_test.obj `if test -f 'fe/fe_amr_constraint_test.C'; then $(CYGPATH_W) 'fe/fe_amr_constraint_test.C'; else $(CYGPATH_W) '$(srcdir)/fe/fe_amr_constraint_test.C'; fi`
 
 fe/unit_tests_prof-fe_lagrange_test.o: fe/fe_lagrange_test.C
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(unit_tests_prof_CPPFLAGS) $(CPPFLAGS) $(unit_tests_prof_CXXFLAGS) $(CXXFLAGS) -MT fe/unit_tests_prof-fe_lagrange_test.o -MD -MP -MF fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_test.Tpo -c -o fe/unit_tests_prof-fe_lagrange_test.o `test -f 'fe/fe_lagrange_test.C' || echo '$(srcdir)/'`fe/fe_lagrange_test.C
@@ -14814,6 +15016,7 @@ distclean: distclean-am
 	-rm -f base/$(DEPDIR)/unit_tests_prof-overlapping_coupling_test.Po
 	-rm -f base/$(DEPDIR)/unit_tests_prof-point_neighbor_coupling_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Po
@@ -14824,6 +15027,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_orientation_test.Po
@@ -14834,6 +15038,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Po
@@ -14844,6 +15049,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_orientation_test.Po
@@ -14854,6 +15060,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Po
@@ -14864,6 +15071,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_orientation_test.Po
@@ -14874,6 +15082,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Po
@@ -14884,6 +15093,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_orientation_test.Po
@@ -14894,6 +15104,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Po
@@ -14904,6 +15115,7 @@ distclean: distclean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_orientation_test.Po
@@ -15526,6 +15738,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f base/$(DEPDIR)/unit_tests_prof-overlapping_coupling_test.Po
 	-rm -f base/$(DEPDIR)/unit_tests_prof-point_neighbor_coupling_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_gll_collocation_test.Po
@@ -15536,6 +15749,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_orientation_test.Po
@@ -15546,6 +15760,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_dbg-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_gll_collocation_test.Po
@@ -15556,6 +15771,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_orientation_test.Po
@@ -15566,6 +15782,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_devel-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_gll_collocation_test.Po
@@ -15576,6 +15793,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_orientation_test.Po
@@ -15586,6 +15804,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_oprof-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_gll_collocation_test.Po
@@ -15596,6 +15815,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_orientation_test.Po
@@ -15606,6 +15826,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-fe_xyz_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_opt-inf_fe_radial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-dual_shape_verification_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_amr_constraint_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_bernstein_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_clough_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_gll_collocation_test.Po
@@ -15616,6 +15837,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_l2_hierarchic_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_l2_lagrange_test.Po
+	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_gll_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_lagrange_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_monomial_test.Po
 	-rm -f fe/$(DEPDIR)/unit_tests_prof-fe_orientation_test.Po
