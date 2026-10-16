@@ -83,7 +83,8 @@ unsigned int dual_transform_adjacent_vertex (const unsigned int n_vertices,
  * rhs and \p x of at least \p n_shapes, all of the scalar type of \p
  * JxW.
  */
-template <typename Weights, typename Shapes, typename Matrix, typename Vector, typename Coeffs>
+template <typename Weights, typename Shapes, typename MatrixA, typename MatrixD,
+          typename RHS, typename Solution, typename Coeffs>
 LIBMESH_DEVICE_INLINE
 void compute_dual_coeffs (const FEFamily family,
                           const ElemType type,
@@ -91,10 +92,10 @@ void compute_dual_coeffs (const FEFamily family,
                           const unsigned int n_qp,
                           const Weights & JxW,
                           const Shapes & phi,
-                          Matrix & A,
-                          Matrix & D,
-                          Vector & rhs,
-                          Vector & x,
+                          MatrixA & A,
+                          MatrixD & D,
+                          RHS & rhs,
+                          Solution & x,
                           Coeffs & dual_coeff)
 {
   for (unsigned int i=0; i<n_shapes; ++i)
