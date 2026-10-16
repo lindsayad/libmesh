@@ -41,6 +41,7 @@ BUILT_SOURCES = \
         enum_elem_quality.h \
         enum_elem_type.h \
         enum_error_estimator_type.h \
+        enum_fe_elem_class.h \
         enum_fe_family.h \
         enum_inf_map_type.h \
         enum_io_package.h \
@@ -80,12 +81,13 @@ BUILT_SOURCES = \
         fe_interface_macros.h \
         fe_lagrange_gll_shape.h \
         fe_lagrange_gll_shape_1D.h \
-        fe_lagrange_shape_1D.h \
         fe_lagrange_n_dofs.h \
+        fe_lagrange_shape_1D.h \
         fe_macro.h \
         fe_map.h \
         fe_monomial_n_dofs.h \
         fe_reference_element_traits.h \
+        fe_shape_traits.h \
         fe_simplex_lagrange.h \
         fe_tensor_product_lagrange.h \
         fe_transformation_base.h \
@@ -180,6 +182,13 @@ BUILT_SOURCES = \
         overlap_coupling.h \
         point_neighbor_coupling.h \
         sibling_coupling.h \
+        kokkos_fe_base.h \
+        kokkos_fe_evaluator.h \
+        kokkos_fe_lagrange_1d.h \
+        kokkos_fe_lagrange_2d.h \
+        kokkos_fe_lagrange_3d.h \
+        kokkos_fe_monomial.h \
+        kokkos_fe_types.h \
         kokkos_linalg_base.h \
         kokkos_storage.h \
         kokkos_storage_policy.h \
@@ -739,6 +748,9 @@ enum_elem_type.h: $(top_srcdir)/include/enums/enum_elem_type.h
 enum_error_estimator_type.h: $(top_srcdir)/include/enums/enum_error_estimator_type.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+enum_fe_elem_class.h: $(top_srcdir)/include/enums/enum_fe_elem_class.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 enum_fe_family.h: $(top_srcdir)/include/enums/enum_fe_family.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
@@ -856,10 +868,10 @@ fe_lagrange_gll_shape.h: $(top_srcdir)/include/fe/fe_lagrange_gll_shape.h
 fe_lagrange_gll_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_gll_shape_1D.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
-fe_lagrange_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_shape_1D.h
+fe_lagrange_n_dofs.h: $(top_srcdir)/include/fe/fe_lagrange_n_dofs.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
-fe_lagrange_n_dofs.h: $(top_srcdir)/include/fe/fe_lagrange_n_dofs.h
+fe_lagrange_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_shape_1D.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_macro.h: $(top_srcdir)/include/fe/fe_macro.h
@@ -872,6 +884,9 @@ fe_monomial_n_dofs.h: $(top_srcdir)/include/fe/fe_monomial_n_dofs.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_reference_element_traits.h: $(top_srcdir)/include/fe/fe_reference_element_traits.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+fe_shape_traits.h: $(top_srcdir)/include/fe/fe_shape_traits.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_simplex_lagrange.h: $(top_srcdir)/include/fe/fe_simplex_lagrange.h
@@ -1154,6 +1169,27 @@ point_neighbor_coupling.h: $(top_srcdir)/include/ghosting/point_neighbor_couplin
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 sibling_coupling.h: $(top_srcdir)/include/ghosting/sibling_coupling.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_base.h: $(top_srcdir)/include/gpu/kokkos_fe_base.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_evaluator.h: $(top_srcdir)/include/gpu/kokkos_fe_evaluator.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_lagrange_1d.h: $(top_srcdir)/include/gpu/kokkos_fe_lagrange_1d.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_lagrange_2d.h: $(top_srcdir)/include/gpu/kokkos_fe_lagrange_2d.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_lagrange_3d.h: $(top_srcdir)/include/gpu/kokkos_fe_lagrange_3d.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_monomial.h: $(top_srcdir)/include/gpu/kokkos_fe_monomial.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_types.h: $(top_srcdir)/include/gpu/kokkos_fe_types.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 kokkos_linalg_base.h: $(top_srcdir)/include/gpu/kokkos_linalg_base.h

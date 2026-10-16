@@ -50,6 +50,7 @@ include_HEADERS =  \
         enums/enum_elem_quality.h \
         enums/enum_elem_type.h \
         enums/enum_error_estimator_type.h \
+        enums/enum_fe_elem_class.h \
         enums/enum_fe_family.h \
         enums/enum_inf_map_type.h \
         enums/enum_io_package.h \
@@ -89,12 +90,13 @@ include_HEADERS =  \
         fe/fe_interface_macros.h \
         fe/fe_lagrange_gll_shape.h \
         fe/fe_lagrange_gll_shape_1D.h \
-        fe/fe_lagrange_shape_1D.h \
         fe/fe_lagrange_n_dofs.h \
+        fe/fe_lagrange_shape_1D.h \
         fe/fe_macro.h \
         fe/fe_map.h \
         fe/fe_monomial_n_dofs.h \
         fe/fe_reference_element_traits.h \
+        fe/fe_shape_traits.h \
         fe/fe_simplex_lagrange.h \
         fe/fe_tensor_product_lagrange.h \
         fe/fe_transformation_base.h \
@@ -189,6 +191,13 @@ include_HEADERS =  \
         ghosting/overlap_coupling.h \
         ghosting/point_neighbor_coupling.h \
         ghosting/sibling_coupling.h \
+        gpu/kokkos_fe_base.h \
+        gpu/kokkos_fe_evaluator.h \
+        gpu/kokkos_fe_lagrange_1d.h \
+        gpu/kokkos_fe_lagrange_2d.h \
+        gpu/kokkos_fe_lagrange_3d.h \
+        gpu/kokkos_fe_monomial.h \
+        gpu/kokkos_fe_types.h \
         gpu/kokkos_linalg_base.h \
         gpu/kokkos_storage.h \
         gpu/kokkos_storage_policy.h \
