@@ -24,6 +24,7 @@
 #include <cmath> // for sqrt
 
 // Local Includes
+#include "libmesh/dense_cholesky.h"
 #include "libmesh/dense_matrix.h"
 #include "libmesh/dense_vector.h"
 #include "libmesh/int_range.h"
@@ -870,48 +871,17 @@ void DenseMatrix<T>::cholesky_solve (const DenseVector<T2> & b,
 
 
 
-// This algorithm is based on the Cholesky decomposition in
-// the Numerical Recipes in C book.
 template<typename T>
 void DenseMatrix<T>::_cholesky_decompose ()
 {
-  using std::sqrt;
-
   // If we called this function, there better not be any
   // previous decomposition of the matrix.
   libmesh_assert_equal_to (this->_decomposition_type, NONE);
 
-  // Shorthand notation for number of rows and columns.
-  const unsigned int
-    n_rows = this->m(),
-    n_cols = this->n();
-
   // Just to be really sure...
-  libmesh_assert_equal_to (n_rows, n_cols);
+  libmesh_assert_equal_to (this->m(), this->n());
 
-  // A convenient reference to *this
-  DenseMatrix<T> & A = *this;
-
-  for (unsigned int i=0; i<n_rows; ++i)
-    {
-      for (unsigned int j=i; j<n_cols; ++j)
-        {
-          for (unsigned int k=0; k<i; ++k)
-            A(i,j) -= A(i,k) * A(j,k);
-
-          if (i == j)
-            {
-#ifndef LIBMESH_USE_COMPLEX_NUMBERS
-              libmesh_error_msg_if(A(i,j) <= 0.0,
-                                   "Error! Can only use Cholesky decomposition with symmetric positive definite matrices.");
-#endif
-
-              A(i,i) = sqrt(A(i,j));
-            }
-          else
-            A(j,i) = A(i,j) / A(i,i);
-        }
-    }
+  cholesky_decompose(this->m(), *this);
 
   // Set the flag for CHOLESKY decomposition
   this->_decomposition_type = CHOLESKY;
@@ -924,41 +894,13 @@ template <typename T2>
 void DenseMatrix<T>::_cholesky_back_substitute (const DenseVector<T2> & b,
                                                 DenseVector<T2> & x) const
 {
-  // Shorthand notation for number of rows and columns.
-  const unsigned int
-    n_rows = this->m(),
-    n_cols = this->n();
-
   // Just to be really sure...
-  libmesh_assert_equal_to (n_rows, n_cols);
-
-  // A convenient reference to *this
-  const DenseMatrix<T> & A = *this;
+  libmesh_assert_equal_to (this->m(), this->n());
 
   // Now compute the solution to Ax =b using the factorization.
-  x.resize(n_rows);
+  x.resize(this->m());
 
-  // Solve for Ly=b
-  for (unsigned int i=0; i<n_cols; ++i)
-    {
-      T2 temp = b(i);
-
-      for (unsigned int k=0; k<i; ++k)
-        temp -= A(i,k)*x(k);
-
-      x(i) = temp / A(i,i);
-    }
-
-  // Solve for L^T x = y
-  for (unsigned int i=0; i<n_cols; ++i)
-    {
-      const unsigned int ib = (n_cols-1)-i;
-
-      for (unsigned int k=(ib+1); k<n_cols; ++k)
-        x(ib) -= A(k,ib) * x(k);
-
-      x(ib) /= A(ib,ib);
-    }
+  cholesky_back_substitute(this->m(), *this, b, x);
 }
 
 

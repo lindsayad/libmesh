@@ -77,6 +77,7 @@ BUILT_SOURCES = \
         fe_abstract.h \
         fe_base.h \
         fe_compute_data.h \
+        fe_dual_coeffs.h \
         fe_interface.h \
         fe_interface_macros.h \
         fe_lagrange_gll_shape.h \
@@ -261,6 +262,7 @@ BUILT_SOURCES = \
         const_fem_function.h \
         const_function.h \
         coupling_matrix.h \
+        dense_cholesky.h \
         dense_matrix.h \
         dense_matrix_base.h \
         dense_matrix_base_impl.h \
@@ -856,6 +858,9 @@ fe_base.h: $(top_srcdir)/include/fe/fe_base.h
 fe_compute_data.h: $(top_srcdir)/include/fe/fe_compute_data.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+fe_dual_coeffs.h: $(top_srcdir)/include/fe/fe_dual_coeffs.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 fe_interface.h: $(top_srcdir)/include/fe/fe_interface.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
@@ -1406,6 +1411,9 @@ const_function.h: $(top_srcdir)/include/numerics/const_function.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 coupling_matrix.h: $(top_srcdir)/include/numerics/coupling_matrix.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+dense_cholesky.h: $(top_srcdir)/include/numerics/dense_cholesky.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 dense_matrix.h: $(top_srcdir)/include/numerics/dense_matrix.h
