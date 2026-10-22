@@ -40,6 +40,7 @@ unit_tests_sources = \
   fe/fe_gll_lagrange_agreement_test.C \
   fe/fe_lagrange_test.C \
   fe/fe_monomial_test.C \
+  fe/fe_n_dofs_test.C \
   fe/fe_rational_map.C \
   fe/fe_rational_test.C \
   fe/fe_side_test.C \

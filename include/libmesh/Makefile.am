@@ -81,9 +81,13 @@ BUILT_SOURCES = \
         fe_lagrange_gll_shape.h \
         fe_lagrange_gll_shape_1D.h \
         fe_lagrange_shape_1D.h \
+        fe_lagrange_n_dofs.h \
         fe_macro.h \
         fe_map.h \
+        fe_monomial_n_dofs.h \
         fe_reference_element_traits.h \
+        fe_simplex_lagrange.h \
+        fe_tensor_product_lagrange.h \
         fe_transformation_base.h \
         fe_type.h \
         fe_xyz_map.h \
@@ -855,13 +859,25 @@ fe_lagrange_gll_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_gll_shape_1D.h
 fe_lagrange_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_shape_1D.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+fe_lagrange_n_dofs.h: $(top_srcdir)/include/fe/fe_lagrange_n_dofs.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 fe_macro.h: $(top_srcdir)/include/fe/fe_macro.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_map.h: $(top_srcdir)/include/fe/fe_map.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+fe_monomial_n_dofs.h: $(top_srcdir)/include/fe/fe_monomial_n_dofs.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 fe_reference_element_traits.h: $(top_srcdir)/include/fe/fe_reference_element_traits.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+fe_simplex_lagrange.h: $(top_srcdir)/include/fe/fe_simplex_lagrange.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+fe_tensor_product_lagrange.h: $(top_srcdir)/include/fe/fe_tensor_product_lagrange.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_transformation_base.h: $(top_srcdir)/include/fe/fe_transformation_base.h
