@@ -557,13 +557,13 @@ BUILT_SOURCES = dirichlet_boundaries.h dof_map.h dof_map_base.h \
 	single_predicates.h sparsity_pattern.h variable.h \
 	variant_filter_iterator.h enum_convergence_flags.h \
 	enum_eigen_solver_type.h enum_elem_quality.h enum_elem_type.h \
-	enum_error_estimator_type.h enum_fe_family.h \
-	enum_inf_map_type.h enum_io_package.h enum_matrix_build_type.h \
-	enum_norm_type.h enum_order.h enum_parallel_type.h \
-	enum_partitioner_type.h enum_point_locator_type.h \
-	enum_preconditioner_type.h enum_quadrature_type.h \
-	enum_solver_package.h enum_solver_type.h \
-	enum_subset_solve_mode.h enum_xdr_mode.h \
+	enum_error_estimator_type.h enum_fe_elem_class.h \
+	enum_fe_family.h enum_inf_map_type.h enum_io_package.h \
+	enum_matrix_build_type.h enum_norm_type.h enum_order.h \
+	enum_parallel_type.h enum_partitioner_type.h \
+	enum_point_locator_type.h enum_preconditioner_type.h \
+	enum_quadrature_type.h enum_solver_package.h \
+	enum_solver_type.h enum_subset_solve_mode.h enum_xdr_mode.h \
 	adjoint_refinement_estimator.h \
 	adjoint_residual_error_estimator.h discontinuity_measure.h \
 	error_estimator.h exact_error_estimator.h exact_solution.h \
@@ -572,10 +572,12 @@ BUILT_SOURCES = dirichlet_boundaries.h dof_map.h dof_map_base.h \
 	patch_recovery_error_estimator.h smoothness_estimator.h \
 	uniform_refinement_estimator.h \
 	weighted_patch_recovery_error_estimator.h fe.h fe_abstract.h \
-	fe_base.h fe_compute_data.h fe_interface.h \
-	fe_interface_macros.h fe_lagrange_shape_1D.h \
-	fe_lagrange_n_dofs.h fe_macro.h fe_map.h fe_monomial_n_dofs.h \
-	fe_reference_element_traits.h fe_simplex_lagrange.h \
+	fe_base.h fe_compute_data.h fe_dual_coeffs.h fe_interface.h \
+	fe_interface_macros.h fe_lagrange_gll_shape.h \
+	fe_lagrange_gll_shape_1D.h fe_lagrange_n_dofs.h \
+	fe_lagrange_shape_1D.h fe_macro.h fe_map.h \
+	fe_monomial_n_dofs.h fe_reference_element_traits.h \
+	fe_shape_traits.h fe_simplex_lagrange.h \
 	fe_tensor_product_lagrange.h fe_transformation_base.h \
 	fe_type.h fe_xyz_map.h h1_fe_transformation.h \
 	hcurl_fe_transformation.h hdiv_fe_transformation.h inf_fe.h \
@@ -602,33 +604,37 @@ BUILT_SOURCES = dirichlet_boundaries.h dof_map.h dof_map_base.h \
 	remote_elem.h sphere.h stored_range.h surface.h \
 	default_coupling.h ghost_point_neighbors.h ghosting_functor.h \
 	non_manifold_coupling.h overlap_coupling.h \
-	point_neighbor_coupling.h sibling_coupling.h \
-	kokkos_linalg_base.h kokkos_storage.h kokkos_storage_policy.h \
-	kokkos_tensor_ops.h kokkos_vector_ops.h abaqus_io.h \
-	boundary_info.h boundary_mesh.h checkpoint_io.h \
-	distributed_mesh.h dyna_io.h ensight_io.h exodusII_io.h \
-	exodusII_io_helper.h exodus_header_info.h fro_io.h gmsh_io.h \
-	gmv_io.h gnuplot_io.h inf_elem_builder.h matlab_io.h \
-	medit_io.h mesh.h mesh_base.h mesh_communication.h \
-	mesh_function.h mesh_generation.h mesh_input.h \
-	mesh_modification.h mesh_netgen_interface.h mesh_output.h \
-	mesh_refinement.h mesh_serializer.h mesh_smoother.h \
-	mesh_smoother_laplace.h mesh_smoother_vsmoother.h \
-	mesh_subdivision_support.h mesh_tet_interface.h \
-	mesh_tetgen_interface.h mesh_tetgen_wrapper.h mesh_tools.h \
-	mesh_triangle_holes.h mesh_triangle_interface.h \
-	mesh_triangle_wrapper.h namebased_io.h nemesis_io.h \
-	nemesis_io_helper.h off_io.h parallel_mesh.h patch.h \
-	poly2tri_triangulator.h postscript_io.h replicated_mesh.h \
-	serial_mesh.h sides_to_elem_map.h simplex_refiner.h stl_io.h \
+	point_neighbor_coupling.h sibling_coupling.h kokkos_fe_base.h \
+	kokkos_fe_evaluator.h kokkos_fe_lagrange_1d.h \
+	kokkos_fe_lagrange_2d.h kokkos_fe_lagrange_3d.h \
+	kokkos_fe_monomial.h kokkos_fe_types.h kokkos_linalg_base.h \
+	kokkos_storage.h kokkos_storage_policy.h kokkos_tensor_ops.h \
+	kokkos_vector_ops.h abaqus_io.h boundary_info.h \
+	boundary_mesh.h checkpoint_io.h distributed_mesh.h dyna_io.h \
+	ensight_io.h exodusII_io.h exodusII_io_helper.h \
+	exodus_header_info.h fro_io.h gmsh_io.h gmv_io.h gnuplot_io.h \
+	inf_elem_builder.h matlab_io.h medit_io.h mesh.h mesh_base.h \
+	mesh_communication.h mesh_function.h mesh_generation.h \
+	mesh_input.h mesh_modification.h mesh_netgen_interface.h \
+	mesh_output.h mesh_refinement.h mesh_serializer.h \
+	mesh_smoother.h mesh_smoother_laplace.h \
+	mesh_smoother_vsmoother.h mesh_subdivision_support.h \
+	mesh_tet_interface.h mesh_tetgen_interface.h \
+	mesh_tetgen_wrapper.h mesh_tools.h mesh_triangle_holes.h \
+	mesh_triangle_interface.h mesh_triangle_wrapper.h \
+	namebased_io.h nemesis_io.h nemesis_io_helper.h off_io.h \
+	parallel_mesh.h patch.h poly2tri_triangulator.h \
+	postscript_io.h replicated_mesh.h serial_mesh.h \
+	sides_to_elem_map.h simplex_refiner.h stl_io.h \
 	sync_refinement_flags.h tecplot_io.h tetgen_io.h \
 	triangulator_interface.h ucd_io.h unstructured_mesh.h unv_io.h \
 	vtk_io.h xdr_io.h analytic_function.h composite_fem_function.h \
 	composite_function.h const_fem_function.h const_function.h \
-	coupling_matrix.h dense_matrix.h dense_matrix_base.h \
-	dense_matrix_base_impl.h dense_matrix_impl.h dense_submatrix.h \
-	dense_subvector.h dense_vector.h dense_vector_base.h \
-	diagonal_matrix.h distributed_vector.h eigen_core_support.h \
+	coupling_matrix.h dense_cholesky.h dense_matrix.h \
+	dense_matrix_base.h dense_matrix_base_impl.h \
+	dense_matrix_impl.h dense_submatrix.h dense_subvector.h \
+	dense_vector.h dense_vector_base.h diagonal_matrix.h \
+	distributed_vector.h eigen_core_support.h \
 	eigen_preconditioner.h eigen_sparse_matrix.h \
 	eigen_sparse_vector.h fdm_gradient.h fem_function_base.h \
 	function_base.h laspack_matrix.h laspack_vector.h \
@@ -1083,6 +1089,9 @@ enum_elem_type.h: $(top_srcdir)/include/enums/enum_elem_type.h
 enum_error_estimator_type.h: $(top_srcdir)/include/enums/enum_error_estimator_type.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+enum_fe_elem_class.h: $(top_srcdir)/include/enums/enum_fe_elem_class.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 enum_fe_family.h: $(top_srcdir)/include/enums/enum_fe_family.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
@@ -1188,16 +1197,25 @@ fe_base.h: $(top_srcdir)/include/fe/fe_base.h
 fe_compute_data.h: $(top_srcdir)/include/fe/fe_compute_data.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+fe_dual_coeffs.h: $(top_srcdir)/include/fe/fe_dual_coeffs.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 fe_interface.h: $(top_srcdir)/include/fe/fe_interface.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_interface_macros.h: $(top_srcdir)/include/fe/fe_interface_macros.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
-fe_lagrange_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_shape_1D.h
+fe_lagrange_gll_shape.h: $(top_srcdir)/include/fe/fe_lagrange_gll_shape.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+fe_lagrange_gll_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_gll_shape_1D.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_lagrange_n_dofs.h: $(top_srcdir)/include/fe/fe_lagrange_n_dofs.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+fe_lagrange_shape_1D.h: $(top_srcdir)/include/fe/fe_lagrange_shape_1D.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_macro.h: $(top_srcdir)/include/fe/fe_macro.h
@@ -1210,6 +1228,9 @@ fe_monomial_n_dofs.h: $(top_srcdir)/include/fe/fe_monomial_n_dofs.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_reference_element_traits.h: $(top_srcdir)/include/fe/fe_reference_element_traits.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+fe_shape_traits.h: $(top_srcdir)/include/fe/fe_shape_traits.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 fe_simplex_lagrange.h: $(top_srcdir)/include/fe/fe_simplex_lagrange.h
@@ -1494,6 +1515,27 @@ point_neighbor_coupling.h: $(top_srcdir)/include/ghosting/point_neighbor_couplin
 sibling_coupling.h: $(top_srcdir)/include/ghosting/sibling_coupling.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
+kokkos_fe_base.h: $(top_srcdir)/include/gpu/kokkos_fe_base.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_evaluator.h: $(top_srcdir)/include/gpu/kokkos_fe_evaluator.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_lagrange_1d.h: $(top_srcdir)/include/gpu/kokkos_fe_lagrange_1d.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_lagrange_2d.h: $(top_srcdir)/include/gpu/kokkos_fe_lagrange_2d.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_lagrange_3d.h: $(top_srcdir)/include/gpu/kokkos_fe_lagrange_3d.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_monomial.h: $(top_srcdir)/include/gpu/kokkos_fe_monomial.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+kokkos_fe_types.h: $(top_srcdir)/include/gpu/kokkos_fe_types.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
 kokkos_linalg_base.h: $(top_srcdir)/include/gpu/kokkos_linalg_base.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
@@ -1708,6 +1750,9 @@ const_function.h: $(top_srcdir)/include/numerics/const_function.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 coupling_matrix.h: $(top_srcdir)/include/numerics/coupling_matrix.h
+	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
+
+dense_cholesky.h: $(top_srcdir)/include/numerics/dense_cholesky.h
 	$(AM_V_GEN)rm -f $@ && $(LN_S) -f $< $@
 
 dense_matrix.h: $(top_srcdir)/include/numerics/dense_matrix.h
